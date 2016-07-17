@@ -1,6 +1,8 @@
 #James Gilles, 2012
 #DWTFYWWI License
 
+# Source: https://gist.github.com/kazimuth/3334942
+
 from mutagen.easyid3 import EasyID3
 import os
 

@@ -3,6 +3,8 @@
 # Desmond Cox
 # April 10, 2008
 
+# Source: https://bbs.archlinux.org/viewtopic.php?id=64685
+
 """Project Music
 
 Renames audio files based on metadata
