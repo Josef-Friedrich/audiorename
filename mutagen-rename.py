@@ -2,8 +2,6 @@
 
 import mutagen, os, sys, argparse
 
-from mutagen.asf import ASFUnicodeAttribute
-
 parser = argparse.ArgumentParser(description='Rename music files.')
 parser.add_argument('folder', help='A folder containing music')
 
