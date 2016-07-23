@@ -38,18 +38,28 @@ def normalize(audio_file):
 	old = mutagen.File(audio_file, easy=True)
 
 	if extension == 'wma':
-		#print(old)
+		print(old)
+		# Author
 		map('artist', 'WM/ARTISTS')
+		map('artist', 'Author')
+		map('album', 'WM/AlbumTitle')
+		map('track', 'WM/TrackNumber')
+		#WM/Year
+		#WM/Composer
+		#WM/ArtistSortOrder
 		map('title', 'Title')
 	elif extension == 'mp3' or extension == 'm4a' or extension == 'flac':
+		#print(old)
 		map('artist')
+		map('albumartist')
 		map('title')
-	return new
+		map('album')
+		map('track', 'tracknumber')
 
 for path, subdirs, files in os.walk(args.folder):
 	for audio_file in files:
 		if audio_file.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
-			new = normalize(os.path.join(path, audio_file))
+			normalize(os.path.join(path, audio_file))
 			print(new)
 			print(new['artist'] + ' ' + new['title'])
 
