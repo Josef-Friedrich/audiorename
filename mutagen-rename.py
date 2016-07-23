@@ -17,6 +17,7 @@ def normalize(audio_file):
 	if extension == 'wma':
 		metadata['artist'] = str(m['WM/ARTISTS'][0])
 	elif extension == 'mp3' or extension == 'm4a':
+		print('lol')
 	if 'title' in m:
 		metadata['title'] = m['title']
 	if 'artist' in m:
