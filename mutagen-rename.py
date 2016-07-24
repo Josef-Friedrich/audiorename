@@ -11,10 +11,13 @@ parser = argparse.ArgumentParser(
 		Rename music files from metadata
 
 		Metadata fields:
+			- album
+			- albumartist
 			- artist
-			- title
 			- extension
 			- filename
+			- title
+			- track
 	'''
 	)
 )
@@ -27,6 +30,8 @@ def map(new_field, old_field=False):
 		old_field = new_field
 	if old_field in old:
 		new[new_field] = str(old[old_field][0])
+	else:
+		new[new_field] = ''
 
 def normalize(audio_file):
 	global new
@@ -38,29 +43,39 @@ def normalize(audio_file):
 	old = mutagen.File(audio_file, easy=True)
 
 	if extension == 'wma':
-		print(old)
-		# Author
-		map('artist', 'WM/ARTISTS')
-		map('artist', 'Author')
+		#print(old)
 		map('album', 'WM/AlbumTitle')
-		map('track', 'WM/TrackNumber')
-		#WM/Year
-		#WM/Composer
-		#WM/ArtistSortOrder
+		map('albumartist', 'WM/AlbumArtist')
+		map('artist', 'Author')
+		map('artist', 'WM/ARTISTS')
+		map('artistsort', 'WM/ArtistSortOrder')
 		map('title', 'Title')
+		map('track', 'WM/TrackNumber')
 	elif extension == 'mp3' or extension == 'm4a' or extension == 'flac':
 		#print(old)
-		map('artist')
-		map('albumartist')
-		map('title')
 		map('album')
-		map('track', 'tracknumber')
+		map('albumartist')
+		map('artist')
+		map('artistsort')
+		map('title')
+		map('tracknumber')
+		map('discnumber')
+
+def enrich():
+	new['_artistfirstcharacter'] = new['artistsort'][0:1].lower()
 
 for path, subdirs, files in os.walk(args.folder):
 	for audio_file in files:
 		if audio_file.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
 			normalize(os.path.join(path, audio_file))
-			print(new)
-			print(new['artist'] + ' ' + new['title'])
+			enrich()
+			#print(new)
+			#print(new['artist'] + ' ' + new['title'])
+			print(new['extension'] + ': ' + new['artistsort'])
+			format_string = new['_artistfirstcharacter'] + \
+				'/' + \
+				new['artistsort']
+
+			print(format_string)
 
 
