@@ -33,7 +33,30 @@ def map(new_field, old_field=False):
 	else:
 		new[new_field] = ''
 
-def normalize(audio_file):
+def format_tracknumber():
+	pos = new['tracknumber'].find('/')
+	if pos:
+		track = new['tracknumber'][:pos]
+	else:
+		track = new['tracknumber']
+
+	return track.zfill(2)
+
+def pick_artist():
+	values = [
+		new['albumartistsort'],
+		new['albumartist'],
+		new['artistsort'],
+		new['artist'],
+	]
+
+	for value in values:
+		if value:
+			break
+
+	return value
+
+def re_map(audio_file):
 	global new
 	new = {}
 	new['extension'] = extension = audio_file.split('.')[-1]
@@ -46,6 +69,7 @@ def normalize(audio_file):
 		#print(old)
 		map('album', 'WM/AlbumTitle')
 		map('albumartist', 'WM/AlbumArtist')
+		map('albumartistsort', 'WM/AlbumArtistSortOrder')
 		map('artist', 'Author')
 		map('artist', 'WM/ARTISTS')
 		map('artistsort', 'WM/ArtistSortOrder')
@@ -55,6 +79,7 @@ def normalize(audio_file):
 		#print(old)
 		map('album')
 		map('albumartist')
+		map('albumartistsort')
 		map('artist')
 		map('artistsort')
 		map('title')
@@ -62,19 +87,26 @@ def normalize(audio_file):
 		map('discnumber')
 
 def enrich():
-	new['_artistfirstcharacter'] = new['artistsort'][0:1].lower()
+	new['_artist'] = pick_artist()
+	new['_artistfirstcharacter'] = new['_artist'][0:1].lower()
+	new['_tracknumber'] = format_tracknumber()
+
 
 for path, subdirs, files in os.walk(args.folder):
 	for audio_file in files:
 		if audio_file.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
-			normalize(os.path.join(path, audio_file))
+			re_map(os.path.join(path, audio_file))
 			enrich()
-			#print(new)
-			#print(new['artist'] + ' ' + new['title'])
-			print(new['extension'] + ': ' + new['artistsort'])
+			#print(new['extension'] + ': ' + new['artistsort'])
 			format_string = new['_artistfirstcharacter'] + \
 				'/' + \
-				new['artistsort']
+				new['_artist'] + \
+				'/' + \
+				new['album'] + \
+				'/' + \
+				new['_tracknumber'] + \
+				'_' + \
+				new['title']
 
 			print(format_string)
 
