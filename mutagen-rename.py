@@ -33,6 +33,11 @@ def map(new_field, old_field=False):
 	else:
 		new[new_field] = ''
 
+def shorten(text, max_size):
+    if len(text) <= max_size:
+        return text
+    return textwrap.wrap(text, max_size)[0]
+
 def format_tracknumber():
 	pos = new['tracknumber'].find('/')
 	if pos:
