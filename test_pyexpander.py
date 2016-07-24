@@ -3,16 +3,23 @@
 
 import pyexpander
 
-external_definitions = {
+external_def = {
 	'artist': 'August Högn',
 	'title': 'Gloria'
 }
 
-string = '$artist -  $title'
+string = '$(artist) -  $(title) $lol()'
 
-parsed = pyexpander.expand(string,
-	external_definitions=external_definitions,
-	allow_nobracket_vars= True)
+extend = """$py(
+def lol():
+	return lol
+)
+$extend(lol)
+"""
 
-print(str(parsed))
+string = extend + string
+
+parsed, obj = pyexpander.expand(string,external_definitions=external_def)
+
+print(parsed)
 
