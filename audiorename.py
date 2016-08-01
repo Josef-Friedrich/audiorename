@@ -6,12 +6,10 @@ from beets.mediafile import MediaFile
 from beets.util.functemplate import Template
 from beets.library import DefaultTemplateFunctions as Functions
 
-fields = MediaFile.fields()
-
 parser = argparse.ArgumentParser(
 	formatter_class=argparse.RawDescriptionHelpFormatter,
 	description=textwrap.dedent('''\
-		Rename music files from metadata
+		Rename audio files from metadata
 
 		Metadata fields:
 			- album
@@ -25,15 +23,28 @@ parser = argparse.ArgumentParser(
 	)
 )
 parser.add_argument('folder', help='A folder containing music')
+parser.add_argument('-f', '--format', help='A format string', default='$artist $track $title')
 
 args = parser.parse_args()
 
+def convert_object_to_dict(obj):
+	values = {}
+	for key in MediaFile.readable_fields():
+		value = getattr(obj, key)
+		if value:
+			values[key] = value
+	return values
+
 def load(path):
 	audio = MediaFile(path)
+	values = convert_object_to_dict(audio)
+	return values
 
-	for key in fields:
-		value = getattr(audio, key)
-		print(str(key) + str(value))
+def rename(values):
+	t = Template(args.format)
+	f = Functions()
+	print(t.substitute(values, f.functions()))
+
 
 def shorten(text, max_size):
     if len(text) <= max_size:
@@ -68,11 +79,11 @@ def enrich():
 	new['_artistfirstcharacter'] = new['_artist'][0:1].lower()
 	new['_tracknumber'] = format_tracknumber()
 
-
 for path, subdirs, files in os.walk(args.folder):
 	for audio_file in files:
 		if audio_file.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
-			load(os.path.join(path, audio_file))
+			values = load(os.path.join(path, audio_file))
+			rename(values)
 
 
 
