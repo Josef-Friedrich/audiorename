@@ -2,9 +2,11 @@
 
 import os, sys, argparse, textwrap
 
-from beets import mediafile
+from beets.mediafile import MediaFile
 from beets.util.functemplate import Template
 from beets.library import DefaultTemplateFunctions as Functions
+
+fields = MediaFile.fields()
 
 parser = argparse.ArgumentParser(
 	formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -27,8 +29,11 @@ parser.add_argument('folder', help='A folder containing music')
 args = parser.parse_args()
 
 def load(path):
-	audio = mediafile.MediaFile(path)
-	print(audio.title)
+	audio = MediaFile(path)
+
+	for key in fields:
+		value = getattr(audio, key)
+		print(str(key) + str(value))
 
 def shorten(text, max_size):
     if len(text) <= max_size:
@@ -68,6 +73,10 @@ for path, subdirs, files in os.walk(args.folder):
 	for audio_file in files:
 		if audio_file.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
 			load(os.path.join(path, audio_file))
+
+
+
+
 
 
 
