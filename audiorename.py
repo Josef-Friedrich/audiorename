@@ -74,6 +74,19 @@ def pick_artist():
 
 	return value
 
+class Rename(object):
+
+	def __init__(self, path):
+		self.media_file = MediaFile(path)
+		self.meta = {}
+		for key in MediaFile.readable_fields():
+			value = getattr(self.media_file, key)
+			if value:
+				self.meta[key] = value
+
+	def debug(self):
+		print(self.meta['title'])
+
 def enrich():
 	new['_artist'] = pick_artist()
 	new['_artistfirstcharacter'] = new['_artist'][0:1].lower()
@@ -82,12 +95,5 @@ def enrich():
 for path, subdirs, files in os.walk(args.folder):
 	for audio_file in files:
 		if audio_file.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
-			values = load(os.path.join(path, audio_file))
-			rename(values)
-
-
-
-
-
-
-
+			audio = Rename(os.path.join(path, audio_file))
+			audio.debug()
