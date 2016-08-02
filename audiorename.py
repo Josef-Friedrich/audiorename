@@ -22,8 +22,13 @@ parser = argparse.ArgumentParser(
 	'''
 	)
 )
-parser.add_argument('folder', help='A folder containing music')
-parser.add_argument('-f', '--format', help='A format string', default='$artist $track $title')
+parser.add_argument('folder', help='A folder containing audio files or a audio file')
+parser.add_argument('-f', '--format', help='A format string', default='$artist/$album/$track $title')
+parser.add_argument('-c', '--compilation', help='Format string for compilations', default='$artist/$album/$track $title')
+parser.add_argument('-s', '--singelton', help='A format string for singletons', default='$artist $track')
+parser.add_argument('-d', '--dryrun', help='A format string for singeltons')
+parser.add_argument('-e', '--extensions', help='Extensions to rename', default='mp3')
+
 
 args = parser.parse_args()
 
@@ -32,20 +37,10 @@ def rename(values):
 	f = Functions()
 	print(t.substitute(values, f.functions()))
 
-
 def shorten(text, max_size):
     if len(text) <= max_size:
         return text
     return textwrap.wrap(text, max_size)[0]
-
-def format_tracknumber():
-	pos = new['tracknumber'].find('/')
-	if pos:
-		track = new['tracknumber'][:pos]
-	else:
-		track = new['tracknumber']
-
-	return track.zfill(2)
 
 def pick_artist():
 	values = [
@@ -61,6 +56,11 @@ def pick_artist():
 
 	return value
 
+def enrich():
+	new['_artist'] = pick_artist()
+	new['_artistfirstcharacter'] = new['_artist'][0:1].lower()
+	new['_tracknumber'] = format_tracknumber()
+
 class Rename(object):
 
 	def __init__(self, path):
@@ -72,13 +72,7 @@ class Rename(object):
 				self.meta[key] = value
 
 	def debug(self):
-		print(self.meta['title'])
-
-def enrich():
-	new['_artist'] = pick_artist()
-	new['_artistfirstcharacter'] = new['_artist'][0:1].lower()
-	new['_tracknumber'] = format_tracknumber()
-
+		print(self.meta)
 
 def execute(path):
 	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
