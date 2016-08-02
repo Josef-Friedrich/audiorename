@@ -27,19 +27,6 @@ parser.add_argument('-f', '--format', help='A format string', default='$artist $
 
 args = parser.parse_args()
 
-def convert_object_to_dict(obj):
-	values = {}
-	for key in MediaFile.readable_fields():
-		value = getattr(obj, key)
-		if value:
-			values[key] = value
-	return values
-
-def load(path):
-	audio = MediaFile(path)
-	values = convert_object_to_dict(audio)
-	return values
-
 def rename(values):
 	t = Template(args.format)
 	f = Functions()
