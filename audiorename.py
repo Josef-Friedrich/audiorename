@@ -29,13 +29,7 @@ parser.add_argument('-s', '--singelton', help='A format string for singletons', 
 parser.add_argument('-d', '--dryrun', help='A format string for singeltons')
 parser.add_argument('-e', '--extensions', help='Extensions to rename', default='mp3')
 
-
 args = parser.parse_args()
-
-def rename(values):
-	t = Template(args.format)
-	f = Functions()
-	print(t.substitute(values, f.functions()))
 
 def shorten(text, max_size):
     if len(text) <= max_size:
@@ -56,11 +50,6 @@ def pick_artist():
 
 	return value
 
-def enrich():
-	new['_artist'] = pick_artist()
-	new['_artistfirstcharacter'] = new['_artist'][0:1].lower()
-	new['_tracknumber'] = format_tracknumber()
-
 class Rename(object):
 
 	def __init__(self, path):
@@ -71,8 +60,12 @@ class Rename(object):
 			if value:
 				self.meta[key] = value
 
+		t = Template(args.format)
+		f = Functions()
+		self.new_filename = t.substitute(self.meta, f.functions())
+
 	def debug(self):
-		print(self.meta)
+		print(self.new_filename)
 
 def execute(path):
 	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
