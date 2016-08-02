@@ -80,14 +80,18 @@ def enrich():
 	new['_tracknumber'] = format_tracknumber()
 
 
+def execute(path):
+	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
+		audio = Rename(path)
+		audio.debug()
+
 if __name__ == '__main__':
 
 	if os.path.isdir(args.folder):
 		for path, subdirs, files in os.walk(args.folder):
-			for audio_file in files:
-				if audio_file.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
-					audio = Rename(os.path.join(path, audio_file))
-					audio.debug()
+			for file in files:
+				execute(os.path.join(path, file))
+
 	else:
-		audio = Rename(args.folder)
-		audio.debug()
+		execute(args.folder)
+
