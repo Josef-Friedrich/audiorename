@@ -101,9 +101,7 @@ Metadata fields:
 		                        ASCII equivalents. For example, “café”
 		                        becomes “cafe”. Uses the mapping
 		                        provided by the unidecode module.
-		- %aunique{identifiers,disambiguators}:
-		                        Provides a unique string to disambiguate.
-		- %time{date_time,format}:
+		- %time{date_time,format,curformat}:
 		                        Return the date and time in any format
 		                        accepted by strftime. For example, to
 		                        get the year some music was added to

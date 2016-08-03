@@ -59,6 +59,7 @@ import enum
 
 import six
 
+# Exceptions.
 __all__ = ['UnreadableFileError', 'FileTypeError', 'MediaFile']
 
 # Human-readable type names.
@@ -147,7 +148,6 @@ def syspath(path, prefix=True):
 
     return path
 
-# Exceptions.
 
 class UnreadableFileError(Exception):
     """Mutagen is not able to extract information from the file.

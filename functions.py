@@ -98,7 +98,7 @@ class Functions(object):
         return unidecode(s)
 
     @staticmethod
-    def tmpl_time(s, fmt):
+    def tmpl_time(s, fmt, cur_fmt):
         """Format a time value using `strftime`.
         """
         return time.strftime(fmt, time.strptime(s, cur_fmt))
