@@ -3,9 +3,12 @@
 
 import os, sys, argparse, textwrap
 
-from beets.mediafile import MediaFile
-from beets.util.functemplate import Template
-from beets.library import DefaultTemplateFunctions as Functions
+#from beets.mediafile import MediaFile
+from mediafile import MediaFile
+#from beets.util.functemplate import Template
+from functemplate import Template
+#from beets.library import DefaultTemplateFunctions as Functions
+from functions import Functions
 
 parser = argparse.ArgumentParser(
 	formatter_class=argparse.RawDescriptionHelpFormatter,
