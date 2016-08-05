@@ -92,6 +92,12 @@ class Functions(object):
             return falseval
 
     @staticmethod
+    def tmpl_del(s, delete):
+        for char in delete:
+            s = s.replace(char, '')
+        return s
+
+    @staticmethod
     def tmpl_asciify(s):
         """Translate non-ASCII characters to their ASCII equivalents.
         """

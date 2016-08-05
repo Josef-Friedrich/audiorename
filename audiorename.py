@@ -181,7 +181,7 @@ class Rename(object):
 			if value:
 				self.meta[key] = value
 
-		t = Template(args.format)
+		t = Template(args.format.decode('utf-8'))
 		f = Functions()
 		self.new_filename = t.substitute(self.meta, f.functions())
 
