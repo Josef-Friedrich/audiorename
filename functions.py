@@ -95,6 +95,9 @@ class Functions(object):
     def tmpl_asciify(s):
         """Translate non-ASCII characters to their ASCII equivalents.
         """
+        ger_umlaute = {'ae': u'ä', 'oe': u'ö', 'ue': u'ü', 'Ae': u'Ä', 'Oe': u'Ö', 'Ue': u'Ü'}
+        for replace, search in ger_umlaute.iteritems():
+            s = s.replace(search, replace)
         return unidecode(s)
 
     @staticmethod
