@@ -97,6 +97,9 @@ Metadata fields:
 		                        second argument. Otherwise, returns the
 		                        third argument if specified (or nothing
 		                        if falsetext is left off).
+		- %del{text,characters}:
+		                        Delete every character of characters in
+		                        text.
 		- %asciify{text}:       Convert non-ASCII characters to their
 		                        ASCII equivalents. For example, “café”
 		                        becomes “cafe”. Uses the mapping
