@@ -128,8 +128,10 @@ parser.add_argument('folder', help='A folder containing audio files or a audio f
 parser.add_argument('-f', '--format', help='A format string', default='$artist/$album/$track $title')
 parser.add_argument('-c', '--compilation', help='Format string for compilations', default='$artist/$album/$track $title')
 parser.add_argument('-s', '--singelton', help='A format string for singletons', default='$artist $track')
-parser.add_argument('-d', '--dryrun', help='A format string for singeltons')
+parser.add_argument('-d', '--dry-run', help='A format string for singeltons', action='store_true')
 parser.add_argument('-e', '--extensions', help='Extensions to rename', default='mp3')
+parser.add_argument('-b', '--base-dir', help='Base directory', default='')
+parser.add_argument('-a', '--folder-as-base-dir', help='Use specified folder as base directory', action='store_true')
 
 args = parser.parse_args()
 
@@ -154,8 +156,24 @@ def pick_artist():
 
 class Rename(object):
 
-	def __init__(self, path):
-		self.media_file = MediaFile(path)
+	def __init__(self, file, root_path = ''):
+		if root_path:
+			self.old_file = os.path.join(root_path, file)
+		else:
+			self.old_file = file
+
+		if args.base_dir:
+			self.base_dir = args.base_dir
+		else:
+			self.base_dir = os.getcwd()
+
+		if args.folder_as_base_dir:
+			self.base_dir = os.path.realpath(root_path)
+
+		self.old_path = os.path.realpath(self.old_file)
+		self.extension = self.old_file.split('.')[-1]
+
+		self.media_file = MediaFile(self.old_path)
 		self.meta = {}
 		for key in MediaFile.readable_fields():
 			value = getattr(self.media_file, key)
@@ -166,20 +184,41 @@ class Rename(object):
 		f = Functions()
 		self.new_filename = t.substitute(self.meta, f.functions())
 
-	def debug(self):
-		print(self.new_filename)
+		self.new_path = os.path.join(self.base_dir, self.new_filename + '.' + self.extension)
+		self.message = self.old_path + ' -> ' + self.new_path
 
-def execute(path):
+	def create_dir(path):
+		import errno
+		try:
+			os.makedirs(path)
+		except OSError as exception:
+			if exception.errno != errno.EEXIST:
+				raise
+
+	def debug(self):
+		print('Dry run: ' + self.message)
+
+
+	def rename(self):
+		print('Rename: ' + self.message)
+
+		#self.create_dir(os.path.dirname(newpath))
+		#os.rename(self.old_path, )
+
+def execute(path, root_path = ''):
 	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
-		audio = Rename(path)
-		audio.debug()
+		audio = Rename(path, root_path)
+		if not args.dry_run:
+			audio.rename()
+		else:
+			audio.debug()
 
 if __name__ == '__main__':
 
 	if os.path.isdir(args.folder):
-		for path, subdirs, files in os.walk(args.folder):
+		for root_path, subdirs, files in os.walk(args.folder):
 			for file in files:
-				execute(os.path.join(path, file))
+				execute(file, root_path)
 
 	else:
 		execute(args.folder)
