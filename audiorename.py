@@ -188,7 +188,8 @@ class Rename(object):
 		self.new_path = os.path.join(self.base_dir, self.new_filename + '.' + self.extension)
 		self.message = self.old_path + ' -> ' + self.new_path
 
-	def create_dir(path):
+	def create_dir(self, path):
+		path = os.path.dirname(path)
 		import errno
 		try:
 			os.makedirs(path)
@@ -201,12 +202,13 @@ class Rename(object):
 
 	def rename(self):
 		print('Rename: ' + self.message)
-		self.create_dir(os.path.dirname(newpath))
-		os.rename(self.old_path, )
+		self.create_dir(self.new_path)
+		os.rename(self.old_path, self.new_path)
 
 	def copy(self):
 		print('Copy: ' + self.message)
 		import shutil
+		self.create_dir(self.new_path)
 		shutil.copy2(self.old_path, self.new_path)
 
 
@@ -214,10 +216,10 @@ def execute(path, root_path = ''):
 	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
 		audio = Rename(path, root_path)
 		if args.dry_run:
-			audio.rename()
+			audio.debug()
 		elif args.copy:
 			audio.copy()
-		else
+		else:
 			audio.rename()
 
 if __name__ == '__main__':
