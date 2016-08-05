@@ -132,6 +132,7 @@ parser.add_argument('-d', '--dry-run', help='A format string for singeltons', ac
 parser.add_argument('-e', '--extensions', help='Extensions to rename', default='mp3')
 parser.add_argument('-b', '--base-dir', help='Base directory', default='')
 parser.add_argument('-a', '--folder-as-base-dir', help='Use specified folder as base directory', action='store_true')
+parser.add_argument('-C', '--copy', help='Copy files instead of rename / move.', action='store_true')
 
 args = parser.parse_args()
 
@@ -198,20 +199,26 @@ class Rename(object):
 	def debug(self):
 		print('Dry run: ' + self.message)
 
-
 	def rename(self):
 		print('Rename: ' + self.message)
+		self.create_dir(os.path.dirname(newpath))
+		os.rename(self.old_path, )
 
-		#self.create_dir(os.path.dirname(newpath))
-		#os.rename(self.old_path, )
+	def copy(self):
+		print('Copy: ' + self.message)
+		import shutil
+		shutil.copy2(self.old_path, self.new_path)
+
 
 def execute(path, root_path = ''):
 	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
 		audio = Rename(path, root_path)
-		if not args.dry_run:
+		if args.dry_run:
 			audio.rename()
-		else:
-			audio.debug()
+		elif args.copy:
+			audio.copy()
+		else
+			audio.rename()
 
 if __name__ == '__main__':
 
