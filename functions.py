@@ -92,8 +92,8 @@ class Functions(object):
             return falseval
 
     @staticmethod
-    def tmpl_del(s, delete):
-        for char in delete:
+    def tmpl_delchars(s, chars):
+        for char in chars:
             s = s.replace(char, '')
         return s
 
