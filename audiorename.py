@@ -144,19 +144,42 @@ def shorten(text, max_size):
         return text
     return textwrap.wrap(text, max_size)[0]
 
-def pick_artist():
-	values = [
-		new['albumartistsort'],
-		new['albumartist'],
-		new['artistsort'],
-		new['artist'],
-	]
 
-	for value in values:
-		if value:
-			break
+class Meta(object):
 
-	return value
+	def __init__(self, path):
+		self.media_file = MediaFile(path)
+		self.m = {}
+		for key in MediaFile.readable_fields():
+			value = getattr(self.media_file, key)
+			if value:
+				self.m[key] = value
+			else:
+				self.m[key] = ''
+		self.discTrack()
+
+	def discTrack(self):
+		if self.m['disc']:
+			self.m['disctrack'] = str(self.m['disc']) + '-' + str(self.m['track'])
+		else:
+			self.m['disctrack'] = str(self.m['track'])
+
+	def pickArtist(self):
+		values = [
+			new['albumartistsort'],
+			new['albumartist'],
+			new['artistsort'],
+			new['artist'],
+		]
+
+		for value in values:
+			if value:
+				break
+
+		return value
+
+	def getMeta(self):
+		return self.m
 
 class Rename(object):
 
@@ -177,14 +200,8 @@ class Rename(object):
 		self.old_path = os.path.realpath(self.old_file)
 		self.extension = self.old_file.split('.')[-1]
 
-		self.media_file = MediaFile(self.old_path)
-		self.meta = {}
-		for key in MediaFile.readable_fields():
-			value = getattr(self.media_file, key)
-			if value:
-				self.meta[key] = value
-			else:
-				self.meta[key] = ''
+		meta = Meta(self.old_path)
+		self.meta = meta.getMeta()
 
 		t = Template(args.format.decode('utf-8'))
 		f = Functions()
@@ -204,7 +221,7 @@ class Rename(object):
 
 	def debug(self):
 		#print('Dry run: ' + self.message)
-		print(self.meta['disc'])
+		print(self.meta['disctrack'])
 
 	def rename(self):
 		print('Rename: ' + self.message)
