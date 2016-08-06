@@ -183,13 +183,15 @@ class Rename(object):
 			value = getattr(self.media_file, key)
 			if value:
 				self.meta[key] = value
+			else:
+				self.meta[key] = ''
 
 		t = Template(args.format.decode('utf-8'))
 		f = Functions()
 		self.new_filename = t.substitute(self.meta, f.functions())
 
 		self.new_path = os.path.join(self.base_dir, self.new_filename + '.' + self.extension)
-		self.message = self.old_path + ' -> ' + self.new_path
+		self.message = self.old_path.decode('utf-8') + ' -> ' + self.new_path
 
 	def create_dir(self, path):
 		path = os.path.dirname(path)
@@ -201,7 +203,8 @@ class Rename(object):
 				raise
 
 	def debug(self):
-		print('Dry run: ' + self.message)
+		#print('Dry run: ' + self.message)
+		print(self.meta['disc'])
 
 	def rename(self):
 		print('Rename: ' + self.message)
