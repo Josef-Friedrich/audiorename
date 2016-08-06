@@ -144,6 +144,7 @@ parser.add_argument('-e', '--extensions', help='Extensions to rename', default='
 parser.add_argument('-b', '--base-dir', help='Base directory', default='')
 parser.add_argument('-a', '--folder-as-base-dir', help='Use specified folder as base directory', action='store_true')
 parser.add_argument('-C', '--copy', help='Copy files instead of rename / move.', action='store_true')
+parser.add_argument('-m', '--meta', help='Show meta tags for debugging purposes.', action='store_true')
 
 args = parser.parse_args()
 
@@ -198,8 +199,10 @@ class Meta(object):
 		elif self.m['artist_credit']:
 			self.m['artistsafe'] = self.m['artist_credit']
 
-		if not 'artistsafe_sort' in self.m:
+		if not 'artistsafe_sort' in self.m and 'artistsafe' in self.m:
 			self.m['artistsafe_sort'] = self.m['artistsafe']
+		else:
+			self.m['artistsafe_sort'] = 'Unknown'
 
 	def getMeta(self):
 		return self.m
@@ -245,16 +248,22 @@ class Rename(object):
 	def debug(self):
 		print('Dry run: ' + self.message)
 
+	def debugMeta(self):
+		for key, value in self.meta.iteritems():
+			if key != 'art' and value:
+				print(key)
+				print(value)
+
 	def rename(self):
 		print('Rename: ' + self.message)
-		self.createDir(self.new_path)
-		os.rename(self.old_path, self.new_path)
+		#self.createDir(self.new_path)
+		#os.rename(self.old_path, self.new_path)
 
 	def copy(self):
 		print('Copy: ' + self.message)
 		import shutil
-		self.createDir(self.new_path)
-		shutil.copy2(self.old_path, self.new_path)
+		#self.createDir(self.new_path)
+		#shutil.copy2(self.old_path, self.new_path)
 
 
 def execute(path, root_path = ''):
@@ -262,6 +271,8 @@ def execute(path, root_path = ''):
 		audio = Rename(path, root_path)
 		if args.dry_run:
 			audio.debug()
+		elif args.meta:
+			audio.debugMeta()
 		elif args.copy:
 			audio.copy()
 		else:
