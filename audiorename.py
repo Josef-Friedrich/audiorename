@@ -26,6 +26,12 @@ Metadata fields:
 		- artist_credit:       The track-specific artist credit name,
 		                       which may be a variation of the artist’s
 		                       “canonical” name.
+		- artistsafe:          The first available value of this metatag
+		                       order: “albumartist” -> “artist” ->
+		                       “albumartist_credit” -> “artist_credit”
+		- artistsafe_sort      The first available value of this metatag
+		                       order: “albumartist_sort” ->
+		                       “artist_sort” -> “artistsafe”
 		- album
 		- albumartist:         The artist for the entire album, which
 		                       may be different from the artists for the
@@ -159,6 +165,7 @@ class Meta(object):
 			else:
 				self.m[key] = ''
 		self.discTrack()
+		self.artistSafe()
 
 	def discTrack(self):
 		if self.m['disctotal'] > 9:
@@ -176,19 +183,23 @@ class Meta(object):
 		else:
 			self.m['disctrack'] = track
 
-	def pickArtist(self):
-		values = [
-			new['albumartistsort'],
-			new['albumartist'],
-			new['artistsort'],
-			new['artist'],
-		]
+	def artistSafe(self):
+		if self.m['albumartist_sort']:
+			self.m['artistsafe_sort'] = self.m['albumartist_sort']
+		elif self.m['artist_sort']:
+			self.m['artistsafe_sort'] = self.m['artist_sort']
 
-		for value in values:
-			if value:
-				break
+		if self.m['albumartist']:
+			self.m['artistsafe'] = self.m['albumartist']
+		elif self.m['artist']:
+			self.m['artistsafe'] = self.m['artist']
+		elif self.m['albumartist_credit']:
+			self.m['artistsafe'] = self.m['albumartist_credit']
+		elif self.m['artist_credit']:
+			self.m['artistsafe'] = self.m['artist_credit']
 
-		return value
+		if not 'artistsafe_sort' in self.m:
+			self.m['artistsafe_sort'] = self.m['artistsafe']
 
 	def getMeta(self):
 		return self.m
@@ -220,7 +231,7 @@ class Rename(object):
 		self.new_filename = t.substitute(self.meta, f.functions())
 
 		self.new_path = os.path.join(self.base_dir, self.new_filename + '.' + self.extension)
-		self.message = self.old_path.decode('utf-8') + ' -> ' + self.new_path
+		self.message = self.old_path.decode('utf-8') + '\n  -> ' + self.new_path + '\n'
 
 	def createDir(self, path):
 		path = os.path.dirname(path)
@@ -232,8 +243,7 @@ class Rename(object):
 				raise
 
 	def debug(self):
-		#print('Dry run: ' + self.message)
-		print(self.meta['disctrack'] + '_' + str(self.meta['disctotal']))
+		print('Dry run: ' + self.message)
 
 	def rename(self):
 		print('Rename: ' + self.message)
