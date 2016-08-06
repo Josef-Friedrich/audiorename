@@ -5,6 +5,7 @@ import os, sys, argparse, textwrap
 
 #from beets.mediafile import MediaFile
 from mediafile import MediaFile
+from mediafile import as_string
 #from beets.util.functemplate import Template
 from functemplate import Template
 #from beets.library import DefaultTemplateFunctions as Functions
@@ -251,8 +252,7 @@ class Rename(object):
 	def debugMeta(self):
 		for key, value in self.meta.iteritems():
 			if key != 'art' and value:
-				print(key)
-				print(value)
+				print(as_string(key) + ': ' + as_string(value))
 
 	def rename(self):
 		print('Rename: ' + self.message)
