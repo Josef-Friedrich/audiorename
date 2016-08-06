@@ -43,6 +43,8 @@ Metadata fields:
 		- tracktotal
 		- disc
 		- disctotal
+		- disctrack:           Combination of disc and track in the
+		                       format: disk-track, e.g. 1-01, 3-099
 		- lyrics
 		- comments
 		- bpm
@@ -159,10 +161,20 @@ class Meta(object):
 		self.discTrack()
 
 	def discTrack(self):
-		if self.m['disc']:
-			self.m['disctrack'] = str(self.m['disc']) + '-' + str(self.m['track'])
+		if self.m['disctotal'] > 9:
+			disk = str(self.m['disc']).zfill(2)
 		else:
-			self.m['disctrack'] = str(self.m['track'])
+			disk = str(self.m['disc'])
+
+		if self.m['tracktotal'] > 99:
+			track = str(self.m['track']).zfill(3)
+		else:
+			track = str(self.m['track']).zfill(2)
+
+		if self.m['disc']:
+			self.m['disctrack'] = disk + '-' + track
+		else:
+			self.m['disctrack'] = track
 
 	def pickArtist(self):
 		values = [
@@ -210,7 +222,7 @@ class Rename(object):
 		self.new_path = os.path.join(self.base_dir, self.new_filename + '.' + self.extension)
 		self.message = self.old_path.decode('utf-8') + ' -> ' + self.new_path
 
-	def create_dir(self, path):
+	def createDir(self, path):
 		path = os.path.dirname(path)
 		import errno
 		try:
@@ -221,17 +233,17 @@ class Rename(object):
 
 	def debug(self):
 		#print('Dry run: ' + self.message)
-		print(self.meta['disctrack'])
+		print(self.meta['disctrack'] + '_' + str(self.meta['disctotal']))
 
 	def rename(self):
 		print('Rename: ' + self.message)
-		self.create_dir(self.new_path)
+		self.createDir(self.new_path)
 		os.rename(self.old_path, self.new_path)
 
 	def copy(self):
 		print('Copy: ' + self.message)
 		import shutil
-		self.create_dir(self.new_path)
+		self.createDir(self.new_path)
 		shutil.copy2(self.old_path, self.new_path)
 
 
