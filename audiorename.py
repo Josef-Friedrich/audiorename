@@ -137,8 +137,9 @@ Metadata fields:
 	)
 )
 parser.add_argument('folder', help='A folder containing audio files or a audio file')
-parser.add_argument('-f', '--format', help='A format string', default='%lower{%left{${artistsafe_sort},1}/%left{${artistsafe_sort},2}}/$artistsafe_sort/$album/$track $title')
-parser.add_argument('-c', '--compilation', help='Format string for compilations', default='_compilations/$album/$track $title')
+parser.add_argument('-f', '--format', help='A format string',
+	default='%asciify{%lower{%left{${artistsafe_sort},1}/%left{${artistsafe_sort},2}}/$artistsafe_sort/$album/$disctrack %shorten{$title,5}}')
+parser.add_argument('-c', '--compilation', help='Format string for compilations', default='_compilations/$album/$disctrack %shorten{$title,5}')
 parser.add_argument('-s', '--singelton', help='A format string for singletons', default='$artist $track')
 parser.add_argument('-d', '--dry-run', help='A format string for singeltons', action='store_true')
 parser.add_argument('-e', '--extensions', help='Extensions to rename', default='mp3')
@@ -148,12 +149,6 @@ parser.add_argument('-C', '--copy', help='Copy files instead of rename / move.',
 parser.add_argument('-m', '--meta', help='Show meta tags for debugging purposes.', action='store_true')
 
 args = parser.parse_args()
-
-def shorten(text, max_size):
-    if len(text) <= max_size:
-        return text
-    return textwrap.wrap(text, max_size)[0]
-
 
 class Meta(object):
 

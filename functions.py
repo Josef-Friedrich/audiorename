@@ -20,6 +20,7 @@ from __future__ import division, absolute_import, print_function
 import os
 import sys
 import time
+import textwrap
 from unidecode import unidecode
 
 def _int_arg(s):
@@ -78,6 +79,12 @@ class Functions(object):
     def tmpl_right(s, chars):
         """Get the rightmost characters of a string."""
         return s[-_int_arg(chars):]
+
+    @staticmethod
+    def tmpl_shorten(text, max_size):
+        if len(text) <= max_size:
+            return text
+        return textwrap.wrap(text, max_size)[0]
 
     @staticmethod
     def tmpl_if(condition, trueval, falseval=u''):
