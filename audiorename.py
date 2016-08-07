@@ -146,7 +146,7 @@ parser.add_argument('folder',
 
 parser.add_argument('-f', '--format',
 	help='A format string',
-	default='%replchars{%asciify{%lower{%left{${artistsafe_sort},1}/%left{${artistsafe_sort},2}}/$artistsafe_sort/$album/${disctrack}_%shorten{$title,32}},-," "}')
+	default='%lower{%left{${artistsafe_sort},1}/%left{${artistsafe_sort},2}}/$artistsafe_sort/$album/${disctrack}_%shorten{$title,32}')
 
 parser.add_argument('-c', '--compilation',
 	help='Format string for compilations',
@@ -155,6 +155,10 @@ parser.add_argument('-c', '--compilation',
 parser.add_argument('-s', '--singelton',
 	help='A format string for singletons',
 	default='$artist $track')
+
+parser.add_argument('-S', '--shell-friendly',
+	help='Rename audio files “shell friendly”, this means without whitespaces, parentheses etc.',
+	action='store_true')
 
 parser.add_argument('-d', '--dry-run',
 	help='A format string for singeltons',
@@ -191,11 +195,16 @@ class Meta(object):
 			value = getattr(self.media_file, key)
 			if value:
 				if isinstance(value, str) or isinstance(value, unicode):
-					self.m[key] = Functions.tmpl_sanitize(value)
-				else:
-					self.m[key] = value
+					if args.shell_friendly:
+						value = Functions.tmpl_asciify(as_string(value))
+						value = Functions.tmpl_delchars(value, '()')
+						value = Functions.tmpl_replchars(value, '-', ' ')
+						value = Functions.tmpl_sanitize(value)
+					else:
+						self.m[key] = Functions.tmpl_sanitize(value)
 			else:
-				self.m[key] = ''
+				value = ''
+			self.m[key] = value
 		self.discTrack()
 		self.artistSafe()
 
