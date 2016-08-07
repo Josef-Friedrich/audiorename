@@ -112,6 +112,12 @@ class Functions(object):
         return s
 
     @staticmethod
+    def tmpl_replchars(s, replace, chars):
+        for char in chars:
+            s = s.replace(char, replace)
+        return s
+
+    @staticmethod
     def tmpl_asciify(s):
         """Translate non-ASCII characters to their ASCII equivalents.
         """

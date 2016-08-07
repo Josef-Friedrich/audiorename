@@ -95,11 +95,12 @@ Metadata fields:
 
 	Template Functions
 
-		- %lower{text}:         Convert text to lowercase.
-		- %upper{text}:         Convert text to UPPERCASE.
-		- %title{text}:         Convert text to Title Case.
-		- %left{text,n}:        Return the first n characters of text.
-		- %right{text,n}:       Return the last n characters of text.
+		- %lower{text}:         Convert “text” to lowercase.
+		- %upper{text}:         Convert “text” to UPPERCASE.
+		- %title{text}:         Convert “text” to Title Case.
+		- %left{text,n}:        Return the first “n” characters of “text”.
+		- %right{text,n}:       Return the last “n” characters of “text”.
+		- %shorten{text,n}:     Shorten “text” on word boundarys.
 		- %if{condition,text} or %if{condition,truetext,falsetext}:
 		                        If condition is nonempty (or nonzero,
 		                        if it’s a number), then returns the
@@ -109,6 +110,7 @@ Metadata fields:
 		- %delchars{text,chars}:
 		                        Delete every single character of “chars“
 		                        in “text”.
+		- %replchars{text,chars,replace}
 		- %asciify{text}:       Convert non-ASCII characters to their
 		                        ASCII equivalents. For example, “café”
 		                        becomes “cafe”. Uses the mapping
@@ -142,7 +144,7 @@ parser.add_argument('folder',
 
 parser.add_argument('-f', '--format',
 	help='A format string',
-	default='%asciify{%lower{%left{${artistsafe_sort},1}/%left{${artistsafe_sort},2}}/$artistsafe_sort/$album/${disctrack}_%shorten{$title,32}}')
+	default='%replchars{%asciify{%lower{%left{${artistsafe_sort},1}/%left{${artistsafe_sort},2}}/$artistsafe_sort/$album/${disctrack}_%shorten{$title,32}},-," "}')
 
 parser.add_argument('-c', '--compilation',
 	help='Format string for compilations',
