@@ -137,8 +137,8 @@ Metadata fields:
 	)
 )
 parser.add_argument('folder', help='A folder containing audio files or a audio file')
-parser.add_argument('-f', '--format', help='A format string', default='$artist/$album/$track $title')
-parser.add_argument('-c', '--compilation', help='Format string for compilations', default='$artist/$album/$track $title')
+parser.add_argument('-f', '--format', help='A format string', default='%lower{%left{${artistsafe_sort},1}/%left{${artistsafe_sort},2}}/$artistsafe_sort/$album/$track $title')
+parser.add_argument('-c', '--compilation', help='Format string for compilations', default='_compilations/$album/$track $title')
 parser.add_argument('-s', '--singelton', help='A format string for singletons', default='$artist $track')
 parser.add_argument('-d', '--dry-run', help='A format string for singeltons', action='store_true')
 parser.add_argument('-e', '--extensions', help='Extensions to rename', default='mp3')
@@ -229,8 +229,10 @@ class Rename(object):
 
 		meta = Meta(self.old_path)
 		self.meta = meta.getMeta()
-
-		t = Template(args.format.decode('utf-8'))
+		if self.meta['comp']:
+			t = Template(as_string(args.compilation))
+		else:
+			t = Template(as_string(args.format))
 		f = Functions()
 		self.new_filename = t.substitute(self.meta, f.functions())
 
@@ -264,7 +266,6 @@ class Rename(object):
 		import shutil
 		#self.createDir(self.new_path)
 		#shutil.copy2(self.old_path, self.new_path)
-
 
 def execute(path, root_path = ''):
 	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:

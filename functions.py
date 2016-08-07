@@ -22,6 +22,12 @@ import sys
 import time
 from unidecode import unidecode
 
+def _int_arg(s):
+    """Convert a string argument to an integer for use in a template
+    function.  May raise a ValueError.
+    """
+    return int(s.strip())
+
 class Functions(object):
     """A container class for the default functions provided to path
     templates. These functions are contained in an object to provide
