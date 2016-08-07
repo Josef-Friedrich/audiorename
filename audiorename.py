@@ -111,6 +111,8 @@ Metadata fields:
 		                        Delete every single character of “chars“
 		                        in “text”.
 		- %replchars{text,chars,replace}
+		- %sanitize{text}:      Delete in most file systems not allowed
+		                        characters
 		- %asciify{text}:       Convert non-ASCII characters to their
 		                        ASCII equivalents. For example, “café”
 		                        becomes “cafe”. Uses the mapping
@@ -148,7 +150,7 @@ parser.add_argument('-f', '--format',
 
 parser.add_argument('-c', '--compilation',
 	help='Format string for compilations',
-	default='_compilations/$album/${disctrack}_%shorten{$title,32}')
+	default='_compilations/%replchars{%asciify{$album/${disctrack}_%shorten{$title,32}},-," "}')
 
 parser.add_argument('-s', '--singelton',
 	help='A format string for singletons',
@@ -188,7 +190,10 @@ class Meta(object):
 		for key in MediaFile.readable_fields():
 			value = getattr(self.media_file, key)
 			if value:
-				self.m[key] = value
+				if isinstance(value, str) or isinstance(value, unicode):
+					self.m[key] = Functions.tmpl_sanitize(value)
+				else:
+					self.m[key] = value
 			else:
 				self.m[key] = ''
 		self.discTrack()
@@ -283,14 +288,14 @@ class Rename(object):
 
 	def rename(self):
 		print('Rename: ' + self.message)
-		#self.createDir(self.new_path)
-		#os.rename(self.old_path, self.new_path)
+		self.createDir(self.new_path)
+		os.rename(self.old_path, self.new_path)
 
 	def copy(self):
 		print('Copy: ' + self.message)
 		import shutil
-		#self.createDir(self.new_path)
-		#shutil.copy2(self.old_path, self.new_path)
+		self.createDir(self.new_path)
+		shutil.copy2(self.old_path, self.new_path)
 
 def execute(path, root_path = ''):
 	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:

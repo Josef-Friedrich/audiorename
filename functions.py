@@ -118,6 +118,12 @@ class Functions(object):
         return s
 
     @staticmethod
+    def tmpl_sanitize(s):
+        for char in ':*?"<>|\/~&{}':
+            s = s.replace(char, '')
+        return s
+
+    @staticmethod
     def tmpl_asciify(s):
         """Translate non-ASCII characters to their ASCII equivalents.
         """
