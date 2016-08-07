@@ -1,8 +1,8 @@
 # audiorename.py
 
 ```
-usage: audiorename.py [-h] [-f FORMAT] [-c COMPILATION] [-s SINGELTON] [-d]
-                      [-e EXTENSIONS] [-b BASE_DIR] [-a] [-C] [-m]
+usage: audiorename.py [-h] [-f FORMAT] [-c COMPILATION] [-s SINGELTON] [-S]
+                      [-d] [-e EXTENSIONS] [-b BASE_DIR] [-a] [-C] [-m]
                       folder
 
 Python script to rename audio files from metadata tags.
@@ -21,15 +21,18 @@ Metadata fields:
 		- artistsafe:          The first available value of this metatag
 		                       order: “albumartist” -> “artist” ->
 		                       “albumartist_credit” -> “artist_credit”
-		- artistsafe_sort      The first available value of this metatag
+		- artistsafe_sort:     The first available value of this metatag
 		                       order: “albumartist_sort” ->
 		                       “artist_sort” -> “artistsafe”
+		- artist_initial:      First character in lowercase of
+		                        “artistsafe_sort”
 		- album
 		- albumartist:         The artist for the entire album, which
 		                       may be different from the artists for the
 		                       individual tracks.
 		- albumartist_sort
 		- albumartist_credit
+		- album_initial:       First character in lowercase of “album”.
 		- genre
 		- composer
 		- grouping
@@ -138,6 +141,8 @@ optional arguments:
                         Format string for compilations
   -s SINGELTON, --singelton SINGELTON
                         A format string for singletons
+  -S, --shell-friendly  Rename audio files “shell friendly”, this means
+                        without whitespaces, parentheses etc.
   -d, --dry-run         A format string for singeltons
   -e EXTENSIONS, --extensions EXTENSIONS
                         Extensions to rename
