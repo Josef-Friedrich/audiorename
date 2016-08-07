@@ -196,18 +196,19 @@ class Meta(object):
 		self.m = {}
 		for key in MediaFile.readable_fields():
 			value = getattr(self.media_file, key)
-			if value:
-				if isinstance(value, str) or isinstance(value, unicode):
-					if args.shell_friendly:
-						value = Functions.tmpl_asciify(as_string(value))
-						value = Functions.tmpl_delchars(value, '()')
-						value = Functions.tmpl_replchars(value, '-', ' ')
-						value = Functions.tmpl_sanitize(value)
-					else:
-						self.m[key] = Functions.tmpl_sanitize(value)
-			else:
-				value = ''
-			self.m[key] = value
+			if key != 'art':
+				if value:
+					if isinstance(value, str) or isinstance(value, unicode):
+						if args.shell_friendly:
+							value = Functions.tmpl_asciify(value)
+							value = Functions.tmpl_delchars(value, '().,')
+							value = Functions.tmpl_replchars(value, '-', ' ')
+							value = Functions.tmpl_sanitize(value)
+						else:
+							self.m[key] = Functions.tmpl_sanitize(value)
+				else:
+					value = ''
+				self.m[key] = value
 		self.discTrack()
 		self.artistSafe()
 		self.initials()
