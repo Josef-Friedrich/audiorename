@@ -30,15 +30,18 @@ Metadata fields:
 		- artistsafe:          The first available value of this metatag
 		                       order: “albumartist” -> “artist” ->
 		                       “albumartist_credit” -> “artist_credit”
-		- artistsafe_sort      The first available value of this metatag
+		- artistsafe_sort:     The first available value of this metatag
 		                       order: “albumartist_sort” ->
 		                       “artist_sort” -> “artistsafe”
+		- artist_initial:      First character in lowercase of
+		                        “artistsafe_sort”
 		- album
 		- albumartist:         The artist for the entire album, which
 		                       may be different from the artists for the
 		                       individual tracks.
 		- albumartist_sort
 		- albumartist_credit
+		- album_initial:       First character in lowercase of “album”.
 		- genre
 		- composer
 		- grouping
@@ -146,11 +149,11 @@ parser.add_argument('folder',
 
 parser.add_argument('-f', '--format',
 	help='A format string',
-	default='%lower{%left{${artistsafe_sort},1}/%left{${artistsafe_sort},2}}/$artistsafe_sort/$album/${disctrack}_%shorten{$title,32}')
+	default='$artist_initial/$artistsafe_sort/$album/${disctrack}_%shorten{$title,32}')
 
 parser.add_argument('-c', '--compilation',
 	help='Format string for compilations',
-	default='_compilations/%replchars{%asciify{$album/${disctrack}_%shorten{$title,32}},-," "}')
+	default='_compilations/$album_initial/$album/${disctrack}_%shorten{$title,32}')
 
 parser.add_argument('-s', '--singelton',
 	help='A format string for singletons',
@@ -207,6 +210,7 @@ class Meta(object):
 			self.m[key] = value
 		self.discTrack()
 		self.artistSafe()
+		self.initials()
 
 	def discTrack(self):
 		if self.m['disctotal'] > 9:
@@ -243,6 +247,10 @@ class Meta(object):
 			self.m['artistsafe_sort'] = self.m['artistsafe']
 		else:
 			self.m['artistsafe_sort'] = 'Unknown'
+
+	def initials(self):
+		self.m['artist_initial'] = self.m['artistsafe_sort'][0:1].lower()
+		self.m['album_initial'] = self.m['album'][0:1].lower()
 
 	def getMeta(self):
 		return self.m
