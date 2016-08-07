@@ -142,11 +142,11 @@ parser.add_argument('folder',
 
 parser.add_argument('-f', '--format',
 	help='A format string',
-	default='%asciify{%lower{%left{${artistsafe_sort},1}/%left{${artistsafe_sort},2}}/$artistsafe_sort/$album/$disctrack %shorten{$title,5}}')
+	default='%asciify{%lower{%left{${artistsafe_sort},1}/%left{${artistsafe_sort},2}}/$artistsafe_sort/$album/${disctrack}_%shorten{$title,32}}')
 
 parser.add_argument('-c', '--compilation',
 	help='Format string for compilations',
-	default='_compilations/$album/$disctrack %shorten{$title,5}')
+	default='_compilations/$album/${disctrack}_%shorten{$title,32}')
 
 parser.add_argument('-s', '--singelton',
 	help='A format string for singletons',

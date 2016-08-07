@@ -82,6 +82,7 @@ class Functions(object):
 
     @staticmethod
     def tmpl_shorten(text, max_size):
+        max_size = int(max_size)
         if len(text) <= max_size:
             return text
         return textwrap.wrap(text, max_size)[0]
