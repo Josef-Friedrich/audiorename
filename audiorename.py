@@ -236,7 +236,6 @@ class Meta(object):
 			self.m['disctrack'] = track
 
 	def artistSafe(self):
-
 		if not self.m['albumartist_sort'] and self.m['albumartist']:
 			self.m['albumartist_sort'] = self.m['albumartist']
 
@@ -352,7 +351,9 @@ class Rename(object):
 def execute(path, root_path = ''):
 	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
 		audio = Rename(path, root_path)
-		if args.dry_run:
+		if not audio.meta['mb_trackid']:
+			print('no musicbrainz: ' + audio.old_file)
+		elif args.dry_run:
 			audio.dryRun()
 		elif args.debug:
 			audio.debug(args.debug)
