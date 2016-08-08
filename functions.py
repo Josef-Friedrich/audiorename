@@ -85,7 +85,10 @@ class Functions(object):
         max_size = int(max_size)
         if len(text) <= max_size:
             return text
-        return textwrap.wrap(text, max_size)[0]
+        text = textwrap.wrap(text, max_size)[0]
+        import re
+        text = re.sub(r'\W+$', '', text)
+        return text.strip()
 
     @staticmethod
     def tmpl_if(condition, trueval, falseval=u''):
