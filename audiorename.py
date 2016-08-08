@@ -113,6 +113,10 @@ Metadata fields:
 		- %delchars{text,chars}:
 		                        Delete every single character of “chars“
 		                        in “text”.
+		- %deldupchars{text,chars}:
+		                        Search for duplicate characters and
+		                        replace with only one occurrance of
+		                        this characters.
 		- %replchars{text,chars,replace}
 		- %sanitize{text}:      Delete in most file systems not allowed
 		                        characters

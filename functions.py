@@ -112,6 +112,11 @@ class Functions(object):
         return s
 
     @staticmethod
+    def tmpl_deldupchars(s, chars = r'-_\.'):
+        import re
+        return re.sub(r'([' + chars + r'])\1*', r'\1', s)
+
+    @staticmethod
     def tmpl_replchars(s, replace, chars):
         for char in chars:
             s = s.replace(char, replace)
