@@ -234,6 +234,10 @@ class Meta(object):
 			self.m['disctrack'] = track
 
 	def artistSafe(self):
+
+		if not self.m['albumartist_sort'] and self.m['albumartist']:
+			self.m['albumartist_sort'] = self.m['albumartist']
+
 		if self.m['albumartist_sort']:
 			self.m['artistsafe_sort'] = self.m['albumartist_sort']
 		elif self.m['artist_sort']:
@@ -248,10 +252,11 @@ class Meta(object):
 		elif self.m['artist_credit']:
 			self.m['artistsafe'] = self.m['artist_credit']
 
-		if not 'artistsafe_sort' in self.m and 'artistsafe' in self.m:
-			self.m['artistsafe_sort'] = self.m['artistsafe']
-		else:
-			self.m['artistsafe_sort'] = 'Unknown'
+		if not 'artistsafe_sort' in self.m:
+			if self.m['artistsafe']:
+				self.m['artistsafe_sort'] = self.m['artistsafe']
+			else:
+				self.m['artistsafe_sort'] = 'Unknown'
 
 	def initials(self):
 		self.m['artist_initial'] = self.m['artistsafe_sort'][0:1].lower()
@@ -302,6 +307,19 @@ class Rename(object):
 
 	def debug(self):
 		print('Dry run: ' + self.message)
+
+	def debugAristSafe(self):
+		def p(tag):
+			print(tag + u': ' + self.meta[tag])
+		print('------------------------------------------------')
+		p('artist')
+		p('albumartist')
+		p('artistsafe')
+		p('artist_sort')
+		p('artist_credit')
+		p('albumartist_credit')
+		p('albumartist_sort')
+		p('artistsafe_sort')
 
 	def debugMeta(self):
 		for key, value in self.meta.iteritems():
