@@ -58,11 +58,6 @@ class Environment(object):
 
 # Code generation helpers.
 
-def ex_lvalue(name):
-    """A variable load expression."""
-    return ast.Name(name, ast.Store())
-
-
 def ex_rvalue(name):
     """A variable store expression."""
     return ast.Name(name, ast.Load())
