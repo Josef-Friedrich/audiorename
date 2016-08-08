@@ -49,6 +49,7 @@ Metadata fields:
 		- original_year, original_month, original_day:
 		                       The release date of the original version
 		                       of the album.
+		- year_safe
 		- track
 		- tracktotal
 		- disc
@@ -153,7 +154,7 @@ parser.add_argument('folder',
 
 parser.add_argument('-f', '--format',
 	help='A format string',
-	default='$artist_initial/$artistsafe_sort/$album/${disctrack}_%shorten{$title,32}')
+	default='$artist_initial/$artistsafe_sort/%shorten{${album},32}_${year_safe}/${disctrack}_%shorten{$title,32}')
 
 parser.add_argument('-c', '--compilation',
 	help='Format string for compilations',
@@ -173,7 +174,7 @@ parser.add_argument('-d', '--dry-run',
 
 parser.add_argument('-D', '--debug',
 	help='Show special debug informations: meta, artist',
-	default='artistsafe')
+	default=False)
 
 parser.add_argument('-e', '--extensions',
 	help='Extensions to rename',
@@ -215,6 +216,7 @@ class Meta(object):
 				self.m[key] = value
 		self.discTrack()
 		self.artistSafe()
+		self.yearSafe()
 		self.initials()
 
 	def discTrack(self):
@@ -257,6 +259,12 @@ class Meta(object):
 				self.m['artistsafe_sort'] = self.m['artistsafe']
 			else:
 				self.m['artistsafe_sort'] = 'Unknown'
+
+	def yearSafe(self):
+		if self.m['original_year']:
+			self.m['year_safe'] = self.m['original_year']
+		elif self.m['year']:
+			self.m['year_safe'] = self.m['year']
 
 	def initials(self):
 		self.m['artist_initial'] = self.m['artistsafe_sort'][0:1].lower()
