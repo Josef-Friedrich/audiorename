@@ -82,16 +82,6 @@ def ex_literal(val):
         return ast.Str(val)
     raise TypeError(u'no literal for {0}'.format(type(val)))
 
-
-def ex_varassign(name, expr):
-    """Assign an expression into a single variable. The expression may
-    either be an `ast.expr` object or a value to be used as a literal.
-    """
-    if not isinstance(expr, ast.expr):
-        expr = ex_literal(expr)
-    return ast.Assign([ex_lvalue(name)], expr)
-
-
 def ex_call(func, args):
     """A function-call expression with only positional parameters. The
     function may be an expression or the name of a function. Each
