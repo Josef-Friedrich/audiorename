@@ -2,7 +2,7 @@
 
 ```
 usage: audiorename.py [-h] [-f FORMAT] [-c COMPILATION] [-s SINGELTON] [-S]
-                      [-d] [-e EXTENSIONS] [-b BASE_DIR] [-a] [-C] [-m]
+                      [-d] [-D DEBUG] [-e EXTENSIONS] [-b BASE_DIR] [-a] [-C]
                       folder
 
 Python script to rename audio files from metadata tags.
@@ -103,6 +103,10 @@ Metadata fields:
 		- %delchars{text,chars}:
 		                        Delete every single character of “chars“
 		                        in “text”.
+		- %deldupchars{text,chars}:
+		                        Search for duplicate characters and
+		                        replace with only one occurrance of
+		                        this characters.
 		- %replchars{text,chars,replace}
 		- %sanitize{text}:      Delete in most file systems not allowed
 		                        characters
@@ -144,6 +148,8 @@ optional arguments:
   -S, --shell-friendly  Rename audio files “shell friendly”, this means
                         without whitespaces, parentheses etc.
   -d, --dry-run         A format string for singeltons
+  -D DEBUG, --debug DEBUG
+                        Show special debug informations: meta, artist
   -e EXTENSIONS, --extensions EXTENSIONS
                         Extensions to rename
   -b BASE_DIR, --base-dir BASE_DIR
@@ -151,5 +157,4 @@ optional arguments:
   -a, --folder-as-base-dir
                         Use specified folder as base directory
   -C, --copy            Copy files instead of rename / move.
-  -m, --meta            Show meta tags for debugging purposes.
 ```

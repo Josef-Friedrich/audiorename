@@ -171,6 +171,10 @@ parser.add_argument('-d', '--dry-run',
 	help='A format string for singeltons',
 	action='store_true')
 
+parser.add_argument('-D', '--debug',
+	help='Show special debug informations: meta, artist',
+	default='artistsafe')
+
 parser.add_argument('-e', '--extensions',
 	help='Extensions to rename',
 	default='mp3')
@@ -185,10 +189,6 @@ parser.add_argument('-a', '--folder-as-base-dir',
 
 parser.add_argument('-C', '--copy',
 	help='Copy files instead of rename / move.',
-	action='store_true')
-
-parser.add_argument('-m', '--meta',
-	help='Show meta tags for debugging purposes.',
 	action='store_true')
 
 args = parser.parse_args()
@@ -305,26 +305,30 @@ class Rename(object):
 			if exception.errno != errno.EEXIST:
 				raise
 
-	def debug(self):
+	def dryRun(self):
 		print('Dry run: ' + self.message)
 
-	def debugAristSafe(self):
+	def debug(self, option):
 		def p(tag):
 			print(tag + u': ' + self.meta[tag])
-		print('------------------------------------------------')
-		p('artist')
-		p('albumartist')
-		p('artistsafe')
-		p('artist_sort')
-		p('artist_credit')
-		p('albumartist_credit')
-		p('albumartist_sort')
-		p('artistsafe_sort')
+		print('- Debug: ' + option + ' --------------------------------')
 
-	def debugMeta(self):
-		for key, value in self.meta.iteritems():
-			if key != 'art' and value:
-				print(as_string(key) + ': ' + as_string(value))
+		if option == 'artist':
+
+			p('artist')
+			p('albumartist')
+			p('artistsafe')
+			p('artist_sort')
+			p('artist_credit')
+			p('albumartist_credit')
+			p('albumartist_sort')
+			p('artistsafe_sort')
+
+		elif option == 'meta':
+
+			for key, value in self.meta.iteritems():
+				if key != 'art' and value:
+					print(as_string(key) + ': ' + as_string(value))
 
 	def rename(self):
 		print('Rename: ' + self.message)
@@ -341,9 +345,9 @@ def execute(path, root_path = ''):
 	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
 		audio = Rename(path, root_path)
 		if args.dry_run:
-			audio.debug()
-		elif args.meta:
-			audio.debugMeta()
+			audio.dryRun()
+		elif args.debug:
+			audio.debug(args.debug)
 		elif args.copy:
 			audio.copy()
 		else:
