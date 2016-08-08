@@ -205,7 +205,7 @@ class Meta(object):
 					if isinstance(value, str) or isinstance(value, unicode):
 						if args.shell_friendly:
 							value = Functions.tmpl_asciify(value)
-							value = Functions.tmpl_delchars(value, '().,')
+							value = Functions.tmpl_delchars(value, '().,!"\'’')
 							value = Functions.tmpl_replchars(value, '-', ' ')
 							value = Functions.tmpl_sanitize(value)
 						else:
@@ -287,8 +287,8 @@ class Rename(object):
 			t = Template(as_string(args.format))
 		f = Functions()
 		self.new_filename = t.substitute(self.meta, f.functions())
-
-		self.new_path = os.path.join(self.base_dir, self.new_filename + '.' + self.extension)
+		self.new_filename = f.tmpl_deldupchars(self.new_filename + '.' + self.extension)
+		self.new_path = os.path.join(self.base_dir, self.new_filename)
 		self.message = self.old_path.decode('utf-8') + '\n  -> ' + self.new_path + '\n'
 
 	def createDir(self, path):
