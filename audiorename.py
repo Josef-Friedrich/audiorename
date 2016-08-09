@@ -173,7 +173,7 @@ parser.add_argument('-d', '--dry-run',
 	action='store_true')
 
 parser.add_argument('-D', '--debug',
-	help='Show special debug informations: meta, artist, track',
+	help='Show special debug informations: meta, artist, track, year',
 	default=False)
 
 parser.add_argument('-e', '--extensions',
@@ -261,9 +261,12 @@ class Meta(object):
 
 	def yearSafe(self):
 		if self.m['original_year']:
-			self.m['year_safe'] = self.m['original_year']
+			value = self.m['original_year']
 		elif self.m['year']:
-			self.m['year_safe'] = self.m['year']
+			value = self.m['year']
+		else:
+			value = ''
+		self.m['year_safe'] = value
 
 	def initials(self):
 		self.m['artist_initial'] = self.m['artistsafe_sort'][0:1].lower()
@@ -343,6 +346,11 @@ class Rename(object):
 			p('disc')
 			p('disctotal')
 			p('disctrack')
+
+		elif option == 'year':
+			p('original_year')
+			p('year')
+			p('date')
 
 	def rename(self):
 		print('Rename: ' + self.message)
