@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, sys, argparse, textwrap
+import os, sys, argparse, textwrap, mutagen
 
 from ansicolor import cyan
 from ansicolor import green
@@ -341,10 +341,22 @@ class Rename(object):
 			p('artistsafe_sort')
 
 		elif option == 'meta':
-
 			for key, value in self.meta.iteritems():
 				if key != 'art' and value:
-					print(as_string(key) + ': ' + as_string(value))
+					print(cyan(as_string(key)) + ': ' + as_string(value))
+
+		elif option == 'mediafile':
+			m = MediaFile(self.old_file)
+			for key in MediaFile.readable_fields():
+				value = getattr(m, key)
+				if key != 'art':
+					print(cyan(key) + ': ' + as_string(value))
+
+		elif option == 'mutagen':
+			m = mutagen.File(self.old_file, easy=True)
+			print(m)
+			for key, value in m.iteritems():
+				print(cyan(key) + ': ' + value[0])
 
 		elif option == 'track':
 			p('track')
