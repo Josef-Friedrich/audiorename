@@ -230,7 +230,7 @@ class Meta(object):
 		else:
 			track = str(self.m['track']).zfill(2)
 
-		if self.m['disc']:
+		if self.m['disc'] and self.m['disctotal'] > 1:
 			self.m['disctrack'] = disk + '-' + track
 		else:
 			self.m['disctrack'] = track
@@ -317,7 +317,7 @@ class Rename(object):
 
 	def debug(self, option):
 		def p(tag):
-			print(tag + u': ' + self.meta[tag])
+			print(tag + u': ' + as_string(self.meta[tag]))
 		print('\n- Debug: ' + option + ' --------------------------------')
 
 		if option == 'artist':
