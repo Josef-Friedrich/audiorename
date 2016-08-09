@@ -165,10 +165,6 @@ parser.add_argument('-c', '--compilation',
 	help='Format string for compilations',
 	default='_compilations/$album_initial/$album/${disctrack}_%shorten{$title,32}')
 
-parser.add_argument('-s', '--singelton',
-	help='A format string for singletons',
-	default='$artist $track')
-
 parser.add_argument('-S', '--shell-friendly',
 	help='Rename audio files “shell friendly”, this means without whitespaces, parentheses etc.',
 	action='store_true')
@@ -188,6 +184,10 @@ parser.add_argument('-e', '--extensions',
 parser.add_argument('-b', '--base-dir',
 	help='Base directory',
 	default='')
+
+parser.add_argument('-s', '--skip-if-empty',
+	help='Skip renaming of field is empty.',
+	default=False)
 
 parser.add_argument('-a', '--folder-as-base-dir',
 	help='Use specified folder as base directory',
@@ -320,6 +320,9 @@ class Rename(object):
 			if exception.errno != errno.EEXIST:
 				raise
 
+	def skipMessage(self):
+		print(red('☠ no field ' + args.skip_if_empty + ' ☠', reverse=True) + ': ' + self.old_file)
+
 	def dryRun(self):
 		print('Dry run: ' + self.message)
 
@@ -381,19 +384,23 @@ class Rename(object):
 		self.createDir(self.new_path)
 		shutil.copy2(self.old_path, self.new_path)
 
+	def execute(self):
+		if args.skip_if_empty and not self.meta[args.skip_if_empty]:
+			self.skipMessage()
+		else:
+			if args.dry_run:
+				self.dryRun()
+			elif args.debug:
+				self.debug(args.debug)
+			elif args.copy:
+				self.copy()
+			else:
+				self.rename()
+
 def execute(path, root_path = ''):
 	if path.endswith((".mp3", ".MP3", ".m4a", ".flac", ".wma")) == True:
 		audio = Rename(path, root_path)
-		if not audio.meta['mb_trackid']:
-			print(red('☠ no musicbrainz ☠', reverse=True) + ': ' + audio.old_file)
-		elif args.dry_run:
-			audio.dryRun()
-		elif args.debug:
-			audio.debug(args.debug)
-		elif args.copy:
-			audio.copy()
-		else:
-			audio.rename()
+		audio.execute()
 
 if __name__ == '__main__':
 
