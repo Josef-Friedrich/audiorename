@@ -3,6 +3,11 @@
 
 import os, sys, argparse, textwrap
 
+from ansicolor import cyan
+from ansicolor import green
+from ansicolor import red
+from ansicolor import yellow
+
 #from beets.mediafile import MediaFile
 from mediafile import MediaFile
 from mediafile import as_string
@@ -304,7 +309,7 @@ class Rename(object):
 		self.new_filename = t.substitute(self.meta, f.functions())
 		self.new_filename = f.tmpl_deldupchars(self.new_filename + '.' + self.extension.lower())
 		self.new_path = os.path.join(self.base_dir, self.new_filename)
-		self.message = self.old_path.decode('utf-8') + '\n  -> ' + self.new_path + '\n'
+		self.message = red(self.old_path.decode('utf-8')) + '\n  -> ' + green(self.new_path) + '\n'
 
 	def createDir(self, path):
 		path = os.path.dirname(path)
@@ -320,8 +325,9 @@ class Rename(object):
 
 	def debug(self, option):
 		def p(tag):
-			print(tag + u': ' + as_string(self.meta[tag]))
-		print('\n- Debug: ' + option + ' --------------------------------')
+			print(cyan(tag) + u': ' + as_string(self.meta[tag]))
+		print('\n' + green('- Debug: ') + red(option, reverse=True) + green(' --------------------------------'))
+		print(yellow(self.old_file))
 
 		if option == 'artist':
 
@@ -367,7 +373,7 @@ def execute(path, root_path = ''):
 	if path.endswith((".mp3", ".MP3", ".m4a", ".flac", ".wma")) == True:
 		audio = Rename(path, root_path)
 		if not audio.meta['mb_trackid']:
-			print('no musicbrainz: ' + audio.old_file)
+			print(red('☠ no musicbrainz ☠', reverse=True) + ': ' + audio.old_file)
 		elif args.dry_run:
 			audio.dryRun()
 		elif args.debug:
