@@ -173,7 +173,7 @@ parser.add_argument('-d', '--dry-run',
 	action='store_true')
 
 parser.add_argument('-D', '--debug',
-	help='Show special debug informations: meta, artist',
+	help='Show special debug informations: meta, artist, track',
 	default=False)
 
 parser.add_argument('-e', '--extensions',
@@ -318,7 +318,7 @@ class Rename(object):
 	def debug(self, option):
 		def p(tag):
 			print(tag + u': ' + self.meta[tag])
-		print('- Debug: ' + option + ' --------------------------------')
+		print('\n- Debug: ' + option + ' --------------------------------')
 
 		if option == 'artist':
 
@@ -336,6 +336,13 @@ class Rename(object):
 			for key, value in self.meta.iteritems():
 				if key != 'art' and value:
 					print(as_string(key) + ': ' + as_string(value))
+
+		elif option == 'track':
+			p('track')
+			p('tracktotal')
+			p('disc')
+			p('disctotal')
+			p('disctrack')
 
 	def rename(self):
 		print('Rename: ' + self.message)
