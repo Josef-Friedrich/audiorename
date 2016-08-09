@@ -299,7 +299,7 @@ class Rename(object):
 			t = Template(as_string(args.format))
 		f = Functions()
 		self.new_filename = t.substitute(self.meta, f.functions())
-		self.new_filename = f.tmpl_deldupchars(self.new_filename + '.' + self.extension)
+		self.new_filename = f.tmpl_deldupchars(self.new_filename + '.' + self.extension.lower())
 		self.new_path = os.path.join(self.base_dir, self.new_filename)
 		self.message = self.old_path.decode('utf-8') + '\n  -> ' + self.new_path + '\n'
 
@@ -349,7 +349,7 @@ class Rename(object):
 		shutil.copy2(self.old_path, self.new_path)
 
 def execute(path, root_path = ''):
-	if path.endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
+	if path.endswith((".mp3", ".MP3", ".m4a", ".flac", ".wma")) == True:
 		audio = Rename(path, root_path)
 		if not audio.meta['mb_trackid']:
 			print('no musicbrainz: ' + audio.old_file)
