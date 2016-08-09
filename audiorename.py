@@ -159,11 +159,11 @@ parser.add_argument('folder',
 
 parser.add_argument('-f', '--format',
 	help='A format string',
-	default='$artist_initial/$artistsafe_sort/%shorten{${album},32}%ifdef{yea_safe,_${year_safe}}/${disctrack}_%shorten{$title,32}')
+	default='$artist_initial/$artistsafe_sort/%shorten{${album},32}%ifdef{year_safe,_${year_safe}}/${disctrack}_%shorten{$title,32}')
 
 parser.add_argument('-c', '--compilation',
 	help='Format string for compilations',
-	default='_compilations/$album_initial/$album/${disctrack}_%shorten{$title,32}')
+	default='_compilations/$album_initial/$album%ifdef{year_safe,_${year_safe}}/${disctrack}_%shorten{$title,32}')
 
 parser.add_argument('-S', '--shell-friendly',
 	help='Rename audio files “shell friendly”, this means without whitespaces, parentheses etc.',
@@ -317,7 +317,7 @@ class Rename(object):
 		if isinstance(text, str) or isinstance(text, unicode):
 			if args.shell_friendly:
 				text = Functions.tmpl_asciify(text)
-				text = Functions.tmpl_delchars(text, '().,!"\'’')
+				text = Functions.tmpl_delchars(text, '[]().,!"\'’')
 				text = Functions.tmpl_replchars(text, '-', ' ')
 		return text
 
@@ -411,7 +411,7 @@ class Rename(object):
 				self.rename()
 
 def execute(path, root_path = ''):
-	if path.endswith((".mp3", ".MP3", ".m4a", ".flac", ".wma")) == True:
+	if path.lower().endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
 		audio = Rename(path, root_path)
 		audio.execute()
 
