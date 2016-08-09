@@ -207,17 +207,10 @@ class Meta(object):
 		for key in MediaFile.readable_fields():
 			value = getattr(self.media_file, key)
 			if key != 'art':
-				if value:
-					if isinstance(value, str) or isinstance(value, unicode):
-						if args.shell_friendly:
-							value = Functions.tmpl_asciify(value)
-							value = Functions.tmpl_delchars(value, '().,!"\'’')
-							value = Functions.tmpl_replchars(value, '-', ' ')
-							value = Functions.tmpl_sanitize(value)
-						else:
-							self.m[key] = Functions.tmpl_sanitize(value)
-				else:
+				if not value:
 					value = ''
+				elif isinstance(value, str) or isinstance(value, unicode):
+					value = Functions.tmpl_sanitize(value)
 				self.m[key] = value
 		self.discTrack()
 		self.artistSafe()
@@ -241,28 +234,34 @@ class Meta(object):
 			self.m['disctrack'] = track
 
 	def artistSafe(self):
-		if not self.m['albumartist_sort'] and self.m['albumartist']:
-			self.m['albumartist_sort'] = self.m['albumartist']
-
+		safe_sort = ''
+		safe = ''
 		if self.m['albumartist_sort']:
-			self.m['artistsafe_sort'] = self.m['albumartist_sort']
+			safe_sort = self.m['albumartist_sort']
 		elif self.m['artist_sort']:
-			self.m['artistsafe_sort'] = self.m['artist_sort']
+			safe_sort = self.m['artist_sort']
 
 		if self.m['albumartist']:
-			self.m['artistsafe'] = self.m['albumartist']
+			safe = self.m['albumartist']
 		elif self.m['artist']:
-			self.m['artistsafe'] = self.m['artist']
+			safe = self.m['artist']
 		elif self.m['albumartist_credit']:
-			self.m['artistsafe'] = self.m['albumartist_credit']
+			safe = self.m['albumartist_credit']
 		elif self.m['artist_credit']:
-			self.m['artistsafe'] = self.m['artist_credit']
+			safe = self.m['artist_credit']
 
-		if not 'artistsafe_sort' in self.m:
-			if self.m['artistsafe']:
-				self.m['artistsafe_sort'] = self.m['artistsafe']
+		if not safe_sort:
+			if safe:
+				safe_sort = safe
 			else:
-				self.m['artistsafe_sort'] = 'Unknown'
+				safe_sort = 'Unknown'
+
+		if args.shell_friendly:
+			safe_sort = safe_sort.replace(', ', '_')
+
+		self.m['artistsafe'] = safe
+		self.m['artistsafe_sort'] = safe_sort
+
 
 	def yearSafe(self):
 		if self.m['original_year']:
@@ -301,15 +300,26 @@ class Rename(object):
 
 		meta = Meta(self.old_path)
 		self.meta = meta.getMeta()
+
+	def generateFilename(self):
 		if self.meta['comp']:
 			t = Template(as_string(args.compilation))
 		else:
 			t = Template(as_string(args.format))
 		f = Functions(self.meta)
-		self.new_filename = t.substitute(self.meta, f.functions())
-		self.new_filename = f.tmpl_deldupchars(self.new_filename + '.' + self.extension.lower())
-		self.new_path = os.path.join(self.base_dir, self.new_filename)
+		new = t.substitute(self.meta, f.functions())
+		new = self.postTemplate(new);
+		new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
+		self.new_path = os.path.join(self.base_dir, new)
 		self.message = red(self.old_path.decode('utf-8')) + '\n  -> ' + green(self.new_path) + '\n'
+
+	def postTemplate(self, text):
+		if isinstance(text, str) or isinstance(text, unicode):
+			if args.shell_friendly:
+				text = Functions.tmpl_asciify(text)
+				text = Functions.tmpl_delchars(text, '().,!"\'’')
+				text = Functions.tmpl_replchars(text, '-', ' ')
+		return text
 
 	def createDir(self, path):
 		path = os.path.dirname(path)
@@ -324,6 +334,7 @@ class Rename(object):
 		print(red('☠ no field ' + args.skip_if_empty + ' ☠', reverse=True) + ': ' + self.old_file)
 
 	def dryRun(self):
+		self.generateFilename()
 		print('Dry run: ' + self.message)
 
 	def debug(self, option):
@@ -374,11 +385,13 @@ class Rename(object):
 			p('date')
 
 	def rename(self):
+		self.generateFilename()
 		print('Rename: ' + self.message)
 		self.createDir(self.new_path)
 		os.rename(self.old_path, self.new_path)
 
 	def copy(self):
+		self.generateFilename()
 		print('Copy: ' + self.message)
 		import shutil
 		self.createDir(self.new_path)

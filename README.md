@@ -1,8 +1,9 @@
 # audiorename.py
 
 ```
-usage: audiorename.py [-h] [-f FORMAT] [-c COMPILATION] [-s SINGELTON] [-S]
-                      [-d] [-D DEBUG] [-e EXTENSIONS] [-b BASE_DIR] [-a] [-C]
+usage: audiorename.py [-h] [-f FORMAT] [-c COMPILATION] [-S] [-d] [-D DEBUG]
+                      [-e EXTENSIONS] [-b BASE_DIR] [-s SKIP_IF_EMPTY] [-a]
+                      [-C]
                       folder
 
 Python script to rename audio files from metadata tags.
@@ -40,6 +41,7 @@ Metadata fields:
 		- original_year, original_month, original_day:
 		                       The release date of the original version
 		                       of the album.
+		- year_safe
 		- track
 		- tracktotal
 		- disc
@@ -143,17 +145,18 @@ optional arguments:
                         A format string
   -c COMPILATION, --compilation COMPILATION
                         Format string for compilations
-  -s SINGELTON, --singelton SINGELTON
-                        A format string for singletons
   -S, --shell-friendly  Rename audio files “shell friendly”, this means
                         without whitespaces, parentheses etc.
   -d, --dry-run         A format string for singeltons
   -D DEBUG, --debug DEBUG
-                        Show special debug informations: meta, artist
+                        Show special debug informations: meta, artist, track,
+                        year
   -e EXTENSIONS, --extensions EXTENSIONS
                         Extensions to rename
   -b BASE_DIR, --base-dir BASE_DIR
                         Base directory
+  -s SKIP_IF_EMPTY, --skip-if-empty SKIP_IF_EMPTY
+                        Skip renaming of field is empty.
   -a, --folder-as-base-dir
                         Use specified folder as base directory
   -C, --copy            Copy files instead of rename / move.
