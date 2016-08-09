@@ -37,13 +37,10 @@ class Functions(object):
     """
     _prefix = 'tmpl_'
 
-    def __init__(self, item=None, lib=None):
-        """Parametrize the functions. If `item` or `lib` is None, then
-        some functions (namely, ``aunique``) will always evaluate to the
-        empty string.
+    def __init__(self, values=None):
+        """Parametrize the functions.
         """
-        self.item = item
-        self.lib = lib
+        self.values = values
 
     def functions(self):
         """Returns a dictionary containing the functions defined in this
@@ -170,8 +167,8 @@ class Functions(object):
         :param falseval: The string if the condition is false
         :return: The string, based on condition
         """
-        if self.item.formatted().get(field):
-            return trueval if trueval else self.item.formatted().get(field)
+        if field in self.values:
+            return trueval
         else:
             return falseval
 

@@ -159,7 +159,7 @@ parser.add_argument('folder',
 
 parser.add_argument('-f', '--format',
 	help='A format string',
-	default='$artist_initial/$artistsafe_sort/%shorten{${album},32}_${year_safe}/${disctrack}_%shorten{$title,32}')
+	default='$artist_initial/$artistsafe_sort/%shorten{${album},32}%ifdef{yea_safe,_${year_safe}}/${disctrack}_%shorten{$title,32}')
 
 parser.add_argument('-c', '--compilation',
 	help='Format string for compilations',
@@ -305,7 +305,7 @@ class Rename(object):
 			t = Template(as_string(args.compilation))
 		else:
 			t = Template(as_string(args.format))
-		f = Functions()
+		f = Functions(self.meta)
 		self.new_filename = t.substitute(self.meta, f.functions())
 		self.new_filename = f.tmpl_deldupchars(self.new_filename + '.' + self.extension.lower())
 		self.new_path = os.path.join(self.base_dir, self.new_filename)
