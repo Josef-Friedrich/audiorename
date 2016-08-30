@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
 	name = 'audiorename',
-	version = '0.0.3',
+	version = '0.0.4',
 	author = 'Josef Friedrich',
 	author_email = 'josef@friedrich.rocks',
 	description = ('Rename audio files from metadata tags.'),
