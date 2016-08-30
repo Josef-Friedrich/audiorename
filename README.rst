@@ -1,10 +1,6 @@
-# audiorename.py
-
-```
-usage: audiorename.py [-h] [-f FORMAT] [-c COMPILATION] [-S] [-d] [-D DEBUG]
-                      [-e EXTENSIONS] [-b BASE_DIR] [-s SKIP_IF_EMPTY] [-a]
-                      [-C]
-                      folder
+usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-S] [-d] [-D DEBUG]
+                    [-e EXTENSIONS] [-b BASE_DIR] [-s SKIP_IF_EMPTY] [-a] [-C]
+                    folder
 
 Python script to rename audio files from metadata tags.
 
@@ -160,4 +156,3 @@ optional arguments:
   -a, --folder-as-base-dir
                         Use specified folder as base directory
   -C, --copy            Copy files instead of rename / move.
-```

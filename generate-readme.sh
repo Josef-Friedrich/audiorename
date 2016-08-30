@@ -1,9 +1,4 @@
 #! /bin/sh
 
-echo "# audiorename.py
+./bin/audiorenamer -h >> README.rst
 
-\`\`\`" > README.md
-
-./audiorename.py -h >> README.md
-
-echo "\`\`\`" >> README.md
