@@ -1,20 +1,17 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, sys, argparse, textwrap, mutagen
+import os, sys, argparse, textwrap
 
 from ansicolor import cyan
 from ansicolor import green
 from ansicolor import red
 from ansicolor import yellow
 
-#from beets.mediafile import MediaFile
-from mediafile import MediaFile
-from mediafile import as_string
-#from beets.util.functemplate import Template
-from functemplate import Template
-#from beets.library import DefaultTemplateFunctions as Functions
-from functions import Functions
+from phrydy import MediaFile
+from phrydy import as_string
+from tmep import Functions
+from tmep import Template
 
 parser = argparse.ArgumentParser(
 	formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -196,8 +193,6 @@ parser.add_argument('-a', '--folder-as-base-dir',
 parser.add_argument('-C', '--copy',
 	help='Copy files instead of rename / move.',
 	action='store_true')
-
-args = parser.parse_args()
 
 class Meta(object):
 
@@ -410,18 +405,18 @@ class Rename(object):
 			else:
 				self.rename()
 
-def execute(path, root_path = ''):
+def do_rename(path, root_path = ''):
 	if path.lower().endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
 		audio = Rename(path, root_path)
 		audio.execute()
 
-if __name__ == '__main__':
+def execute():
+	args = parser.parse_args()
 
 	if os.path.isdir(args.folder):
 		for root_path, subdirs, files in os.walk(args.folder):
 			for file in files:
-				execute(file, root_path)
+				do_rename(file, root_path)
 
 	else:
-		execute(args.folder)
-
+		do_rename(args.folder)
