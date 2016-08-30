@@ -9,8 +9,8 @@ def do_rename(path, root_path='', args=None):
 		audio = Rename(path, root_path, args)
 		audio.execute()
 
-def execute():
-	args = parser.parse_args()
+def execute(args=None):
+	args = parser.parse_args(args)
 
 	if os.path.isdir(args.folder):
 		for root_path, subdirs, files in os.walk(args.folder):
