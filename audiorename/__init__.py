@@ -195,7 +195,11 @@ parser.add_argument('-C', '--copy',
 
 class Meta(object):
 
-	def __init__(self, path):
+	def __init__(self, path, args=None):
+
+		if args:
+			self.args = args
+
 		self.media_file = MediaFile(path)
 		self.m = {}
 		for key in MediaFile.readable_fields():
@@ -250,7 +254,7 @@ class Meta(object):
 			else:
 				safe_sort = 'Unknown'
 
-		if args.shell_friendly:
+		if self.args.shell_friendly:
 			safe_sort = safe_sort.replace(', ', '_')
 
 		self.m['artistsafe'] = safe
@@ -275,31 +279,34 @@ class Meta(object):
 
 class Rename(object):
 
-	def __init__(self, file, root_path = ''):
+	def __init__(self, file, root_path = '', args=None):
+		if args:
+			self.args = args
+
 		if root_path:
 			self.old_file = os.path.join(root_path, file)
 		else:
 			self.old_file = file
 
-		if args.base_dir:
+		if self.args.base_dir:
 			self.base_dir = args.base_dir
 		else:
 			self.base_dir = os.getcwd()
 
-		if args.folder_as_base_dir:
+		if self.args.folder_as_base_dir:
 			self.base_dir = os.path.realpath(root_path)
 
 		self.old_path = os.path.realpath(self.old_file)
 		self.extension = self.old_file.split('.')[-1]
 
-		meta = Meta(self.old_path)
+		meta = Meta(self.old_path, self.args)
 		self.meta = meta.getMeta()
 
 	def generateFilename(self):
 		if self.meta['comp']:
-			t = Template(as_string(args.compilation))
+			t = Template(as_string(self.args.compilation))
 		else:
-			t = Template(as_string(args.format))
+			t = Template(as_string(self.args.format))
 		f = Functions(self.meta)
 		new = t.substitute(self.meta, f.functions())
 		new = self.postTemplate(new);
@@ -309,7 +316,7 @@ class Rename(object):
 
 	def postTemplate(self, text):
 		if isinstance(text, str) or isinstance(text, unicode):
-			if args.shell_friendly:
+			if self.args.shell_friendly:
 				text = Functions.tmpl_asciify(text)
 				text = Functions.tmpl_delchars(text, '[]().,!"\'’')
 				text = Functions.tmpl_replchars(text, '-', ' ')
@@ -392,21 +399,21 @@ class Rename(object):
 		shutil.copy2(self.old_path, self.new_path)
 
 	def execute(self):
-		if args.skip_if_empty and not self.meta[args.skip_if_empty]:
+		if self.args.skip_if_empty and not self.meta[args.skip_if_empty]:
 			self.skipMessage()
 		else:
-			if args.dry_run:
+			if self.args.dry_run:
 				self.dryRun()
-			elif args.debug:
+			elif self.args.debug:
 				self.debug(args.debug)
-			elif args.copy:
+			elif self.args.copy:
 				self.copy()
 			else:
 				self.rename()
 
-def do_rename(path, root_path = ''):
+def do_rename(path, root_path='', args=None):
 	if path.lower().endswith((".mp3", ".m4a", ".flac", ".wma")) == True:
-		audio = Rename(path, root_path)
+		audio = Rename(path, root_path, args)
 		audio.execute()
 
 def execute():
@@ -415,7 +422,7 @@ def execute():
 	if os.path.isdir(args.folder):
 		for root_path, subdirs, files in os.walk(args.folder):
 			for file in files:
-				do_rename(file, root_path)
+				do_rename(file, root_path, args=args)
 
 	else:
-		do_rename(args.folder)
+		do_rename(args.folder, args=args)
