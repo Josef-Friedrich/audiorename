@@ -11,7 +11,7 @@ setup(
 	keywords = 'audio',
 	url = 'https://github.com/Josef-Friedrich/audiorename',
 	install_requires = [
-		'phrydy', 'tmep',
+		'phrydy', 'tmep', 'ansicolor',
 	],
 	scripts = ['bin/audiorenamer'],
 	classifiers = [
