@@ -1,8 +1,8 @@
 import unittest
 import audiorename
 
-class TestCommandlineInterface(unittest.TestCase):
 
+class TestCommandlineInterface(unittest.TestCase):
     def test_help_short(self):
         with self.assertRaises(SystemExit) as cm:
             audiorename.execute(['-h'])
@@ -20,6 +20,7 @@ class TestCommandlineInterface(unittest.TestCase):
             audiorename.execute()
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '2')
+
 
 if __name__ == '__main__':
     unittest.main()
