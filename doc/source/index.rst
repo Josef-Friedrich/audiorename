@@ -1,10 +1,12 @@
 Welcome to audiorename's documentation!
-================================
+=======================================
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
+
+   modules
 
 
 

@@ -6,7 +6,7 @@ import textwrap
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     description=textwrap.dedent('''\
-Python script to rename audio files from metadata tags.
+Rename audio files from metadata tags.
 
 Metadata fields:
 
