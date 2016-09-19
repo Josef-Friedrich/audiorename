@@ -1,8 +1,10 @@
+import sphinx_rtd_theme
+html_theme = 'sphinx_rtd_theme'
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
 ]
 templates_path = ['_templates']
 source_suffix = '.rst'
@@ -18,7 +20,6 @@ language = None
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
 todo_include_todos = False
-html_theme = 'alabaster'
 html_static_path = []
 htmlhelp_basename = 'audiorenamedoc'
 
