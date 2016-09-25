@@ -11,7 +11,7 @@ from phrydy import as_string
 from tmep import Functions
 from tmep import Template
 
-from meta import Meta
+from audiorename.meta import Meta
 
 
 class Rename(object):

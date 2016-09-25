@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 
-from rename import Rename
-from args import parser
+from audiorename.rename import Rename
+from audiorename.args import parser
 
 
 def do_rename(path, root_path='', args=None):
