@@ -6,7 +6,7 @@ import textwrap
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     description=textwrap.dedent('''\
-Python script to rename audio files from metadata tags.
+Rename audio files from metadata tags.
 
 Metadata fields:
 
@@ -87,56 +87,6 @@ Metadata fields:
     - mb_releasegroupid
     - acoustid_fingerprint
     - acoustid_id
-
-
-    Template Functions
-
-    - %lower{text}:         Convert “text” to lowercase.
-    - %upper{text}:         Convert “text” to UPPERCASE.
-    - %title{text}:         Convert “text” to Title Case.
-    - %left{text,n}:        Return the first “n” characters of “text”.
-    - %right{text,n}:       Return the last “n” characters of “text”.
-    - %shorten{text,n}:     Shorten “text” on word boundarys.
-    - %if{condition,text} or %if{condition,truetext,falsetext}:
-                            If condition is nonempty (or nonzero,
-                            if it’s a number), then returns the
-                            second argument. Otherwise, returns the
-                            third argument if specified (or nothing
-                            if falsetext is left off).
-    - %delchars{text,chars}:
-                            Delete every single character of “chars“
-                            in “text”.
-    - %deldupchars{text,chars}:
-                            Search for duplicate characters and
-                            replace with only one occurrance of
-                            this characters.
-    - %replchars{text,chars,replace}
-    - %sanitize{text}:      Delete in most file systems not allowed
-                            characters
-    - %asciify{text}:       Convert non-ASCII characters to their
-                            ASCII equivalents. For example, “café”
-                            becomes “cafe”. Uses the mapping
-                            provided by the unidecode module.
-    - %time{date_time,format,curformat}:
-                            Return the date and time in any format
-                            accepted by strftime. For example, to
-                            get the year some music was added to
-                            your library, use %time{$added,%Y}.
-    - %first{text}:         Returns the first item, separated by ; .
-                            You can use %first{text,count,skip},
-                            where count is the number of items
-                            (default 1) and skip is number to skip
-                            (default 0). You can also use
-                            %first{text,count,skip,sep,join} where
-                            sep is the separator, like ; or / and
-                            join is the text to concatenate the
-                            items.
-    - %ifdef{field}, %ifdef{field,truetext} or
-      %ifdef{field,truetext,falsetext}:
-                            If field exists, then return truetext or
-                            field (default). Otherwise, returns
-                            falsetext. The field should be entered
-                            without $.
 
     '''))
 
