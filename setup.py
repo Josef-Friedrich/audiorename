@@ -20,6 +20,7 @@ setup(
         'phrydy',
         'tmep',
         'ansicolor',
+        'six',
     ],
     scripts=['bin/audiorenamer'],
     long_description=read('README.rst'),
