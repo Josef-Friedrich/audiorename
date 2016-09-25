@@ -1,11 +1,24 @@
 import unittest
 import audiorename
 import six
+import os
+import tempfile
+import shutil
 import sys
 if six.PY2:
     from cStringIO import StringIO
 else:
     from io import StringIO
+
+
+def tmp_file():
+    orig = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), 'test.mp3')
+    tmp_dir = tempfile.mkdtemp()
+    tmp = os.path.join(tmp_dir, 'test.mp3')
+    shutil.copyfile(orig, tmp)
+    return tmp
+
 
 class Capturing(list):
     def __init__(self, channel='out'):
@@ -27,7 +40,9 @@ class Capturing(list):
         elif self.channel == 'err':
             sys.stderr = self._pipe
 
+
 class TestCommandlineInterface(unittest.TestCase):
+
     def test_help_short(self):
         with self.assertRaises(SystemExit) as cm:
             audiorename.execute(['-h'])
@@ -46,6 +61,11 @@ class TestCommandlineInterface(unittest.TestCase):
                 audiorename.execute()
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '2')
+
+class TestBasicRename(unittest.TestCase):
+
+    def test_rename(self):
+        audiorename.execute([tmp_file()])
 
 
 if __name__ == '__main__':

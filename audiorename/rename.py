@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
+import six
 
 from ansicolor import cyan
 from ansicolor import green
 from ansicolor import red
 from ansicolor import yellow
+
 
 from phrydy import MediaFile
 from phrydy import as_string
@@ -48,7 +50,11 @@ class Rename(object):
         new = self.postTemplate(new)
         new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
         self.new_path = os.path.join(self.base_dir, new)
-        self.message = red(self.old_path.decode('utf-8')) + '\n  -> ' + green(
+        if six.PY2:
+            old_path = self.old_path.decode('utf-8')
+        else:
+            old_path = self.old_path
+        self.message = red(old_path) + '\n  -> ' + green(
             self.new_path) + '\n'
 
     def postTemplate(self, text):

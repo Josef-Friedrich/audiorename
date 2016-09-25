@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from phrydy import MediaFile
 from tmep import Functions
+import six
 
 
 class Meta(object):
@@ -14,10 +15,16 @@ class Meta(object):
         for key in MediaFile.readable_fields():
             value = getattr(self.media_file, key)
             if key != 'art':
-                if not value:
-                    value = ''
-                elif isinstance(value, str) or isinstance(value, unicode):
-                    value = Functions.tmpl_sanitize(value)
+                if six.PY2:
+                    if not value:
+                        value = ''
+                    elif isinstance(value, str) or isinstance(value, unicode):
+                        value = Functions.tmpl_sanitize(value)
+                else:
+                    if not value:
+                        value = ''
+                    elif isinstance(value, bytes) or isinstance(value, str):
+                        value = Functions.tmpl_sanitize(value)
                 self.m[key] = value
         self.discTrack()
         self.artistSafe()
