@@ -1,9 +1,19 @@
 branches:
-  except:
-    - donttestme
+    except:
+        - donttestme
+
 language: python
-python:
-  - "2.7"
+
+matrix:
+    include:
+        - python: 3.5
+          env: TOXENV=py35
+        - python: 2.7
+          env: TOXENV=py27
+        - python: 2.7
+          env: TOXENV=docs
+
 install:
-  - pip install .
-script: python test.py
+    - pip install tox
+
+script: tox
