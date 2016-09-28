@@ -137,7 +137,6 @@ class Rename(object):
         self.generateFilename()
         print('Rename: ' + self.message)
         self.createDir(self.new_path)
-        print(self.new_path)
         shutil.move(self.old_path, self.new_path)
 
     def copy(self):
