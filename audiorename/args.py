@@ -97,20 +97,20 @@ parser.add_argument(
     '-f',
     '--format',
     help='A format string',
-    default='$artist_initial/\
-    $artistsafe_sort/\
-    %shorten{${album},32}%ifdef{year_safe,_${year_safe}}/\
-    ${disctrack}_%shorten{$title,32}'
+    default='$artist_initial/' +
+        '$artistsafe_sort/' +
+        '%shorten{${album},32}%ifdef{year_safe,_${year_safe}}/' +
+        '${disctrack}_%shorten{$title,32}'
 )
 
 parser.add_argument(
     '-c',
     '--compilation',
     help='Format string for compilations',
-    default='_compilations/\
-    $album_initial/\
-    $album%ifdef{year_safe,_${year_safe}}/\
-    ${disctrack}_%shorten{$title,32}'
+    default='_compilations/' +
+        '$album_initial/' +
+        '$album%ifdef{year_safe,_${year_safe}}/' +
+        '${disctrack}_%shorten{$title,32}'
 )
 
 parser.add_argument(

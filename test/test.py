@@ -11,11 +11,11 @@ else:
     from io import StringIO
 
 
-def tmp_file():
+def tmp_file(test_file):
     orig = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), 'test.mp3')
+        os.path.dirname(os.path.abspath(__file__)), test_file)
     tmp_dir = tempfile.mkdtemp()
-    tmp = os.path.join(tmp_dir, 'test.mp3')
+    tmp = os.path.join(tmp_dir, test_file)
     shutil.copyfile(orig, tmp)
     return tmp
 
@@ -45,13 +45,15 @@ class TestCommandlineInterface(unittest.TestCase):
 
     def test_help_short(self):
         with self.assertRaises(SystemExit) as cm:
-            audiorename.execute(['-h'])
+            with Capturing():
+                audiorename.execute(['-h'])
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '0')
 
     def test_help_long(self):
         with self.assertRaises(SystemExit) as cm:
-            audiorename.execute(['--help'])
+            with Capturing():
+                audiorename.execute(['--help'])
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '0')
 
@@ -64,8 +66,16 @@ class TestCommandlineInterface(unittest.TestCase):
 
 class TestBasicRename(unittest.TestCase):
 
+    def setUp(self):
+        audiorename.execute([tmp_file('album.mp3')])
+        audiorename.execute([tmp_file('compilation.mp3')])
+
+        self.cwd = os.getcwd()
+
     def test_rename(self):
-        audiorename.execute([tmp_file()])
+        self.assertTrue(os.path.isfile(self.cwd + '/t/the album artist/the album_2001/4-02_full.mp3'))
+        self.assertTrue(os.path.isfile(self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'))
+
 
 
 if __name__ == '__main__':

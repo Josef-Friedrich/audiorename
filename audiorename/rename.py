@@ -6,7 +6,7 @@ from ansicolor import cyan
 from ansicolor import green
 from ansicolor import red
 from ansicolor import yellow
-
+import shutil
 
 from phrydy import MediaFile
 from phrydy import as_string
@@ -137,12 +137,12 @@ class Rename(object):
         self.generateFilename()
         print('Rename: ' + self.message)
         self.createDir(self.new_path)
-        os.rename(self.old_path, self.new_path)
+        print(self.new_path)
+        shutil.move(self.old_path, self.new_path)
 
     def copy(self):
         self.generateFilename()
         print('Copy: ' + self.message)
-        import shutil
         self.createDir(self.new_path)
         shutil.copy2(self.old_path, self.new_path)
 
