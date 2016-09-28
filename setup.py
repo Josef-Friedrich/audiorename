@@ -8,7 +8,7 @@ def read(fname):
 
 setup(
     name='audiorename',
-    version='0.0.5',
+    version='0.0.6',
     author='Josef Friedrich',
     author_email='josef@friedrich.rocks',
     description=('Rename audio files from metadata tags.'),
