@@ -67,14 +67,36 @@ class TestCommandlineInterface(unittest.TestCase):
 class TestBasicRename(unittest.TestCase):
 
     def setUp(self):
-        audiorename.execute([tmp_file('album.mp3')])
-        audiorename.execute([tmp_file('compilation.mp3')])
+        self.tmp_album = tmp_file('album.mp3')
+        audiorename.execute([self.tmp_album])
+        self.tmp_compilation = tmp_file('compilation.mp3')
+        audiorename.execute([self.tmp_compilation])
         self.cwd = os.getcwd()
 
     def test_rename_album(self):
+        self.assertFalse(os.path.isfile(self.tmp_album))
         self.assertTrue(os.path.isfile(self.cwd + '/t/the album artist/the album_2001/4-02_full.mp3'))
 
     def test_rename_compilation(self):
+        self.assertFalse(os.path.isfile(self.tmp_compilation))
+        self.assertTrue(os.path.isfile(self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'))
+
+
+class TestBasicCopy(unittest.TestCase):
+
+    def setUp(self):
+        self.tmp_album = tmp_file('album.mp3')
+        audiorename.execute(['--copy', self.tmp_album])
+        self.tmp_compilation = tmp_file('compilation.mp3')
+        audiorename.execute(['--copy', self.tmp_compilation])
+        self.cwd = os.getcwd()
+
+    def test_rename_album(self):
+        self.assertTrue(os.path.isfile(self.tmp_album))
+        self.assertTrue(os.path.isfile(self.cwd + '/t/the album artist/the album_2001/4-02_full.mp3'))
+
+    def test_rename_compilation(self):
+        self.assertTrue(os.path.isfile(self.tmp_compilation))
         self.assertTrue(os.path.isfile(self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'))
 
 
