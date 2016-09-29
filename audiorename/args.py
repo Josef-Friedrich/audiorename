@@ -127,12 +127,6 @@ parser.add_argument(
     action='store_true')
 
 parser.add_argument(
-    '-D',
-    '--debug',
-    help='Show special debug informations: meta, artist, track, year',
-    default=False)
-
-parser.add_argument(
     '-e', '--extensions', help='Extensions to rename', default='mp3')
 
 parser.add_argument('-b', '--base-dir', help='Base directory', default='')

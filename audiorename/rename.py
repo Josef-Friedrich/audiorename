@@ -83,56 +83,6 @@ class Rename(object):
         self.generateFilename()
         print('Dry run: ' + self.message)
 
-    def debug(self, option):
-        def p(tag):
-            print(cyan(tag) + u': ' + as_string(self.meta[tag]))
-
-        print('\n' + green('- Debug: ') + red(option, reverse=True) + green(
-            ' --------------------------------'))
-        print(yellow(self.old_file))
-
-        if option == 'artist':
-
-            p('artist')
-            p('albumartist')
-            p('artistsafe')
-            p('artist_sort')
-            p('artist_credit')
-            p('albumartist_credit')
-            p('albumartist_sort')
-            p('artistsafe_sort')
-
-        elif option == 'meta':
-            for key, value in self.meta.iteritems():
-                if key != 'art' and value:
-                    print(cyan(as_string(key)) + ': ' + as_string(value))
-
-        elif option == 'mediafile':
-            m = MediaFile(self.old_file)
-            for key in MediaFile.readable_fields():
-                value = getattr(m, key)
-                if key != 'art':
-                    print(cyan(key) + ': ' + as_string(value))
-
-        elif option == 'mutagen':
-            import mutagen
-            m = mutagen.File(self.old_file, easy=True)
-            print(m)
-            for key, value in m.iteritems():
-                print(cyan(key) + ': ' + value[0])
-
-        elif option == 'track':
-            p('track')
-            p('tracktotal')
-            p('disc')
-            p('disctotal')
-            p('disctrack')
-
-        elif option == 'year':
-            p('original_year')
-            p('year')
-            p('date')
-
     def rename(self):
         self.generateFilename()
         print('Rename: ' + self.message)
@@ -151,8 +101,6 @@ class Rename(object):
         else:
             if self.args.dry_run:
                 self.dryRun()
-            elif self.args.debug:
-                self.debug(self.args.debug)
             elif self.args.copy:
                 self.copy()
             else:
