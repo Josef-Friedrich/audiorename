@@ -84,12 +84,14 @@ class Rename(object):
         print('Dry run: ' + self.message)
 
     def rename(self):
+        """Rename audio files"""
         self.generateFilename()
         print('Rename: ' + self.message)
         self.createDir(self.new_path)
         shutil.move(self.old_path, self.new_path)
 
     def copy(self):
+        """Copy audio files to new path."""
         self.generateFilename()
         print('Copy: ' + self.message)
         self.createDir(self.new_path)
