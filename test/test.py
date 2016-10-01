@@ -69,34 +69,41 @@ class TestBasicRename(unittest.TestCase):
 
     def setUp(self):
         self.tmp_album = tmp_file('album.mp3')
-        audiorename.execute([self.tmp_album])
+        with Capturing():
+            audiorename.execute([self.tmp_album])
         self.tmp_compilation = tmp_file('compilation.mp3')
-        audiorename.execute([self.tmp_compilation])
+        with Capturing():
+            audiorename.execute([self.tmp_compilation])
         self.cwd = os.getcwd()
 
-    def test_rename_album(self):
+    def test_album(self):
         self.assertFalse(os.path.isfile(self.tmp_album))
         self.assertTrue(os.path.isfile(
             self.cwd + '/t/the album artist/the album_2001/4-02_full.mp3'
         ))
 
-    def test_rename_compilation(self):
+    def test_compilation(self):
         self.assertFalse(os.path.isfile(self.tmp_compilation))
         self.assertTrue(os.path.isfile(
             self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'
         ))
 
+    def tearDown(self):
+        shutil.rmtree(self.cwd + '/_compilations/')
+        shutil.rmtree(self.cwd + '/t/')
 
 class TestBasicCopy(unittest.TestCase):
 
     def setUp(self):
         self.tmp_album = tmp_file('album.mp3')
-        audiorename.execute(['--copy', self.tmp_album])
+        with Capturing():
+            audiorename.execute(['--copy', self.tmp_album])
         self.tmp_compilation = tmp_file('compilation.mp3')
-        audiorename.execute(['--copy', self.tmp_compilation])
+        with Capturing():
+            audiorename.execute(['--copy', self.tmp_compilation])
         self.cwd = os.getcwd()
 
-    def test_rename_album(self):
+    def test_album(self):
         self.assertTrue(os.path.isfile(self.tmp_album))
         self.assertTrue(
             os.path.isfile(
@@ -105,9 +112,51 @@ class TestBasicCopy(unittest.TestCase):
             )
         )
 
-    def test_rename_compilation(self):
+    def test_compilation(self):
         self.assertTrue(os.path.isfile(self.tmp_compilation))
         self.assertTrue(
+            os.path.isfile(
+                self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'
+            )
+        )
+
+    def tearDown(self):
+        shutil.rmtree(self.cwd + '/_compilations/')
+        shutil.rmtree(self.cwd + '/t/')
+
+
+class TestDryRun(unittest.TestCase):
+
+    def setUp(self):
+        self.tmp_album = tmp_file('album.mp3')
+        with Capturing() as self.output_album:
+            audiorename.execute(['--dry-run', self.tmp_album])
+
+        self.tmp_compilation = tmp_file('compilation.mp3')
+        with Capturing() as self.output_compilation:
+            audiorename.execute(['--dry-run', self.tmp_compilation])
+        self.cwd = os.getcwd()
+
+    def test_output_album(self):
+        self.assertTrue(any('Dry run' in s for s in self.output_album))
+        self.assertTrue(any(self.tmp_album in s for s in self.output_album))
+
+    def test_output_compilation(self):
+        self.assertTrue(any('Dry run' in s for s in self.output_compilation))
+        self.assertTrue(any(self.tmp_compilation in s for s in self.output_compilation))
+
+    def test_album(self):
+        self.assertTrue(os.path.isfile(self.tmp_album))
+        self.assertFalse(
+            os.path.isfile(
+                self.cwd +
+                '/t/the album artist/the album_2001/4-02_full.mp3'
+            )
+        )
+
+    def test_compilation(self):
+        self.assertTrue(os.path.isfile(self.tmp_compilation))
+        self.assertFalse(
             os.path.isfile(
                 self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'
             )
@@ -117,16 +166,18 @@ class TestBasicCopy(unittest.TestCase):
 class TestCustomFormats(unittest.TestCase):
 
     def setUp(self):
-        audiorename.execute([
-            '--format',
-            'tmp/$title - $artist',
-            tmp_file('album.mp3')
-        ])
-        audiorename.execute([
-            '--compilation',
-            'tmp/comp_$title - $artist',
-            tmp_file('compilation.mp3')
-        ])
+        with Capturing():
+            audiorename.execute([
+                '--format',
+                'tmp/$title - $artist',
+                tmp_file('album.mp3')
+            ])
+        with Capturing():
+            audiorename.execute([
+                '--compilation',
+                'tmp/comp_$title - $artist',
+                tmp_file('compilation.mp3')
+            ])
         self.cwd = os.getcwd()
 
     def test_format(self):
@@ -138,6 +189,9 @@ class TestCustomFormats(unittest.TestCase):
         self.assertTrue(os.path.isfile(
             self.cwd + '/tmp/comp_full - the artist.mp3'
         ))
+
+    def tearDown(self):
+        shutil.rmtree(self.cwd + '/tmp/')
 
 
 if __name__ == '__main__':
