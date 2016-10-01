@@ -8,9 +8,14 @@ parser = argparse.ArgumentParser(
     description=textwrap.dedent('''\
 Rename audio files from metadata tags.
 
+How to specify the target directory?
 
-
-    '''))
+1. By the default the audio files are moved or renamed to the parent
+   working directory.
+2. Use the option ``-t <folder>`` or ``--target-dir <folder>`` to specifiy
+   a target directory.
+3. Use the option ``-a`` or ``--source-as-target-dir`` to copy or rename
+   your audio files within the source directory.'''))
 
 parser.add_argument(
     'folder',
@@ -60,9 +65,9 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    '-b',
-    '--base-dir',
-    help='Base directory',
+    '-t',
+    '--target-dir',
+    help='Target directory',
     default=''
 )
 
@@ -74,8 +79,8 @@ parser.add_argument(
 
 parser.add_argument(
     '-a',
-    '--folder-as-base-dir',
-    help='Use specified folder as base directory',
+    '--source-as-target-dir',
+    help='Use specified source folder as target directory',
     action='store_true')
 
 parser.add_argument(

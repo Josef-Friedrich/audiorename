@@ -11,6 +11,10 @@ else:
     from io import StringIO
 
 
+default_album = '/t/the album artist/the album_2001/4-02_full.mp3'
+default_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
+
+
 def tmp_file(test_file):
     orig = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), test_file)
@@ -18,6 +22,14 @@ def tmp_file(test_file):
     tmp = os.path.join(tmp_dir, test_file)
     shutil.copyfile(orig, tmp)
     return tmp
+
+
+def is_file(path):
+    """Check if file exists
+
+    ":params list path: Path of the file as a list"
+    """
+    return os.path.isfile(path)
 
 
 class Capturing(list):
@@ -78,19 +90,20 @@ class TestBasicRename(unittest.TestCase):
 
     def test_album(self):
         self.assertFalse(os.path.isfile(self.tmp_album))
-        self.assertTrue(os.path.isfile(
-            self.cwd + '/t/the album artist/the album_2001/4-02_full.mp3'
+        self.assertTrue(is_file(
+            self.cwd + default_album
         ))
 
     def test_compilation(self):
         self.assertFalse(os.path.isfile(self.tmp_compilation))
-        self.assertTrue(os.path.isfile(
-            self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'
+        self.assertTrue(is_file(
+            self.cwd + default_compilation
         ))
 
     def tearDown(self):
         shutil.rmtree(self.cwd + '/_compilations/')
         shutil.rmtree(self.cwd + '/t/')
+
 
 class TestBasicCopy(unittest.TestCase):
 
@@ -104,11 +117,11 @@ class TestBasicCopy(unittest.TestCase):
         self.cwd = os.getcwd()
 
     def test_album(self):
-        self.assertTrue(os.path.isfile(self.tmp_album))
+        self.assertTrue(is_file(self.tmp_album))
         self.assertTrue(
             os.path.isfile(
                 self.cwd +
-                '/t/the album artist/the album_2001/4-02_full.mp3'
+                default_album
             )
         )
 
@@ -116,7 +129,7 @@ class TestBasicCopy(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.tmp_compilation))
         self.assertTrue(
             os.path.isfile(
-                self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'
+                self.cwd + default_compilation
             )
         )
 
@@ -143,10 +156,12 @@ class TestDryRun(unittest.TestCase):
 
     def test_output_compilation(self):
         self.assertTrue(any('Dry run' in s for s in self.output_compilation))
-        self.assertTrue(any(self.tmp_compilation in s for s in self.output_compilation))
+        self.assertTrue(
+            any(self.tmp_compilation in s for s in self.output_compilation)
+        )
 
     def test_album(self):
-        self.assertTrue(os.path.isfile(self.tmp_album))
+        self.assertTrue(is_file(self.tmp_album))
         self.assertFalse(
             os.path.isfile(
                 self.cwd +
@@ -155,12 +170,72 @@ class TestDryRun(unittest.TestCase):
         )
 
     def test_compilation(self):
-        self.assertTrue(os.path.isfile(self.tmp_compilation))
+        self.assertTrue(is_file(self.tmp_compilation))
         self.assertFalse(
             os.path.isfile(
                 self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'
             )
         )
+
+
+class TestTarget(unittest.TestCase):
+
+    def setUp(self):
+        self.tmp_dir = tempfile.mkdtemp()
+        self.tmp_album = tmp_file('album.mp3')
+        with Capturing():
+            audiorename.execute([
+                '--target-dir',
+                self.tmp_dir,
+                '-f',
+                'album',
+                self.tmp_album
+            ])
+
+        self.tmp_compilation = tmp_file('compilation.mp3')
+        with Capturing():
+            audiorename.execute([
+                '--target-dir',
+                self.tmp_dir,
+                '-c',
+                'compilation',
+                self.tmp_compilation
+            ])
+
+    def test_album(self):
+        self.assertTrue(is_file(self.tmp_dir + '/album.mp3'))
+
+    def test_compilation(self):
+        self.assertTrue(is_file(self.tmp_dir + '/compilation.mp3'))
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp_dir)
+
+
+class TestSourceAsTarget(unittest.TestCase):
+
+    def setUp(self):
+        self.tmp_album = tmp_file('album.mp3')
+        self.dir_album = os.path.dirname(self.tmp_album)
+        with Capturing():
+            audiorename.execute([
+                '--source-as-target-dir',
+                '-f',
+                'a',
+                self.tmp_album
+            ])
+
+        self.tmp_compilation = tmp_file('compilation.mp3')
+        with Capturing():
+            audiorename.execute([
+                '--source-as-target-dir',
+                '-c',
+                'c',
+                self.tmp_compilation
+            ])
+
+    def test_album(self):
+        self.assertTrue(is_file(self.dir_album + '/a.mp3'))
 
 
 class TestCustomFormats(unittest.TestCase):

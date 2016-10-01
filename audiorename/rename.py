@@ -23,13 +23,16 @@ class Rename(object):
         else:
             self.old_file = file
 
-        if self.args.base_dir:
-            self.base_dir = args.base_dir
+        if self.args.target_dir:
+            self.target_dir = args.target_dir
         else:
-            self.base_dir = os.getcwd()
+            self.target_dir = os.getcwd()
 
-        if self.args.folder_as_base_dir:
-            self.base_dir = os.path.realpath(root_path)
+        if self.args.source_as_target_dir:
+            if not root_path:
+                self.target_dir = os.path.dirname(self.old_file)
+            else:
+                self.target_dir = os.path.realpath(root_path)
 
         self.old_path = os.path.realpath(self.old_file)
         self.extension = self.old_file.split('.')[-1]
@@ -46,7 +49,7 @@ class Rename(object):
         new = t.substitute(self.meta, f.functions())
         new = self.postTemplate(new)
         new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
-        self.new_path = os.path.join(self.base_dir, new)
+        self.new_path = os.path.join(self.target_dir, new)
         if six.PY2:
             old_path = self.old_path.decode('utf-8')
         else:
