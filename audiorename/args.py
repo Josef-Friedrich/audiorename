@@ -91,7 +91,9 @@ Metadata fields:
     '''))
 
 parser.add_argument(
-    'folder', help='A folder containing audio files or a audio file')
+    'folder',
+    help='A folder containing audio files or a audio file'
+)
 
 parser.add_argument(
     '-f',
@@ -123,13 +125,22 @@ parser.add_argument(
 parser.add_argument(
     '-d',
     '--dry-run',
-    help='A format string for singeltons',
+    help='Don’t rename or copy the audio files.',
     action='store_true')
 
 parser.add_argument(
-    '-e', '--extensions', help='Extensions to rename', default='mp3')
+    '-e',
+    '--extensions',
+    help='Extensions to rename',
+    default='mp3'
+)
 
-parser.add_argument('-b', '--base-dir', help='Base directory', default='')
+parser.add_argument(
+    '-b',
+    '--base-dir',
+    help='Base directory',
+    default=''
+)
 
 parser.add_argument(
     '-s',
