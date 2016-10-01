@@ -64,6 +64,7 @@ class TestCommandlineInterface(unittest.TestCase):
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '2')
 
+
 class TestBasicRename(unittest.TestCase):
 
     def setUp(self):
@@ -75,11 +76,15 @@ class TestBasicRename(unittest.TestCase):
 
     def test_rename_album(self):
         self.assertFalse(os.path.isfile(self.tmp_album))
-        self.assertTrue(os.path.isfile(self.cwd + '/t/the album artist/the album_2001/4-02_full.mp3'))
+        self.assertTrue(os.path.isfile(
+            self.cwd + '/t/the album artist/the album_2001/4-02_full.mp3'
+        ))
 
     def test_rename_compilation(self):
         self.assertFalse(os.path.isfile(self.tmp_compilation))
-        self.assertTrue(os.path.isfile(self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'))
+        self.assertTrue(os.path.isfile(
+            self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'
+        ))
 
 
 class TestBasicCopy(unittest.TestCase):
@@ -93,25 +98,46 @@ class TestBasicCopy(unittest.TestCase):
 
     def test_rename_album(self):
         self.assertTrue(os.path.isfile(self.tmp_album))
-        self.assertTrue(os.path.isfile(self.cwd + '/t/the album artist/the album_2001/4-02_full.mp3'))
+        self.assertTrue(
+            os.path.isfile(
+                self.cwd +
+                '/t/the album artist/the album_2001/4-02_full.mp3'
+            )
+        )
 
     def test_rename_compilation(self):
         self.assertTrue(os.path.isfile(self.tmp_compilation))
-        self.assertTrue(os.path.isfile(self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'))
+        self.assertTrue(
+            os.path.isfile(
+                self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'
+            )
+        )
 
 
 class TestCustomFormats(unittest.TestCase):
 
     def setUp(self):
-        audiorename.execute(['--format', 'tmp/$title - $artist', tmp_file('album.mp3')])
-        audiorename.execute(['--compilation', 'tmp/comp_$title - $artist', tmp_file('compilation.mp3')])
+        audiorename.execute([
+            '--format',
+            'tmp/$title - $artist',
+            tmp_file('album.mp3')
+        ])
+        audiorename.execute([
+            '--compilation',
+            'tmp/comp_$title - $artist',
+            tmp_file('compilation.mp3')
+        ])
         self.cwd = os.getcwd()
 
     def test_format(self):
-        self.assertTrue(os.path.isfile(self.cwd + '/tmp/full - the artist.mp3'))
+        self.assertTrue(os.path.isfile(
+            self.cwd + '/tmp/full - the artist.mp3'
+        ))
 
     def test_compilation(self):
-        self.assertTrue(os.path.isfile(self.cwd + '/tmp/comp_full - the artist.mp3'))
+        self.assertTrue(os.path.isfile(
+            self.cwd + '/tmp/comp_full - the artist.mp3'
+        ))
 
 
 if __name__ == '__main__':

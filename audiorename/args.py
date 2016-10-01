@@ -100,9 +100,9 @@ parser.add_argument(
     '--format',
     help='A format string',
     default='$artist_initial/' +
-        '$artistsafe_sort/' +
-        '%shorten{${album},32}%ifdef{year_safe,_${year_safe}}/' +
-        '${disctrack}_%shorten{$title,32}'
+    '$artistsafe_sort/' +
+    '%shorten{${album},32}%ifdef{year_safe,_${year_safe}}/' +
+    '${disctrack}_%shorten{$title,32}'
 )
 
 parser.add_argument(
@@ -110,9 +110,9 @@ parser.add_argument(
     '--compilation',
     help='Format string for compilations',
     default='_compilations/' +
-        '$album_initial/' +
-        '$album%ifdef{year_safe,_${year_safe}}/' +
-        '${disctrack}_%shorten{$title,32}'
+    '$album_initial/' +
+    '$album%ifdef{year_safe,_${year_safe}}/' +
+    '${disctrack}_%shorten{$title,32}'
 )
 
 parser.add_argument(
@@ -120,13 +120,15 @@ parser.add_argument(
     '--shell-friendly',
     help='Rename audio files “shell friendly”, this means without \
     whitespaces, parentheses etc.',
-    action='store_true')
+    action='store_true'
+)
 
 parser.add_argument(
     '-d',
     '--dry-run',
     help='Don’t rename or copy the audio files.',
-    action='store_true')
+    action='store_true'
+)
 
 parser.add_argument(
     '-e',

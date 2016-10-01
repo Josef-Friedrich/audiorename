@@ -2,13 +2,10 @@
 import os
 import six
 
-from ansicolor import cyan
 from ansicolor import green
 from ansicolor import red
-from ansicolor import yellow
 import shutil
 
-from phrydy import MediaFile
 from phrydy import as_string
 from tmep import Functions
 from tmep import Template
