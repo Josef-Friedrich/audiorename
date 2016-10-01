@@ -5,91 +5,21 @@
     :target: https://travis-ci.org/Josef-Friedrich/audiorename
 
 
-usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-S] [-d] [-D DEBUG]
-                    [-e EXTENSIONS] [-b BASE_DIR] [-s SKIP_IF_EMPTY] [-a] [-C]
+usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-S] [-d]
+                    [-e EXTENSIONS] [-t TARGET_DIR] [-s SKIP_IF_EMPTY] [-a]
+                    [-C]
                     folder
 
 Rename audio files from metadata tags.
 
-Metadata fields:
+How to specify the target directory?
 
-    Ordinary metadata:
-
-    - title
-    - artist
-    - artist_sort:         The “sort name” of the track artist
-                           (e.g., “Beatles, The” or “White, Jack”).
-    - artist_credit:       The track-specific artist credit name,
-                           which may be a variation of the artist’s
-                           “canonical” name.
-    - artistsafe:          The first available value of this metatag
-                           order: “albumartist” -> “artist” ->
-                           “albumartist_credit” -> “artist_credit”
-    - artistsafe_sort:     The first available value of this metatag
-                           order: “albumartist_sort” ->
-                           “artist_sort” -> “artistsafe”
-    - artist_initial:      First character in lowercase of
-                            “artistsafe_sort”
-    - album
-    - albumartist:         The artist for the entire album, which
-                           may be different from the artists for the
-                           individual tracks.
-    - albumartist_sort
-    - albumartist_credit
-    - album_initial:       First character in lowercase of “album”.
-    - genre
-    - composer
-    - grouping
-    - year, month, day:    The release date of the specific release.
-    - original_year, original_month, original_day:
-                           The release date of the original version
-                           of the album.
-    - year_safe
-    - track
-    - tracktotal
-    - disc
-    - disctotal
-    - disctrack:           Combination of disc and track in the
-                           format: disk-track, e.g. 1-01, 3-099
-    - lyrics
-    - comments
-    - bpm
-    - comp:                 Compilation flag.
-    - albumtype:            The MusicBrainz album type; the
-                            MusicBrainz wiki has a list of type
-                            names.
-    - label
-    - asin
-    - catalognum
-    - script
-    - language
-    - country
-    - albumstatus
-    - media
-    - albumdisambig
-    - disctitle
-    - encoder
-
-    Audio information:
-
-    - length                (in seconds)
-    - bitrate               (in kilobits per second, with units:
-                            e.g., “192kbps”)
-    - format                (e.g., “MP3” or “FLAC”)
-    - channels
-    - bitdepth              (only available for some formats)
-    - samplerate            (in kilohertz, with units: e.g.,
-                            “48kHz”)
-
-    MusicBrainz and fingerprint information:
-
-    - mb_trackid
-    - mb_albumid
-    - mb_artistid
-    - mb_albumartistid
-    - mb_releasegroupid
-    - acoustid_fingerprint
-    - acoustid_id
+1. By the default the audio files are moved or renamed to the parent
+   working directory.
+2. Use the option ``-t <folder>`` or ``--target-dir <folder>`` to specifiy
+   a target directory.
+3. Use the option ``-a`` or ``--source-as-target-dir`` to copy or rename
+   your audio files within the source directory.
 
 positional arguments:
   folder                A folder containing audio files or a audio file
@@ -102,16 +32,13 @@ optional arguments:
                         Format string for compilations
   -S, --shell-friendly  Rename audio files “shell friendly”, this means
                         without whitespaces, parentheses etc.
-  -d, --dry-run         A format string for singeltons
-  -D DEBUG, --debug DEBUG
-                        Show special debug informations: meta, artist, track,
-                        year
+  -d, --dry-run         Don’t rename or copy the audio files.
   -e EXTENSIONS, --extensions EXTENSIONS
                         Extensions to rename
-  -b BASE_DIR, --base-dir BASE_DIR
-                        Base directory
+  -t TARGET_DIR, --target-dir TARGET_DIR
+                        Target directory
   -s SKIP_IF_EMPTY, --skip-if-empty SKIP_IF_EMPTY
                         Skip renaming of field is empty.
-  -a, --folder-as-base-dir
-                        Use specified folder as base directory
+  -a, --source-as-target-dir
+                        Use specified source folder as target directory
   -C, --copy            Copy files instead of rename / move.
