@@ -14,6 +14,8 @@ else:
 default_album = '/t/the album artist/the album_2001/4-02_full.mp3'
 default_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
 
+cwd = os.getcwd()
+
 
 def tmp_file(test_file):
     orig = os.path.join(
@@ -30,6 +32,9 @@ def is_file(path):
     ":params list path: Path of the file as a list"
     """
     return os.path.isfile(path)
+
+def has(list, search):
+    return any(search in string for string in list)
 
 
 class Capturing(list):
@@ -151,13 +156,13 @@ class TestDryRun(unittest.TestCase):
         self.cwd = os.getcwd()
 
     def test_output_album(self):
-        self.assertTrue(any('Dry run' in s for s in self.output_album))
-        self.assertTrue(any(self.tmp_album in s for s in self.output_album))
+        self.assertTrue(has(self.output_album, 'Dry run'))
+        self.assertTrue(has(self.output_album, self.tmp_album))
 
     def test_output_compilation(self):
-        self.assertTrue(any('Dry run' in s for s in self.output_compilation))
+        self.assertTrue(has(self.output_compilation, 'Dry run'))
         self.assertTrue(
-            any(self.tmp_compilation in s for s in self.output_compilation)
+            has(self.output_compilation, self.tmp_compilation)
         )
 
     def test_album(self):
@@ -267,6 +272,32 @@ class TestCustomFormats(unittest.TestCase):
 
     def tearDown(self):
         shutil.rmtree(self.cwd + '/tmp/')
+
+
+class TestSkipIfEmpty(unittest.TestCase):
+
+    def setUp(self):
+        with Capturing() as self.album:
+            audiorename.execute([
+                '--skip-if-empty',
+                'lol',
+                tmp_file('album.mp3')
+            ])
+        with Capturing() as self.compilation:
+            audiorename.execute([
+                '--skip-if-empty',
+                'album',
+                '-d',
+                '-c',
+                '/tmp/c',
+                tmp_file('compilation.mp3')
+            ])
+
+    def test_album(self):
+        self.assertTrue(has(self.album, 'no field'))
+
+    def test_compilation(self):
+        self.assertTrue(has(self.compilation, 'Dry run'))
 
 
 if __name__ == '__main__':

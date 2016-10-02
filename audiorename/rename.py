@@ -98,7 +98,8 @@ class Rename(object):
         shutil.copy2(self.old_path, self.new_path)
 
     def execute(self):
-        if self.args.skip_if_empty and not self.meta[self.args.skip_if_empty]:
+        skip = self.args.skip_if_empty
+        if skip and (not skip in self.meta or not self.meta[skip]):
             self.skipMessage()
         else:
             if self.args.dry_run:
