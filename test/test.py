@@ -1,4 +1,5 @@
 import unittest
+import re
 import audiorename
 import six
 import os
@@ -300,6 +301,21 @@ class TestSkipIfEmpty(unittest.TestCase):
 
     def test_compilation(self):
         self.assertTrue(has(self.compilation, 'Dry run'))
+
+
+class TestVersion(unittest.TestCase):
+
+    def test_version(self):
+        with self.assertRaises(SystemExit) as cm:
+            if six.PY2:
+                with Capturing('err') as output:
+                    audiorename.execute(['--version'])
+            else:
+                with Capturing() as output:
+                    audiorename.execute(['--version'])
+
+        result = re.search('[^ ]* [^ ]*', output[0])
+        self.assertTrue(result)
 
 
 if __name__ == '__main__':
