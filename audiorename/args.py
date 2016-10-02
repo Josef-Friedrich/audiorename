@@ -2,6 +2,8 @@
 
 import argparse
 import textwrap
+from ._version import get_versions
+
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -91,4 +93,11 @@ parser.add_argument(
     '--copy',
     help='Copy files instead of rename / move.',
     action='store_true'
+)
+
+parser.add_argument(
+    '-v',
+    '--version',
+    action='version',
+    version='%(prog)s {version}'.format(version=get_versions()['version'])
 )
