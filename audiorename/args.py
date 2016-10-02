@@ -75,16 +75,19 @@ parser.add_argument(
     '-s',
     '--skip-if-empty',
     help='Skip renaming of field is empty.',
-    default=False)
+    default=False
+)
 
 parser.add_argument(
     '-a',
     '--source-as-target-dir',
     help='Use specified source folder as target directory',
-    action='store_true')
+    action='store_true'
+)
 
 parser.add_argument(
     '-C',
     '--copy',
     help='Copy files instead of rename / move.',
-    action='store_true')
+    action='store_true'
+)
