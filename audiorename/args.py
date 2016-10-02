@@ -2,7 +2,6 @@
 
 import argparse
 import textwrap
-from phrydy import doc
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -16,7 +15,8 @@ How to specify the target directory?
 2. Use the option ``-t <folder>`` or ``--target-dir <folder>`` to specifiy
    a target directory.
 3. Use the option ``-a`` or ``--source-as-target-dir`` to copy or rename
-   your audio files within the source directory.''' + doc.get_doc()))
+   your audio files within the source directory.
+'''))
 
 parser.add_argument(
     'folder',
@@ -90,12 +90,5 @@ parser.add_argument(
     '-C',
     '--copy',
     help='Copy files instead of rename / move.',
-    action='store_true'
-)
-
-parser.add_argument(
-    '-v',
-    '--version',
-    help='Show version number.',
     action='store_true'
 )

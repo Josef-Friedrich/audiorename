@@ -18,10 +18,7 @@ def do_rename(path, root_path='', args=None):
 def execute(args=None):
     args = parser.parse_args(args)
 
-    if args.version:
-        print('Version: ' + __version__)
-
-    elif os.path.isdir(args.folder):
+    if os.path.isdir(args.folder):
         for root_path, subdirs, files in os.walk(args.folder):
             for file in files:
                 do_rename(file, root_path, args=args)
