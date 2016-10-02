@@ -99,7 +99,7 @@ class Rename(object):
 
     def execute(self):
         skip = self.args.skip_if_empty
-        if skip and (not skip in self.meta or not self.meta[skip]):
+        if skip and (skip not in self.meta or not self.meta[skip]):
             self.skipMessage()
         else:
             if self.args.dry_run:

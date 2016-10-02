@@ -11,8 +11,8 @@ else:
     from io import StringIO
 
 
-default_album = '/t/the album artist/the album_2001/4-02_full.mp3'
-default_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
+path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
+path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
 
 cwd = os.getcwd()
 
@@ -33,7 +33,13 @@ def is_file(path):
     """
     return os.path.isfile(path)
 
+
 def has(list, search):
+    """Check of a string is in list
+
+    :params list list: A list to search in.
+    :params str search: The string to search.
+    """
     return any(search in string for string in list)
 
 
@@ -91,23 +97,22 @@ class TestBasicRename(unittest.TestCase):
         self.tmp_compilation = tmp_file('compilation.mp3')
         with Capturing():
             audiorename.execute([self.tmp_compilation])
-        self.cwd = os.getcwd()
 
     def test_album(self):
         self.assertFalse(os.path.isfile(self.tmp_album))
         self.assertTrue(is_file(
-            self.cwd + default_album
+            cwd + path_album
         ))
 
     def test_compilation(self):
         self.assertFalse(os.path.isfile(self.tmp_compilation))
         self.assertTrue(is_file(
-            self.cwd + default_compilation
+            cwd + path_compilation
         ))
 
     def tearDown(self):
-        shutil.rmtree(self.cwd + '/_compilations/')
-        shutil.rmtree(self.cwd + '/t/')
+        shutil.rmtree(cwd + '/_compilations/')
+        shutil.rmtree(cwd + '/t/')
 
 
 class TestBasicCopy(unittest.TestCase):
@@ -119,14 +124,13 @@ class TestBasicCopy(unittest.TestCase):
         self.tmp_compilation = tmp_file('compilation.mp3')
         with Capturing():
             audiorename.execute(['--copy', self.tmp_compilation])
-        self.cwd = os.getcwd()
 
     def test_album(self):
         self.assertTrue(is_file(self.tmp_album))
         self.assertTrue(
             os.path.isfile(
-                self.cwd +
-                default_album
+                cwd +
+                path_album
             )
         )
 
@@ -134,13 +138,13 @@ class TestBasicCopy(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.tmp_compilation))
         self.assertTrue(
             os.path.isfile(
-                self.cwd + default_compilation
+                cwd + path_compilation
             )
         )
 
     def tearDown(self):
-        shutil.rmtree(self.cwd + '/_compilations/')
-        shutil.rmtree(self.cwd + '/t/')
+        shutil.rmtree(cwd + '/_compilations/')
+        shutil.rmtree(cwd + '/t/')
 
 
 class TestDryRun(unittest.TestCase):
@@ -153,7 +157,6 @@ class TestDryRun(unittest.TestCase):
         self.tmp_compilation = tmp_file('compilation.mp3')
         with Capturing() as self.output_compilation:
             audiorename.execute(['--dry-run', self.tmp_compilation])
-        self.cwd = os.getcwd()
 
     def test_output_album(self):
         self.assertTrue(has(self.output_album, 'Dry run'))
@@ -169,8 +172,8 @@ class TestDryRun(unittest.TestCase):
         self.assertTrue(is_file(self.tmp_album))
         self.assertFalse(
             os.path.isfile(
-                self.cwd +
-                '/t/the album artist/the album_2001/4-02_full.mp3'
+                cwd +
+                path_album
             )
         )
 
@@ -178,7 +181,7 @@ class TestDryRun(unittest.TestCase):
         self.assertTrue(is_file(self.tmp_compilation))
         self.assertFalse(
             os.path.isfile(
-                self.cwd + '/_compilations/t/the album_2001/4-02_full.mp3'
+                cwd + path_compilation
             )
         )
 
@@ -258,20 +261,19 @@ class TestCustomFormats(unittest.TestCase):
                 'tmp/comp_$title - $artist',
                 tmp_file('compilation.mp3')
             ])
-        self.cwd = os.getcwd()
 
     def test_format(self):
         self.assertTrue(os.path.isfile(
-            self.cwd + '/tmp/full - the artist.mp3'
+            cwd + '/tmp/full - the artist.mp3'
         ))
 
     def test_compilation(self):
         self.assertTrue(os.path.isfile(
-            self.cwd + '/tmp/comp_full - the artist.mp3'
+            cwd + '/tmp/comp_full - the artist.mp3'
         ))
 
     def tearDown(self):
-        shutil.rmtree(self.cwd + '/tmp/')
+        shutil.rmtree(cwd + '/tmp/')
 
 
 class TestSkipIfEmpty(unittest.TestCase):
