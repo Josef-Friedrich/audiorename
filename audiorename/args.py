@@ -2,12 +2,14 @@
 
 import argparse
 import textwrap
+from phrydy import doc as pdoc
 from ._version import get_versions
-
+from tmep import doc as tdoc
+td = tdoc.Doc()
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
-    description=textwrap.dedent('''\
+    description='''\
 Rename audio files from metadata tags.
 
 How to specify the target directory?
@@ -18,7 +20,21 @@ How to specify the target directory?
    a target directory.
 3. Use the option ``-a`` or ``--source-as-target-dir`` to copy or rename
    your audio files within the source directory.
-'''))
+
+Metadata fields
+---------------
+
+'''
++ pdoc.get_doc() +
+'''
+
+Functions
+---------
+
+'''
++ td.get()
+)
+
 
 parser.add_argument(
     'folder',
