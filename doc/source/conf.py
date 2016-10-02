@@ -1,4 +1,5 @@
 import sphinx_rtd_theme
+import audiorename
 html_theme = 'sphinx_rtd_theme'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
@@ -14,8 +15,8 @@ master_doc = 'index'
 project = u'audiorename'
 copyright = u'2016, Josef Friedrich'
 author = u'Josef Friedrich'
-version = u'0.0.7'
-release = u'0.0.7'
+version = audiorename.__version__
+release = audiorename.__version__
 language = None
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'

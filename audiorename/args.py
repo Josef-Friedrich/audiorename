@@ -91,3 +91,10 @@ parser.add_argument(
     help='Copy files instead of rename / move.',
     action='store_true'
 )
+
+parser.add_argument(
+    '-v',
+    '--version',
+    help='Show version number.',
+    action='store_true'
+)
