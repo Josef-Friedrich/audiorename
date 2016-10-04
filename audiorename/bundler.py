@@ -3,6 +3,11 @@
 import os
 from phrydy import MediaFile
 
+
+def max_album(album):
+    if len(album) > 10:
+        print(album)
+
 def bundler(folder):
     album = []
     for root_path, subdirs, files in os.walk(folder):
@@ -19,7 +24,8 @@ def bundler(folder):
                 if not album_title or album_title != media.album:
                     album_title = media.album
 
-                    print(len(album))
+                    #print(len(album))
+                    max_album(album)
 
                     print('#### New Album###')
 
