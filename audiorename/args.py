@@ -112,6 +112,14 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '-b',
+    '--bundle',
+    help='Rename only tracks belonging to a bundle of tracks (e. g. a \
+    complete album)',
+    action='store_true'
+)
+
+parser.add_argument(
     '-v',
     '--version',
     action='version',

@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import os
+from phrydy import MediaFile
 
-if os.path.isdir(args.folder):
-    for root_path, subdirs, files in os.walk(args.folder):
+def bundler(folder):
+    album = []
+    for root_path, subdirs, files in os.walk(folder):
         subdirs.sort()
         files.sort()
 
@@ -15,7 +18,7 @@ if os.path.isdir(args.folder):
                 media = MediaFile(path)
                 if not album_title or album_title != media.album:
                     album_title = media.album
-                    
+
                     print(len(album))
 
                     print('#### New Album###')

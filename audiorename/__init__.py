@@ -4,6 +4,7 @@
 import os
 from audiorename.rename import Rename
 from audiorename.args import parser
+from .bundler import bundler
 from ._version import get_versions
 
 __version__ = get_versions()['version']
@@ -20,9 +21,12 @@ def execute(args=None):
     args = parser.parse_args(args)
 
     if os.path.isdir(args.folder):
-        for root_path, subdirs, files in os.walk(args.folder):
-            for file in files:
-                do_rename(file, root_path, args=args)
+        if args.bundle:
+            bundler(args.folder)
+        else:
+            for root_path, subdirs, files in os.walk(args.folder):
+                for file in files:
+                    do_rename(file, root_path, args=args)
 
     else:
         do_rename(args.folder, args=args)
