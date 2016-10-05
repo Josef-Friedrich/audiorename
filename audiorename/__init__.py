@@ -4,7 +4,7 @@
 import os
 from audiorename.rename import Rename
 from audiorename.args import parser
-from .bundler import bundler
+from .bundler import Bundler
 from ._version import get_versions
 
 __version__ = get_versions()['version']
@@ -22,7 +22,7 @@ def execute(args=None):
 
     if os.path.isdir(args.folder):
         if args.bundle:
-            bundler(args.folder)
+            Bundler(args.folder)
         else:
             for root_path, subdirs, files in os.walk(args.folder):
                 for file in files:

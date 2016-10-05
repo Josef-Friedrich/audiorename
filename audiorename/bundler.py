@@ -4,32 +4,34 @@ import os
 from phrydy import MediaFile
 
 
-def max_album(album):
-    if len(album) > 10:
-        print(album)
+class Bundler(object):
 
-def bundler(folder):
-    album = []
-    for root_path, subdirs, files in os.walk(folder):
-        subdirs.sort()
-        files.sort()
+    def __init__(self, folder):
+        self.album = []
+        for root_path, subdirs, files in os.walk(folder):
+            subdirs.sort()
+            files.sort()
 
-        album_title = ''
+            album_title = ''
 
-        for file in files:
-            path = os.path.join(root_path, file)
+            for file in files:
+                path = os.path.join(root_path, file)
 
-            if path.lower().endswith((".mp3", ".m4a", ".flac", ".wma")):
-                media = MediaFile(path)
-                if not album_title or album_title != media.album:
-                    album_title = media.album
+                if path.lower().endswith((".mp3", ".m4a", ".flac", ".wma")):
+                    media = MediaFile(path)
+                    if not album_title or album_title != media.album:
+                        album_title = media.album
 
-                    #print(len(album))
-                    max_album(album)
+                        #print(len(album))
+                        self.max_album(self.album)
 
-                    print('#### New Album###')
+                        print('#### New Album###')
 
-                    album = []
+                        self.album = []
 
-                album.append(path)
-                print('    ' + str(media.track) + '_' + path)
+                    self.album.append(path)
+                    print('    ' + str(media.track) + '_' + path)
+
+    def max_album(self, album):
+        if len(album) > 10:
+            print(album)

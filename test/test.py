@@ -1,6 +1,7 @@
 import unittest
 import re
 import audiorename
+from audiorename.bundler import Bundler
 import six
 import os
 import tempfile
@@ -20,7 +21,8 @@ cwd = os.getcwd()
 
 def tmp_file(test_file):
     orig = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), test_file)
+        os.path.dirname(os.path.abspath(__file__)), 'files', test_file
+    )
     tmp_dir = tempfile.mkdtemp()
     tmp = os.path.join(tmp_dir, test_file)
     shutil.copyfile(orig, tmp)
@@ -321,7 +323,9 @@ class TestVersion(unittest.TestCase):
 class TestBundler(unittest.TestCase):
 
     def test_bundler(self):
-        pass
+        b = Bundler(os.path.dirname(os.path.abspath(__file__)))
+
+
 
 if __name__ == '__main__':
     unittest.main()
