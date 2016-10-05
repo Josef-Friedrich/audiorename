@@ -318,5 +318,10 @@ class TestVersion(unittest.TestCase):
         self.assertTrue(result)
 
 
+class TestBundler(unittest.TestCase):
+
+    def test_bundler(self):
+        pass
+
 if __name__ == '__main__':
     unittest.main()
