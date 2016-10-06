@@ -1,5 +1,5 @@
-*.mp3
-!/test/*.mp3
+#*.mp3
+#!/test/*.mp3
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
