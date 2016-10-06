@@ -17,14 +17,20 @@ class Bundler(object):
 
             for file in files:
                 path = os.path.join(root_path, file)
-
                 if path.lower().endswith((".mp3", ".m4a", ".flac", ".wma")):
-                    media = MediaFile(path)
-                    if not self.album_title or self.album_title != media.album:
-                        self.album_title = media.album
-                        self.explore_album()
-                        self.album = []
-                    self.album.append(path)
+                    self.make_bundles(path)
+
+    def make_bundles(self, path):
+        media = MediaFile(path)
+        record = {}
+        record['title'] = media.album
+        record['track'] = media.track
+        record['path'] = path
+        if not self.album_title or self.album_title != media.album:
+            self.album_title = media.album
+            self.explore_album()
+            self.album = []
+        self.album.append(record)
 
     def check_quantity(self, quantity=6):
         if len(self.album) > quantity:
@@ -33,12 +39,20 @@ class Bundler(object):
             return False
 
     def check_completeness(self):
-        pass
+        max_track = 0
+        for record in self.album:
+            if record['track'] > max_track:
+                max_track = record['track']
+
+        if len(self.album) == max_track:
+            return True
+        else:
+            return False
 
     def execute(self):
-        for title in self.album:
-            print(title)
+        for record in self.album:
+            print(record['path'])
 
     def explore_album(self):
-        if self.check_quantity():
+        if self.check_quantity() and self.check_completeness():
             self.execute()
