@@ -112,10 +112,16 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    '-b',
-    '--bundle',
-    help='Rename only tracks belonging to a bundle of tracks (e. g. a \
-    complete album)',
+    '-m',
+    '--filter-album-min',
+    help='Rename only albums containing at least X files.',
+    default=3
+)
+
+parser.add_argument(
+    '-F',
+    '--filter-album-complete',
+    help='Rename only complete albums',
     action='store_true'
 )
 

@@ -1,7 +1,6 @@
 import unittest
 import re
 import audiorename
-from audiorename.bundler import Bundler
 import six
 import os
 import tempfile
@@ -320,11 +319,6 @@ class TestVersion(unittest.TestCase):
         result = re.search('[^ ]* [^ ]*', output[0])
         self.assertTrue(result)
 
-
-class TestBundler(unittest.TestCase):
-
-    def test_bundler(self):
-        b = Bundler(test_files)
 
 class TestBatch(unittest.TestCase):
 
