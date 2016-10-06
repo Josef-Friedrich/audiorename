@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from .rename import do_rename
-from .bundler import Bundler
 import os
 
 class Batch(object):
