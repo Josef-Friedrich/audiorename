@@ -14,30 +14,28 @@ from audiorename.meta import Meta
 
 
 class Rename(object):
-    def __init__(self, file, root_path='', args=None):
+    def __init__(self, file, args):
         if args:
             self.args = args
 
-        if root_path:
-            self.old_file = os.path.join(root_path, file)
-        else:
-            self.old_file = file
+        self.old_file = file
 
-        if self.args.target_dir:
+        if args.target_dir:
             self.target_dir = args.target_dir
         else:
             self.target_dir = os.getcwd()
 
-        if self.args.source_as_target_dir:
-            if not root_path:
-                self.target_dir = os.path.dirname(self.old_file)
+        if args.source_as_target_dir:
+
+            if args.is_dir:
+                self.target_dir = args.path
             else:
-                self.target_dir = os.path.realpath(root_path)
+                self.target_dir = os.path.dirname(args.path)
 
         self.old_path = os.path.realpath(self.old_file)
         self.extension = self.old_file.split('.')[-1]
 
-        meta = Meta(self.old_path, self.args)
+        meta = Meta(self.old_path, args)
         self.meta = meta.getMeta()
 
     def generateFilename(self):
@@ -109,10 +107,10 @@ class Rename(object):
             else:
                 self.rename()
 
-def do_rename(path, root_path='', args=None):
+def do_rename(path, args=None):
     if path.lower().endswith((".mp3", ".m4a", ".flac", ".wma")):
         if args.test:
             print(os.path.abspath(path))
         else:
-            audio = Rename(path, root_path, args)
+            audio = Rename(path, args)
             audio.execute()

@@ -14,6 +14,11 @@ del get_versions
 
 def execute(args=None):
     args = parser.parse_args(args)
+    args.path = os.path.abspath(args.path)
+    if os.path.isdir(args.path):
+        args.is_dir = True
+    else:
+        args.is_dir = False
 
     batch = Batch(args)
     batch.execute()

@@ -10,13 +10,13 @@ class Batch(object):
         self.args = args
 
     def execute(self):
-        if os.path.isdir(self.args.folder):
+        if os.path.isdir(self.args.path):
             if self.args.bundle:
-                Bundler(self.args.folder)
+                Bundler(self.args.path)
             else:
-                for root_path, subdirs, files in os.walk(self.args.folder):
-                    for file in files:
-                        do_rename(file, root_path, args=self.args)
+                for path, dirs, files in os.walk(self.args.path):
+                    for file_name in files:
+                        do_rename(os.path.join(path, file_name), args=self.args)
 
         else:
-            do_rename(self.args.folder, args=self.args)
+            do_rename(self.args.path, args=self.args)

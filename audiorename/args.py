@@ -37,7 +37,7 @@ Functions
 
 
 parser.add_argument(
-    'folder',
+    'path',
     help='A folder containing audio files or a audio file'
 )
 
