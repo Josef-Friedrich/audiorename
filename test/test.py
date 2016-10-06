@@ -16,6 +16,7 @@ else:
 path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
 path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
 
+test_files = os.path.dirname(os.path.abspath(__file__))
 cwd = os.getcwd()
 
 
@@ -323,9 +324,12 @@ class TestVersion(unittest.TestCase):
 class TestBundler(unittest.TestCase):
 
     def test_bundler(self):
-        b = Bundler(os.path.dirname(os.path.abspath(__file__)))
+        b = Bundler(test_files)
 
+class TestBatch(unittest.TestCase):
 
+    def test_folder(self):
+        audiorename.execute(['--test', test_files])
 
 if __name__ == '__main__':
     unittest.main()
