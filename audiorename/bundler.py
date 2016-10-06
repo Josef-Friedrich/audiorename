@@ -8,6 +8,7 @@ class Bundler(object):
 
     def __init__(self, folder):
         self.album = []
+        self.album_title = ''
         for root_path, subdirs, files in os.walk(folder):
             subdirs.sort()
             files.sort()
@@ -19,19 +20,25 @@ class Bundler(object):
 
                 if path.lower().endswith((".mp3", ".m4a", ".flac", ".wma")):
                     media = MediaFile(path)
-                    if not album_title or album_title != media.album:
-                        album_title = media.album
-
-                        #print(len(album))
-                        self.max_album(self.album)
-
-                        print('#### New Album###')
-
+                    if not self.album_title or self.album_title != media.album:
+                        self.album_title = media.album
+                        self.explore_album()
                         self.album = []
-
                     self.album.append(path)
-                    print('    ' + str(media.track) + '_' + path)
 
-    def max_album(self, album):
-        if len(album) > 10:
-            print(album)
+    def check_quantity(self, quantity=6):
+        if len(self.album) > quantity:
+            return True
+        else:
+            return False
+
+    def check_completeness(self):
+        pass
+
+    def execute(self):
+        for title in self.album:
+            print(title)
+
+    def explore_album(self):
+        if self.check_quantity():
+            self.execute()
