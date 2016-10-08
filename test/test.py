@@ -413,12 +413,13 @@ class TestBatch(unittest.TestCase):
         self.assertEqual(self.album_complete + self.album_incomplete, output)
 
     def test_filter_album_complete(self):
-        audiorename.execute([
-            '--unittest',
-            '--filter-album-complete',
-            test_files
-        ])
-        #self.assertEqual(self.album_complete, output)
+        with Capturing() as output:
+            audiorename.execute([
+                '--unittest',
+                '--filter-album-complete',
+                test_files
+            ])
+        self.assertEqual(self.singles + self.album_complete + self.album_small, output)
 
 if __name__ == '__main__':
     unittest.main()

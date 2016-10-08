@@ -13,11 +13,23 @@ class Batch(object):
         self.album_title = ''
 
     def execute_album(self):
-        if self.args.filter_album_min and len(self.album) > int(self.args.filter_album_min):
+        quantity = True
+        completeness = True
+        if self.args.filter_album_min and not self.check_quantity():
+            quantity = False
+        if self.args.filter_album_complete and not self.check_completeness():
+            completeness = False
+
+        if quantity and completeness:
             for p in self.album:
                 do_rename(p['path'], args=self.args)
 
-    def make_bundles(self, path):
+    def make_bundles(self, path, finish=False):
+        if finish:
+            self.execute_album()
+            self.album = []
+            return
+
         media = MediaFile(path)
         record = {}
         record['title'] = media.album
@@ -35,8 +47,8 @@ class Batch(object):
         else:
             return False
 
-    def check_quantity(self, quantity=6):
-        if len(self.album) > quantity:
+    def check_quantity(self):
+        if len(self.album) > int(self.args.filter_album_min):
             return True
         else:
             return False
@@ -64,6 +76,9 @@ class Batch(object):
                             self.make_bundles(p)
                         else:
                             do_rename(p, args=self.args)
+
+            if self.args.filter:
+                self.make_bundles('', True)
 
         else:
             p = self.args.path
