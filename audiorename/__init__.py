@@ -19,5 +19,10 @@ def execute(args=None):
     else:
         args.is_dir = False
 
+    if args.filter_album_min or args.filter_album_complete:
+        args.filter = True
+    else:
+        args.filter = False
+
     batch = Batch(args)
     batch.execute()
