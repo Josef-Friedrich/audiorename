@@ -9,20 +9,13 @@ class Batch(object):
 
     def __init__(self, args):
         self.args = args
+        self.album = []
+        self.album_title = ''
 
-    # def __init__(self, folder):
-    #     self.album = []
-    #     self.album_title = ''
-    #     for root_path, subdirs, files in os.walk(folder):
-    #         subdirs.sort()
-    #         files.sort()
-    #
-    #         album_title = ''
-    #
-    #         for file in files:
-    #             path = os.path.join(root_path, file)
-    #             if path.lower().endswith((".mp3", ".m4a", ".flac", ".wma")):
-    #                 self.make_bundles(path)
+    def execute_album(self):
+        if self.args.filter_album_min and len(self.album) > int(self.args.filter_album_min):
+            for p in self.album:
+                do_rename(p['path'], args=self.args)
 
     def make_bundles(self, path):
         media = MediaFile(path)
@@ -32,9 +25,15 @@ class Batch(object):
         record['path'] = path
         if not self.album_title or self.album_title != media.album:
             self.album_title = media.album
-            self.explore_album()
+            self.execute_album()
             self.album = []
         self.album.append(record)
+
+    def check_extension(self, path):
+        if path.lower().endswith(('.mp3', '.m4a', '.flac', '.wma')):
+            return True
+        else:
+            return False
 
     def check_quantity(self, quantity=6):
         if len(self.album) > quantity:
@@ -53,21 +52,20 @@ class Batch(object):
         else:
             return False
 
-    # def execute(self):
-    #     for record in self.album:
-    #         print(record['path'])
-
-    def explore_album(self):
-        if self.check_quantity() and self.check_completeness():
-            self.execute()
-
     def execute(self):
         if self.args.is_dir:
             for path, dirs, files in os.walk(self.args.path):
                 dirs.sort()
                 files.sort()
                 for file_name in files:
-                    do_rename(os.path.join(path, file_name), args=self.args)
+                    p = os.path.join(path, file_name)
+                    if self.check_extension(p):
+                        if self.args.filter:
+                            self.make_bundles(p)
+                        else:
+                            do_rename(p, args=self.args)
 
         else:
-            do_rename(self.args.path, args=self.args)
+            p = self.args.path
+            if self.check_extension(p):
+                do_rename(p, args=self.args)

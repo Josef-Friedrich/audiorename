@@ -113,7 +113,7 @@ parser.add_argument(
     '-m',
     '--filter-album-min',
     help='Rename only albums containing at least X files.',
-    default=3
+    default=False
 )
 
 parser.add_argument(
