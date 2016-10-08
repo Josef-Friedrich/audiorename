@@ -8,7 +8,6 @@ class Batch(object):
     def __init__(self, args):
         self.args = args
 
-
     # def __init__(self, folder):
     #     self.album = []
     #     self.album_title = ''

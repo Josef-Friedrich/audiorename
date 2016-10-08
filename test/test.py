@@ -323,7 +323,7 @@ class TestVersion(unittest.TestCase):
 class TestBatch(unittest.TestCase):
 
     def test_folder(self):
-        audiorename.execute(['--test', test_files])
+        audiorename.execute(['--unittest', test_files])
 
 if __name__ == '__main__':
     unittest.main()

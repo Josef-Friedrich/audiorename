@@ -126,7 +126,7 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    '--test',
+    '--unittest',
     help='The audio files are not renamed. Debug messages for the unit test \
     are printed out.',
     action='store_true'

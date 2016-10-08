@@ -109,7 +109,7 @@ class Rename(object):
 
 def do_rename(path, args=None):
     if path.lower().endswith((".mp3", ".m4a", ".flac", ".wma")):
-        if args.test:
+        if args.unittest:
             print(os.path.abspath(path))
         else:
             audio = Rename(path, args)
