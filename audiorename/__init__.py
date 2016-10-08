@@ -2,7 +2,6 @@
 
 
 import os
-from audiorename.rename import Rename
 from audiorename.args import parser
 from .batch import Batch
 from ._version import get_versions

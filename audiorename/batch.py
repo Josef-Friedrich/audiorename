@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from .rename import do_rename
+from phrydy import MediaFile
 import os
+
 
 class Batch(object):
 

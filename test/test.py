@@ -308,7 +308,7 @@ class TestSkipIfEmpty(unittest.TestCase):
 class TestVersion(unittest.TestCase):
 
     def test_version(self):
-        with self.assertRaises(SystemExit) as cm:
+        with self.assertRaises(SystemExit):
             if six.PY2:
                 with Capturing('err') as output:
                     audiorename.execute(['--version'])
@@ -323,8 +323,16 @@ class TestVersion(unittest.TestCase):
 class TestBatch(unittest.TestCase):
 
     def setUp(self):
-        self.album_complete = []
+        self.singles = []
+        for f in [
+            'album.mp3',
+            'compilation.mp3',
+        ]:
+            self.singles.append(
+                os.path.join(test_files, f)
+            )
 
+        self.album_complete = []
         for f in [
             '01.mp3',
             '02.mp3',
@@ -342,15 +350,56 @@ class TestBatch(unittest.TestCase):
                 os.path.join(test_files, 'album_complete', f)
             )
 
+            self.album_incomplete = []
+            for f in [
+                '01.mp3',
+                '02.mp3',
+                '04.mp3',
+                '05.mp3',
+                '06.mp3',
+                '07.mp3',
+                '09.mp3',
+                '10.mp3',
+                '11.mp3'
+            ]:
+                self.album_incomplete.append(
+                    os.path.join(test_files, 'album_incomplete', f)
+                )
+
+            self.album_small = []
+            for f in [
+                '01.mp3',
+                '02.mp3',
+                '03.mp3',
+                '04.mp3',
+                '05.mp3',
+            ]:
+                self.album_small.append(
+                    os.path.join(test_files, 'album_small', f)
+                )
+
+            self.all = self.singles + \
+                self.album_complete + \
+                self.album_incomplete + \
+                self.album_small
+
+    def test_single(self):
+        single = os.path.join(test_files, 'album.mp3')
+        with Capturing() as output:
+            audiorename.execute(['--unittest', single])
+        self.assertEqual([single], output)
+
     def test_folder_complete(self):
         with Capturing() as output:
             audiorename.execute(['--unittest', test_files])
-
+        self.assertEqual(self.all, output)
 
     def test_folder_sub(self):
         with Capturing() as output:
-            audiorename.execute(['--unittest', os.path.join(test_files, 'album_complete')])
-
+            audiorename.execute([
+                '--unittest',
+                os.path.join(test_files, 'album_complete')
+            ])
         self.assertEqual(self.album_complete, output)
 
 if __name__ == '__main__':

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import textwrap
 from phrydy import doc as pdoc
 from ._version import get_versions
 from tmep import doc as tdoc
@@ -25,14 +24,13 @@ Metadata fields
 ---------------
 
 '''
-+ pdoc.get_doc() +
-'''
+    + pdoc.get_doc() + '''
 
 Functions
 ---------
 
 '''
-+ td.get()
+    + td.get()
 )
 
 
