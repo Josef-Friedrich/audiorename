@@ -62,6 +62,8 @@ class Batch(object):
     def execute(self):
         if self.args.is_dir:
             for path, dirs, files in os.walk(self.args.path):
+                dirs.sort()
+                files.sort()
                 for file_name in files:
                     do_rename(os.path.join(path, file_name), args=self.args)
 

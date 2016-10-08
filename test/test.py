@@ -15,7 +15,7 @@ else:
 path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
 path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
 
-test_files = os.path.dirname(os.path.abspath(__file__))
+test_files = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files')
 cwd = os.getcwd()
 
 
@@ -322,8 +322,36 @@ class TestVersion(unittest.TestCase):
 
 class TestBatch(unittest.TestCase):
 
-    def test_folder(self):
-        audiorename.execute(['--unittest', test_files])
+    def setUp(self):
+        self.album_complete = []
+
+        for f in [
+            '01.mp3',
+            '02.mp3',
+            '03.mp3',
+            '04.mp3',
+            '05.mp3',
+            '06.mp3',
+            '07.mp3',
+            '08.mp3',
+            '09.mp3',
+            '10.mp3',
+            '11.mp3'
+        ]:
+            self.album_complete.append(
+                os.path.join(test_files, 'album_complete', f)
+            )
+
+    def test_folder_complete(self):
+        with Capturing() as output:
+            audiorename.execute(['--unittest', test_files])
+
+
+    def test_folder_sub(self):
+        with Capturing() as output:
+            audiorename.execute(['--unittest', os.path.join(test_files, 'album_complete')])
+
+        self.assertEqual(self.album_complete, output)
 
 if __name__ == '__main__':
     unittest.main()
