@@ -6,6 +6,8 @@ echo '.. image:: http://img.shields.io/pypi/v/audiorename.svg
 .. image:: https://travis-ci.org/Josef-Friedrich/audiorename.svg?branch=packaging
     :target: https://travis-ci.org/Josef-Friedrich/audiorename
 
+
+.. code-block:: none
 ' > README.rst
 
-./bin/audiorenamer -h >> README.rst
+./bin/audiorenamer -h | sed 's/^/  /g' >> README.rst
