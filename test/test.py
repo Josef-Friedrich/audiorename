@@ -429,7 +429,12 @@ class TestBatch(unittest.TestCase):
                 '--filter-album-complete',
                 test_files
             ])
-        self.assertEqual(self.singles + self.album_complete + self.album_small, output)
+        self.assertEqual(
+            self.singles +
+            self.album_complete +
+            self.album_small,
+            output
+        )
 
     def test_filter_all(self):
         with Capturing() as output:
