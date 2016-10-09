@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Batch processing of the audio files"""
+
 from .rename import do_rename
 from phrydy import MediaFile
 import os
@@ -12,7 +14,39 @@ class Batch(object):
         self.album = []
         self.album_title = ''
 
-    def execute_album(self):
+    def check_extension(self, path):
+        """Check the extension of the track.
+
+        :params str path: The path of the tracks.
+        """
+        if path.lower().endswith(('.mp3', '.m4a', '.flac', '.wma')):
+            return True
+        else:
+            return False
+
+    def check_quantity(self):
+        """Compare the number of tracks in an album with the minimal track
+        threshold.
+        """
+        if len(self.album) > int(self.args.filter_album_min):
+            return True
+        else:
+            return False
+
+    def check_completeness(self):
+        """Check if the album is complete"""
+        max_track = 0
+        for record in self.album:
+            if record['track'] > max_track:
+                max_track = record['track']
+
+        if len(self.album) == max_track:
+            return True
+        else:
+            return False
+
+    def check_album(self):
+        """Check an album for quantity and completeness."""
         quantity = True
         completeness = True
         if self.args.filter_album_min and not self.check_quantity():
@@ -24,10 +58,14 @@ class Batch(object):
             for p in self.album:
                 do_rename(p['path'], args=self.args)
 
-    def make_bundles(self, path, finish=False):
-        if finish:
-            self.execute_album()
-            self.album = []
+        self.album = []
+
+    def make_bundles(self, path=''):
+        """
+        :params str path: The path of the tracks.
+        """
+        if not path:
+            self.check_album()
             return
 
         media = MediaFile(path)
@@ -37,34 +75,11 @@ class Batch(object):
         record['path'] = path
         if not self.album_title or self.album_title != media.album:
             self.album_title = media.album
-            self.execute_album()
-            self.album = []
+            self.check_album()
         self.album.append(record)
 
-    def check_extension(self, path):
-        if path.lower().endswith(('.mp3', '.m4a', '.flac', '.wma')):
-            return True
-        else:
-            return False
-
-    def check_quantity(self):
-        if len(self.album) > int(self.args.filter_album_min):
-            return True
-        else:
-            return False
-
-    def check_completeness(self):
-        max_track = 0
-        for record in self.album:
-            if record['track'] > max_track:
-                max_track = record['track']
-
-        if len(self.album) == max_track:
-            return True
-        else:
-            return False
-
     def execute(self):
+        """Process all files of a given path or process a single file."""
         if self.args.is_dir:
             for path, dirs, files in os.walk(self.args.path):
                 dirs.sort()
@@ -77,8 +92,9 @@ class Batch(object):
                         else:
                             do_rename(p, args=self.args)
 
+            # Process the last bundle left over
             if self.args.filter:
-                self.make_bundles('', True)
+                self.make_bundles()
 
         else:
             p = self.args.path

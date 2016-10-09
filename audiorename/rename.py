@@ -10,7 +10,7 @@ from phrydy import as_string
 from tmep import Functions
 from tmep import Template
 
-from audiorename.meta import Meta
+from .meta import Meta
 
 
 class Rename(object):
