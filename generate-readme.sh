@@ -8,6 +8,7 @@ echo '.. image:: http://img.shields.io/pypi/v/audiorename.svg
 
 
 .. code-block:: none
+
 ' > README.rst
 
-./bin/audiorenamer -h | sed 's/^/  /g' >> README.rst
+./bin/audiorenamer -h | sed 's/^/    /g' >> README.rst
