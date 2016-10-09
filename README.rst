@@ -5,7 +5,7 @@
     :target: https://travis-ci.org/Josef-Friedrich/audiorename
 
 
-.. code-block:: none
+.. code-block:: text
 
 
     usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-S] [-d]

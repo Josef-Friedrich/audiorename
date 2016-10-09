@@ -7,7 +7,7 @@ echo '.. image:: http://img.shields.io/pypi/v/audiorename.svg
     :target: https://travis-ci.org/Josef-Friedrich/audiorename
 
 
-.. code-block:: none
+.. code-block:: text
 
 ' > README.rst
 
