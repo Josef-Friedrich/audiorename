@@ -169,64 +169,108 @@
     Functions
     ---------
     
-    asciify
-    %asciify{text}
-    Translate non-ASCII characters to their ASCII equivalents. For example, “café” becomes “cafe”. Uses the mapping provided by the unidecode module.
+        asciify
+        -------
     
-    delchars
-    %delchars{text,chars}
-    Delete every single character of “chars“ in “text”.
+        %asciify{text}
+            Translate non-ASCII characters to their ASCII equivalents. For
+            example, “café” becomes “cafe”. Uses the mapping
+            provided by the unidecode module.
     
-    deldupchars
-    %deldupchars{text,chars}
-    Search for duplicate characters and replace with only one occurrance of this characters.
+        delchars
+        --------
     
-    first
-    %first{text}
-    Returns the first item, separated by ; . You can use %first{text,count,skip}, where count is the number of items (default 1) and skip is number to skip (default 0). You can also use %first{text,count,skip,sep,join} where sep is the separator, like ; or / and join is the text to concatenate the items.
+        %delchars{text,chars}
+            Delete every single character of “chars“ in “text”.
     
-    if
-    %if{condition,text} or %if{condition,truetext,falsetext}
-    If condition is nonempty (or nonzero, if it’s a number), then returns the second argument. Otherwise, returns the third argument if specified (or nothing if falsetext is left off).
+        deldupchars
+        -----------
     
-    ifdef
-    %ifdef{field}, %ifdef{field,truetext} or %ifdef{field,truetext,falsetext}
-    If field exists, then return truetext or field (default). Otherwise, returns falsetext. The field should be entered without $.
+        %deldupchars{text,chars}
+            Search for duplicate characters and replace with only one
+            occurrance of this characters.
     
-    left
-    %left{text,n}
-    Return the first “n” characters of “text”.
+        first
+        -----
     
-    lower
-    %lower{text}
-    Convert “text” to lowercase.
+        %first{text}
+            Returns the first item, separated by ; . You can use
+            %first{text,count,skip}, where count is the number of items
+            (default 1) and skip is number to skip (default 0). You can also
+            use %first{text,count,skip,sep,join} where sep is the separator,
+            like ; or / and join is the text to concatenate the items.
     
-    replchars
-    %replchars{text,chars,replace}
+        if
+        --
     
-    right
-    %right{text,n}
-    Return the last “n” characters of “text”.
+        %if{condition,text} or %if{condition,truetext,falsetext}
+            If condition is nonempty (or nonzero, if it’s a number), then
+            returns the second argument. Otherwise, returns the third
+            argument if specified (or nothing if falsetext is left off).
     
-    sanitize
-    %sanitize{text}
-     Delete in most file systems not allowed characters.
+        ifdef
+        -----
     
-    shorten
-    %shorten{text, max_size}
-    Shorten “text” on word boundarys.
-    %shorten{$title, 32}
+        %ifdef{field}, %ifdef{field,truetext} or
+        %ifdef{field,truetext,falsetext}
+            If field exists, then return truetext or field (default).
+            Otherwise, returns falsetext. The field should be entered
+            without $.
     
-    time
-    %time{date_time,format,curformat}
-    Return the date and time in any format accepted by strftime. For example, to get the year some music was added to your library, use %time{$added,%Y}.
+        left
+        ----
     
-    title
-    %title{text}
-    Convert “text” to Title Case.
+        %left{text,n}
+            Return the first “n” characters of “text”.
     
-    upper
-    Convert “text” to UPPERCASE.
+        lower
+        -----
+    
+        %lower{text}
+            Convert “text” to lowercase.
+    
+        replchars
+        ---------
+    
+        %replchars{text,chars,replace}
+    
+        right
+        -----
+    
+        %right{text,n}
+            Return the last “n” characters of “text”.
+    
+        sanitize
+        --------
+    
+        %sanitize{text}
+             Delete in most file systems not allowed characters.
+    
+        shorten
+        -------
+    
+        %shorten{text, max_size}
+            Shorten “text” on word boundarys.
+            %shorten{$title, 32}
+    
+        time
+        ----
+    
+        %time{date_time,format,curformat}
+            Return the date and time in any format accepted by strftime. For
+            example, to get the year some music was added to your library,
+            use %time{$added,%Y}.
+    
+        title
+        -----
+    
+        %title{text}
+            Convert “text” to Title Case.
+    
+        upper
+        -----
+    
+            Convert “text” to UPPERCASE.
     
     positional arguments:
       path                  A folder containing audio files or a audio file
