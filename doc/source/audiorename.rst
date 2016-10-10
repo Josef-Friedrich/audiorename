@@ -12,8 +12,8 @@ audiorename.args module
     :undoc-members:
     :show-inheritance:
 
-    audiorename.batch module
-    -----------------------
+audiorename.batch module
+------------------------
 
     .. automodule:: audiorename.batch
         :members:
