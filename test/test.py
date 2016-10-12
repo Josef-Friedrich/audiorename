@@ -15,7 +15,9 @@ else:
 path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
 path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
 
-test_files = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files')
+test_path = os.path.dirname(os.path.abspath(__file__))
+
+test_files = os.path.join(test_path, 'files')
 cwd = os.getcwd()
 
 
@@ -446,6 +448,33 @@ class TestBatch(unittest.TestCase):
                 test_files
             ])
         self.assertEqual(self.album_complete, output)
+
+class TestExtension(unittest.TestCase):
+
+    def setUp(self):
+        self.test_files = os.path.join(test_path, 'mixed_formats')
+
+    def test_default(self):
+        audiorename.execute([
+            '--unittest',
+            self.test_files
+        ])
+
+    def test_one(self):
+        audiorename.execute([
+            '--unittest',
+            '--extension',
+            'mp3,flac',
+            self.test_files
+        ])
+
+    def test_two(self):
+        audiorename.execute([
+            '--unittest',
+            '--extension',
+            'mp3',
+            self.test_files
+        ])
 
 if __name__ == '__main__':
     unittest.main()

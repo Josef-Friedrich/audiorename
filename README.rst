@@ -8,9 +8,9 @@
 .. code-block:: text
 
 
-    usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-S] [-d]
-                        [-e EXTENSIONS] [-t TARGET_DIR] [-s SKIP_IF_EMPTY] [-a]
-                        [-C] [-m FILTER_ALBUM_MIN] [-F] [--unittest] [-v]
+    usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-S] [-d] [-e EXTENSION]
+                        [-t TARGET_DIR] [-s SKIP_IF_EMPTY] [-a] [-C]
+                        [-m FILTER_ALBUM_MIN] [-F] [--unittest] [-v]
                         path
     
     Rename audio files from metadata tags.
@@ -284,7 +284,7 @@
       -S, --shell-friendly  Rename audio files “shell friendly”, this means
                             without whitespaces, parentheses etc.
       -d, --dry-run         Don’t rename or copy the audio files.
-      -e EXTENSIONS, --extensions EXTENSIONS
+      -e EXTENSION, --extension EXTENSION
                             Extensions to rename
       -t TARGET_DIR, --target-dir TARGET_DIR
                             Target directory

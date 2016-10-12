@@ -19,7 +19,9 @@ class Batch(object):
 
         :params str path: The path of the tracks.
         """
-        if path.lower().endswith(('.mp3', '.m4a', '.flac', '.wma')):
+        extension = self.args.extension.split(',')
+        extension = ['.' + e for e in extension]
+        if path.lower().endswith(tuple(extension)):
             return True
         else:
             return False

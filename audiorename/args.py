@@ -76,9 +76,9 @@ parser.add_argument(
 
 parser.add_argument(
     '-e',
-    '--extensions',
+    '--extension',
     help='Extensions to rename',
-    default='mp3'
+    default='mp3,m4a,flac,wma'
 )
 
 parser.add_argument(
