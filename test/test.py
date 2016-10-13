@@ -30,6 +30,11 @@ def tmp_file(test_file):
     shutil.copyfile(orig, tmp)
     return tmp
 
+def gen_file_list(files, path):
+    output = []
+    for f in files:
+        output.append(os.path.join(path, f))
+    return output
 
 def is_file(path):
     """Check if file exists
@@ -455,26 +460,41 @@ class TestExtension(unittest.TestCase):
         self.test_files = os.path.join(test_path, 'mixed_formats')
 
     def test_default(self):
-        audiorename.execute([
-            '--unittest',
-            self.test_files
-        ])
+        with Capturing() as output:
+            audiorename.execute([
+                '--unittest',
+                self.test_files
+            ])
+        self.assertEqual(
+            output,
+            gen_file_list(['01.flac', '02.m4a', '03.mp3'], self.test_files)
+        )
 
     def test_one(self):
-        audiorename.execute([
-            '--unittest',
-            '--extension',
-            'mp3,flac',
-            self.test_files
-        ])
+        with Capturing() as output:
+            audiorename.execute([
+                '--unittest',
+                '--extension',
+                'mp3,flac',
+                self.test_files
+            ])
+        self.assertEqual(
+            output,
+            gen_file_list(['01.flac', '03.mp3'], self.test_files)
+        )
 
     def test_two(self):
-        audiorename.execute([
-            '--unittest',
-            '--extension',
-            'mp3',
-            self.test_files
-        ])
+        with Capturing() as output:
+            audiorename.execute([
+                '--unittest',
+                '--extension',
+                'mp3',
+                self.test_files
+            ])
+        self.assertEqual(
+            output,
+            gen_file_list(['03.mp3'], self.test_files)
+        )
 
 if __name__ == '__main__':
     unittest.main()
