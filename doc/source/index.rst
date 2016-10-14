@@ -4,9 +4,10 @@ Welcome to audiorename's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
-   modules
+    cli
+    modules
 
 
 Indices and tables
@@ -15,5 +16,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. include:: ../../README.rst

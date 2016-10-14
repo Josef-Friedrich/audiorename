@@ -12,3 +12,13 @@ echo '.. image:: http://img.shields.io/pypi/v/audiorename.svg
 ' > README.rst
 
 ./bin/audiorenamer -h | sed 's/^/    /g' >> README.rst
+
+
+echo 'Comande line interface
+======================
+
+.. code-block:: text
+
+' > doc/source/cli.rst
+
+./bin/audiorenamer -h | sed 's/^/    /g' >> doc/source/cli.rst

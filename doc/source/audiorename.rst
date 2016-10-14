@@ -15,10 +15,10 @@ audiorename.args module
 audiorename.batch module
 ------------------------
 
-    .. automodule:: audiorename.batch
-        :members:
-        :undoc-members:
-        :show-inheritance:
+.. automodule:: audiorename.batch
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 audiorename.meta module
 -----------------------
