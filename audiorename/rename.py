@@ -12,6 +12,17 @@ from tmep import Template
 
 from .meta import Meta
 
+formats = {
+    'default': '$artist_initial/' +
+    '%shorten{$artistsafe_sort}/' +
+    '%shorten{$album}%ifdef{year_safe,_${year_safe}}/' +
+    '${disctrack}_%shorten{$title}',
+    'compilation': '_compilations/' +
+    '$album_initial/' +
+    '%shorten{$album}%ifdef{year_safe,_${year_safe}}/' +
+    '${disctrack}_%shorten{$title}',
+}
+
 
 class Rename(object):
     def __init__(self, file, args):

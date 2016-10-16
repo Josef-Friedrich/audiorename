@@ -4,6 +4,7 @@ import argparse
 from phrydy import doc as pdoc
 from ._version import get_versions
 from tmep import doc as tdoc
+from .rename import formats
 td = tdoc.Doc()
 
 parser = argparse.ArgumentParser(
@@ -43,20 +44,14 @@ parser.add_argument(
     '-f',
     '--format',
     help='A format string',
-    default='$artist_initial/' +
-    '$artistsafe_sort/' +
-    '%shorten{${album},32}%ifdef{year_safe,_${year_safe}}/' +
-    '${disctrack}_%shorten{$title,32}'
+    default=formats['default']
 )
 
 parser.add_argument(
     '-c',
     '--compilation',
     help='Format string for compilations',
-    default='_compilations/' +
-    '$album_initial/' +
-    '$album%ifdef{year_safe,_${year_safe}}/' +
-    '${disctrack}_%shorten{$title,32}'
+    default=formats['compilation']
 )
 
 parser.add_argument(

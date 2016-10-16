@@ -173,9 +173,9 @@
         -------
     
         %asciify{text}
-            Translate non-ASCII characters to their ASCII equivalents. For
-            example, “café” becomes “cafe”. Uses the mapping
-            provided by the unidecode module.
+            Translate non-ASCII characters to their ASCII
+            equivalents. For example, “café” becomes “cafe”. Uses
+            the mapping             provided by the unidecode module.
     
         delchars
         --------
@@ -187,8 +187,8 @@
         -----------
     
         %deldupchars{text,chars}
-            Search for duplicate characters and replace with only one
-            occurrance of this characters.
+            Search for duplicate characters and replace with only
+            one occurrance of this characters.
     
         first
         -----
@@ -203,19 +203,20 @@
         if
         --
     
-        %if{condition,text} or %if{condition,truetext,falsetext}
-            If condition is nonempty (or nonzero, if it’s a number), then
-            returns the second argument. Otherwise, returns the third
-            argument if specified (or nothing if falsetext is left off).
+        %if{condition,truetext} or             %if{condition,truetext,falsetext}
+            If condition is nonempty (or nonzero, if it’s a
+            number), then returns the second argument. Otherwise, returns
+            the             third argument if specified (or nothing if
+            falsetext is left off).
     
         ifdef
         -----
     
-        %ifdef{field}, %ifdef{field,truetext} or
-        %ifdef{field,truetext,falsetext}
-            If field exists, then return truetext or field (default).
-            Otherwise, returns falsetext. The field should be entered
-            without $.
+        %ifdef{field}, %ifdef{field,text} or
+        %ifdef{field,text,falsetext}
+            If field exists, then return truetext or field
+            (default). Otherwise, returns falsetext. The field should be
+            entered without $.
     
         left
         ----
@@ -228,6 +229,13 @@
     
         %lower{text}
             Convert “text” to lowercase.
+    
+        num
+        ---
+    
+        %num{number, count}
+            Pad decimal number with leading zeros.
+            %num{$track, 3}
     
         replchars
         ---------
@@ -249,7 +257,7 @@
         shorten
         -------
     
-        %shorten{text, max_size}
+        %shorten{text} or %shorten{text, max_size}
             Shorten “text” on word boundarys.
             %shorten{$title, 32}
     
@@ -257,9 +265,9 @@
         ----
     
         %time{date_time,format,curformat}
-            Return the date and time in any format accepted by strftime. For
-            example, to get the year some music was added to your library,
-            use %time{$added,%Y}.
+            Return the date and time in any format accepted by
+            strftime. For example, to get the year some music was added to
+            your library, use %time{$added,%Y}.
     
         title
         -----

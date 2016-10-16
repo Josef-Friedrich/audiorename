@@ -30,11 +30,13 @@ def tmp_file(test_file):
     shutil.copyfile(orig, tmp)
     return tmp
 
+
 def gen_file_list(files, path):
     output = []
     for f in files:
         output.append(os.path.join(path, f))
     return output
+
 
 def is_file(path):
     """Check if file exists
@@ -453,6 +455,7 @@ class TestBatch(unittest.TestCase):
                 test_files
             ])
         self.assertEqual(self.album_complete, output)
+
 
 class TestExtension(unittest.TestCase):
 
