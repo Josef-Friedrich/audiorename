@@ -7,6 +7,38 @@ from tmep import doc as tdoc
 from .rename import formats
 td = tdoc.Doc()
 
+
+fields = {
+    'disctrack': {
+        'description': 'Combination of disc and track in the format: ' +
+                       'disk-track, e.g. 1-01, 3-099',
+        'category': 'ordinary',
+    },
+    'artistsafe': {
+        'description': 'The first available value of this metatag order: ' +
+                       '“albumartist” -> “artist” -> “albumartist_credit” '
+                       '-> “artist_credit”',
+        'category': 'ordinary',
+    },
+    'artistsafe_sort': {
+        'description': ' The first available value of this metatag order: ' +
+                       '“albumartist_sort” -> “artist_sort” -> “artistsafe”',
+        'category': 'ordinary',
+    },
+    'year_safe': {
+        'description': 'year_safe',
+        'category': 'ordinary',
+    },
+    'artist_initial': {
+        'description': 'First character in lowercase of “artistsafe_sort”',
+        'category': 'ordinary',
+    },
+    'album_initial': {
+        'description': 'First character in lowercase of “album”.',
+        'category': 'ordinary',
+    },
+}
+
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     description='''\
@@ -25,7 +57,7 @@ Metadata fields
 ---------------
 
 '''
-    + pdoc.get_doc() + '''
+    + pdoc.get_doc(additional_doc=fields) + '''
 
 Functions
 ---------

@@ -499,5 +499,21 @@ class TestExtension(unittest.TestCase):
             gen_file_list(['03.mp3'], self.test_files)
         )
 
+
+class TestHelp(unittest.TestCase):
+
+    def setUp(self):
+        with self.assertRaises(SystemExit):
+            with Capturing() as output:
+                audiorename.execute(['--help'])
+        self.output = '\n'.join(output)
+
+    def test_tmep(self):
+        self.assertTrue('%title{text}' in self.output)
+
+    def test_phrydy(self):
+        self.assertTrue('mb_releasegroupid' in self.output)
+
+
 if __name__ == '__main__':
     unittest.main()
