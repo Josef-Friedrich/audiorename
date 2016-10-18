@@ -46,7 +46,7 @@ class Rename(object):
         self.old_path = os.path.realpath(self.old_file)
         self.extension = self.old_file.split('.')[-1]
 
-        meta = Meta(self.old_path, args)
+        meta = Meta(self.old_path, args.shell_friendly)
         self.meta = meta.getMeta()
 
     def generateFilename(self):

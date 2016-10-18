@@ -5,10 +5,9 @@ import six
 
 
 class Meta(object):
-    def __init__(self, path, args=None):
+    def __init__(self, path, shell_friendly=False):
 
-        if args:
-            self.args = args
+        self.shell_friendly = shell_friendly
 
         self.media_file = MediaFile(path)
         self.m = {}
@@ -70,7 +69,7 @@ class Meta(object):
             else:
                 safe_sort = 'Unknown'
 
-        if self.args.shell_friendly:
+        if self.shell_friendly:
             safe_sort = safe_sort.replace(', ', '_')
 
         self.m['artistsafe'] = safe
