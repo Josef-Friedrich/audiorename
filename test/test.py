@@ -514,6 +514,35 @@ class TestHelp(unittest.TestCase):
     def test_phrydy(self):
         self.assertTrue('mb_releasegroupid' in self.output)
 
+class TestSkip(unittest.TestCase):
+
+    def setUp(self):
+        self.file = os.path.join(test_path, 'broken', 'binary.mp3')
+        with Capturing() as output:
+            audiorename.execute([
+                '-d',
+                self.file
+            ])
+        self.output = output
+
+    def test_message(self):
+        self.assertTrue('!!! SKIPPED [broken file] !!!' in self.output[0])
+
+    def test_file_in_message(self):
+        self.assertTrue('!!! SKIPPED [broken file] !!!' in self.output[0])
+        self.assertTrue(self.file in self.output[0])
+
+
+    def test_continuation(self):
+        path = os.path.join(test_path, 'broken')
+        with Capturing() as output:
+            audiorename.execute([
+                '--unittest',
+                path
+            ])
+
+        self.assertTrue(output[1])
+
 
 if __name__ == '__main__':
     unittest.main()

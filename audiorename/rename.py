@@ -83,9 +83,9 @@ class Rename(object):
             if exception.errno != errno.EEXIST:
                 raise
 
-    def skipMessage(self):
+    def skipMessage(self, message='no field'):
         print(
-            red('☠ no field ' + self.args.skip_if_empty + ' ☠',
+            red('!!! SKIPPED [' + message + '] !!!',
                 reverse=True) + ': ' + self.old_file)
 
     def dryRun(self):
@@ -108,7 +108,9 @@ class Rename(object):
 
     def execute(self):
         skip = self.args.skip_if_empty
-        if skip and (skip not in self.meta or not self.meta[skip]):
+        if not self.meta:
+            self.skipMessage('broken file')
+        elif skip and (skip not in self.meta or not self.meta[skip]):
             self.skipMessage()
         else:
             if self.args.dry_run:

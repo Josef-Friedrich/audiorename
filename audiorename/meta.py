@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import phrydy
 from phrydy import MediaFile
 from tmep import Functions
 import six
@@ -9,26 +10,31 @@ class Meta(object):
 
         self.shell_friendly = shell_friendly
 
-        self.media_file = MediaFile(path)
-        self.m = {}
-        for key in MediaFile.readable_fields():
-            value = getattr(self.media_file, key)
-            if key != 'art':
-                if six.PY2:
-                    if not value:
-                        value = ''
-                    elif isinstance(value, str) or isinstance(value, unicode):
-                        value = Functions.tmpl_sanitize(value)
-                else:
-                    if not value:
-                        value = ''
-                    elif isinstance(value, bytes) or isinstance(value, str):
-                        value = Functions.tmpl_sanitize(value)
-                self.m[key] = value
-        self.discTrack()
-        self.artistSafe()
-        self.yearSafe()
-        self.initials()
+        try:
+            self.media_file = MediaFile(path)
+            self.m = {}
+            for key in MediaFile.readable_fields():
+                value = getattr(self.media_file, key)
+                if key != 'art':
+                    if six.PY2:
+                        if not value:
+                            value = ''
+                        elif isinstance(value, str) or isinstance(value, unicode):
+                            value = Functions.tmpl_sanitize(value)
+                    else:
+                        if not value:
+                            value = ''
+                        elif isinstance(value, bytes) or isinstance(value, str):
+                            value = Functions.tmpl_sanitize(value)
+                    self.m[key] = value
+            self.discTrack()
+            self.artistSafe()
+            self.yearSafe()
+            self.initials()
+            self.skip = False
+
+        except phrydy.UnreadableFileError:
+            self.skip = True
 
     def discTrack(self):
         if self.m['disctotal'] > 9:
@@ -89,4 +95,7 @@ class Meta(object):
         self.m['album_initial'] = self.m['album'][0:1].lower()
 
     def getMeta(self):
-        return self.m
+        if self.skip:
+            return False
+        else:
+            return self.m
