@@ -73,7 +73,7 @@ class Meta(object):
         elif meta['artist_sort']:
             sort = meta['artist_sort']
         if self.shell_friendly:
-            sort = value.replace(', ', '_')
+            sort = sort.replace(', ', '_')
 
         if not sort and not safe:
             sort = safe = 'Unknown'

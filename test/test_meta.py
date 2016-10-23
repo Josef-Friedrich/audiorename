@@ -5,6 +5,7 @@ import helper as h
 def get_real(path):
     return h.get_meta([h.dir_test, 'real-world'] + path)
 
+
 def get_meta(token):
     return h.get_meta([h.dir_test, 'meta', token + '.mp3'])
 
@@ -53,6 +54,11 @@ class TestArtistSafeUnit(unittest.TestCase):
         self.assertEqual(safe, key)
         self.assertEqual(sort, key)
 
+    def test_unkown(self):
+        safe, sort = self.meta.artistSafe(self.m)
+        self.assertEqual(safe, 'Unknown')
+        self.assertEqual(sort, 'Unknown')
+
     def test_albumartist_credit(self):
         self.assertArtistSort('albumartist_credit')
 
@@ -70,6 +76,29 @@ class TestArtistSafeUnit(unittest.TestCase):
 
     def test_artist(self):
         self.assertArtistSort('artist')
+
+    def test_artist__artist_sort(self):
+        self.m['artist'] = 'artist'
+        self.m['artist_sort'] = 'artist_sort'
+        safe, sort = self.meta.artistSafe(self.m)
+        self.assertEqual(safe, 'artist')
+        self.assertEqual(sort, 'artist_sort')
+
+    def test_albumartist__artist__artist_sort(self):
+        self.m['albumartist'] = 'albumartist'
+        self.m['artist'] = 'artist'
+        self.m['artist_sort'] = 'artist_sort'
+        safe, sort = self.meta.artistSafe(self.m)
+        self.assertEqual(safe, 'albumartist')
+        self.assertEqual(sort, 'artist_sort')
+
+    def test_artist__albumartist_sort__artist_sort(self):
+        self.m['albumartist_sort'] = 'albumartist_sort'
+        self.m['artist'] = 'artist'
+        self.m['artist_sort'] = 'artist_sort'
+        safe, sort = self.meta.artistSafe(self.m)
+        self.assertEqual(safe, 'artist')
+        self.assertEqual(sort, 'albumartist_sort')
 
 
 class TestArtistSafe(unittest.TestCase):
