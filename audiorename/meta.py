@@ -19,20 +19,12 @@ class Meta(object):
             for key in MediaFile.readable_fields():
                 value = getattr(self.media_file, key)
                 if key != 'art':
-                    if six.PY2:
-                        if not value:
-                            value = ''
-                        elif \
-                                isinstance(value, str) or \
-                                isinstance(value, unicode):
-                            value = Functions.tmpl_sanitize(value)
-                    else:
-                        if not value:
-                            value = ''
-                        elif \
-                                isinstance(value, bytes) or \
-                                isinstance(value, str):
-                            value = Functions.tmpl_sanitize(value)
+                    if not value:
+                        value = ''
+                    elif isinstance(value, str) or \
+                            (six.PY2 and isinstance(value, unicode)) or \
+                            (six.PY3 and isinstance(value, bytes)):
+                         value = Functions.tmpl_sanitize(value)
                     meta[key] = value
 
         except phrydy.UnreadableFileError:
