@@ -514,6 +514,7 @@ class TestHelp(unittest.TestCase):
     def test_phrydy(self):
         self.assertTrue('mb_releasegroupid' in self.output)
 
+
 class TestSkip(unittest.TestCase):
 
     def setUp(self):
@@ -531,7 +532,6 @@ class TestSkip(unittest.TestCase):
     def test_file_in_message(self):
         self.assertTrue('!!! SKIPPED [broken file] !!!' in self.output[0])
         self.assertTrue(self.file in self.output[0])
-
 
     def test_continuation(self):
         path = os.path.join(test_path, 'broken')

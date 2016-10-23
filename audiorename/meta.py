@@ -19,12 +19,16 @@ class Meta(object):
                     if six.PY2:
                         if not value:
                             value = ''
-                        elif isinstance(value, str) or isinstance(value, unicode):
+                        elif \
+                                isinstance(value, str) or \
+                                isinstance(value, unicode):
                             value = Functions.tmpl_sanitize(value)
                     else:
                         if not value:
                             value = ''
-                        elif isinstance(value, bytes) or isinstance(value, str):
+                        elif \
+                                isinstance(value, bytes) or \
+                                isinstance(value, str):
                             value = Functions.tmpl_sanitize(value)
                     self.m[key] = value
             self.discTrack()
