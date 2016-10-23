@@ -41,17 +41,17 @@ class Meta(object):
             self.skip = True
 
     def discTrack(self):
-        if self.m['disctotal'] > 9:
+        if self.m['disctotal'] and int(self.m['disctotal']) > 9:
             disk = str(self.m['disc']).zfill(2)
         else:
             disk = str(self.m['disc'])
 
-        if self.m['tracktotal'] > 99:
+        if self.m['tracktotal'] and int(self.m['tracktotal']) > 99:
             track = str(self.m['track']).zfill(3)
         else:
             track = str(self.m['track']).zfill(2)
 
-        if self.m['disc'] and self.m['disctotal'] > 1:
+        if self.m['disc'] and self.m['disctotal'] and int(self.m['disctotal']) > 1:
             self.m['disctrack'] = disk + '-' + track
         else:
             self.m['disctrack'] = track

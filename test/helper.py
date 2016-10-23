@@ -27,8 +27,7 @@ def gen_file_list(files, path, extension='mp3'):
     return output
 
 
-def get_meta(path):
-    path_list = [dir_test, 'real-world'] + path
+def get_meta(path_list):
     m = meta.Meta(os.path.join(*path_list))
     return m.getMeta()
 
