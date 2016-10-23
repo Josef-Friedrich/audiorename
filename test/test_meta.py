@@ -100,6 +100,18 @@ class TestArtistSafeUnit(unittest.TestCase):
         self.assertEqual(safe, 'artist')
         self.assertEqual(sort, 'albumartist_sort')
 
+    def test_shell_unfriendly(self):
+        self.meta.shell_friendly = False
+        self.m['artist_sort'] = 'Lastname, Prename'
+        safe, sort = self.meta.artistSafe(self.m)
+        self.assertEqual(sort, 'Lastname, Prename')
+
+    def test_shell_friendly(self):
+        self.meta.shell_friendly = True
+        self.m['artist_sort'] = 'Lastname, Prename'
+        safe, sort = self.meta.artistSafe(self.m)
+        self.assertEqual(sort, 'Lastname_Prename')
+
 
 class TestYearSafeUnit(unittest.TestCase):
 
