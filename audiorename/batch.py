@@ -3,6 +3,7 @@
 """Batch processing of the audio files"""
 
 from .rename import do_rename
+import phrydy
 from phrydy import MediaFile
 import os
 
@@ -70,15 +71,18 @@ class Batch(object):
             self.check_album()
             return
 
-        media = MediaFile(path)
-        record = {}
-        record['title'] = media.album
-        record['track'] = media.track
-        record['path'] = path
-        if not self.album_title or self.album_title != media.album:
-            self.album_title = media.album
-            self.check_album()
-        self.album.append(record)
+        try:
+            media = MediaFile(path)
+            record = {}
+            record['title'] = media.album
+            record['track'] = media.track
+            record['path'] = path
+            if not self.album_title or self.album_title != media.album:
+                self.album_title = media.album
+                self.check_album()
+            self.album.append(record)
+        except phrydy.UnreadableFileError:
+            pass
 
     def execute(self):
         """Process all files of a given path or process a single file."""

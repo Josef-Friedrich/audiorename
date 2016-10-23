@@ -339,6 +339,16 @@ class TestBatch(unittest.TestCase):
             os.path.join(test_files),
         )
 
+        self.album_broken = gen_file_list(
+            ['01', '03', '05', '07', '09', '11'],
+            os.path.join(test_files, 'album_broken'),
+        )
+
+        self.album_broken_all = gen_file_list(
+            ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
+            os.path.join(test_files, 'album_broken'),
+        )
+
         self.album_complete = gen_file_list(
             ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
             os.path.join(test_files, 'album_complete'),
@@ -355,6 +365,7 @@ class TestBatch(unittest.TestCase):
         )
 
         self.all = self.singles + \
+            self.album_broken_all +  \
             self.album_complete + \
             self.album_incomplete + \
             self.album_small
