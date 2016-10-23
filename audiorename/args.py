@@ -26,7 +26,7 @@ fields = {
         'category': 'ordinary',
     },
     'year_safe': {
-        'description': 'year_safe',
+        'description': 'First “original_year” then “year”.',
         'category': 'ordinary',
     },
     'artist_initial': {
@@ -34,7 +34,11 @@ fields = {
         'category': 'ordinary',
     },
     'album_initial': {
-        'description': 'First character in lowercase of “album”.',
+        'description': 'First character in lowercase of “album_clean”.',
+        'category': 'ordinary',
+    },
+    'album_clean': {
+        'description': '“album” without ” (Disc X)”.',
         'category': 'ordinary',
     },
 }

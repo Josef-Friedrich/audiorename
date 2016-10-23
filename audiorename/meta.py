@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import phrydy
+import re
 from phrydy import MediaFile
 from tmep import Functions
 import six
@@ -96,6 +97,10 @@ class Meta(object):
             value = ''
         return value
 
+    def albumClean(self, album):
+        album = re.sub(r' ?\([dD]is[ck].*\)$', '', album)
+        return album
+
     def initials(self, value):
         return value[0:1].lower()
 
@@ -107,7 +112,8 @@ class Meta(object):
             meta['artistsafe'], meta['artistsafe_sort'] = self.artistSafe(meta)
             meta['year_safe'] = self.yearSafe(meta)
             meta['artist_initial'] = self.initials(meta['artistsafe_sort'])
-            meta['album_initial'] = self.initials(meta['album'])
+            meta['album_clean'] = self.albumClean(meta['album'])
+            meta['album_initial'] = self.initials(meta['album_clean'])
             return meta
         else:
             return False

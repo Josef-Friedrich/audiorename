@@ -221,6 +221,8 @@ class TestDiskTrackUnit(unittest.TestCase):
 
 class TestDiskTrack(unittest.TestCase):
 
+
+
     def test_single_disc(self):
         meta = get_real([
             'e', 'Everlast', 'Eat-At-Whiteys_2000', '02_Black-Jesus.mp3'
@@ -235,6 +237,35 @@ class TestDiskTrack(unittest.TestCase):
             '2-09_Respectable.mp3'
         ])
         self.assertEqual(meta['disctrack'], u'2-09')
+
+
+class TestAlbumClean(unittest.TestCase):
+
+    def setUp(self):
+        from audiorename import meta
+        self.meta = meta.Meta()
+
+    def assertAlbumClean(self, album, compare=u'Lorem ipsum'):
+        self.assertEqual(self.meta.albumClean(album), compare)
+
+    def test_disc_removal(self):
+        self.assertAlbumClean('Lorem ipsum (Disc 1)')
+        self.assertAlbumClean('Lorem ipsum(Disc 1)')
+        self.assertAlbumClean('Lorem ipsum (Disc)')
+        self.assertAlbumClean('Lorem ipsum (Disk 100)')
+        self.assertAlbumClean('Lorem ipsum (disk99)')
+
+    def test_empty(self):
+        self.assertAlbumClean('', '')
+
+    def test_real_world(self):
+        meta = get_real([
+            '_compilations',
+            't',
+            'The-Greatest-No1s-of-the-80s_1994',
+            '2-09_Respectable.mp3'
+        ])
+        self.assertEqual(meta['album_clean'], u'The Greatest No.1s of the 80s')
 
 if __name__ == '__main__':
     unittest.main()
