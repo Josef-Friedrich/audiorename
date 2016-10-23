@@ -5,21 +5,7 @@ import six
 import os
 import shutil
 import tempfile
-import sys
 import helper as h
-if six.PY2:
-    from cStringIO import StringIO
-else:
-    from io import StringIO
-
-
-path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
-path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
-
-test_path = os.path.dirname(os.path.abspath(__file__))
-
-test_files = os.path.join(test_path, 'files')
-cwd = os.getcwd()
 
 
 class TestCommandlineInterface(unittest.TestCase):
@@ -59,18 +45,18 @@ class TestBasicRename(unittest.TestCase):
     def test_album(self):
         self.assertFalse(os.path.isfile(self.tmp_album))
         self.assertTrue(h.is_file(
-            cwd + path_album
+            h.cwd + h.path_album
         ))
 
     def test_compilation(self):
         self.assertFalse(os.path.isfile(self.tmp_compilation))
         self.assertTrue(h.is_file(
-            cwd + path_compilation
+            h.cwd + h.path_compilation
         ))
 
     def tearDown(self):
-        shutil.rmtree(cwd + '/_compilations/')
-        shutil.rmtree(cwd + '/t/')
+        shutil.rmtree(h.cwd + '/_compilations/')
+        shutil.rmtree(h.cwd + '/t/')
 
 
 class TestBasicCopy(unittest.TestCase):
@@ -87,8 +73,8 @@ class TestBasicCopy(unittest.TestCase):
         self.assertTrue(h.is_file(self.tmp_album))
         self.assertTrue(
             os.path.isfile(
-                cwd +
-                path_album
+                h.cwd +
+                h.path_album
             )
         )
 
@@ -96,13 +82,13 @@ class TestBasicCopy(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.tmp_compilation))
         self.assertTrue(
             os.path.isfile(
-                cwd + path_compilation
+                h.cwd + h.path_compilation
             )
         )
 
     def tearDown(self):
-        shutil.rmtree(cwd + '/_compilations/')
-        shutil.rmtree(cwd + '/t/')
+        shutil.rmtree(h.cwd + '/_compilations/')
+        shutil.rmtree(h.cwd + '/t/')
 
 
 class TestDryRun(unittest.TestCase):
@@ -130,8 +116,8 @@ class TestDryRun(unittest.TestCase):
         self.assertTrue(h.is_file(self.tmp_album))
         self.assertFalse(
             os.path.isfile(
-                cwd +
-                path_album
+                h.cwd +
+                h.path_album
             )
         )
 
@@ -139,7 +125,7 @@ class TestDryRun(unittest.TestCase):
         self.assertTrue(h.is_file(self.tmp_compilation))
         self.assertFalse(
             os.path.isfile(
-                cwd + path_compilation
+                h.cwd + h.path_compilation
             )
         )
 
@@ -222,16 +208,16 @@ class TestCustomFormats(unittest.TestCase):
 
     def test_format(self):
         self.assertTrue(os.path.isfile(
-            cwd + '/tmp/full - the artist.mp3'
+            h.cwd + '/tmp/full - the artist.mp3'
         ))
 
     def test_compilation(self):
         self.assertTrue(os.path.isfile(
-            cwd + '/tmp/comp_full - the artist.mp3'
+            h.cwd + '/tmp/comp_full - the artist.mp3'
         ))
 
     def tearDown(self):
-        shutil.rmtree(cwd + '/tmp/')
+        shutil.rmtree(h.cwd + '/tmp/')
 
 
 class TestSkipIfEmpty(unittest.TestCase):
@@ -280,32 +266,32 @@ class TestBatch(unittest.TestCase):
     def setUp(self):
         self.singles = h.gen_file_list(
             ['album', 'compilation'],
-            os.path.join(test_files),
+            os.path.join(h.test_files),
         )
 
         self.album_broken = h.gen_file_list(
             ['01', '03', '05', '07', '09', '11'],
-            os.path.join(test_files, 'album_broken'),
+            os.path.join(h.test_files, 'album_broken'),
         )
 
         self.album_broken_all = h.gen_file_list(
             ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
-            os.path.join(test_files, 'album_broken'),
+            os.path.join(h.test_files, 'album_broken'),
         )
 
         self.album_complete = h.gen_file_list(
             ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
-            os.path.join(test_files, 'album_complete'),
+            os.path.join(h.test_files, 'album_complete'),
         )
 
         self.album_incomplete = h.gen_file_list(
             ['01', '02', '04', '05', '06', '07', '09', '10', '11'],
-            os.path.join(test_files, 'album_incomplete'),
+            os.path.join(h.test_files, 'album_incomplete'),
         )
 
         self.album_small = h.gen_file_list(
             ['01', '02', '03', '04', '05'],
-            os.path.join(test_files, 'album_small'),
+            os.path.join(h.test_files, 'album_small'),
         )
 
         self.all = self.singles + \
@@ -315,21 +301,21 @@ class TestBatch(unittest.TestCase):
             self.album_small
 
     def test_single(self):
-        single = os.path.join(test_files, 'album.mp3')
+        single = os.path.join(h.test_files, 'album.mp3')
         with h.Capturing() as output:
             audiorename.execute(['--unittest', single])
         self.assertEqual([single], output)
 
     def test_folder_complete(self):
         with h.Capturing() as output:
-            audiorename.execute(['--unittest', test_files])
+            audiorename.execute(['--unittest', h.test_files])
         self.assertEqual(self.all, output)
 
     def test_folder_sub(self):
         with h.Capturing() as output:
             audiorename.execute([
                 '--unittest',
-                os.path.join(test_files, 'album_complete')
+                os.path.join(h.test_files, 'album_complete')
             ])
         self.assertEqual(self.album_complete, output)
 
@@ -339,7 +325,7 @@ class TestBatch(unittest.TestCase):
                 '--unittest',
                 '--filter-album-min',
                 '7',
-                test_files
+                h.test_files
             ])
         self.assertEqual(self.album_complete + self.album_incomplete, output)
 
@@ -349,7 +335,7 @@ class TestBatch(unittest.TestCase):
                 '--unittest',
                 '--filter-album-min',
                 '23',
-                test_files
+                h.test_files
             ])
         self.assertEqual([], output)
 
@@ -358,7 +344,7 @@ class TestBatch(unittest.TestCase):
             audiorename.execute([
                 '--unittest',
                 '--filter-album-complete',
-                test_files
+                h.test_files
             ])
         self.assertEqual(
             self.singles +
@@ -374,7 +360,7 @@ class TestBatch(unittest.TestCase):
                 '--filter-album-min',
                 '7',
                 '--filter-album-complete',
-                test_files
+                h.test_files
             ])
         self.assertEqual(self.album_complete, output)
 
@@ -382,7 +368,7 @@ class TestBatch(unittest.TestCase):
 class TestExtension(unittest.TestCase):
 
     def setUp(self):
-        self.test_files = os.path.join(test_path, 'mixed_formats')
+        self.test_files = os.path.join(h.test_path, 'mixed_formats')
 
     def test_default(self):
         with h.Capturing() as output:
@@ -448,7 +434,7 @@ class TestHelp(unittest.TestCase):
 class TestSkip(unittest.TestCase):
 
     def setUp(self):
-        self.file = os.path.join(test_path, 'broken', 'binary.mp3')
+        self.file = os.path.join(h.test_path, 'broken', 'binary.mp3')
         with h.Capturing() as output:
             audiorename.execute([
                 '-d',
@@ -464,7 +450,7 @@ class TestSkip(unittest.TestCase):
         self.assertTrue(self.file in self.output[0])
 
     def test_continuation(self):
-        path = os.path.join(test_path, 'broken')
+        path = os.path.join(h.test_path, 'broken')
         with h.Capturing() as output:
             audiorename.execute([
                 '--unittest',

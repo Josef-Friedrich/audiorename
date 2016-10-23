@@ -12,6 +12,14 @@ else:
 
 dir_test = os.path.dirname(os.path.abspath(__file__))
 
+path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
+path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
+
+test_path = os.path.dirname(os.path.abspath(__file__))
+
+test_files = os.path.join(test_path, 'files')
+cwd = os.getcwd()
+
 
 def gen_file_list(files, path, extension='mp3'):
     output = []
