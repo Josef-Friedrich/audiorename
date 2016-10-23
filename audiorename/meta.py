@@ -41,17 +41,26 @@ class Meta(object):
         return meta
 
     def discTrack(self, meta):
-        if meta['disctotal'] and int(meta['disctotal']) > 9:
-            disk = str(meta['disc']).zfill(2)
-        else:
-            disk = str(meta['disc'])
+        m = meta
 
-        if meta['tracktotal'] and int(meta['tracktotal']) > 99:
-            track = str(meta['track']).zfill(3)
-        else:
-            track = str(meta['track']).zfill(2)
+        if not m['track']:
+            return ''
 
-        if meta['disc'] and meta['disctotal'] and int(meta['disctotal']) > 1:
+        if m['disctotal'] and int(m['disctotal']) > 99:
+            disk = str(m['disc']).zfill(3)
+        elif m['disctotal'] and int(m['disctotal']) > 9:
+            disk = str(m['disc']).zfill(2)
+        else:
+            disk = str(m['disc'])
+
+        if m['tracktotal'] and int(m['tracktotal']) > 99:
+            track = str(m['track']).zfill(3)
+        else:
+            track = str(m['track']).zfill(2)
+
+        if m['disc'] and m['disctotal'] and int(m['disctotal']) > 1:
+            return disk + '-' + track
+        elif m['disc'] and not m['disctotal']:
             return disk + '-' + track
         else:
             return track
