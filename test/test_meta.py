@@ -221,8 +221,6 @@ class TestDiskTrackUnit(unittest.TestCase):
 
 class TestDiskTrack(unittest.TestCase):
 
-
-
     def test_single_disc(self):
         meta = get_real([
             'e', 'Everlast', 'Eat-At-Whiteys_2000', '02_Black-Jesus.mp3'

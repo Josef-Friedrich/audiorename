@@ -21,7 +21,7 @@ fields = {
         'category': 'ordinary',
     },
     'artistsafe_sort': {
-        'description': ' The first available value of this metatag order: ' +
+        'description': 'The first available value of this metatag order: ' +
                        '“albumartist_sort” -> “artist_sort” -> “artistsafe”',
         'category': 'ordinary',
     },
