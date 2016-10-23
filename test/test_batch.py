@@ -111,7 +111,7 @@ class TestBatch(unittest.TestCase):
 class TestExtension(unittest.TestCase):
 
     def setUp(self):
-        self.test_files = os.path.join(h.test_path, 'mixed_formats')
+        self.test_files = os.path.join(h.dir_test, 'mixed_formats')
 
     def test_default(self):
         with h.Capturing() as output:
@@ -162,7 +162,7 @@ class TestExtension(unittest.TestCase):
 class TestSkip(unittest.TestCase):
 
     def setUp(self):
-        self.file = os.path.join(h.test_path, 'broken', 'binary.mp3')
+        self.file = os.path.join(h.dir_test, 'broken', 'binary.mp3')
         with h.Capturing() as output:
             audiorename.execute([
                 '-d',
@@ -178,7 +178,7 @@ class TestSkip(unittest.TestCase):
         self.assertTrue(self.file in self.output[0])
 
     def test_continuation(self):
-        path = os.path.join(h.test_path, 'broken')
+        path = os.path.join(h.dir_test, 'broken')
         with h.Capturing() as output:
             audiorename.execute([
                 '--unittest',

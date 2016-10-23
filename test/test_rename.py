@@ -19,18 +19,18 @@ class TestBasicRename(unittest.TestCase):
     def test_album(self):
         self.assertFalse(os.path.isfile(self.tmp_album))
         self.assertTrue(h.is_file(
-            h.cwd + h.path_album
+            h.dir_cwd + h.path_album
         ))
 
     def test_compilation(self):
         self.assertFalse(os.path.isfile(self.tmp_compilation))
         self.assertTrue(h.is_file(
-            h.cwd + h.path_compilation
+            h.dir_cwd + h.path_compilation
         ))
 
     def tearDown(self):
-        shutil.rmtree(h.cwd + '/_compilations/')
-        shutil.rmtree(h.cwd + '/t/')
+        shutil.rmtree(h.dir_cwd + '/_compilations/')
+        shutil.rmtree(h.dir_cwd + '/t/')
 
 
 class TestBasicCopy(unittest.TestCase):
@@ -47,7 +47,7 @@ class TestBasicCopy(unittest.TestCase):
         self.assertTrue(h.is_file(self.tmp_album))
         self.assertTrue(
             os.path.isfile(
-                h.cwd +
+                h.dir_cwd +
                 h.path_album
             )
         )
@@ -56,13 +56,13 @@ class TestBasicCopy(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.tmp_compilation))
         self.assertTrue(
             os.path.isfile(
-                h.cwd + h.path_compilation
+                h.dir_cwd + h.path_compilation
             )
         )
 
     def tearDown(self):
-        shutil.rmtree(h.cwd + '/_compilations/')
-        shutil.rmtree(h.cwd + '/t/')
+        shutil.rmtree(h.dir_cwd + '/_compilations/')
+        shutil.rmtree(h.dir_cwd + '/t/')
 
 
 class TestDryRun(unittest.TestCase):
@@ -90,7 +90,7 @@ class TestDryRun(unittest.TestCase):
         self.assertTrue(h.is_file(self.tmp_album))
         self.assertFalse(
             os.path.isfile(
-                h.cwd +
+                h.dir_cwd +
                 h.path_album
             )
         )
@@ -99,7 +99,7 @@ class TestDryRun(unittest.TestCase):
         self.assertTrue(h.is_file(self.tmp_compilation))
         self.assertFalse(
             os.path.isfile(
-                h.cwd + h.path_compilation
+                h.dir_cwd + h.path_compilation
             )
         )
 
@@ -182,16 +182,16 @@ class TestCustomFormats(unittest.TestCase):
 
     def test_format(self):
         self.assertTrue(os.path.isfile(
-            h.cwd + '/tmp/full - the artist.mp3'
+            h.dir_cwd + '/tmp/full - the artist.mp3'
         ))
 
     def test_compilation(self):
         self.assertTrue(os.path.isfile(
-            h.cwd + '/tmp/comp_full - the artist.mp3'
+            h.dir_cwd + '/tmp/comp_full - the artist.mp3'
         ))
 
     def tearDown(self):
-        shutil.rmtree(h.cwd + '/tmp/')
+        shutil.rmtree(h.dir_cwd + '/tmp/')
 
 
 class TestSkipIfEmpty(unittest.TestCase):
