@@ -31,9 +31,11 @@ def tmp_file(test_file):
     return tmp
 
 
-def gen_file_list(files, path):
+def gen_file_list(files, path, extension='mp3'):
     output = []
     for f in files:
+        if extension:
+            f = f + '.' + extension
         output.append(os.path.join(path, f))
     return output
 
@@ -332,65 +334,30 @@ class TestVersion(unittest.TestCase):
 class TestBatch(unittest.TestCase):
 
     def setUp(self):
-        self.singles = []
-        for f in [
-            'album.mp3',
-            'compilation.mp3',
-        ]:
-            self.singles.append(
-                os.path.join(test_files, f)
-            )
+        self.singles = gen_file_list(
+            ['album', 'compilation'],
+            os.path.join(test_files),
+        )
 
-        self.album_complete = []
-        for f in [
-            '01.mp3',
-            '02.mp3',
-            '03.mp3',
-            '04.mp3',
-            '05.mp3',
-            '06.mp3',
-            '07.mp3',
-            '08.mp3',
-            '09.mp3',
-            '10.mp3',
-            '11.mp3'
-        ]:
-            self.album_complete.append(
-                os.path.join(test_files, 'album_complete', f)
-            )
+        self.album_complete = gen_file_list(
+            ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
+            os.path.join(test_files, 'album_complete'),
+        )
 
-            self.album_incomplete = []
-            for f in [
-                '01.mp3',
-                '02.mp3',
-                '04.mp3',
-                '05.mp3',
-                '06.mp3',
-                '07.mp3',
-                '09.mp3',
-                '10.mp3',
-                '11.mp3'
-            ]:
-                self.album_incomplete.append(
-                    os.path.join(test_files, 'album_incomplete', f)
-                )
+        self.album_incomplete = gen_file_list(
+            ['01', '02', '04', '05', '06', '07', '09', '10', '11'],
+            os.path.join(test_files, 'album_incomplete'),
+        )
 
-            self.album_small = []
-            for f in [
-                '01.mp3',
-                '02.mp3',
-                '03.mp3',
-                '04.mp3',
-                '05.mp3',
-            ]:
-                self.album_small.append(
-                    os.path.join(test_files, 'album_small', f)
-                )
+        self.album_small = gen_file_list(
+            ['01', '02', '03', '04', '05'],
+            os.path.join(test_files, 'album_small'),
+        )
 
-            self.all = self.singles + \
-                self.album_complete + \
-                self.album_incomplete + \
-                self.album_small
+        self.all = self.singles + \
+            self.album_complete + \
+            self.album_incomplete + \
+            self.album_small
 
     def test_single(self):
         single = os.path.join(test_files, 'album.mp3')
@@ -470,7 +437,11 @@ class TestExtension(unittest.TestCase):
             ])
         self.assertEqual(
             output,
-            gen_file_list(['01.flac', '02.m4a', '03.mp3'], self.test_files)
+            gen_file_list(
+                ['01.flac', '02.m4a', '03.mp3'],
+                self.test_files,
+                extension=False
+            )
         )
 
     def test_one(self):
@@ -483,7 +454,11 @@ class TestExtension(unittest.TestCase):
             ])
         self.assertEqual(
             output,
-            gen_file_list(['01.flac', '03.mp3'], self.test_files)
+            gen_file_list(
+                ['01.flac', '03.mp3'],
+                self.test_files,
+                extension=False
+            )
         )
 
     def test_two(self):
@@ -496,7 +471,7 @@ class TestExtension(unittest.TestCase):
             ])
         self.assertEqual(
             output,
-            gen_file_list(['03.mp3'], self.test_files)
+            gen_file_list(['03.mp3'], self.test_files, extension=False)
         )
 
 
