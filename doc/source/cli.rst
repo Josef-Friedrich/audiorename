@@ -23,63 +23,27 @@ Comande line interface
     Metadata fields
     ---------------
     
-        $lyrics:               lyrics
-    
-        $disctitle:            disctitle
-    
-        $month:                The release month of the specific
-                               release
-    
-        $channels:             channels
-    
-        $disc:                 disc
-    
-        $mb_trackid:           MusicBrainz track ID
-    
-        $composer:             composer
-    
-        $albumartist_sort:     albumartist_sort
-    
-        $bitdepth:             only available for some formats
-    
-        $title:                title
-    
-        $mb_albumid:           MusicBrainz album ID
-    
         $acoustid_fingerprint:    Acoustic ID fingerprint
-    
-        $mb_releasegroupid:    MusicBrainz releasegroup  ID
-    
-        $albumartist_credit:    albumartist_credit
     
         $acoustid_id:          Acoustic ID
     
-        $format:               e.g., “MP3” or “FLAC”
+        $album:                album
     
-        $encoder:              encoder
+        $album_clean:          “album” without ” (Disc
+                               X)”.
     
-        $day:                  The release day of the specific
-                               release
+        $album_initial:        First character in lowercase of
+                               “album_clean”.
     
-        $original_year:        The release year of the original
-                               version of the album
+        $albumartist:          The artist for the entire album,
+                               which may be different from the
+                               artists for the individual tracks
     
-        $tracktotal:           tracktotal
+        $albumartist_credit:    albumartist_credit
     
-        $artist:               artist
+        $albumartist_sort:     albumartist_sort
     
-        $mb_albumartistid:     MusicBrainz album artist ID
-    
-        $bpm:                  bpm
-    
-        $artist_credit:        The track-specific artist credit
-                               name,  which may be a variation
-                               of the artist’s “canonical”
-                               name
-    
-        $grouping:             grouping
-    
-        $disctotal:            disctotal
+        $albumdisambig:        albumdisambig
     
         $albumstatus:          The status describes how
                                "official" a release is. Possible
@@ -87,37 +51,45 @@ Comande line interface
                                promotional, bootleg, pseudo-
                                release
     
-        $original_day:         The release day of the original
-                               version of the album
+        $albumtype:            The MusicBrainz album type; the
+                               MusicBrainz wiki has a list of
+                               type names
     
-        $albumartist:          The artist for the entire album,
-                               which may be different from the
-                               artists for the individual tracks
+        $artist:               artist
     
-        $year:                 The release year of the specific
-                               release
+        $artist_credit:        The track-specific artist credit
+                               name, which may be a variation of
+                               the artist’s “canonical”
+                               name
     
-        $albumdisambig:        albumdisambig
-    
-        $samplerate:           in kilohertz, with units: e.g.,
-                               “48kHz”
-    
-        $album:                album
-    
-        $asin:                 Amazon Standard Identification
-                               Number
-    
-        $media:                media
+        $artist_initial:       First character in lowercase of
+                               “artistsafe_sort”
     
         $artist_sort:          The “sort name” of the track
                                artist (e.g., “Beatles, The”
                                or “White, Jack”)
     
-        $comments:             comments
+        $artistsafe:           The first available value of this
+                               metatag order: “albumartist”
+                               -> “artist” ->
+                               “albumartist_credit” ->
+                               “artist_credit”
     
-        $label:                The label which issued the
-                               release. There may be more than
-                               one.
+        $artistsafe_sort:      The first available value of this
+                               metatag order:
+                               “albumartist_sort” ->
+                               “artist_sort” ->
+                               “artistsafe”
+    
+        $asin:                 Amazon Standard Identification
+                               Number
+    
+        $bitdepth:             only available for some formats
+    
+        $bitrate:              in kilobits per second, with
+                               units: e.g., “192kbps”
+    
+        $bpm:                  bpm
     
         $catalognum:           This is a number assigned to the
                                release by the label which can
@@ -129,38 +101,94 @@ Comande line interface
                                a relationship for that — nor
                                the label code.
     
-        $original_month:       The release month of the original
-                               version of the album
+        $channels:             channels
     
-        $mb_artistid:          MusicBrainz artist ID
-    
-        $track:                track
+        $comments:             comments
     
         $comp:                 Compilation flag
     
+        $composer:             composer
+    
+        $country:              The country the release was
+                               issued in.
+    
+        $day:                  The release day of the specific
+                               release
+    
+        $disc:                 disc
+    
+        $disctitle:            disctitle
+    
+        $disctotal:            disctotal
+    
+        $disctrack:            Combination of disc and track in
+                               the format: disk-track, e.g.
+                               1-01, 3-099
+    
+        $encoder:              encoder
+    
+        $format:               e.g., “MP3” or “FLAC”
+    
         $genre:                genre
     
-        $bitrate:              in kilobits per second, with
-                               units: e.g., “192kbps”
+        $grouping:             grouping
+    
+        $label:                The label which issued the
+                               release. There may be more than
+                               one.
     
         $language:             The language a release’s track
                                list is written in. The possible
                                values are taken from the ISO
                                639-3 standard.
     
-        $country:              The country the release was
-                               issued in.
+        $length:               in seconds
+    
+        $lyrics:               lyrics
+    
+        $mb_albumartistid:     MusicBrainz album artist ID
+    
+        $mb_albumid:           MusicBrainz album ID
+    
+        $mb_artistid:          MusicBrainz artist ID
+    
+        $mb_releasegroupid:    MusicBrainz releasegroup  ID
+    
+        $mb_trackid:           MusicBrainz track ID
+    
+        $media:                media
+    
+        $month:                The release month of the specific
+                               release
+    
+        $original_day:         The release day of the original
+                               version of the album
+    
+        $original_month:       The release month of the original
+                               version of the album
+    
+        $original_year:        The release year of the original
+                               version of the album
+    
+        $samplerate:           in kilohertz, with units: e.g.,
+                               “48kHz”
     
         $script:               The script used to write the
                                release’s track list. The
                                possible values are taken from
                                the ISO 15924 standard.
     
-        $length:               in seconds
+        $title:                The title of a audio file.
     
-        $albumtype:            The MusicBrainz album type; the
-                               MusicBrainz wiki has a list of
-                               type names
+        $track:                track
+    
+        $tracktotal:           tracktotal
+    
+        $year:                 The release year of the specific
+                               release
+    
+        $year_safe:            First “original_year” then
+                               “year”.
     
     Functions
     ---------
@@ -169,9 +197,9 @@ Comande line interface
         -------
     
         %asciify{text}
-            Translate non-ASCII characters to their ASCII
-            equivalents. For example, “café” becomes “cafe”. Uses
-            the mapping             provided by the unidecode module.
+            Translate non-ASCII characters to their ASCII equivalents. For
+            example, “café” becomes “cafe”. Uses the mapping
+            provided by the unidecode module.
     
         delchars
         --------
@@ -183,8 +211,8 @@ Comande line interface
         -----------
     
         %deldupchars{text,chars}
-            Search for duplicate characters and replace with only
-            one occurrance of this characters.
+            Search for duplicate characters and replace with only one
+            occurrance of this characters.
     
         first
         -----
@@ -199,20 +227,18 @@ Comande line interface
         if
         --
     
-        %if{condition,truetext} or             %if{condition,truetext,falsetext}
-            If condition is nonempty (or nonzero, if it’s a
-            number), then returns the second argument. Otherwise, returns
-            the             third argument if specified (or nothing if
-            falsetext is left off).
+        %if{condition,truetext} or %if{condition,truetext,falsetext}
+            If condition is nonempty (or nonzero, if it’s a number), then
+            returns the second argument. Otherwise, returns the third
+            argument if specified (or nothing if falsetext is left off).
     
         ifdef
         -----
     
-        %ifdef{field}, %ifdef{field,text} or
-        %ifdef{field,text,falsetext}
-            If field exists, then return truetext or field
-            (default). Otherwise, returns falsetext. The field should be
-            entered without $.
+        %ifdef{field}, %ifdef{field,text} or %ifdef{field,text,falsetext}
+            If field exists, then return truetext or field (default).
+            Otherwise, returns falsetext. The field should be entered
+            without $.
     
         left
         ----
@@ -248,7 +274,7 @@ Comande line interface
         --------
     
         %sanitize{text}
-             Delete in most file systems not allowed characters.
+            Delete in most file systems not allowed characters.
     
         shorten
         -------
@@ -261,9 +287,9 @@ Comande line interface
         ----
     
         %time{date_time,format,curformat}
-            Return the date and time in any format accepted by
-            strftime. For example, to get the year some music was added to
-            your library, use %time{$added,%Y}.
+            Return the date and time in any format accepted by strftime. For
+            example, to get the year some music was added to your library,
+            use %time{$added,%Y}.
     
         title
         -----
