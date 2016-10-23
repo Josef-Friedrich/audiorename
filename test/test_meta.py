@@ -44,7 +44,6 @@ class TestArtistSafe(unittest.TestCase):
         meta = get_meta('artist_sort')
         self.assertEqual(meta['artistsafe'], u'artist_sort')
 
-
     def test_albumartist(self):
         meta = get_meta('albumartist')
         self.assertEqual(meta['artistsafe'], u'albumartist')

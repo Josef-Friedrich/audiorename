@@ -6,13 +6,16 @@ import six
 
 
 class Meta(object):
-    def __init__(self, path, shell_friendly=False):
 
+    def __init__(self, path, shell_friendly=False):
+        self.path = path
         self.shell_friendly = shell_friendly
 
+    def getMediaFile(self):
+        meta = {}
         try:
-            self.media_file = MediaFile(path)
-            self.m = {}
+            meta['skip'] = False
+            self.media_file = MediaFile(self.path)
             for key in MediaFile.readable_fields():
                 value = getattr(self.media_file, key)
                 if key != 'art':
@@ -30,76 +33,82 @@ class Meta(object):
                                 isinstance(value, bytes) or \
                                 isinstance(value, str):
                             value = Functions.tmpl_sanitize(value)
-                    self.m[key] = value
-            self.discTrack()
-            self.artistSafe()
-            self.yearSafe()
-            self.initials()
-            self.skip = False
+                    meta[key] = value
 
         except phrydy.UnreadableFileError:
-            self.skip = True
+            meta['skip'] = True
 
-    def discTrack(self):
-        if self.m['disctotal'] and int(self.m['disctotal']) > 9:
-            disk = str(self.m['disc']).zfill(2)
+        return meta
+
+    def discTrack(self, meta):
+        if meta['disctotal'] and int(meta['disctotal']) > 9:
+            disk = str(meta['disc']).zfill(2)
         else:
-            disk = str(self.m['disc'])
+            disk = str(meta['disc'])
 
-        if self.m['tracktotal'] and int(self.m['tracktotal']) > 99:
-            track = str(self.m['track']).zfill(3)
+        if meta['tracktotal'] and int(meta['tracktotal']) > 99:
+            track = str(meta['track']).zfill(3)
         else:
-            track = str(self.m['track']).zfill(2)
+            track = str(meta['track']).zfill(2)
 
-        if self.m['disc'] and self.m['disctotal'] and int(self.m['disctotal']) > 1:
-            self.m['disctrack'] = disk + '-' + track
+        if meta['disc'] and meta['disctotal'] and int(meta['disctotal']) > 1:
+            return disk + '-' + track
         else:
-            self.m['disctrack'] = track
+            return track
 
-    def artistSafe(self):
-        safe_sort = ''
-        safe = ''
-        if self.m['albumartist_sort']:
-            safe_sort = self.m['albumartist_sort']
-        elif self.m['artist_sort']:
-            safe_sort = self.m['artist_sort']
+    def artistSafe(self, meta):
+        value = ''
+        if meta['albumartist']:
+            value = meta['albumartist']
+        elif meta['artist']:
+            value = meta['artist']
+        elif meta['albumartist_credit']:
+            value = meta['albumartist_credit']
+        elif meta['artist_credit']:
+            value = meta['artist_credit']
+        return value
 
-        if self.m['albumartist']:
-            safe = self.m['albumartist']
-        elif self.m['artist']:
-            safe = self.m['artist']
-        elif self.m['albumartist_credit']:
-            safe = self.m['albumartist_credit']
-        elif self.m['artist_credit']:
-            safe = self.m['artist_credit']
-
-        if not safe_sort:
-            if safe:
-                safe_sort = safe
-            else:
-                safe_sort = 'Unknown'
-
+    def artistSafeSort(self, meta):
+        value = ''
+        if meta['albumartist_sort']:
+            value = meta['albumartist_sort']
+        elif meta['artist_sort']:
+            value = meta['artist_sort']
         if self.shell_friendly:
-            safe_sort = safe_sort.replace(', ', '_')
+            value = value.replace(', ', '_')
+        return value
 
-        self.m['artistsafe'] = safe
-        self.m['artistsafe_sort'] = safe_sort
-
-    def yearSafe(self):
-        if self.m['original_year']:
-            value = self.m['original_year']
-        elif self.m['year']:
-            value = self.m['year']
+    def yearSafe(self, meta):
+        if meta['original_year']:
+            value = meta['original_year']
+        elif meta['year']:
+            value = meta['year']
         else:
             value = ''
-        self.m['year_safe'] = value
+        return value
 
-    def initials(self):
-        self.m['artist_initial'] = self.m['artistsafe_sort'][0:1].lower()
-        self.m['album_initial'] = self.m['album'][0:1].lower()
+    def initials(self, value):
+        return value[0:1].lower()
 
     def getMeta(self):
-        if self.skip:
-            return False
+        meta = self.getMediaFile()
+
+        if not meta['skip']:
+
+            meta['disctrack'] = self.discTrack(meta)
+            meta['artistsafe'] = self.artistSafe(meta)
+            meta['artistsafe_sort'] = self.artistSafeSort(meta)
+
+            if not meta['artistsafe_sort']:
+                if meta['artistsafe']:
+                    meta['artistsafe_sort'] = meta['artistsafe']
+                else:
+                    meta['artistsafe_sort'] = 'Unknown'
+
+            meta['year_safe'] = self.yearSafe(meta)
+
+            meta['artist_initial'] = self.initials(meta['artistsafe_sort'])
+            meta['album_initial'] = self.initials(meta['album'])
+            return meta
         else:
-            return self.m
+            return False
