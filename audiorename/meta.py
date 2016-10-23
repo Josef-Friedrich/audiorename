@@ -7,7 +7,7 @@ import six
 
 class Meta(object):
 
-    def __init__(self, path, shell_friendly=False):
+    def __init__(self, path=False, shell_friendly=False):
         self.path = path
         self.shell_friendly = shell_friendly
 
@@ -57,26 +57,34 @@ class Meta(object):
             return track
 
     def artistSafe(self, meta):
-        value = ''
+        safe = ''
         if meta['albumartist']:
-            value = meta['albumartist']
+            safe = meta['albumartist']
         elif meta['artist']:
-            value = meta['artist']
+            safe = meta['artist']
         elif meta['albumartist_credit']:
-            value = meta['albumartist_credit']
+            safe = meta['albumartist_credit']
         elif meta['artist_credit']:
-            value = meta['artist_credit']
-        return value
+            safe = meta['artist_credit']
 
-    def artistSafeSort(self, meta):
-        value = ''
+        sort = ''
         if meta['albumartist_sort']:
-            value = meta['albumartist_sort']
+            sort = meta['albumartist_sort']
         elif meta['artist_sort']:
-            value = meta['artist_sort']
+            sort = meta['artist_sort']
         if self.shell_friendly:
-            value = value.replace(', ', '_')
-        return value
+            sort = value.replace(', ', '_')
+
+        if not sort and not safe:
+            sort = safe = 'Unknown'
+
+        if not sort:
+            sort = safe
+
+        if not safe:
+            safe = sort
+
+        return safe, sort
 
     def yearSafe(self, meta):
         if meta['original_year']:
@@ -94,19 +102,9 @@ class Meta(object):
         meta = self.getMediaFile()
 
         if not meta['skip']:
-
             meta['disctrack'] = self.discTrack(meta)
-            meta['artistsafe'] = self.artistSafe(meta)
-            meta['artistsafe_sort'] = self.artistSafeSort(meta)
-
-            if not meta['artistsafe_sort']:
-                if meta['artistsafe']:
-                    meta['artistsafe_sort'] = meta['artistsafe']
-                else:
-                    meta['artistsafe_sort'] = 'Unknown'
-
+            meta['artistsafe'], meta['artistsafe_sort'] = self.artistSafe(meta)
             meta['year_safe'] = self.yearSafe(meta)
-
             meta['artist_initial'] = self.initials(meta['artistsafe_sort'])
             meta['album_initial'] = self.initials(meta['album'])
             return meta
