@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+"""Rename audio files from metadata tags."""
 
 import os
 from audiorename.args import parser

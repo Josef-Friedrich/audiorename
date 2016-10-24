@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Create the command line interface using the package “argparse”."""
+
 import argparse
 from phrydy import doc as pdoc
 from ._version import get_versions

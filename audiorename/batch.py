@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Batch processing of the audio files"""
+"""Batch processing of the audio files."""
 
 from .rename import do_rename
 import phrydy

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+"""Rename a single audio file."""
+
 import os
 import six
 

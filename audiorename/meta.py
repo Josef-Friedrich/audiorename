@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+"""Extend the class “MediaFile” of the package “phrydy”"""
+
 import phrydy
 import re
 from phrydy import MediaFile
