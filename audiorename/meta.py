@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Extend the class “MediaFile” of the package “phrydy”"""
+"""Extend the class ``MediaFile`` of the package ``phrydy``."""
 
 import phrydy
 import re
@@ -12,10 +12,17 @@ import six
 class Meta(object):
 
     def __init__(self, path=False, shell_friendly=False):
+        """
+        :params string path: The absolute path of the audio file.
+        :params boolean shell_friendly: Generate shell friendly strings.
+        """
         self.path = path
         self.shell_friendly = shell_friendly
 
     def getMediaFile(self):
+        """Use the ``MediaFile`` class of the package ``phrydy`` to retrieve all
+        metadata informations and save this values in a dictionary.
+        """
         meta = {}
         try:
             meta['skip'] = False
@@ -37,6 +44,9 @@ class Meta(object):
         return meta
 
     def discTrack(self, meta):
+        """
+        :params dictionary meta: A dictionary with meta informations.
+        """
         m = meta
 
         if not m['track']:
@@ -62,6 +72,9 @@ class Meta(object):
             return track
 
     def artistSafe(self, meta):
+        """
+        :params dictionary meta: A dictionary with meta informations.
+        """
         safe = ''
         if meta['albumartist']:
             safe = meta['albumartist']
@@ -92,6 +105,9 @@ class Meta(object):
         return safe, sort
 
     def yearSafe(self, meta):
+        """
+        :params dictionary meta: A dictionary with meta informations.
+        """
         if meta['original_year']:
             value = meta['original_year']
         elif meta['year']:
@@ -101,10 +117,16 @@ class Meta(object):
         return value
 
     def albumClean(self, album):
+        """
+        :params str album: The text of the album.
+        """
         album = re.sub(r' ?\([dD]is[ck].*\)$', '', album)
         return album
 
     def initials(self, value):
+        """
+        :params str value: A string to extract the initials.
+        """
         return value[0:1].lower()
 
     def getMeta(self):
