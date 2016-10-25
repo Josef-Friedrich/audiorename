@@ -8,14 +8,13 @@ from phrydy import MediaFile
 from tmep import Functions
 import six
 
-
+"""
+:param str path: The absolute path of the audio file.
+:param bool shell_friendly: Generate shell friendly strings.
+"""
 class Meta(object):
 
     def __init__(self, path=False, shell_friendly=False):
-        """
-        :params string path: The absolute path of the audio file.
-        :params boolean shell_friendly: Generate shell friendly strings.
-        """
         self.path = path
         self.shell_friendly = shell_friendly
 
@@ -45,7 +44,10 @@ class Meta(object):
 
     def discTrack(self, meta):
         """
-        :params dictionary meta: A dictionary with meta informations.
+        Generate a combination of track and disc number, e. g.: ``1-04``,
+        ``3-06``.
+
+        :param dict meta: A dictionary with meta informations.
         """
         m = meta
 
@@ -73,7 +75,7 @@ class Meta(object):
 
     def artistSafe(self, meta):
         """
-        :params dictionary meta: A dictionary with meta informations.
+        :param dict meta: A dictionary with meta informations.
         """
         safe = ''
         if meta['albumartist']:
@@ -106,7 +108,7 @@ class Meta(object):
 
     def yearSafe(self, meta):
         """
-        :params dictionary meta: A dictionary with meta informations.
+        :param dict meta: A dictionary with meta informations.
         """
         if meta['original_year']:
             value = meta['original_year']
@@ -118,14 +120,14 @@ class Meta(object):
 
     def albumClean(self, album):
         """
-        :params str album: The text of the album.
+        :param str album: The text of the album.
         """
         album = re.sub(r' ?\([dD]is[ck].*\)$', '', album)
         return album
 
     def initials(self, value):
         """
-        :params str value: A string to extract the initials.
+        :param str value: A string to extract the initials.
         """
         return value[0:1].lower()
 
