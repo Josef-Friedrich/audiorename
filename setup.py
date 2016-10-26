@@ -27,6 +27,9 @@ setup(
     scripts=['bin/audiorenamer'],
     long_description=read('README.rst'),
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Console'
+        'Topic :: Multimedia :: Sound/Audio',
+        'Topic :: Utilities',
     ],
     zip_safe=False, )
