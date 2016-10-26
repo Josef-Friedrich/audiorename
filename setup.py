@@ -28,7 +28,7 @@ setup(
     long_description=read('README.rst'),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
-        'Environment :: Console'
+        'Environment :: Console',
         'Topic :: Multimedia :: Sound/Audio',
         'Topic :: Utilities',
     ],
