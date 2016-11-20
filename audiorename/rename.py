@@ -27,6 +27,7 @@ formats['compilation'] = '_compilations/' +  \
     '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +  \
     '${disctrack}_%shorten{$title}'
 
+
 class Rename(object):
     def __init__(self, file, args):
         if args:

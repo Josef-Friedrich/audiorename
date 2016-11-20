@@ -12,6 +12,8 @@ import six
 :param str path: The absolute path of the audio file.
 :param bool shell_friendly: Generate shell friendly strings.
 """
+
+
 class Meta(object):
 
     def __init__(self, path=False, shell_friendly=False):

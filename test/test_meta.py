@@ -6,6 +6,10 @@ def get_real(path):
     return h.get_meta([h.dir_test, 'real-world'] + path)
 
 
+def get_classical(path):
+    return h.get_meta([h.dir_test, 'classical'] + path)
+
+
 def get_meta(token):
     return h.get_meta([h.dir_test, 'meta', token + '.mp3'])
 
@@ -264,6 +268,25 @@ class TestAlbumClean(unittest.TestCase):
             '2-09_Respectable.mp3'
         ])
         self.assertEqual(meta['album_clean'], u'The Greatest No.1s of the 80s')
+
+
+class TestWork(unittest.TestCase):
+
+    def test_work(self):
+        meta = get_classical([
+            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte',
+            '01.mp3'
+        ])
+        self.assertEqual(
+            meta['work'],
+            u'Concerto for French Horn no. 1 in D major, ' +
+            u'K. 386b  KV 412 I. Allegro'
+        )
+        self.assertEqual(
+            meta['mb_workid'],
+            u'21fe0bf0-a040-387c-a39d-369d53c251fe'
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
