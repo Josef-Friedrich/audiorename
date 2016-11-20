@@ -286,6 +286,10 @@ class TestWork(unittest.TestCase):
             meta['mb_workid'],
             u'21fe0bf0-a040-387c-a39d-369d53c251fe'
         )
+        self.assertEqual(
+            meta['composer_sort'],
+            u'Mozart, Wolfgang Amadeus'
+        )
 
 
 if __name__ == '__main__':
