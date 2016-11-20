@@ -6,7 +6,6 @@ import argparse
 from phrydy import doc as pdoc
 from ._version import get_versions
 from tmep import doc as tdoc
-from .rename import formats
 td = tdoc.Doc()
 
 
@@ -82,14 +81,21 @@ parser.add_argument(
     '-f',
     '--format',
     help='A format string',
-    default=formats['default']
+    default=False
 )
 
 parser.add_argument(
     '-c',
     '--compilation',
     help='Format string for compilations',
-    default=formats['compilation']
+    default=False
+)
+
+parser.add_argument(
+    '-k',
+    '--classical',
+    help='Use default format for classical music',
+    action='store_true'
 )
 
 parser.add_argument(

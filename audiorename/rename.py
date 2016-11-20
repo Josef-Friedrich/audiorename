@@ -15,17 +15,28 @@ from tmep import Template
 
 from .meta import Meta
 
-formats = {}
 
-formats['default'] = '$artist_initial/' + \
-    '%shorten{$artistsafe_sort}/' +  \
-    '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +  \
-    '${disctrack}_%shorten{$title}'
-
-formats['compilation'] = '_compilations/' +  \
-    '$album_initial/' +  \
-    '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +  \
-    '${disctrack}_%shorten{$title}'
+def default_formats(classical=False, compilation=False):
+    if not classical and not compilation:
+        return '$artist_initial/' + \
+            '%shorten{$artistsafe_sort}/' +  \
+            '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +  \
+            '${disctrack}_%shorten{$title}'
+    elif not classical and compilation:
+        return '_compilations/' +  \
+            '$album_initial/' +  \
+            '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +  \
+            '${disctrack}_%shorten{$title}'
+    elif classical and not compilation:
+        return '_compilations/' +  \
+            '$album_initial/' +  \
+            '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +  \
+            '${disctrack}_%shorten{$title}'
+    elif classical and compilation:
+        return '_compilations/' +  \
+            '$album_initial/' +  \
+            '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +  \
+            '${disctrack}_%shorten{$title}'
 
 
 class Rename(object):
@@ -54,10 +65,15 @@ class Rename(object):
         self.meta = meta.getMeta()
 
     def generateFilename(self):
-        if self.meta['comp']:
-            t = Template(as_string(self.args.compilation))
+        if self.meta['comp'] and self.args.compilation:
+            format_string = self.args.compilation
+        elif not self.meta['comp'] and self.args.format:
+            format_string = self.args.format
         else:
-            t = Template(as_string(self.args.format))
+            format_string = default_formats(self.args.classical,
+                                            self.meta['comp'])
+
+        t = Template(as_string(format_string))
         f = Functions(self.meta)
         new = t.substitute(self.meta, f.functions())
         new = self.postTemplate(new)
