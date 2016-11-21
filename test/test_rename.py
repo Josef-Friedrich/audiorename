@@ -230,6 +230,7 @@ class TestClassical(unittest.TestCase):
         with h.Capturing() as output:
             audiorename.execute([
                 '--shell-friendly',
+                '--target', '/',
                 '--dry-run',
                 '--classical',
                 os.path.join(
@@ -242,7 +243,6 @@ class TestClassical(unittest.TestCase):
 
         output = re.sub(r'.*-> ', '', output[1])
         output = re.sub(r'\x1b\[[\d;]*m', '', output)
-
         self.assertEqual(output, 'lol')
 
 if __name__ == '__main__':
