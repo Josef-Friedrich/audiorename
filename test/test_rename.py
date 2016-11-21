@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 import audiorename
 import os
@@ -219,6 +221,29 @@ class TestSkipIfEmpty(unittest.TestCase):
     def test_compilation(self):
         self.assertTrue(h.has(self.compilation, 'Dry run'))
 
+
+class TestClassical(unittest.TestCase):
+
+    @unittest.skip('yet not finished')
+    def test_classical(self):
+        import re
+        with h.Capturing() as output:
+            audiorename.execute([
+                '--shell-friendly',
+                '--dry-run',
+                '--classical',
+                os.path.join(
+                    h.dir_test,
+                    'classical',
+                    'Mozart_Wolfgang-Amadeus__4-Hornkonzerte',
+                    '01.mp3'
+                )
+            ])
+
+        output = re.sub(r'.*-> ', '', output[1])
+        output = re.sub(r'\x1b\[[\d;]*m', '', output)
+
+        self.assertEqual(output, 'lol')
 
 if __name__ == '__main__':
     unittest.main()
