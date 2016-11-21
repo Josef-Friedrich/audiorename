@@ -292,5 +292,16 @@ class TestWork(unittest.TestCase):
         )
 
 
+class TestClassicalUnit(unittest.TestCase):
+
+    def setUp(self):
+        from audiorename import meta
+        self.meta = meta.Meta()
+
+    def test_classical_title(self):
+        self.assertEqual(self.meta.classicalTitle('work: title'), 'title')
+        self.assertEqual(self.meta.classicalTitle('work: work: title'), 'work: title')
+        self.assertEqual(self.meta.classicalTitle('title'), 'title')
+
 if __name__ == '__main__':
     unittest.main()

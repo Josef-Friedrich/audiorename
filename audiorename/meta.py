@@ -133,6 +133,13 @@ class Meta(object):
         """
         return value[0:1].lower()
 
+    def classicalTitle(self, value):
+        """Examle: ``Horn Concerto: I. Allegro``
+
+        :param str value: The title string.
+        """
+        return re.sub(r'[^:]*: ', '', value, count=1)
+
     def getMeta(self):
         meta = self.getMediaFile()
 
