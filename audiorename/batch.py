@@ -81,7 +81,7 @@ class Batch(object):
                 self.album_title = media.album
                 self.check_album()
             self.album.append(record)
-        except phrydy.UnreadableFileError:
+        except phrydy.mediafile.UnreadableFileError:
             pass
 
     def execute(self):

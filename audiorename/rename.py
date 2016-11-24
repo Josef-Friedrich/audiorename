@@ -9,7 +9,7 @@ from ansicolor import green
 from ansicolor import red
 import shutil
 
-from phrydy import as_string
+from phrydy.mediafile import as_string
 from tmep import Functions
 from tmep import Template
 

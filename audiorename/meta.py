@@ -39,7 +39,7 @@ class Meta(object):
                         value = Functions.tmpl_sanitize(value)
                     meta[key] = value
 
-        except phrydy.UnreadableFileError:
+        except phrydy.mediafile.UnreadableFileError:
             meta['skip'] = True
 
         return meta
