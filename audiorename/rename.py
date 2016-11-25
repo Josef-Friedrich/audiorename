@@ -28,9 +28,9 @@ def default_formats(classical=False, compilation=False):
             '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +  \
             '${disctrack}_%shorten{$title}'
     elif classical and not compilation:
-        return '$composer_sort/' +  \
-            '$work%ifdef{year_safe,_${year_safe}}/' +  \
-            '${disctrack}_%shorten{$title}'
+        return '$composer_initial/$composer_safe/' +  \
+            '$album_classical/' +  \
+            '%shorten{$title_classical}'
     elif classical and compilation:
         return '_compilations/' +  \
             '$album_initial/' +  \

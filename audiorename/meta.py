@@ -155,6 +155,14 @@ class Meta(object):
         """
         return re.sub(r':[^:]*$', '', value)
 
+    def composerSafe(self, meta):
+        if meta['composer_sort']:
+            return meta['composer_sort']
+        elif meta['composer']:
+            return meta['composer']
+        else:
+            return meta['artistsafe']
+
     def getMeta(self):
         meta = self.getMediaFile()
 
@@ -167,6 +175,8 @@ class Meta(object):
             meta['album_initial'] = self.initials(meta['album_clean'])
             meta['title_classical'] = self.classicalTitle(meta['title'])
             meta['album_classical'] = self.classicalAlbum(meta['work'])
+            meta['composer_safe'] = self.composerSafe(meta)
+            meta['composer_initial'] = self.initials(meta['composer_safe'])
             return self.sanitize(meta)
         else:
             return False

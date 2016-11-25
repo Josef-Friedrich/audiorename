@@ -339,6 +339,44 @@ class TestClassical(unittest.TestCase):
             u'Die Meistersinger von N\xfcrnberg'
         )
 
+    # composer_initial
+    def test_composer_initial_mozart(self):
+        self.assertEqual(
+            self.mozart['composer_initial'],
+            u'm'
+        )
+
+    def test_composer_initial_schubert(self):
+        self.assertEqual(
+            self.schubert['composer_initial'],
+            u's'
+        )
+
+    def test_composer_initial_wagner(self):
+        self.assertEqual(
+            self.wagner['composer_initial'],
+            u'w'
+        )
+
+    # composer_safe
+    def test_composer_safe_mozart(self):
+        self.assertEqual(
+            self.mozart['composer_safe'],
+            u'Mozart, Wolfgang Amadeus'
+        )
+
+    def test_composer_safe_schubert(self):
+        self.assertEqual(
+            self.schubert['composer_safe'],
+            u'Schubert, Franz'
+        )
+
+    def test_composer_safe_wagner(self):
+        self.assertEqual(
+            self.wagner['composer_safe'],
+            u'Wagner, Richard'
+        )
+
     # composer_sort
     def test_composer_sort_mozart(self):
         self.assertEqual(
