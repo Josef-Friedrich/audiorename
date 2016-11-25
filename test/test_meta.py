@@ -280,7 +280,7 @@ class TestWork(unittest.TestCase):
         self.assertEqual(
             meta['work'],
             u'Concerto for French Horn no. 1 in D major, ' +
-            u'K. 386b  KV 412 I. Allegro'
+            u'K. 386b KV 412 I. Allegro'
         )
         self.assertEqual(
             meta['mb_workid'],
@@ -324,19 +324,19 @@ class TestClassical(unittest.TestCase):
     def test_album_classical_mozart(self):
         self.assertEqual(
             self.mozart['album_classical'],
-            u'Concerto for French Horn no. 1 in D major, K. 386b  KV 412 I. Allegro'
+            u'Concerto for French Horn no. 1 in D major, K. 386b KV 412'
         )
 
     def test_composer_sort_schubert(self):
         self.assertEqual(
             self.schubert['album_classical'],
-            u'Winterreise, D. 911 Gute Nacht'
+            u'Winterreise, D. 911'
         )
 
     def test_composer_sort_wagner(self):
         self.assertEqual(
             self.wagner['album_classical'],
-            u'Die Meistersinger von N\xfcrnberg Vorspiel'
+            u'Die Meistersinger von N\xfcrnberg'
         )
 
     # composer_sort
@@ -362,19 +362,19 @@ class TestClassical(unittest.TestCase):
     def test_title_classical_mozart(self):
         self.assertEqual(
             self.mozart['title_classical'],
-            u'Horn Concerto No. 1 in D major, K. 412 I. Allegro'
+            u'I. Allegro'
         )
 
     def test_title_classical_schubert(self):
         self.assertEqual(
             self.schubert['title_classical'],
-            u'Winterreise, D. 911 Gute Nacht'
+            u'Gute Nacht'
         )
 
     def test_title_classical_wagner(self):
         self.assertEqual(
             self.wagner['title_classical'],
-            u'Die Meistersinger von N\xfcrnberg Vorspiel'
+            u'Vorspiel'
         )
 
 if __name__ == '__main__':

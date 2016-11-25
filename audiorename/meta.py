@@ -33,16 +33,24 @@ class Meta(object):
                 if key != 'art':
                     if not value:
                         value = ''
-                    elif isinstance(value, str) or \
-                            (six.PY2 and isinstance(value, unicode)) or \
-                            (six.PY3 and isinstance(value, bytes)):
-                        value = Functions.tmpl_sanitize(value)
                     meta[key] = value
 
         except phrydy.mediafile.UnreadableFileError:
             meta['skip'] = True
 
         return meta
+
+    def sanitize(self, meta):
+        output = {}
+        for key, value in meta.items():
+            if isinstance(value, str) or \
+                    (six.PY2 and isinstance(value, unicode)) or \
+                    (six.PY3 and isinstance(value, bytes)):
+                value = Functions.tmpl_sanitize(value)
+                value = re.sub(r'\s{2,}', ' ', value)
+
+            output[key] = value
+        return output
 
     def discTrack(self, meta):
         """
@@ -138,7 +146,14 @@ class Meta(object):
 
         :param str value: The title string.
         """
-        return re.sub(r'[^:]*: ', '', value, count=1)
+        return re.sub(r'^[^:]*: ?', '', value)
+
+    def classicalAlbum(self, value):
+        """Example: ``Horn Concerto: I. Allegro``
+
+        :param str value: The title string.
+        """
+        return re.sub(r':[^:]*$', '', value)
 
     def getMeta(self):
         meta = self.getMediaFile()
@@ -151,7 +166,7 @@ class Meta(object):
             meta['album_clean'] = self.albumClean(meta['album'])
             meta['album_initial'] = self.initials(meta['album_clean'])
             meta['title_classical'] = self.classicalTitle(meta['title'])
-            meta['album_classical'] = meta['work']
-            return meta
+            meta['album_classical'] = self.classicalAlbum(meta['work'])
+            return self.sanitize(meta)
         else:
             return False
