@@ -303,5 +303,79 @@ class TestClassicalUnit(unittest.TestCase):
         self.assertEqual(self.meta.classicalTitle('work: work: title'), 'work: title')
         self.assertEqual(self.meta.classicalTitle('title'), 'title')
 
+
+class TestClassical(unittest.TestCase):
+
+    def setUp(self):
+        self.mozart = get_classical([
+            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte',
+            '01.mp3'
+        ])
+        self.schubert = get_classical([
+            'Schubert_Franz__Winterreise-D-911',
+            '01.mp3'
+        ])
+        self.wagner = get_classical([
+            'Wagner_Richard__Meistersinger-von-Nuernberg',
+            '01.mp3'
+        ])
+
+    # album_classical
+    def test_album_classical_mozart(self):
+        self.assertEqual(
+            self.mozart['album_classical'],
+            u'Concerto for French Horn no. 1 in D major, K. 386b  KV 412 I. Allegro'
+        )
+
+    def test_composer_sort_schubert(self):
+        self.assertEqual(
+            self.schubert['album_classical'],
+            u'Winterreise, D. 911 Gute Nacht'
+        )
+
+    def test_composer_sort_wagner(self):
+        self.assertEqual(
+            self.wagner['album_classical'],
+            u'Die Meistersinger von N\xfcrnberg Vorspiel'
+        )
+
+    # composer_sort
+    def test_composer_sort_mozart(self):
+        self.assertEqual(
+            self.mozart['composer_sort'],
+            u'Mozart, Wolfgang Amadeus'
+        )
+
+    def test_composer_sort_schubert(self):
+        self.assertEqual(
+            self.schubert['composer_sort'],
+            u'Schubert, Franz'
+        )
+
+    def test_composer_sort_wagner(self):
+        self.assertEqual(
+            self.wagner['composer_sort'],
+            u'Wagner, Richard'
+        )
+
+    # title_classical
+    def test_title_classical_mozart(self):
+        self.assertEqual(
+            self.mozart['title_classical'],
+            u'Horn Concerto No. 1 in D major, K. 412 I. Allegro'
+        )
+
+    def test_title_classical_schubert(self):
+        self.assertEqual(
+            self.schubert['title_classical'],
+            u'Winterreise, D. 911 Gute Nacht'
+        )
+
+    def test_title_classical_wagner(self):
+        self.assertEqual(
+            self.wagner['title_classical'],
+            u'Die Meistersinger von N\xfcrnberg Vorspiel'
+        )
+
 if __name__ == '__main__':
     unittest.main()

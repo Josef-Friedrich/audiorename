@@ -134,7 +134,7 @@ class Meta(object):
         return value[0:1].lower()
 
     def classicalTitle(self, value):
-        """Examle: ``Horn Concerto: I. Allegro``
+        """Example: ``Horn Concerto: I. Allegro``
 
         :param str value: The title string.
         """
@@ -150,6 +150,8 @@ class Meta(object):
             meta['artist_initial'] = self.initials(meta['artistsafe_sort'])
             meta['album_clean'] = self.albumClean(meta['album'])
             meta['album_initial'] = self.initials(meta['album_clean'])
+            meta['title_classical'] = self.classicalTitle(meta['title'])
+            meta['album_classical'] = meta['work']
             return meta
         else:
             return False
