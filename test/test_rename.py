@@ -243,7 +243,8 @@ class TestClassical(unittest.TestCase):
     def test_mozart_02(self):
         self.assertDryRun(
             'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '02.mp3',
-            self.m + self.h1 + '-KV-514-Suessmayr-completion/II-Rondo-Allegro.mp3'
+            self.m + self.h1 +
+            '-KV-514-Suessmayr-completion/II-Rondo-Allegro.mp3'
         )
 
     def test_mozart_03(self):
