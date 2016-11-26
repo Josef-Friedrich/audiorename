@@ -4,9 +4,9 @@ Comande line interface
 .. code-block:: text
 
 
-    usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-S] [-d] [-e EXTENSION]
-                        [-t TARGET_DIR] [-s SKIP_IF_EMPTY] [-a] [-C]
-                        [-m FILTER_ALBUM_MIN] [-F] [--unittest] [-v]
+    usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-k] [-S] [-d]
+                        [-e EXTENSION] [-t TARGET_DIR] [-s SKIP_IF_EMPTY] [-a]
+                        [-C] [-m FILTER_ALBUM_MIN] [-F] [--unittest] [-v]
                         path
     
     Rename audio files from metadata tags.
@@ -28,6 +28,8 @@ Comande line interface
         $acoustid_id:          Acoustic ID
     
         $album:                album
+    
+        $album_classical:      album_classical
     
         $album_clean:          “album” without ” (Disc
                                X)”.
@@ -109,6 +111,12 @@ Comande line interface
     
         $composer:             composer
     
+        $composer_initial:     composer_initial
+    
+        $composer_safe:        composer_safe
+    
+        $composer_sort:        Composer name for sorting.
+    
         $country:              The country the release was
                                issued in.
     
@@ -152,9 +160,11 @@ Comande line interface
     
         $mb_artistid:          MusicBrainz artist ID
     
-        $mb_releasegroupid:    MusicBrainz releasegroup  ID
+        $mb_releasegroupid:    MusicBrainz releasegroup ID
     
         $mb_trackid:           MusicBrainz track ID
+    
+        $mb_workid:            MusicBrainz work ID
     
         $media:                media
     
@@ -180,9 +190,13 @@ Comande line interface
     
         $title:                The title of a audio file.
     
+        $title_classical:      title_classical
+    
         $track:                track
     
         $tracktotal:           tracktotal
+    
+        $work:                 The Musicbrainzs’ work entity.
     
         $year:                 The release year of the specific
                                release
@@ -197,9 +211,9 @@ Comande line interface
         -------
     
         %asciify{text}
-            Translate non-ASCII characters to their ASCII equivalents. For
-            example, “café” becomes “cafe”. Uses the mapping
-            provided by the unidecode module.
+            Translate non-ASCII characters to their ASCII
+            equivalents. For example, “café” becomes “cafe”. Uses
+            the mapping             provided by the unidecode module.
     
         delchars
         --------
@@ -211,8 +225,8 @@ Comande line interface
         -----------
     
         %deldupchars{text,chars}
-            Search for duplicate characters and replace with only one
-            occurrance of this characters.
+            Search for duplicate characters and replace with only
+            one occurrance of this characters.
     
         first
         -----
@@ -227,18 +241,20 @@ Comande line interface
         if
         --
     
-        %if{condition,truetext} or %if{condition,truetext,falsetext}
-            If condition is nonempty (or nonzero, if it’s a number), then
-            returns the second argument. Otherwise, returns the third
-            argument if specified (or nothing if falsetext is left off).
+        %if{condition,truetext} or             %if{condition,truetext,falsetext}
+            If condition is nonempty (or nonzero, if it’s a
+            number), then returns the second argument. Otherwise, returns
+            the             third argument if specified (or nothing if
+            falsetext is left off).
     
         ifdef
         -----
     
-        %ifdef{field}, %ifdef{field,text} or %ifdef{field,text,falsetext}
-            If field exists, then return truetext or field (default).
-            Otherwise, returns falsetext. The field should be entered
-            without $.
+        %ifdef{field}, %ifdef{field,text} or
+        %ifdef{field,text,falsetext}
+            If field exists, then return truetext or field
+            (default). Otherwise, returns falsetext. The field should be
+            entered without $.
     
         left
         ----
@@ -274,7 +290,7 @@ Comande line interface
         --------
     
         %sanitize{text}
-            Delete in most file systems not allowed characters.
+             Delete in most file systems not allowed characters.
     
         shorten
         -------
@@ -287,9 +303,9 @@ Comande line interface
         ----
     
         %time{date_time,format,curformat}
-            Return the date and time in any format accepted by strftime. For
-            example, to get the year some music was added to your library,
-            use %time{$added,%Y}.
+            Return the date and time in any format accepted by
+            strftime. For example, to get the year some music was added to
+            your library, use %time{$added,%Y}.
     
         title
         -----
@@ -311,6 +327,7 @@ Comande line interface
                             A format string
       -c COMPILATION, --compilation COMPILATION
                             Format string for compilations
+      -k, --classical       Use default format for classical music
       -S, --shell-friendly  Rename audio files “shell friendly”, this means
                             without whitespaces, parentheses etc.
       -d, --dry-run         Don’t rename or copy the audio files.
