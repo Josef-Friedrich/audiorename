@@ -10,9 +10,23 @@ td = tdoc.Doc()
 
 
 fields = {
-    'disctrack': {
-        'description': 'Combination of disc and track in the format: ' +
-                       'disk-track, e.g. 1-01, 3-099',
+    # album
+    'album_clean': {
+        'description': '“album” without ” (Disc X)”.',
+        'category': 'ordinary',
+    },
+    'album_initial': {
+        'description': 'First character in lowercase of “album_clean”.',
+        'category': 'ordinary',
+    },
+    # artist
+    'artist_initial': {
+        'description': 'First character in lowercase of “artistsafe_sort”',
+        'category': 'ordinary',
+    },
+    'artistsafe_sort': {
+        'description': 'The first available value of this metatag order: ' +
+                       '“albumartist_sort” -> “artist_sort” -> “artistsafe”',
         'category': 'ordinary',
     },
     'artistsafe': {
@@ -21,25 +35,13 @@ fields = {
                        '-> “artist_credit”',
         'category': 'ordinary',
     },
-    'artistsafe_sort': {
-        'description': 'The first available value of this metatag order: ' +
-                       '“albumartist_sort” -> “artist_sort” -> “artistsafe”',
+    'disctrack': {
+        'description': 'Combination of disc and track in the format: ' +
+                       'disk-track, e.g. 1-01, 3-099',
         'category': 'ordinary',
     },
     'year_safe': {
         'description': 'First “original_year” then “year”.',
-        'category': 'ordinary',
-    },
-    'artist_initial': {
-        'description': 'First character in lowercase of “artistsafe_sort”',
-        'category': 'ordinary',
-    },
-    'album_initial': {
-        'description': 'First character in lowercase of “album_clean”.',
-        'category': 'ordinary',
-    },
-    'album_clean': {
-        'description': '“album” without ” (Disc X)”.',
         'category': 'ordinary',
     },
 }
