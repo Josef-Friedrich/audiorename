@@ -322,6 +322,10 @@ class TestClassical(unittest.TestCase):
             'Schubert_Franz__Winterreise-D-911',
             '01.mp3'
         ])
+        self.tschaikowski = get_classical([
+            'Tschaikowski__Swan-Lake-op-20',
+            '1-01.mp3'
+        ])
         self.wagner = get_classical([
             'Wagner_Richard__Meistersinger-von-Nuernberg',
             '01.mp3'
@@ -340,6 +344,12 @@ class TestClassical(unittest.TestCase):
             u'Die Winterreise, op. 89, D. 911'
         )
 
+    def test_album_classical_tschaikowski(self):
+        self.assertEqual(
+            self.tschaikowski['album_classical'],
+            u'Swan Lake, op. 20 Act I Introduction'
+        )
+
     def test_album_classical_wagner(self):
         self.assertEqual(
             self.wagner['album_classical'],
@@ -352,6 +362,9 @@ class TestClassical(unittest.TestCase):
 
     def test_composer_initial_schubert(self):
         self.assertEqual(self.schubert['composer_initial'], u's')
+
+    def test_composer_initial_tschaikowski(self):
+        self.assertEqual(self.tschaikowski['composer_initial'], u't')
 
     def test_composer_initial_wagner(self):
         self.assertEqual(self.wagner['composer_initial'], u'w')
@@ -375,6 +388,12 @@ class TestClassical(unittest.TestCase):
             u'Schubert, Franz'
         )
 
+    def test_composer_safe_tschaikowski(self):
+        self.assertEqual(
+            self.tschaikowski['composer_safe'],
+            u'Tchaikovsky, Pyotr Ilyich'
+        )
+
     def test_composer_safe_wagner(self):
         self.assertEqual(
             self.wagner['composer_safe'],
@@ -394,6 +413,12 @@ class TestClassical(unittest.TestCase):
             u'Schubert, Franz'
         )
 
+    def test_composer_sort_tschaikowski(self):
+        self.assertEqual(
+            self.tschaikowski['composer_sort'],
+            u'Tchaikovsky, Pyotr Ilyich'
+        )
+
     def test_composer_sort_wagner(self):
         self.assertEqual(
             self.wagner['composer_sort'],
@@ -407,6 +432,12 @@ class TestClassical(unittest.TestCase):
     def test_title_classical_schubert(self):
         self.assertEqual(
             self.schubert['title_classical'], u'Gute Nacht')
+
+    def test_title_classical_tschaikowski(self):
+        self.assertEqual(
+            self.tschaikowski['title_classical'],
+            u'Introduction. Moderato assai - Allegro, ma non troppo - Tempo I'
+        )
 
     def test_title_classical_wagner(self):
         self.assertEqual(
