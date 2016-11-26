@@ -224,26 +224,40 @@ class TestSkipIfEmpty(unittest.TestCase):
 
 class TestClassical(unittest.TestCase):
 
-    @unittest.skip('yet not finished')
-    def test_classical(self):
-        import re
-        with h.Capturing() as output:
-            audiorename.execute([
-                '--shell-friendly',
-                '--target', '/',
-                '--dry-run',
-                '--classical',
-                os.path.join(
-                    h.dir_test,
-                    'classical',
-                    'Mozart_Wolfgang-Amadeus__4-Hornkonzerte',
-                    '01.mp3'
-                )
-            ])
+    def assertDryRun(self, folder, track, test):
+        self.assertEqual(h.dry_run([
+            '--classical',
+            os.path.join(h.dir_test, 'classical', folder, track)
+        ]), test)
 
-        output = re.sub(r'.*-> ', '', output[1])
-        output = re.sub(r'\x1b\[[\d;]*m', '', output)
-        self.assertEqual(output, 'lol')
+    m = '/m/Mozart-Wolfgang-Amadeus/'
+    h1 = 'Concerto-for-French-Horn-no-1-in-D-major-K-386b'
+    h2 = 'Concerto-for-Horn-no-2-in-E-flat-major-K-417'
+
+    def test_mozart_01(self):
+        self.assertDryRun(
+            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '01.mp3',
+            self.m + self.h1 + '-KV-412/I-Allegro.mp3'
+        )
+
+    def test_mozart_02(self):
+        self.assertDryRun(
+            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '02.mp3',
+            self.m + self.h1 + '-KV-514-Suessmayr-completion/II-Rondo-Allegro.mp3'
+        )
+
+    def test_mozart_03(self):
+        self.assertDryRun(
+            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '03.mp3',
+            self.m + self.h2 + '/I-Allegro.mp3'
+        )
+
+    def test_mozart_04(self):
+        self.assertDryRun(
+            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '04.mp3',
+            self.m + self.h2 + '/II-Andante.mp3'
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

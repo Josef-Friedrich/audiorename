@@ -3,6 +3,8 @@ import shutil
 import tempfile
 import sys
 import six
+import re
+import audiorename
 from audiorename import meta
 
 if six.PY2:
@@ -79,3 +81,15 @@ class Capturing(list):
             sys.stdout = self._pipe
         elif self.channel == 'err':
             sys.stderr = self._pipe
+
+
+def dry_run(options):
+    with Capturing() as output:
+        audiorename.execute([
+            '--target', '/',
+            '--dry-run',
+            '--shell-friendly'
+        ] + options)
+
+    output = re.sub(r'.*-> ', '', output[1])
+    return re.sub(r'\x1b\[[\d;]*m', '', output)

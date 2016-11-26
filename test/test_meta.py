@@ -311,6 +311,12 @@ class TestClassical(unittest.TestCase):
             'Mozart_Wolfgang-Amadeus__4-Hornkonzerte',
             '01.mp3'
         ])
+
+        self.mozart2 = get_classical([
+            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte',
+            '02.mp3'
+        ])
+
         self.schubert = get_classical([
             'Schubert_Franz__Winterreise-D-911',
             '01.mp3'
@@ -362,6 +368,12 @@ class TestClassical(unittest.TestCase):
     def test_composer_safe_mozart(self):
         self.assertEqual(
             self.mozart['composer_safe'],
+            u'Mozart, Wolfgang Amadeus'
+        )
+
+    def test_composer_safe_mozart2(self):
+        self.assertEqual(
+            self.mozart2['composer_safe'],
             u'Mozart, Wolfgang Amadeus'
         )
 

@@ -157,11 +157,14 @@ class Meta(object):
 
     def composerSafe(self, meta):
         if meta['composer_sort']:
-            return meta['composer_sort']
+            value = meta['composer_sort']
         elif meta['composer']:
-            return meta['composer']
+            value = meta['composer']
         else:
-            return meta['artistsafe']
+            value = meta['artistsafe']
+
+        # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
+        return re.sub(r' ?/.*', '', value)
 
     def getMeta(self):
         meta = self.getMediaFile()
