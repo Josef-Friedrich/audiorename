@@ -170,16 +170,23 @@ class Meta(object):
         meta = self.getMediaFile()
 
         if not meta['skip']:
-            meta['disctrack'] = self.discTrack(meta)
-            meta['artistsafe'], meta['artistsafe_sort'] = self.artistSafe(meta)
-            meta['year_safe'] = self.yearSafe(meta)
-            meta['artist_initial'] = self.initials(meta['artistsafe_sort'])
+
+            # album
+            meta['album_classical'] = self.classicalAlbum(meta['work'])
             meta['album_clean'] = self.albumClean(meta['album'])
             meta['album_initial'] = self.initials(meta['album_clean'])
-            meta['title_classical'] = self.classicalTitle(meta['title'])
-            meta['album_classical'] = self.classicalAlbum(meta['work'])
+
+            # artist
+            meta['artistsafe'], meta['artistsafe_sort'] = self.artistSafe(meta)
+            meta['artist_initial'] = self.initials(meta['artistsafe_sort'])
+
+            # composer
             meta['composer_safe'] = self.composerSafe(meta)
             meta['composer_initial'] = self.initials(meta['composer_safe'])
+
+            meta['disctrack'] = self.discTrack(meta)
+            meta['title_classical'] = self.classicalTitle(meta['title'])
+            meta['year_safe'] = self.yearSafe(meta)
             return self.sanitize(meta)
         else:
             return False

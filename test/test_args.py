@@ -60,9 +60,22 @@ class TestHelp(unittest.TestCase):
     def test_phrydy(self):
         self.assertTrue('mb_releasegroupid' in self.output)
 
-    def test_field_disctrack(self):
-        self.assertTrue('disctrack' in self.output)
-        self.assertTrue('Combination of' in self.output)
+    # album
+    def test_field_album_classical(self):
+        self.assertTrue('album_classical' in self.output)
+
+    def test_field_album_clean(self):
+        self.assertTrue('album_clean' in self.output)
+        self.assertTrue('“album” without' in self.output)
+
+    def test_field_album_initial(self):
+        self.assertTrue('album_initial' in self.output)
+        self.assertTrue('First character' in self.output)
+
+    # artist
+    def test_field_artist_initial(self):
+        self.assertTrue('artist_initial' in self.output)
+        self.assertTrue('First character' in self.output)
 
     def test_field_artistsafe(self):
         self.assertTrue('artistsafe' in self.output)
@@ -72,18 +85,20 @@ class TestHelp(unittest.TestCase):
         self.assertTrue('artistsafe_sort' in self.output)
         self.assertTrue('The first available' in self.output)
 
+    # composer
+    def test_field_composer_initial(self):
+        self.assertTrue('composer_initial' in self.output)
+
+    def test_field_composer_safe(self):
+        self.assertTrue('composer_safe' in self.output)
+
+    def test_field_disctrack(self):
+        self.assertTrue('disctrack' in self.output)
+        self.assertTrue('Combination of' in self.output)
+
+    def test_field_title_classical(self):
+        self.assertTrue('title_classical' in self.output)
+
     def test_field_year_safe(self):
         self.assertTrue('year_safe' in self.output)
         self.assertTrue('First “original_year”' in self.output)
-
-    def test_field_artist_initial(self):
-        self.assertTrue('artist_initial' in self.output)
-        self.assertTrue('First character' in self.output)
-
-    def test_field_album_initial(self):
-        self.assertTrue('album_initial' in self.output)
-        self.assertTrue('First character' in self.output)
-
-    def test_field_album_clean(self):
-        self.assertTrue('album_clean' in self.output)
-        self.assertTrue('“album” without' in self.output)

@@ -11,6 +11,10 @@ td = tdoc.Doc()
 
 fields = {
     # album
+    'album_classical': {
+        'description': 'album_classical',
+        'category': 'ordinary',
+    },
     'album_clean': {
         'description': '“album” without ” (Disc X)”.',
         'category': 'ordinary',
@@ -24,20 +28,33 @@ fields = {
         'description': 'First character in lowercase of “artistsafe_sort”',
         'category': 'ordinary',
     },
-    'artistsafe_sort': {
-        'description': 'The first available value of this metatag order: ' +
-                       '“albumartist_sort” -> “artist_sort” -> “artistsafe”',
-        'category': 'ordinary',
-    },
     'artistsafe': {
         'description': 'The first available value of this metatag order: ' +
                        '“albumartist” -> “artist” -> “albumartist_credit” '
                        '-> “artist_credit”',
         'category': 'ordinary',
     },
+    'artistsafe_sort': {
+        'description': 'The first available value of this metatag order: ' +
+                       '“albumartist_sort” -> “artist_sort” -> “artistsafe”',
+        'category': 'ordinary',
+    },
+    # composer
+    'composer_initial': {
+        'description': 'composer_initial',
+        'category': 'ordinary',
+    },
+    'composer_safe': {
+        'description': 'composer_safe',
+        'category': 'ordinary',
+    },
     'disctrack': {
         'description': 'Combination of disc and track in the format: ' +
                        'disk-track, e.g. 1-01, 3-099',
+        'category': 'ordinary',
+    },
+    'title_classical': {
+        'description': 'title_classical',
         'category': 'ordinary',
     },
     'year_safe': {
