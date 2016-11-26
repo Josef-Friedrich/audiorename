@@ -230,7 +230,7 @@ class TestClassical(unittest.TestCase):
             os.path.join(h.dir_test, 'classical', folder, track)
         ]), test)
 
-    m = '/m/Mozart-Wolfgang-Amadeus/'
+    m = '/m/Mozart_Wolfgang-Amadeus/'
     h1 = 'Concerto-for-French-Horn-no-1-in-D-major-K-386b'
     h2 = 'Concerto-for-Horn-no-2-in-E-flat-major-K-417'
 
@@ -257,6 +257,60 @@ class TestClassical(unittest.TestCase):
         self.assertDryRun(
             'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '04.mp3',
             self.m + self.h2 + '/II-Andante.mp3'
+        )
+
+    s = '/s/Schubert_Franz/'
+    w = 'Die-Winterreise-op-89-D-911/'
+
+    def test_schubert_01(self):
+        self.assertDryRun(
+            'Schubert_Franz__Winterreise-D-911', '01.mp3',
+            self.s + self.w + 'Gute-Nacht.mp3'
+        )
+
+    def test_schubert_02(self):
+        self.assertDryRun(
+            'Schubert_Franz__Winterreise-D-911', '02.mp3',
+            self.s + self.w + 'Die-Wetterfahne.mp3'
+        )
+
+    def test_schubert_03(self):
+        self.assertDryRun(
+            'Schubert_Franz__Winterreise-D-911', '03.mp3',
+            self.s + self.w + 'Gefrorne-Traenen.mp3'
+        )
+
+    def test_schubert_04(self):
+        self.assertDryRun(
+            'Schubert_Franz__Winterreise-D-911', '04.mp3',
+            self.s + self.w + 'Erstarrung.mp3'
+        )
+
+    t = '/t/Tchaikovsky_Pyotr-Ilyich/'
+    l = 'Swan-Lake-op-20/'
+
+    def test_tschaikowski_01(self):
+        self.assertDryRun(
+            'Tschaikowski__Swan-Lake-op-20', '1-01.mp3',
+            self.t + self.l + 'Introduction-Moderato-assai.mp3'
+        )
+
+    def test_tschaikowski_02(self):
+        self.assertDryRun(
+            'Tschaikowski__Swan-Lake-op-20', '1-02.mp3',
+            self.t + self.l + 'Act-I-no-1-Scene-Allegro.mp3'
+        )
+
+    def test_tschaikowski_03(self):
+        self.assertDryRun(
+            'Tschaikowski__Swan-Lake-op-20', '1-03.mp3',
+            self.t + self.l + 'Act-I-no-2-Valse-Tempo-di.mp3'
+        )
+
+    def test_tschaikowski_04(self):
+        self.assertDryRun(
+            'Tschaikowski__Swan-Lake-op-20', '1-04.mp3',
+            self.t + self.l + 'Act-I-no-3-Scene-Allegro.mp3'
         )
 
 

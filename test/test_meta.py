@@ -347,7 +347,7 @@ class TestClassical(unittest.TestCase):
     def test_album_classical_tschaikowski(self):
         self.assertEqual(
             self.tschaikowski['album_classical'],
-            u'Swan Lake, op. 20 Act I Introduction'
+            u'Swan Lake, op. 20'
         )
 
     def test_album_classical_wagner(self):

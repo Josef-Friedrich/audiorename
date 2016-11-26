@@ -153,7 +153,7 @@ class Meta(object):
 
         :param str value: The title string.
         """
-        return re.sub(r':[^:]*$', '', value)
+        return re.sub(r':.*$', '', value)
 
     def composerSafe(self, meta):
         if meta['composer_sort']:
@@ -162,6 +162,9 @@ class Meta(object):
             value = meta['composer']
         else:
             value = meta['artistsafe']
+
+        if self.shell_friendly:
+            value = value.replace(', ', '_')
 
         # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
         return re.sub(r' ?/.*', '', value)
