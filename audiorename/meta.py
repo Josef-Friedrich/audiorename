@@ -8,6 +8,20 @@ from phrydy import MediaFile
 from tmep import Functions
 import six
 
+
+def roman_to_int(n):
+    numeral_map = tuple(zip(
+        (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
+        ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
+    ))
+    i = result = 0
+    for integer, numeral in numeral_map:
+        while n[i:i + len(numeral)] == numeral:
+            result += integer
+            i += len(numeral)
+    return result
+
+
 """
 :param str path: The absolute path of the audio file.
 :param bool shell_friendly: Generate shell friendly strings.

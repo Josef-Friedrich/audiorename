@@ -1,3 +1,4 @@
+from audiorename.meta import roman_to_int
 import unittest
 import helper as h
 
@@ -444,5 +445,21 @@ class TestClassical(unittest.TestCase):
             self.wagner['title_classical'], u'Vorspiel')
 
 
-if __name__ == '__main__':
-    unittest.main()
+class TestTrackClassical(unittest.TestCase):
+
+    def assertRoman(self, roman, arabic):
+        self.assertEqual(roman_to_int(roman), arabic)
+
+    def test_roman_to_int(self):
+        self.assertRoman('I', 1)
+        self.assertRoman('II', 2)
+        self.assertRoman('III', 3)
+        self.assertRoman('IV', 4)
+        self.assertRoman('V', 5)
+        self.assertRoman('VI', 6)
+        self.assertRoman('VII', 7)
+        self.assertRoman('VIII', 8)
+        self.assertRoman('IX', 9)
+        self.assertRoman('X', 10)
+        self.assertRoman('XI', 11)
+        self.assertRoman('XII', 12)
