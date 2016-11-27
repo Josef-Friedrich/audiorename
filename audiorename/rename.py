@@ -114,16 +114,22 @@ class Rename(object):
     def rename(self):
         """Rename audio files"""
         self.generateFilename()
-        print('Rename: ' + self.message)
-        self.createDir(self.new_path)
-        shutil.move(self.old_path, self.new_path)
+        if not os.path.exists(self.new_path):
+            print('Rename: ' + self.message)
+            self.createDir(self.new_path)
+            shutil.move(self.old_path, self.new_path)
+        else:
+            self.skipMessage('file exits')
 
     def copy(self):
         """Copy audio files to new path."""
         self.generateFilename()
-        print('Copy: ' + self.message)
-        self.createDir(self.new_path)
-        shutil.copy2(self.old_path, self.new_path)
+        if not os.path.exists(self.new_path):
+            self.createDir(self.new_path)
+            print('Copy: ' + self.message)
+            shutil.copy2(self.old_path, self.new_path)
+        else:
+            self.skipMessage('file exits')
 
     def execute(self):
         skip = self.args.skip_if_empty

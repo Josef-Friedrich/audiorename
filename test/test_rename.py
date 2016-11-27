@@ -67,6 +67,31 @@ class TestBasicCopy(unittest.TestCase):
         shutil.rmtree(h.dir_cwd + '/t/')
 
 
+class TestOverwriteProtection(unittest.TestCase):
+
+    def setUp(self):
+        self.tmp_album = h.tmp_file('album.mp3')
+        with h.Capturing():
+            audiorename.execute(['--copy', self.tmp_album])
+        self.tmp_compilation = h.tmp_file('compilation.mp3')
+        with h.Capturing():
+            audiorename.execute(['--copy', self.tmp_compilation])
+
+    def test_album(self):
+        with h.Capturing() as output:
+            audiorename.execute([self.tmp_album])
+        self.assertTrue('!!! SKIPPED [file exits] !!!:' in output[0])
+
+    def test_compilation(self):
+        with h.Capturing() as output:
+            audiorename.execute([self.tmp_compilation])
+        self.assertTrue('!!! SKIPPED [file exits] !!!:' in output[0])
+
+    def tearDown(self):
+        shutil.rmtree(h.dir_cwd + '/_compilations/')
+        shutil.rmtree(h.dir_cwd + '/t/')
+
+
 class TestDryRun(unittest.TestCase):
 
     def setUp(self):
