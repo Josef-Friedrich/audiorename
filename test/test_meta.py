@@ -300,10 +300,10 @@ class TestClassicalUnit(unittest.TestCase):
         self.meta = meta.Meta()
 
     def test_classical_title(self):
-        self.assertEqual(self.meta.classicalTitle('work: title'), 'title')
-        self.assertEqual(self.meta.classicalTitle('work: work: title'),
+        self.assertEqual(self.meta.titleClassical('work: title'), 'title')
+        self.assertEqual(self.meta.titleClassical('work: work: title'),
                          'work: title')
-        self.assertEqual(self.meta.classicalTitle('title'), 'title')
+        self.assertEqual(self.meta.titleClassical('title'), 'title')
 
 
 class TestClassical(unittest.TestCase):

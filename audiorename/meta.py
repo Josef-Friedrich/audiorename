@@ -66,45 +66,25 @@ class Meta(object):
             output[key] = value
         return output
 
-    def trackClassical(self, title, disc_track=False):
-        roman = re.findall(r'^([IVXLCDM]*)\.', title)
-        if roman:
-            return roman_to_int(roman[0])
-        elif disc_track:
-            return disc_track
-        else:
-            return ''
-
-    def discTrack(self, meta):
+    def initials(self, value):
         """
-        Generate a combination of track and disc number, e. g.: ``1-04``,
-        ``3-06``.
-
-        :param dict meta: A dictionary with meta informations.
+        :param str value: A string to extract the initials.
         """
-        m = meta
+        return value[0:1].lower()
 
-        if not m['track']:
-            return ''
+    def albumClassical(self, value):
+        """Example: ``Horn Concerto: I. Allegro``
 
-        if m['disctotal'] and int(m['disctotal']) > 99:
-            disk = str(m['disc']).zfill(3)
-        elif m['disctotal'] and int(m['disctotal']) > 9:
-            disk = str(m['disc']).zfill(2)
-        else:
-            disk = str(m['disc'])
+        :param str value: The title string.
+        """
+        return re.sub(r':.*$', '', value)
 
-        if m['tracktotal'] and int(m['tracktotal']) > 99:
-            track = str(m['track']).zfill(3)
-        else:
-            track = str(m['track']).zfill(2)
-
-        if m['disc'] and m['disctotal'] and int(m['disctotal']) > 1:
-            return disk + '-' + track
-        elif m['disc'] and not m['disctotal']:
-            return disk + '-' + track
-        else:
-            return track
+    def albumClean(self, album):
+        """
+        :param str album: The text of the album.
+        """
+        album = re.sub(r' ?\([dD]is[ck].*\)$', '', album)
+        return album
 
     def artistSafe(self, meta):
         """
@@ -139,45 +119,6 @@ class Meta(object):
 
         return safe, sort
 
-    def yearSafe(self, meta):
-        """
-        :param dict meta: A dictionary with meta informations.
-        """
-        if meta['original_year']:
-            value = meta['original_year']
-        elif meta['year']:
-            value = meta['year']
-        else:
-            value = ''
-        return value
-
-    def albumClean(self, album):
-        """
-        :param str album: The text of the album.
-        """
-        album = re.sub(r' ?\([dD]is[ck].*\)$', '', album)
-        return album
-
-    def initials(self, value):
-        """
-        :param str value: A string to extract the initials.
-        """
-        return value[0:1].lower()
-
-    def classicalTitle(self, value):
-        """Example: ``Horn Concerto: I. Allegro``
-
-        :param str value: The title string.
-        """
-        return re.sub(r'^[^:]*: ?', '', value)
-
-    def classicalAlbum(self, value):
-        """Example: ``Horn Concerto: I. Allegro``
-
-        :param str value: The title string.
-        """
-        return re.sub(r':.*$', '', value)
-
     def composerSafe(self, meta):
         if meta['composer_sort']:
             value = meta['composer_sort']
@@ -192,13 +133,72 @@ class Meta(object):
         # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
         return re.sub(r' ?/.*', '', value)
 
+    def discTrack(self, meta):
+        """
+        Generate a combination of track and disc number, e. g.: ``1-04``,
+        ``3-06``.
+
+        :param dict meta: A dictionary with meta informations.
+        """
+        m = meta
+
+        if not m['track']:
+            return ''
+
+        if m['disctotal'] and int(m['disctotal']) > 99:
+            disk = str(m['disc']).zfill(3)
+        elif m['disctotal'] and int(m['disctotal']) > 9:
+            disk = str(m['disc']).zfill(2)
+        else:
+            disk = str(m['disc'])
+
+        if m['tracktotal'] and int(m['tracktotal']) > 99:
+            track = str(m['track']).zfill(3)
+        else:
+            track = str(m['track']).zfill(2)
+
+        if m['disc'] and m['disctotal'] and int(m['disctotal']) > 1:
+            return disk + '-' + track
+        elif m['disc'] and not m['disctotal']:
+            return disk + '-' + track
+        else:
+            return track
+
+    def titleClassical(self, value):
+        """Example: ``Horn Concerto: I. Allegro``
+
+        :param str value: The title string.
+        """
+        return re.sub(r'^[^:]*: ?', '', value)
+
+    def trackClassical(self, title, disc_track=False):
+        roman = re.findall(r'^([IVXLCDM]*)\.', title)
+        if roman:
+            return roman_to_int(roman[0])
+        elif disc_track:
+            return disc_track
+        else:
+            return ''
+
+    def yearSafe(self, meta):
+        """
+        :param dict meta: A dictionary with meta informations.
+        """
+        if meta['original_year']:
+            value = meta['original_year']
+        elif meta['year']:
+            value = meta['year']
+        else:
+            value = ''
+        return value
+
     def getMeta(self):
         meta = self.getMediaFile()
 
         if not meta['skip']:
 
             # album
-            meta['album_classical'] = self.classicalAlbum(meta['work'])
+            meta['album_classical'] = self.albumClassical(meta['work'])
             meta['album_clean'] = self.albumClean(meta['album'])
             meta['album_initial'] = self.initials(meta['album_clean'])
 
@@ -211,8 +211,11 @@ class Meta(object):
             meta['composer_initial'] = self.initials(meta['composer_safe'])
 
             meta['disctrack'] = self.discTrack(meta)
-            meta['title_classical'] = self.classicalTitle(meta['title'])
-            meta['track_classical'] = self.trackClassical(meta['title_classical'], meta['disctrack'])
+            meta['title_classical'] = self.titleClassical(meta['title'])
+            meta['track_classical'] = self.trackClassical(
+                meta['title_classical'],
+                meta['disctrack']
+            )
             meta['year_safe'] = self.yearSafe(meta)
             return self.sanitize(meta)
         else:
