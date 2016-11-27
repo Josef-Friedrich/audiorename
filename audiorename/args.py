@@ -57,6 +57,10 @@ fields = {
         'description': 'title_classical',
         'category': 'ordinary',
     },
+    'track_classical': {
+        'description': 'track_classical',
+        'category': 'ordinary',
+    },
     'year_safe': {
         'description': 'First “original_year” then “year”.',
         'category': 'ordinary',

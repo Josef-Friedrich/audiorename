@@ -99,6 +99,9 @@ class TestHelp(unittest.TestCase):
     def test_field_title_classical(self):
         self.assertTrue('title_classical' in self.output)
 
+    def test_field_track_classical(self):
+        self.assertTrue('track_classical' in self.output)
+
     def test_field_year_safe(self):
         self.assertTrue('year_safe' in self.output)
         self.assertTrue('First “original_year”' in self.output)

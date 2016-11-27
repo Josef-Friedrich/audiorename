@@ -444,8 +444,25 @@ class TestClassical(unittest.TestCase):
         self.assertEqual(
             self.wagner['title_classical'], u'Vorspiel')
 
+    # track_classical
+    def test_track_classical_mozart(self):
+        self.assertEqual(self.mozart['track_classical'], 1)
+
+    def test_track_classical_schubert(self):
+        self.assertEqual(self.schubert['track_classical'], u'01')
+
+    def test_track_classical_tschaikowski(self):
+        self.assertEqual(self.tschaikowski['track_classical'], u'1-01')
+
+    def test_track_classical_wagner(self):
+        self.assertEqual(self.wagner['track_classical'], u'1-01')
+
 
 class TestTrackClassical(unittest.TestCase):
+
+    def setUp(self):
+        from audiorename import meta
+        self.meta = meta.Meta()
 
     def assertRoman(self, roman, arabic):
         self.assertEqual(roman_to_int(roman), arabic)
@@ -463,3 +480,12 @@ class TestTrackClassical(unittest.TestCase):
         self.assertRoman('X', 10)
         self.assertRoman('XI', 11)
         self.assertRoman('XII', 12)
+
+    def assertTrack(self, title, compare):
+        self.assertEqual(self.meta.trackClassical(title), compare)
+
+    def test_function(self):
+        self.assertTrack('III. Credo', 3)
+        self.assertTrack('III Credo', '')
+        self.assertTrack('Credo', '')
+        self.assertEqual(self.meta.trackClassical('lol', 123), 123)

@@ -66,6 +66,15 @@ class Meta(object):
             output[key] = value
         return output
 
+    def trackClassical(self, title, disc_track=False):
+        roman = re.findall(r'^([IVXLCDM]*)\.', title)
+        if roman:
+            return roman_to_int(roman[0])
+        elif disc_track:
+            return disc_track
+        else:
+            return ''
+
     def discTrack(self, meta):
         """
         Generate a combination of track and disc number, e. g.: ``1-04``,
@@ -203,6 +212,7 @@ class Meta(object):
 
             meta['disctrack'] = self.discTrack(meta)
             meta['title_classical'] = self.classicalTitle(meta['title'])
+            meta['track_classical'] = self.trackClassical(meta['title_classical'], meta['disctrack'])
             meta['year_safe'] = self.yearSafe(meta)
             return self.sanitize(meta)
         else:
