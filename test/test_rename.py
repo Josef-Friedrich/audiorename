@@ -263,26 +263,26 @@ class TestClassical(unittest.TestCase):
 
     def test_mozart_01(self):
         self.assertDryRun(
-            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '01.mp3',
+            'Mozart_Horn-concertos', '01.mp3',
             self.m + self.h1 + '/01_I-Allegro.mp3'
         )
 
     def test_mozart_02(self):
         self.assertDryRun(
-            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '02.mp3',
+            'Mozart_Horn-concertos', '02.mp3',
             self.m + self.h1 +
             '/02_II-Rondo-Allegro.mp3'
         )
 
     def test_mozart_03(self):
         self.assertDryRun(
-            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '03.mp3',
+            'Mozart_Horn-concertos', '03.mp3',
             self.m + self.h2 + '/01_I-Allegro.mp3'
         )
 
     def test_mozart_04(self):
         self.assertDryRun(
-            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '04.mp3',
+            'Mozart_Horn-concertos', '04.mp3',
             self.m + self.h2 + '/02_II-Andante.mp3'
         )
 
@@ -291,25 +291,25 @@ class TestClassical(unittest.TestCase):
 
     def test_schubert_01(self):
         self.assertDryRun(
-            'Schubert_Franz__Winterreise-D-911', '01.mp3',
+            'Schubert_Winterreise', '01.mp3',
             self.s + self.w + '01_Gute-Nacht.mp3'
         )
 
     def test_schubert_02(self):
         self.assertDryRun(
-            'Schubert_Franz__Winterreise-D-911', '02.mp3',
+            'Schubert_Winterreise', '02.mp3',
             self.s + self.w + '02_Die-Wetterfahne.mp3'
         )
 
     def test_schubert_03(self):
         self.assertDryRun(
-            'Schubert_Franz__Winterreise-D-911', '03.mp3',
+            'Schubert_Winterreise', '03.mp3',
             self.s + self.w + '03_Gefrorne-Traenen.mp3'
         )
 
     def test_schubert_04(self):
         self.assertDryRun(
-            'Schubert_Franz__Winterreise-D-911', '04.mp3',
+            'Schubert_Winterreise', '04.mp3',
             self.s + self.w + '04_Erstarrung.mp3'
         )
 
@@ -318,25 +318,25 @@ class TestClassical(unittest.TestCase):
 
     def test_tschaikowski_01(self):
         self.assertDryRun(
-            'Tschaikowski__Swan-Lake-op-20', '1-01.mp3',
+            'Tschaikowski_Swan-Lake', '1-01.mp3',
             self.t + self.l + '1-01_Introduction-Moderato-assai.mp3'
         )
 
     def test_tschaikowski_02(self):
         self.assertDryRun(
-            'Tschaikowski__Swan-Lake-op-20', '1-02.mp3',
+            'Tschaikowski_Swan-Lake', '1-02.mp3',
             self.t + self.l + '1-02_Act-I-no-1-Scene-Allegro.mp3'
         )
 
     def test_tschaikowski_03(self):
         self.assertDryRun(
-            'Tschaikowski__Swan-Lake-op-20', '1-03.mp3',
+            'Tschaikowski_Swan-Lake', '1-03.mp3',
             self.t + self.l + '1-03_Act-I-no-2-Valse-Tempo-di.mp3'
         )
 
     def test_tschaikowski_04(self):
         self.assertDryRun(
-            'Tschaikowski__Swan-Lake-op-20', '1-04.mp3',
+            'Tschaikowski_Swan-Lake', '1-04.mp3',
             self.t + self.l + '1-04_Act-I-no-3-Scene-Allegro.mp3'
         )
 

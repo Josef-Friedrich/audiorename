@@ -277,7 +277,7 @@ class TestWork(unittest.TestCase):
 
     def test_work(self):
         meta = get_classical([
-            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte',
+            'Mozart_Horn-concertos',
             '01.mp3'
         ])
         self.assertEqual(
@@ -312,25 +312,25 @@ class TestClassical(unittest.TestCase):
 
     def setUp(self):
         self.mozart = get_classical([
-            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte',
+            'Mozart_Horn-concertos',
             '01.mp3'
         ])
 
         self.mozart2 = get_classical([
-            'Mozart_Wolfgang-Amadeus__4-Hornkonzerte',
+            'Mozart_Horn-concertos',
             '02.mp3'
         ])
 
         self.schubert = get_classical([
-            'Schubert_Franz__Winterreise-D-911',
+            'Schubert_Winterreise',
             '01.mp3'
         ])
         self.tschaikowski = get_classical([
-            'Tschaikowski__Swan-Lake-op-20',
+            'Tschaikowski_Swan-Lake',
             '1-01.mp3'
         ])
         self.wagner = get_classical([
-            'Wagner_Richard__Meistersinger-von-Nuernberg',
+            'Wagner_Meistersinger',
             '01.mp3'
         ])
 
