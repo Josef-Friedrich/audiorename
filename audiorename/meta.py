@@ -164,6 +164,12 @@ class Meta(object):
         else:
             return track
 
+    def performerClassical(self, value):
+        """http://musicbrainz.org/doc/Style/Classical/Release/Artist
+        """
+
+        return re.sub(r'^.*; ?', '', value)
+
     def titleClassical(self, value):
         """Example: ``Horn Concerto: I. Allegro``
 
@@ -211,6 +217,9 @@ class Meta(object):
             meta['composer_initial'] = self.initials(meta['composer_safe'])
 
             meta['disctrack'] = self.discTrack(meta)
+            meta['performer_classical'] = self.performerClassical(
+                meta['albumartist']
+            )
             meta['title_classical'] = self.titleClassical(meta['title'])
             meta['track_classical'] = self.trackClassical(
                 meta['title_classical'],

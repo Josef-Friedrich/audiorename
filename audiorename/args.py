@@ -53,6 +53,10 @@ fields = {
                        'disk-track, e.g. 1-01, 3-099',
         'category': 'ordinary',
     },
+    'performer_classical': {
+        'description': 'performer_classical',
+        'category': 'ordinary',
+    },
     'title_classical': {
         'description': 'title_classical',
         'category': 'ordinary',

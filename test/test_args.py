@@ -96,6 +96,9 @@ class TestHelp(unittest.TestCase):
         self.assertTrue('disctrack' in self.output)
         self.assertTrue('Combination of' in self.output)
 
+    def test_field_performer_classical(self):
+        self.assertTrue('performer_classical' in self.output)
+
     def test_field_title_classical(self):
         self.assertTrue('title_classical' in self.output)
 

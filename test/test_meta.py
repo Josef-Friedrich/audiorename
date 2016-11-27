@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from audiorename.meta import roman_to_int
 import unittest
 import helper as h
@@ -424,6 +426,31 @@ class TestClassical(unittest.TestCase):
         self.assertEqual(
             self.wagner['composer_sort'],
             u'Wagner, Richard'
+        )
+
+    # performer_classical
+    def test_performer_classical_mozart(self):
+        self.assertEqual(
+            self.mozart['performer_classical'],
+            u'Orpheus Chamber Orchestra, David Jolley, William Purvis'
+        )
+
+    def test_performer_classical_schubert(self):
+        self.assertEqual(
+            self.schubert['performer_classical'],
+            u'Dietrich Fischer-Dieskau, Gerald Moore'
+        )
+
+    def test_performer_classical_tschaikowski(self):
+        self.assertEqual(
+            self.tschaikowski['performer_classical'],
+            u'State Academic Symphony Orchestra of the Russian Federation, Evgeny Fyodorovich Svetlanov'
+        )
+
+    def test_performer_classical_wagner(self):
+        self.assertEqual(
+            self.wagner['performer_classical'],
+            u'René Kollo, Helen Donath, Theo Adam, Geraint Evans, Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle Dresden, Herbert von Karajan'
         )
 
     # title_classical
