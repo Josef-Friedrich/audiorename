@@ -444,13 +444,17 @@ class TestClassical(unittest.TestCase):
     def test_performer_classical_tschaikowski(self):
         self.assertEqual(
             self.tschaikowski['performer_classical'],
-            u'State Academic Symphony Orchestra of the Russian Federation, Evgeny Fyodorovich Svetlanov'
+            u'State Academic Symphony Orchestra of the Russian Federation, ' +
+            'Evgeny Fyodorovich Svetlanov'
         )
 
     def test_performer_classical_wagner(self):
         self.assertEqual(
             self.wagner['performer_classical'],
-            u'René Kollo, Helen Donath, Theo Adam, Geraint Evans, Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle Dresden, Herbert von Karajan'
+            u'René Kollo, Helen Donath, Theo Adam, Geraint Evans, ' +
+            'Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der ' +
+            'Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle ' +
+            'Dresden, Herbert von Karajan'
         )
 
     # title_classical
@@ -473,7 +477,7 @@ class TestClassical(unittest.TestCase):
 
     # track_classical
     def test_track_classical_mozart(self):
-        self.assertEqual(self.mozart['track_classical'], 1)
+        self.assertEqual(self.mozart['track_classical'], u'01')
 
     def test_track_classical_schubert(self):
         self.assertEqual(self.schubert['track_classical'], u'01')
@@ -512,7 +516,7 @@ class TestTrackClassical(unittest.TestCase):
         self.assertEqual(self.meta.trackClassical(title), compare)
 
     def test_function(self):
-        self.assertTrack('III. Credo', 3)
+        self.assertTrack('III. Credo', u'03')
         self.assertTrack('III Credo', '')
         self.assertTrack('Credo', '')
         self.assertEqual(self.meta.trackClassical('lol', 123), 123)

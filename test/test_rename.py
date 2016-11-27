@@ -256,86 +256,88 @@ class TestClassical(unittest.TestCase):
         ]), test)
 
     m = '/m/Mozart_Wolfgang-Amadeus/'
-    h1 = 'Concerto-for-French-Horn-no-1-in-D-major-K-386b'
-    h2 = 'Concerto-for-Horn-no-2-in-E-flat-major-K-417'
+    h1 = 'Concerto-for-French-Horn-no-1-in-D-major-' + \
+        'K_Orpheus-Chamber-Orchestra-David'
+    h2 = 'Concerto-for-Horn-no-2-in-E-flat-major-K-417_' + \
+        'Orpheus-Chamber-Orchestra-David'
 
     def test_mozart_01(self):
         self.assertDryRun(
             'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '01.mp3',
-            self.m + self.h1 + '-KV-412/I-Allegro.mp3'
+            self.m + self.h1 + '/01_I-Allegro.mp3'
         )
 
     def test_mozart_02(self):
         self.assertDryRun(
             'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '02.mp3',
             self.m + self.h1 +
-            '-KV-514/II-Rondo-Allegro.mp3'
+            '/02_II-Rondo-Allegro.mp3'
         )
 
     def test_mozart_03(self):
         self.assertDryRun(
             'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '03.mp3',
-            self.m + self.h2 + '/I-Allegro.mp3'
+            self.m + self.h2 + '/01_I-Allegro.mp3'
         )
 
     def test_mozart_04(self):
         self.assertDryRun(
             'Mozart_Wolfgang-Amadeus__4-Hornkonzerte', '04.mp3',
-            self.m + self.h2 + '/II-Andante.mp3'
+            self.m + self.h2 + '/02_II-Andante.mp3'
         )
 
     s = '/s/Schubert_Franz/'
-    w = 'Die-Winterreise-op-89-D-911/'
+    w = 'Die-Winterreise-op-89-D-911_Dietrich-Fischer-Dieskau-Gerald/'
 
     def test_schubert_01(self):
         self.assertDryRun(
             'Schubert_Franz__Winterreise-D-911', '01.mp3',
-            self.s + self.w + 'Gute-Nacht.mp3'
+            self.s + self.w + '01_Gute-Nacht.mp3'
         )
 
     def test_schubert_02(self):
         self.assertDryRun(
             'Schubert_Franz__Winterreise-D-911', '02.mp3',
-            self.s + self.w + 'Die-Wetterfahne.mp3'
+            self.s + self.w + '02_Die-Wetterfahne.mp3'
         )
 
     def test_schubert_03(self):
         self.assertDryRun(
             'Schubert_Franz__Winterreise-D-911', '03.mp3',
-            self.s + self.w + 'Gefrorne-Traenen.mp3'
+            self.s + self.w + '03_Gefrorne-Traenen.mp3'
         )
 
     def test_schubert_04(self):
         self.assertDryRun(
             'Schubert_Franz__Winterreise-D-911', '04.mp3',
-            self.s + self.w + 'Erstarrung.mp3'
+            self.s + self.w + '04_Erstarrung.mp3'
         )
 
     t = '/t/Tchaikovsky_Pyotr-Ilyich/'
-    l = 'Swan-Lake-op-20/'
+    l = 'Swan-Lake-op-20_State-Academic-Symphony/'
 
     def test_tschaikowski_01(self):
         self.assertDryRun(
             'Tschaikowski__Swan-Lake-op-20', '1-01.mp3',
-            self.t + self.l + 'Introduction-Moderato-assai.mp3'
+            self.t + self.l + '1-01_Introduction-Moderato-assai.mp3'
         )
 
     def test_tschaikowski_02(self):
         self.assertDryRun(
             'Tschaikowski__Swan-Lake-op-20', '1-02.mp3',
-            self.t + self.l + 'Act-I-no-1-Scene-Allegro.mp3'
+            self.t + self.l + '1-02_Act-I-no-1-Scene-Allegro.mp3'
         )
 
     def test_tschaikowski_03(self):
         self.assertDryRun(
             'Tschaikowski__Swan-Lake-op-20', '1-03.mp3',
-            self.t + self.l + 'Act-I-no-2-Valse-Tempo-di.mp3'
+            self.t + self.l + '1-03_Act-I-no-2-Valse-Tempo-di.mp3'
         )
 
     def test_tschaikowski_04(self):
         self.assertDryRun(
             'Tschaikowski__Swan-Lake-op-20', '1-04.mp3',
-            self.t + self.l + 'Act-I-no-3-Scene-Allegro.mp3'
+            self.t + self.l + '1-04_Act-I-no-3-Scene-Allegro.mp3'
         )
 
 

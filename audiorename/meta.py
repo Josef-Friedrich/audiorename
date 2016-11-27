@@ -180,7 +180,7 @@ class Meta(object):
     def trackClassical(self, title, disc_track=False):
         roman = re.findall(r'^([IVXLCDM]*)\.', title)
         if roman:
-            return roman_to_int(roman[0])
+            return str(roman_to_int(roman[0])).zfill(2)
         elif disc_track:
             return disc_track
         else:
