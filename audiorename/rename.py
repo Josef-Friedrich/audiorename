@@ -29,7 +29,7 @@ def default_formats(classical=False, compilation=False):
             '${disctrack}_%shorten{$title}'
     elif classical and not compilation:
         return '$composer_initial/$composer_safe/' +  \
-            '$album_classical/' +  \
+            '%shorten{$album_classical, 64}/' +  \
             '%shorten{$title_classical}'
     elif classical and compilation:
         return '_compilations/' +  \
