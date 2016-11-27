@@ -255,6 +255,34 @@ class TestClassical(unittest.TestCase):
             os.path.join(h.dir_test, 'classical', folder, track)
         ]), test)
 
+    d = '/c/Claude-Debussy/'
+    e = 'Estampes-L-100_Jean-Claude-Pennetier'
+    p = 'Pour-le-piano-L-95_Jean-Claude-Pennetier'
+
+    def test_debussy_01(self):
+        self.assertDryRun(
+            'Debussy_Estampes-etc', '01.mp3',
+            self.d + self.e + '/01_Pagodes.mp3'
+        )
+
+    def test_debussy_02(self):
+        self.assertDryRun(
+            'Debussy_Estampes-etc', '02.mp3',
+            self.d + self.e + '/02_Soiree-dans-Grenade.mp3'
+        )
+
+    def test_debussy_03(self):
+        self.assertDryRun(
+            'Debussy_Estampes-etc', '03.mp3',
+            self.d + self.e + '/03_Jardins-sous-la-pluie.mp3'
+        )
+
+    def test_debussy_04(self):
+        self.assertDryRun(
+            'Debussy_Estampes-etc', '04.mp3',
+            self.d + self.p + '/04_Prelude.mp3'
+        )
+
     m = '/m/Mozart_Wolfgang-Amadeus/'
     h1 = 'Concerto-for-French-Horn-no-1-in-D-major-' + \
         'K_Orpheus-Chamber-Orchestra-David'
@@ -338,6 +366,33 @@ class TestClassical(unittest.TestCase):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-04.mp3',
             self.t + self.l + '1-04_Act-I-no-3-Scene-Allegro.mp3'
+        )
+
+    wr = '/w/Wagner_Richard/'
+    mn = 'Die-Meistersinger-von-Nuernberg_Rene-Kollo-Helen-Donath-Theo/'
+
+    def test_wagner_01(self):
+        self.assertDryRun(
+            'Wagner_Meistersinger', '01.mp3',
+            self.wr + self.mn + '1-01_Vorspiel.mp3'
+        )
+
+    def test_wagner_02(self):
+        self.assertDryRun(
+            'Wagner_Meistersinger', '02.mp3',
+            self.wr + self.mn + '1-02_Akt-I-Szene-I-Da-zu-dir-der.mp3'
+        )
+
+    def test_wagner_03(self):
+        self.assertDryRun(
+            'Wagner_Meistersinger', '03.mp3',
+            self.wr + self.mn + '1-03_Akt-I-Szene-I-Verweilt-Ein.mp3'
+        )
+
+    def test_wagner_04(self):
+        self.assertDryRun(
+            'Wagner_Meistersinger', '04.mp3',
+            self.wr + self.mn + '1-04_Akt-I-Szene-I-Da-bin-ich.mp3'
         )
 
 
