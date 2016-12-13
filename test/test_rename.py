@@ -255,7 +255,7 @@ class TestClassical(unittest.TestCase):
             os.path.join(h.dir_test, 'classical', folder, track)
         ]), test)
 
-    d = '/c/Claude-Debussy/'
+    d = '/d/Debussy_Claude/'
     e = 'Estampes-L-100_Jean-Claude-Pennetier'
     p = 'Pour-le-piano-L-95_Jean-Claude-Pennetier'
 
