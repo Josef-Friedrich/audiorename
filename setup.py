@@ -23,6 +23,8 @@ setup(
         'tmep',
         'ansicolor',
         'six',
+        'musicbrainzngs',
+
     ],
     scripts=['bin/audiorenamer'],
     long_description=read('README.rst'),
