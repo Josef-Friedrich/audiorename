@@ -146,13 +146,23 @@ class Meta(object):
 
         return safe, sort
 
+    def normalizePerformer(self, performer):
+        out = []
+        for value in performer:
+            value = value[:-1]
+            value = value.split(u' (')
+            out.append([value[1], value[0]])
+        return out
+
     def performRaw(self):
-        if self.media_file.format == 'FLAC' and 'performer' in self.media_file.mgfile:
-            return self.media_file.mgfile['performer']
-        elif self.media_file.format == 'MP3' and 'TIPL' in self.media_file.mgfile:
-            return self.media_file.mgfile['TIPL'].people
-        elif self.media_file.format == 'MP3' and 'TMCL' in self.media_file.mgfile:
-            return self.media_file.mgfile['TMCL'].people
+        f =  self.media_file.format
+        m = self.media_file.mgfile
+        if (f == 'FLAC' or f == 'OGG') and 'performer' in m:
+            return self.normalizePerformer(m['performer'])
+        elif f == 'MP3' and 'TIPL' in m:
+            return m['TIPL'].people
+        elif f == 'MP3' and 'TMCL' in m:
+            return m['TMCL'].people
         else:
             return ''
 
@@ -254,7 +264,7 @@ class Meta(object):
             meta['composer_initial'] = self.initials(meta['composer_safe'])
 
             meta['disctrack'] = self.discTrack(meta)
-            meta['performers'] = self.performRaw()
+            meta['performer'] = self.performRaw()
             meta['performer_classical'] = self.performerClassical(
                 meta['albumartist']
             )

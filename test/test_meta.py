@@ -527,15 +527,32 @@ class TestPerformers(unittest.TestCase):
     def getMeta(self, extension):
         return h.get_meta([h.dir_test, 'performers', 'blank.' + extension])
 
-    @unittest.skip('test')
+    def assertPerformer(self, meta):
+        self.assertEqual(meta['performer'][0][0], u'orchestra')
+        self.assertEqual(meta['performer'][0][1], u'Wiener Symphoniker')
+        self.assertEqual(meta['performer'][1][0], u'soprano vocals')
+        self.assertEqual(meta['performer'][1][1], u'Elena Filipova')
+        self.assertEqual(meta['performer'][2][0], u'choir vocals')
+        self.assertEqual(meta['performer'][2][1], u'Chor der Wiener Volksoper')
+
+    def test_unit_normalize_performers(self):
+        from audiorename import meta
+        meta = meta.Meta()
+        performer = [u'John Lennon (vocals)', u'Ringo Starr (drums)']
+        out = meta.normalizePerformer(performer)
+        self.assertEqual(out[0][0], u'vocals')
+        self.assertEqual(out[0][1], u'John Lennon')
+        self.assertEqual(out[1][0], u'drums')
+        self.assertEqual(out[1][1], u'Ringo Starr')
+
+    def test_flac(self):
+        meta = self.getMeta('ogg')
+        self.assertPerformer(meta)
+
     def test_mp3(self):
         meta = self.getMeta('mp3')
-        self.assertEqual(meta['performers'][0][0], u'producer')
-        self.assertEqual(meta['performers'][0][1], u'George Martin')
-        self.assertEqual(meta['performers'][1][0], u'engineer')
-        self.assertEqual(meta['performers'][0][1], u'George Martin')
+        self.assertPerformer(meta)
 
-    @unittest.skip('test')
-    def test_flac(self):
-        meta = self.getMeta('flac')
-        self.assertEqual(meta['performers'][0], u'Ringo Starr (drums)')
+    def test_ogg(self):
+        meta = self.getMeta('ogg')
+        self.assertPerformer(meta)
