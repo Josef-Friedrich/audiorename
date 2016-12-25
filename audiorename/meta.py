@@ -151,6 +151,8 @@ class Meta(object):
             return self.media_file.mgfile['performer']
         elif self.media_file.format == 'MP3' and 'TIPL' in self.media_file.mgfile:
             return self.media_file.mgfile['TIPL'].people
+        elif self.media_file.format == 'MP3' and 'TMCL' in self.media_file.mgfile:
+            return self.media_file.mgfile['TMCL'].people
         else:
             return ''
 
