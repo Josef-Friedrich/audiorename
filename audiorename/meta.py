@@ -146,6 +146,14 @@ class Meta(object):
 
         return safe, sort
 
+    def performRaw(self):
+        if self.media_file.format == 'FLAC' and 'performer' in self.media_file.mgfile:
+            return self.media_file.mgfile['performer']
+        elif self.media_file.format == 'MP3' and 'TIPL' in self.media_file.mgfile:
+            return self.media_file.mgfile['TIPL'].people
+        else:
+            return ''
+
     def composerSafe(self, meta):
         if meta['composer_sort']:
             value = meta['composer_sort']
@@ -244,6 +252,7 @@ class Meta(object):
             meta['composer_initial'] = self.initials(meta['composer_safe'])
 
             meta['disctrack'] = self.discTrack(meta)
+            meta['performers'] = self.performRaw()
             meta['performer_classical'] = self.performerClassical(
                 meta['albumartist']
             )

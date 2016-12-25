@@ -520,3 +520,20 @@ class TestTrackClassical(unittest.TestCase):
         self.assertTrack('III Credo', '')
         self.assertTrack('Credo', '')
         self.assertEqual(self.meta.trackClassical('lol', 123), 123)
+
+
+class TestPerformers(unittest.TestCase):
+
+    def getMeta(self, extension):
+        return h.get_meta([h.dir_test, 'performers', 'full.' + extension])
+
+    def test_mp3(self):
+        meta = self.getMeta('mp3')
+        self.assertEqual(meta['performers'][0][0], u'producer')
+        self.assertEqual(meta['performers'][0][1], u'George Martin')
+        self.assertEqual(meta['performers'][1][0], u'engineer')
+        self.assertEqual(meta['performers'][0][1], u'George Martin')
+
+    def test_flac(self):
+        meta = self.getMeta('flac')
+        self.assertEqual(meta['performers'][0], u'Ringo Starr (drums)')
