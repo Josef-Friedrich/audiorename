@@ -154,17 +154,27 @@ class Meta(object):
             out.append([value[1], value[0]])
         return out
 
-    def performRaw(self):
-        f =  self.media_file.format
+    def performRaw(self, meta=None):
+        """Picard doesn’t store performer values in m4a, alac.m4a, wma, wav,
+        aiff"""
+        f = self.media_file.format
         m = self.media_file.mgfile
+        out = []
+
         if (f == 'FLAC' or f == 'OGG') and 'performer' in m:
-            return self.normalizePerformer(m['performer'])
-        elif f == 'MP3' and 'TIPL' in m:
-            return m['TIPL'].people
-        elif f == 'MP3' and 'TMCL' in m:
-            return m['TMCL'].people
+            out = self.normalizePerformer(m['performer'])
+        elif f == 'MP3':
+            if 'TIPL' in m:
+                out = m['TIPL'].people
+            elif 'TMCL' in m:
+                out = m['TMCL'].people
+            # 4.2.2 TPE3 Conductor/performer refinement
+            if 'TPE3' in m:
+                out.append(['conductor', m['TPE3'].text])
         else:
-            return ''
+            out = []
+
+        return out
 
     def composerSafe(self, meta):
         if meta['composer_sort']:
@@ -264,7 +274,7 @@ class Meta(object):
             meta['composer_initial'] = self.initials(meta['composer_safe'])
 
             meta['disctrack'] = self.discTrack(meta)
-            meta['performer'] = self.performRaw()
+            meta['performer'] = self.performRaw(meta)
             meta['performer_classical'] = self.performerClassical(
                 meta['albumartist']
             )
