@@ -241,6 +241,16 @@ class Meta(object):
 
         return re.sub(r'^.*; ?', '', value)
 
+    def performerShort(self, performer):
+        out = u''
+        for p in performer:
+            s = p[1].split(' ')[-1]
+            out = out + u', ' + s
+
+        out = out[2:]
+
+        return out
+
     def performer(self, performer):
         out = u''
         for p in performer:
@@ -301,6 +311,7 @@ class Meta(object):
             meta['performer_classical'] = self.performerClassical(
                 meta['albumartist']
             )
+            meta['performer_short'] = self.performerShort(meta['performer_raw'])
             meta['performer'] = self.performer(meta['performer_raw'])
             meta['title_classical'] = self.titleClassical(meta['title'])
             meta['track_classical'] = self.trackClassical(
