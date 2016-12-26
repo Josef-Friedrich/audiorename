@@ -246,11 +246,14 @@ class Meta(object):
 
         return out
 
-    def performerClassical(self, value):
+    def performerClassical(self, meta):
         """http://musicbrainz.org/doc/Style/Classical/Release/Artist
         """
 
-        return re.sub(r'^.*; ?', '', value)
+        if 'albumartist' in meta:
+            return re.sub(r'^.*; ?', '', meta['albumartist'])
+        else:
+            return u''
 
     def performerShort(self, performer):
         out = u''
@@ -319,13 +322,11 @@ class Meta(object):
 
             meta['disctrack'] = self.discTrack(meta)
             meta['performer_raw'] = self.performerRaw(meta)
-            meta['performer_classical'] = self.performerClassical(
-                meta['albumartist']
-            )
             meta['performer_short'] = self.performerShort(
                 meta['performer_raw']
             )
             meta['performer'] = self.performer(meta['performer_raw'])
+            meta['performer_classical'] = self.performerClassical(meta)
             meta['title_classical'] = self.titleClassical(meta['title'])
             meta['track_classical'] = self.trackClassical(
                 meta['title_classical'],
