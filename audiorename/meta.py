@@ -163,6 +163,8 @@ class Meta(object):
 
         if (f == 'FLAC' or f == 'OGG') and 'performer' in m:
             out = self.normalizePerformer(m['performer'])
+            if 'conductor' in m:
+                out.insert(0, ['conductor', m['conductor'][0]])
         elif f == 'MP3':
             if 'TIPL' in m:
                 out = m['TIPL'].people
@@ -170,7 +172,8 @@ class Meta(object):
                 out = m['TMCL'].people
             # 4.2.2 TPE3 Conductor/performer refinement
             if 'TPE3' in m:
-                out.append(['conductor', m['TPE3'].text])
+                out.insert(0, ['conductor', m['TPE3'].text[0]])
+
         else:
             out = []
 
