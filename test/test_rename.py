@@ -348,7 +348,8 @@ class TestClassical(unittest.TestCase):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-01.mp3',
             self.t + self.l +
-            '1-01_Introduction-Moderato-assai-Allegro-ma-non-troppo-Tempo-I.mp3'
+            '1-01_Introduction-Moderato-assai-Allegro-ma-non-troppo-' +
+            'Tempo-I.mp3'
         )
 
     def test_tschaikowski_02(self):

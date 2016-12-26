@@ -311,7 +311,9 @@ class Meta(object):
             meta['performer_classical'] = self.performerClassical(
                 meta['albumartist']
             )
-            meta['performer_short'] = self.performerShort(meta['performer_raw'])
+            meta['performer_short'] = self.performerShort(
+                meta['performer_raw']
+            )
             meta['performer'] = self.performer(meta['performer_raw'])
             meta['title_classical'] = self.titleClassical(meta['title'])
             meta['track_classical'] = self.trackClassical(
