@@ -256,8 +256,8 @@ class TestClassical(unittest.TestCase):
         ]), test)
 
     d = '/d/Debussy_Claude/'
-    e = 'Estampes-L-100_Jean-Claude-Pennetier'
-    p = 'Pour-le-piano-L-95_Jean-Claude-Pennetier'
+    e = 'Estampes-L-100_[Jean-Claude-Pennetier]'
+    p = 'Pour-le-piano-L-95_[Jean-Claude-Pennetier]'
 
     def test_debussy_01(self):
         self.assertDryRun(
@@ -284,10 +284,10 @@ class TestClassical(unittest.TestCase):
         )
 
     m = '/m/Mozart_Wolfgang-Amadeus/'
-    h1 = 'Concerto-for-French-Horn-no-1-in-D-major-' + \
-        'K_Orpheus-Chamber-Orchestra-David'
-    h2 = 'Concerto-for-Horn-no-2-in-E-flat-major-K-417_' + \
-        'Orpheus-Chamber-Orchestra-David'
+    mp1 = u'[Orp-Cha-Orc-Jolley]'
+    mp2 = u'[Orp-Cha-Orc-Purvis]'
+    h1 = 'Concerto-for-French-Horn-no-1-in-D-major-K_' + mp1
+    h2 = 'Concerto-for-Horn-no-2-in-E-flat-major-K-417_' + mp2
 
     def test_mozart_01(self):
         self.assertDryRun(
@@ -315,7 +315,7 @@ class TestClassical(unittest.TestCase):
         )
 
     s = '/s/Schubert_Franz/'
-    w = 'Die-Winterreise-op-89-D-911_Dietrich-Fischer-Dieskau-Gerald/'
+    w = 'Die-Winterreise-op-89-D-911_[Fischer-Dieskau-Moore]/'
 
     def test_schubert_01(self):
         self.assertDryRun(
@@ -342,7 +342,7 @@ class TestClassical(unittest.TestCase):
         )
 
     t = '/t/Tchaikovsky_Pyotr-Ilyich/'
-    l = 'Swan-Lake-op-20_State-Academic-Symphony/'
+    l = 'Swan-Lake-op-20_[Svetlanov-Sta-Aca-Sym-Orc]/'
 
     def test_tschaikowski_01(self):
         self.assertDryRun(
@@ -371,7 +371,7 @@ class TestClassical(unittest.TestCase):
         )
 
     wr = '/w/Wagner_Richard/'
-    mn = 'Die-Meistersinger-von-Nuernberg_Rene-Kollo-Helen-Donath-Theo/'
+    mn = 'Die-Meistersinger-von-Nuernberg_[Karajan-Sta-Dre-Sta-Dre]/'
 
     def test_wagner_01(self):
         self.assertDryRun(

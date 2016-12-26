@@ -30,7 +30,7 @@ def default_formats(classical=False, compilation=False):
     elif classical:
         return '$composer_initial/$composer_safe/' +  \
             '%shorten{$album_classical,48}' + \
-            '_%shorten{$performer_classical,32}/' +  \
+            '_[%shorten{$performer_classical,32}]/' +  \
             '${track_classical}_%shorten{$title_classical,64}'
 
 
@@ -85,7 +85,7 @@ class Rename(object):
         if isinstance(text, str) or isinstance(text, unicode):
             if self.args.shell_friendly:
                 text = Functions.tmpl_asciify(text)
-                text = Functions.tmpl_delchars(text, '[]().,!"\'’')
+                text = Functions.tmpl_delchars(text, '().,!"\'’')
                 text = Functions.tmpl_replchars(text, '-', ' ')
         return text
 

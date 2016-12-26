@@ -249,8 +249,9 @@ class Meta(object):
     def performerClassical(self, meta):
         """http://musicbrainz.org/doc/Style/Classical/Release/Artist
         """
-
-        if 'albumartist' in meta:
+        if 'performer_short' in meta and len(meta['performer_short']) > 0:
+            return meta['performer_short']
+        elif 'albumartist' in meta:
             return re.sub(r'^.*; ?', '', meta['albumartist'])
         else:
             return u''
@@ -258,7 +259,10 @@ class Meta(object):
     def performerShort(self, performer):
         out = u''
         for p in performer:
-            s = p[1].split(' ')[-1]
+            if p[0] == u'orchestra':
+                s = self.shortenPerformer(p[1])
+            else:
+                s = p[1].split(' ')[-1]
             out = out + u', ' + s
 
         out = out[2:]
