@@ -154,31 +154,6 @@ class Meta(object):
             out.append([value[1], value[0]])
         return out
 
-    def performRaw(self, meta=None):
-        """Picard doesn’t store performer values in m4a, alac.m4a, wma, wav,
-        aiff"""
-        f = self.media_file.format
-        m = self.media_file.mgfile
-        out = []
-
-        if (f == 'FLAC' or f == 'OGG') and 'performer' in m:
-            out = self.normalizePerformer(m['performer'])
-            if 'conductor' in m:
-                out.insert(0, ['conductor', m['conductor'][0]])
-        elif f == 'MP3':
-            if 'TIPL' in m:
-                out = m['TIPL'].people
-            elif 'TMCL' in m:
-                out = m['TMCL'].people
-            # 4.2.2 TPE3 Conductor/performer refinement
-            if 'TPE3' in m:
-                out.insert(0, ['conductor', m['TPE3'].text[0]])
-
-        else:
-            out = []
-
-        return out
-
     def composerSafe(self, meta):
         if meta['composer_sort']:
             value = meta['composer_sort']
@@ -224,11 +199,56 @@ class Meta(object):
         else:
             return track
 
+    def performerRaw(self, meta=None):
+        """Generate a unifed performer list.
+
+        Picard doesn’t store performer values in m4a, alac.m4a, wma, wav,
+        aiff.
+
+        .. code-block:: python
+
+            performer = [
+                ['conductor', u'Herbert von Karajan'],
+                ['violin', u'Anne-Sophie Mutter'],
+            ]
+
+        """
+        f = self.media_file.format
+        m = self.media_file.mgfile
+        out = []
+
+        if (f == 'FLAC' or f == 'OGG') and 'performer' in m:
+            out = self.normalizePerformer(m['performer'])
+            if 'conductor' in m:
+                out.insert(0, ['conductor', m['conductor'][0]])
+        elif f == 'MP3':
+            if 'TIPL' in m:
+                out = m['TIPL'].people
+            elif 'TMCL' in m:
+                out = m['TMCL'].people
+            # 4.2.2 TPE3 Conductor/performer refinement
+            if 'TPE3' in m:
+                out.insert(0, ['conductor', m['TPE3'].text[0]])
+
+        else:
+            out = []
+
+        return out
+
     def performerClassical(self, value):
         """http://musicbrainz.org/doc/Style/Classical/Release/Artist
         """
 
         return re.sub(r'^.*; ?', '', value)
+
+    def performer(self, performer):
+        out = u''
+        for p in performer:
+            out = out + u', ' + p[1]
+
+        out = out[2:]
+
+        return out
 
     def titleClassical(self, value):
         """Example: ``Horn Concerto: I. Allegro``
@@ -277,10 +297,11 @@ class Meta(object):
             meta['composer_initial'] = self.initials(meta['composer_safe'])
 
             meta['disctrack'] = self.discTrack(meta)
-            meta['performer'] = self.performRaw(meta)
+            meta['performer_raw'] = self.performerRaw(meta)
             meta['performer_classical'] = self.performerClassical(
                 meta['albumartist']
             )
+            meta['performer'] = self.performer(meta['performer_raw'])
             meta['title_classical'] = self.titleClassical(meta['title'])
             meta['track_classical'] = self.trackClassical(
                 meta['title_classical'],

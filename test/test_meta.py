@@ -528,14 +528,17 @@ class TestPerformers(unittest.TestCase):
         return h.get_meta([h.dir_test, 'performers', 'blank.' + extension])
 
     def assertPerformer(self, meta):
-        self.assertEqual(meta['performer'][0][0], u'conductor')
-        self.assertEqual(meta['performer'][0][1], u'Fabio Luisi')
-        self.assertEqual(meta['performer'][1][0], u'orchestra')
-        self.assertEqual(meta['performer'][1][1], u'Wiener Symphoniker')
-        self.assertEqual(meta['performer'][2][0], u'soprano vocals')
-        self.assertEqual(meta['performer'][2][1], u'Elena Filipova')
-        self.assertEqual(meta['performer'][3][0], u'choir vocals')
-        self.assertEqual(meta['performer'][3][1], u'Chor der Wiener Volksoper')
+        p = meta['performer_raw']
+        self.assertEqual(p[0][0], u'conductor')
+        self.assertEqual(p[0][1], u'Fabio Luisi')
+        self.assertEqual(p[1][0], u'orchestra')
+        self.assertEqual(p[1][1], u'Wiener Symphoniker')
+        self.assertEqual(p[2][0], u'soprano vocals')
+        self.assertEqual(p[2][1], u'Elena Filipova')
+        self.assertEqual(p[3][0], u'choir vocals')
+        self.assertEqual(p[3][1], u'Chor der Wiener Volksoper')
+
+        self.assertEqual(meta['performer'], u'Fabio Luisi, Wiener Symphoniker, Elena Filipova, Chor der Wiener Volksoper')
 
     def test_unit_normalize_performers(self):
         from audiorename import meta
