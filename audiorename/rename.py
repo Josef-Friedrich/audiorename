@@ -87,6 +87,9 @@ class Rename(object):
                 text = Functions.tmpl_asciify(text)
                 text = Functions.tmpl_delchars(text, '().,!"\'’')
                 text = Functions.tmpl_replchars(text, '-', ' ')
+            # asciify generates new characters which must be sanitzed, e. g.:
+            # ¿ -> ?
+            text = Functions.tmpl_delchars(text, ':*?"<>|\~&{}')
         return text
 
     def createDir(self, path):
