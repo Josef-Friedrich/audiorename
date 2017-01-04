@@ -582,3 +582,18 @@ class TestPerformerUnit(unittest.TestCase):
     def test_performer_shorten(self):
         s = self.meta.shortenPerformer(u'Ludwig van Beethoven')
         self.assertEqual(s, u'Lud. van Bee.')
+
+    def test_performer_shorten_option_separator(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
+                                       separator=u'--')
+        self.assertEqual(s, u'Lud.--van--Bee.')
+
+    def test_performer_shorten_option_abbreviation(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
+                                       abbreviation=u'_')
+        self.assertEqual(s, u'Lud_ van Bee_')
+
+    def test_performer_shorten_option_all(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven', separator=u'',
+                                       abbreviation=u'')
+        self.assertEqual(s, u'LudvanBee')

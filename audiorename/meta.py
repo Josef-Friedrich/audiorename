@@ -199,16 +199,17 @@ class Meta(object):
         else:
             return track
 
-    def shortenPerformer(self, performer, length=3):
-        out = ''
+    def shortenPerformer(self, performer, length=3, separator=u' ',
+                         abbreviation=u'.'):
+        out = u''
         for s in performer.split(' '):
             if len(s) > length:
-                part = s[:length] + u'.'
+                part = s[:length] + abbreviation
             else:
                 part = s
-            out = out + ' ' + part
+            out = out + separator + part
 
-        return out[1:]
+        return out[len(separator):]
 
     def performerRaw(self, meta=None):
         """Generate a unifed performer list.
