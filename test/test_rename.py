@@ -85,7 +85,23 @@ class TestOverwriteProtection(unittest.TestCase):
     def test_compilation(self):
         with h.Capturing() as output:
             audiorename.execute([self.tmp_compilation])
-        self.assertTrue('File exits:' in output[0])
+        self.assertTrue('File exits' in output[0])
+
+    def test_album_already_renamed(self):
+        with h.Capturing():
+            audiorename.execute([self.tmp_album])
+        with h.Capturing() as output:
+            audiorename.execute([h.dir_cwd + h.path_album])
+
+        self.assertTrue('Already renamed' in output[0])
+
+    def test_compilation_already_renamed(self):
+        with h.Capturing():
+            audiorename.execute([self.tmp_compilation])
+        with h.Capturing() as output:
+            audiorename.execute([h.dir_cwd + h.path_compilation])
+
+        self.assertTrue('Already renamed' in output[0])
 
     def tearDown(self):
         shutil.rmtree(h.dir_cwd + '/_compilations/')
