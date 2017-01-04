@@ -432,7 +432,7 @@ class TestClassical(unittest.TestCase):
     def test_performer_classical_mozart(self):
         self.assertEqual(
             self.mozart['performer_classical'],
-            u'OrpChaOrc, Jolley'
+            u'OrpChaOrc'
         )
 
     def test_performer_classical_schubert(self):
@@ -537,8 +537,7 @@ class TestPerformer(unittest.TestCase):
         self.assertEqual(meta['performer'], u'Fabio Luisi, Wiener ' +
                          u'Symphoniker, Elena Filipova, Chor der Wiener ' +
                          u'Volksoper')
-        self.assertEqual(meta['performer_short'], u'Luisi, WieSym, ' +
-                         u'Filipova, ChoderWie')
+        self.assertEqual(meta['performer_short'], u'Luisi, WieSym')
 
     def test_unit_normalize_performer(self):
         from audiorename import meta
@@ -584,7 +583,7 @@ class TestPerformerUnit(unittest.TestCase):
 
     def test_performer_short(self):
         s = self.meta.performerShort(self.performer)
-        self.assertEqual(s, u'Mazel, OrcdesBay, ChodesBay, Loriot')
+        self.assertEqual(s, u'Mazel, OrcdesBay')
 
     def test_performer_shorten(self):
         s = self.meta.shortenPerformer(u'Ludwig van Beethoven')

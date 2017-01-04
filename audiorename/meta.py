@@ -270,6 +270,15 @@ class Meta(object):
 
     def performerShort(self, performer):
         out = u''
+
+        picked = []
+        for p in performer:
+            if p[0] == u'conductor' or  p[0] == u'orchestra':
+                picked.append(p)
+
+        if len(picked) > 0:
+            performer = picked
+
         for p in performer:
 
             if p[0] == u'producer' or p[0] == u'executive producer' or \

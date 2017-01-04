@@ -300,8 +300,8 @@ class TestClassical(unittest.TestCase):
         )
 
     m = '/m/Mozart_Wolfgang-Amadeus/'
-    mp1 = u'[OrpChaOrc-Jolley]'
-    mp2 = u'[OrpChaOrc-Purvis]'
+    mp1 = u'[OrpChaOrc]'
+    mp2 = u'[OrpChaOrc]'
     h1 = 'Concerto-for-French-Horn-no-1-in-D-major-K_' + mp1
     h2 = 'Concerto-for-Horn-no-2-in-E-flat-major-K-417_' + mp2
 
