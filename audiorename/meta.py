@@ -152,7 +152,8 @@ class Meta(object):
             for value in performer:
                 value = value[:-1]
                 value = value.split(u' (')
-                out.append([value[1], value[0]])
+                if isinstance(value, list) and len(value) == 2:
+                    out.append([value[1], value[0]])
             return out
         else:
             return []
