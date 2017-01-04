@@ -550,6 +550,15 @@ class TestPerformer(unittest.TestCase):
         self.assertEqual(out[1][0], u'drums')
         self.assertEqual(out[1][1], u'Ringo Starr')
 
+    def test_unit_normalize_performer_string(self):
+        from audiorename import meta
+        meta = meta.Meta()
+        performer = u'Ludwig van Beethoven'
+        out = meta.normalizePerformer(performer)
+        self.assertEqual(out, [])
+
+
+
     def test_flac(self):
         meta = self.getMeta('ogg')
         self.assertPerformer(meta)

@@ -148,11 +148,14 @@ class Meta(object):
 
     def normalizePerformer(self, performer):
         out = []
-        for value in performer:
-            value = value[:-1]
-            value = value.split(u' (')
-            out.append([value[1], value[0]])
-        return out
+        if isinstance(performer, list):
+            for value in performer:
+                value = value[:-1]
+                value = value.split(u' (')
+                out.append([value[1], value[0]])
+            return out
+        else:
+            return []
 
     def composerSafe(self, meta):
         if meta['composer_sort']:
