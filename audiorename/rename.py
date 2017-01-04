@@ -3,7 +3,6 @@
 """Rename a single audio file."""
 
 import os
-import six
 
 from ansicolor import green
 from ansicolor import red
@@ -35,29 +34,30 @@ def default_formats(classical=False, compilation=False):
 
 
 class Rename(object):
-    def __init__(self, file, args):
+    def __init__(self, old_file=False, args=False):
         if args:
             self.args = args
 
-        self.old_file = file
+        if old_file:
+            self.old_file = old_file
 
-        if args.target_dir:
-            self.target_dir = args.target_dir
-        else:
-            self.target_dir = os.getcwd()
-
-        if args.source_as_target_dir:
-
-            if args.is_dir:
-                self.target_dir = args.path
+            if args.target_dir:
+                self.target_dir = args.target_dir
             else:
-                self.target_dir = os.path.dirname(args.path)
+                self.target_dir = os.getcwd()
 
-        self.old_path = os.path.realpath(self.old_file)
-        self.extension = self.old_file.split('.')[-1]
+            if args.source_as_target_dir:
 
-        meta = Meta(self.old_path, args.shell_friendly)
-        self.meta = meta.getMeta()
+                if args.is_dir:
+                    self.target_dir = args.path
+                else:
+                    self.target_dir = os.path.dirname(args.path)
+
+            self.old_path = os.path.realpath(self.old_file)
+            self.extension = self.old_file.split('.')[-1]
+
+            meta = Meta(self.old_path, args.shell_friendly)
+            self.meta = meta.getMeta()
 
     def generateFilename(self):
         if self.meta['comp'] and self.args.compilation:
@@ -74,12 +74,6 @@ class Rename(object):
         new = self.postTemplate(new)
         new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
         self.new_path = os.path.join(self.target_dir, new)
-        if six.PY2:
-            old_path = self.old_path.decode('utf-8')
-        else:
-            old_path = self.old_path
-        self.message = red(old_path) + '\n  -> ' + green(
-            self.new_path) + '\n'
 
     def postTemplate(self, text):
         if isinstance(text, str) or isinstance(text, unicode):
@@ -101,41 +95,66 @@ class Rename(object):
             if exception.errno != errno.EEXIST:
                 raise
 
-    def skipMessage(self, message='no field'):
-        print(
-            red('!!! SKIPPED [' + message + '] !!!',
-                reverse=True) + ': ' + self.old_file)
+    def processMessage(self, action=u'Rename', error=False, indent=12,
+                       old_path=False, new_path=False, output=u'print'):
+        action = action + u':'
+        message = action.ljust(indent)
+        message = u'[' + message + u']'
+
+        if error:
+            message = red(message, reverse=True)
+        else:
+            message = green(message, reverse=True)
+
+        if not old_path:
+            old_path = self.old_path
+
+        if not new_path and hasattr(self, 'new_path'):
+            new_path = self.new_path
+
+        line1 = message + u' ' +red(old_path) + '\n'
+        if new_path:
+            line2 = u'-> '.rjust(indent + 3) + green(new_path)
+        else:
+            line2 = u''
+
+        out = line1 + line2
+
+        if output == u'print':
+            print(out)
+        else:
+            return out
 
     def dryRun(self):
         self.generateFilename()
-        print('Dry run: ' + self.message)
+        self.processMessage(action=u'Dry run')
 
     def rename(self):
         """Rename audio files"""
         self.generateFilename()
         if not os.path.exists(self.new_path):
-            print('Rename: ' + self.message)
+            self.processMessage(action=u'Rename')
             self.createDir(self.new_path)
             shutil.move(self.old_path, self.new_path)
         else:
-            self.skipMessage('file exits')
+            self.processMessage(action=u'File exits', error=True)
 
     def copy(self):
         """Copy audio files to new path."""
         self.generateFilename()
         if not os.path.exists(self.new_path):
             self.createDir(self.new_path)
-            print('Copy: ' + self.message)
+            self.processMessage(action=u'Copy')
             shutil.copy2(self.old_path, self.new_path)
         else:
-            self.skipMessage('file exits')
+            self.processMessage(action=u'File exits', error=True)
 
     def execute(self):
         skip = self.args.skip_if_empty
         if not self.meta:
-            self.skipMessage('broken file')
+            self.processMessage(action=u'Broken file', error=True)
         elif skip and (skip not in self.meta or not self.meta[skip]):
-            self.skipMessage()
+            self.processMessage(action=u'No field', error=True)
         else:
             if self.args.dry_run:
                 self.dryRun()

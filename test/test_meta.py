@@ -557,8 +557,6 @@ class TestPerformer(unittest.TestCase):
         out = meta.normalizePerformer(performer)
         self.assertEqual(out, [])
 
-
-
     def test_flac(self):
         meta = self.getMeta('ogg')
         self.assertPerformer(meta)
