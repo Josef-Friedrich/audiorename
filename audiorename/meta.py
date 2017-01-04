@@ -202,12 +202,15 @@ class Meta(object):
     def shortenPerformer(self, performer, length=3, separator=u' ',
                          abbreviation=u'.'):
         out = u''
+        count = 0
         for s in performer.split(' '):
-            if len(s) > length:
-                part = s[:length] + abbreviation
-            else:
-                part = s
-            out = out + separator + part
+            if count < 3:
+                if len(s) > length:
+                    part = s[:length] + abbreviation
+                else:
+                    part = s
+                out = out + separator + part
+            count = count + 1
 
         return out[len(separator):]
 
@@ -266,7 +269,7 @@ class Meta(object):
                 s = u''
             elif p[0] == u'orchestra' or p[0] == u'choir vocals' or \
                     p[0] == 'string quartet':
-                s = self.shortenPerformer(p[1])
+                s = self.shortenPerformer(p[1], separator=u'', abbreviation=u'')
             else:
                 s = p[1].split(' ')[-1]
             out = out + u', ' + s

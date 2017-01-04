@@ -284,8 +284,8 @@ class TestClassical(unittest.TestCase):
         )
 
     m = '/m/Mozart_Wolfgang-Amadeus/'
-    mp1 = u'[Orp-Cha-Orc-Jolley]'
-    mp2 = u'[Orp-Cha-Orc-Purvis]'
+    mp1 = u'[OrpChaOrc-Jolley]'
+    mp2 = u'[OrpChaOrc-Purvis]'
     h1 = 'Concerto-for-French-Horn-no-1-in-D-major-K_' + mp1
     h2 = 'Concerto-for-Horn-no-2-in-E-flat-major-K-417_' + mp2
 
@@ -342,7 +342,7 @@ class TestClassical(unittest.TestCase):
         )
 
     t = '/t/Tchaikovsky_Pyotr-Ilyich/'
-    l = 'Swan-Lake-op-20_[Svetlanov-Sta-Aca-Sym-Orc]/'
+    l = 'Swan-Lake-op-20_[Svetlanov-StaAcaSym]/'
 
     def test_tschaikowski_01(self):
         self.assertDryRun(
@@ -371,7 +371,7 @@ class TestClassical(unittest.TestCase):
         )
 
     wr = '/w/Wagner_Richard/'
-    mn = 'Die-Meistersinger-von-Nuernberg_[Karajan-Sta-Dre-Sta-Dre]/'
+    mn = 'Die-Meistersinger-von-Nuernberg_[Karajan-StaDre-StaDre]/'
 
     def test_wagner_01(self):
         self.assertDryRun(

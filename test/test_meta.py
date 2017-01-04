@@ -432,7 +432,7 @@ class TestClassical(unittest.TestCase):
     def test_performer_classical_mozart(self):
         self.assertEqual(
             self.mozart['performer_classical'],
-            u'Orp. Cha. Orc., Jolley'
+            u'OrpChaOrc, Jolley'
         )
 
     def test_performer_classical_schubert(self):
@@ -444,13 +444,13 @@ class TestClassical(unittest.TestCase):
     def test_performer_classical_tschaikowski(self):
         self.assertEqual(
             self.tschaikowski['performer_classical'],
-            u'Svetlanov, Sta. Aca. Sym. Orc. of the Rus. Fed.'
+            u'Svetlanov, StaAcaSym'
         )
 
     def test_performer_classical_wagner(self):
         self.assertEqual(
             self.wagner['performer_classical'],
-            u'Karajan, Sta. Dre., Sta. Dre.'
+            u'Karajan, StaDre, StaDre'
         )
 
     # title_classical
@@ -537,8 +537,8 @@ class TestPerformer(unittest.TestCase):
         self.assertEqual(meta['performer'], u'Fabio Luisi, Wiener ' +
                          u'Symphoniker, Elena Filipova, Chor der Wiener ' +
                          u'Volksoper')
-        self.assertEqual(meta['performer_short'], u'Luisi, Wie. Sym., ' +
-                         u'Filipova, Cho. der Wie. Vol.')
+        self.assertEqual(meta['performer_short'], u'Luisi, WieSym, ' +
+                         u'Filipova, ChoderWie')
 
     def test_unit_normalize_performer(self):
         from audiorename import meta
@@ -569,7 +569,7 @@ class TestPerformerUnit(unittest.TestCase):
         self.performer = [
                 [u'conductor', u'Lorin Mazel'],
                 [u'orchestra', u'Orchester des Bayerischen Rundfunks'],
-                [u'vocals choir', u'Orchester des Bayerischen Rundfunks'],
+                [u'choir vocals', u'Chor des Bayerischen Rundfunks'],
                 [u'speaker', u'Loriot'],
             ]
         from audiorename import meta
@@ -577,7 +577,7 @@ class TestPerformerUnit(unittest.TestCase):
 
     def test_performer_short(self):
         s = self.meta.performerShort(self.performer)
-        self.assertEqual(s, u'Mazel, Orc. des Bay. Run., Rundfunks, Loriot')
+        self.assertEqual(s, u'Mazel, OrcdesBay, ChodesBay, Loriot')
 
     def test_performer_shorten(self):
         s = self.meta.shortenPerformer(u'Ludwig van Beethoven')
