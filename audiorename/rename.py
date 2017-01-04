@@ -3,6 +3,7 @@
 """Rename a single audio file."""
 
 import os
+import six
 
 from ansicolor import green
 from ansicolor import red
@@ -102,6 +103,9 @@ class Rename(object):
 
         if not old_path:
             old_path = self.old_path
+
+        if six.PY2:
+            old_path = old_path.decode('utf-8')
 
         if not new_path and hasattr(self, 'new_path'):
             new_path = self.new_path
