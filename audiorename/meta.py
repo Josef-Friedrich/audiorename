@@ -277,7 +277,8 @@ class Meta(object):
                 s = u''
             elif p[0] == u'orchestra' or p[0] == u'choir vocals' or \
                     p[0] == 'string quartet':
-                s = self.shortenPerformer(p[1], separator=u'', abbreviation=u'')
+                s = self.shortenPerformer(p[1], separator=u'',
+                                          abbreviation=u'')
             else:
                 s = p[1].split(' ')[-1]
             out = out + u', ' + s

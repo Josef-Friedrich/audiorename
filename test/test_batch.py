@@ -171,10 +171,10 @@ class TestSkip(unittest.TestCase):
         self.output = output
 
     def test_message(self):
-        self.assertTrue('!!! SKIPPED [broken file] !!!' in self.output[0])
+        self.assertTrue('Broken file' in self.output[0])
 
     def test_file_in_message(self):
-        self.assertTrue('!!! SKIPPED [broken file] !!!' in self.output[0])
+        self.assertTrue('Broken file' in self.output[0])
         self.assertTrue(self.file in self.output[0])
 
     def test_continuation(self):

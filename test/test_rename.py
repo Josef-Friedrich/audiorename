@@ -80,12 +80,12 @@ class TestOverwriteProtection(unittest.TestCase):
     def test_album(self):
         with h.Capturing() as output:
             audiorename.execute([self.tmp_album])
-        self.assertTrue('!!! SKIPPED [file exits] !!!:' in output[0])
+        self.assertTrue('File exits' in output[0])
 
     def test_compilation(self):
         with h.Capturing() as output:
             audiorename.execute([self.tmp_compilation])
-        self.assertTrue('!!! SKIPPED [file exits] !!!:' in output[0])
+        self.assertTrue('File exits:' in output[0])
 
     def tearDown(self):
         shutil.rmtree(h.dir_cwd + '/_compilations/')
@@ -241,7 +241,7 @@ class TestSkipIfEmpty(unittest.TestCase):
             ])
 
     def test_album(self):
-        self.assertTrue(h.has(self.album, 'no field'))
+        self.assertTrue(h.has(self.album, 'No field'))
 
     def test_compilation(self):
         self.assertTrue(h.has(self.compilation, 'Dry run'))
@@ -408,8 +408,10 @@ class TestMessageUnittest(unittest.TestCase):
         self.r = Rename()
 
     def test_message(self):
-        out = self.r.message(action=u'lol', old_path=u'old', new_path=u'new', output=u'return')
-        self.assertEqual(out, u'lol:        old\n         -> new')
+        out = self.r.processMessage(action=u'lol', old_path=u'old',
+                                    new_path=u'new', output=u'return')
+        self.assertEqual(out, u'[lol:        ] old\n            -> new')
+
 
 if __name__ == '__main__':
     unittest.main()
