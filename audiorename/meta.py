@@ -146,18 +146,6 @@ class Meta(object):
 
         return safe, sort
 
-    def normalizePerformer(self, performer):
-        out = []
-        if isinstance(performer, list):
-            for value in performer:
-                value = value[:-1]
-                value = value.split(u' (')
-                if isinstance(value, list) and len(value) == 2:
-                    out.append([value[1], value[0]])
-            return out
-        else:
-            return []
-
     def composerSafe(self, meta):
         if meta['composer_sort']:
             value = meta['composer_sort']
@@ -202,6 +190,18 @@ class Meta(object):
             return disk + '-' + track
         else:
             return track
+
+    def normalizePerformer(self, performer):
+        out = []
+        if isinstance(performer, list):
+            for value in performer:
+                value = value[:-1]
+                value = value.split(u' (')
+                if isinstance(value, list) and len(value) == 2:
+                    out.append([value[1], value[0]])
+            return out
+        else:
+            return []
 
     def shortenPerformer(self, performer, length=3, separator=u' ',
                          abbreviation=u'.'):
