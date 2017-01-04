@@ -129,23 +129,19 @@ class Rename(object):
         self.generateFilename()
         self.processMessage(action=u'Dry run')
 
-    def rename(self):
-        """Rename audio files"""
-        self.generateFilename()
-        if not os.path.exists(self.new_path):
-            self.processMessage(action=u'Rename')
-            self.createDir(self.new_path)
-            shutil.move(self.old_path, self.new_path)
-        else:
-            self.processMessage(action=u'File exits', error=True)
-
-    def copy(self):
+    def action(self, copy=False):
         """Copy audio files to new path."""
         self.generateFilename()
         if not os.path.exists(self.new_path):
             self.createDir(self.new_path)
-            self.processMessage(action=u'Copy')
-            shutil.copy2(self.old_path, self.new_path)
+            if copy:
+                self.processMessage(action=u'Copy')
+                shutil.copy2(self.old_path, self.new_path)
+            else:
+                self.processMessage(action=u'Rename')
+                shutil.move(self.old_path, self.new_path)
+        elif self.new_path == self.old_path:
+            self.processMessage(action=u'Already renamed', error=False)
         else:
             self.processMessage(action=u'File exits', error=True)
 
@@ -159,9 +155,9 @@ class Rename(object):
             if self.args.dry_run:
                 self.dryRun()
             elif self.args.copy:
-                self.copy()
+                self.action(copy=True)
             else:
-                self.rename()
+                self.action()
 
 
 def do_rename(path, args=None):
