@@ -426,7 +426,7 @@ class TestMessageUnittest(unittest.TestCase):
     def test_message(self):
         out = self.r.processMessage(action=u'lol', old_path=u'old',
                                     new_path=u'new', output=u'return')
-        self.assertEqual(out, u'[lol            ]: old\n               -> new')
+        self.assertEqual(out, u'[lol            ]: old\n                -> new')
 
 
 if __name__ == '__main__':

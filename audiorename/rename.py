@@ -99,15 +99,6 @@ class Rename(object):
     def processMessage(self, action=u'Rename', message_type=u'Success',
                        indent=15, old_path=False, new_path=False,
                        output=u'print'):
-        message = action.ljust(indent)
-        message = u'[' + message + u']:'
-
-        if message_type == u'Error':
-            message = red(message, reverse=True)
-        elif message_type == u'Success':
-            message = green(message, reverse=True)
-        elif message_type == u'Warning':
-            message = yellow(message, reverse=True)
 
         if not old_path:
             old_path = self.old_path
@@ -115,9 +106,23 @@ class Rename(object):
         if not new_path and hasattr(self, 'new_path'):
             new_path = self.new_path
 
-        line1 = message + u' ' +red(old_path) + '\n'
+        message = action.ljust(indent)
+        message = u'[' + message + u']:'
+
+        if message_type == u'Error':
+            message = red(message, reverse=True)
+            if new_path:
+                new_path = red(new_path)
+        elif message_type == u'Success':
+            message = green(message, reverse=True)
+            new_path = green(new_path)
+        elif message_type == u'Warning':
+            message = yellow(message, reverse=True)
+            new_path = yellow(new_path)
+
+        line1 = message + u' ' + old_path + u'\n'
         if new_path:
-            line2 = u'-> '.rjust(indent + 3) + green(new_path)
+            line2 = u'-> '.rjust(indent + 4) + green(new_path)
         else:
             line2 = u''
 
