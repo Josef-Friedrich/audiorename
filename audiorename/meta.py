@@ -260,7 +260,12 @@ class Meta(object):
     def performerShort(self, performer):
         out = u''
         for p in performer:
-            if p[0] == u'orchestra':
+
+            if p[0] == u'producer' or p[0] == u'executive producer' or \
+                    p[0] == 'balance engineer':
+                s = u''
+            elif p[0] == u'orchestra' or p[0] == u'choir vocals' or \
+                    p[0] == 'string quartet':
                 s = self.shortenPerformer(p[1])
             else:
                 s = p[1].split(' ')[-1]

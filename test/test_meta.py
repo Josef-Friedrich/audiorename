@@ -538,7 +538,7 @@ class TestPerformer(unittest.TestCase):
                          u'Symphoniker, Elena Filipova, Chor der Wiener ' +
                          u'Volksoper')
         self.assertEqual(meta['performer_short'], u'Luisi, Wie. Sym., ' +
-                         u'Filipova, Volksoper')
+                         u'Filipova, Cho. der Wie. Vol.')
 
     def test_unit_normalize_performer(self):
         from audiorename import meta
