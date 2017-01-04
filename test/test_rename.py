@@ -262,25 +262,25 @@ class TestClassical(unittest.TestCase):
     def test_debussy_01(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '01.mp3',
-            self.d + self.e + '/01_Pagodes.mp3'
+            self.d + self.e + '/01_Pagodes_.mp3'
         )
 
     def test_debussy_02(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '02.mp3',
-            self.d + self.e + '/02_Soiree-dans-Grenade.mp3'
+            self.d + self.e + '/02_Soiree-dans-Grenade_.mp3'
         )
 
     def test_debussy_03(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '03.mp3',
-            self.d + self.e + '/03_Jardins-sous-la-pluie.mp3'
+            self.d + self.e + '/03_Jardins-sous-la-pluie_.mp3'
         )
 
     def test_debussy_04(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '04.mp3',
-            self.d + self.p + '/04_Prelude.mp3'
+            self.d + self.p + '/04_Prelude_.mp3'
         )
 
     m = '/m/Mozart_Wolfgang-Amadeus/'
@@ -292,26 +292,26 @@ class TestClassical(unittest.TestCase):
     def test_mozart_01(self):
         self.assertDryRun(
             'Mozart_Horn-concertos', '01.mp3',
-            self.m + self.h1 + '/01_I-Allegro.mp3'
+            self.m + self.h1 + '/01_I-Allegro_fa140702.mp3'
         )
 
     def test_mozart_02(self):
         self.assertDryRun(
             'Mozart_Horn-concertos', '02.mp3',
             self.m + self.h1 +
-            '/02_II-Rondo-Allegro.mp3'
+            '/02_II-Rondo-Allegro_a897e98e.mp3'
         )
 
     def test_mozart_03(self):
         self.assertDryRun(
             'Mozart_Horn-concertos', '03.mp3',
-            self.m + self.h2 + '/03_I-Allegro.mp3'
+            self.m + self.h2 + '/03_I-Allegro_d557146b.mp3'
         )
 
     def test_mozart_04(self):
         self.assertDryRun(
             'Mozart_Horn-concertos', '04.mp3',
-            self.m + self.h2 + '/04_II-Andante.mp3'
+            self.m + self.h2 + '/04_II-Andante_001c2df3.mp3'
         )
 
     s = '/s/Schubert_Franz/'
@@ -320,25 +320,25 @@ class TestClassical(unittest.TestCase):
     def test_schubert_01(self):
         self.assertDryRun(
             'Schubert_Winterreise', '01.mp3',
-            self.s + self.w + '01_Gute-Nacht.mp3'
+            self.s + self.w + '01_Gute-Nacht_311cb6a3.mp3'
         )
 
     def test_schubert_02(self):
         self.assertDryRun(
             'Schubert_Winterreise', '02.mp3',
-            self.s + self.w + '02_Die-Wetterfahne.mp3'
+            self.s + self.w + '02_Die-Wetterfahne_5b9644f0.mp3'
         )
 
     def test_schubert_03(self):
         self.assertDryRun(
             'Schubert_Winterreise', '03.mp3',
-            self.s + self.w + '03_Gefrorne-Traenen.mp3'
+            self.s + self.w + '03_Gefrorne-Traenen_4b78f893.mp3'
         )
 
     def test_schubert_04(self):
         self.assertDryRun(
             'Schubert_Winterreise', '04.mp3',
-            self.s + self.w + '04_Erstarrung.mp3'
+            self.s + self.w + '04_Erstarrung_63bc8e2a.mp3'
         )
 
     t = '/t/Tchaikovsky_Pyotr-Ilyich/'
@@ -349,25 +349,25 @@ class TestClassical(unittest.TestCase):
             'Tschaikowski_Swan-Lake', '1-01.mp3',
             self.t + self.l +
             '1-01_Introduction-Moderato-assai-Allegro-ma-non-troppo-' +
-            'Tempo-I.mp3'
+            'Tempo-I_3f6fc6b3.mp3'
         )
 
     def test_tschaikowski_02(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-02.mp3',
-            self.t + self.l + '1-02_Act-I-no-1-Scene-Allegro-giusto.mp3'
+            self.t + self.l + '1-02_Act-I-no-1-Scene-Allegro-giusto_29413f6c.mp3'
         )
 
     def test_tschaikowski_03(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-03.mp3',
-            self.t + self.l + '1-03_Act-I-no-2-Valse-Tempo-di-valse.mp3'
+            self.t + self.l + '1-03_Act-I-no-2-Valse-Tempo-di-valse_5303b318.mp3'
         )
 
     def test_tschaikowski_04(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-04.mp3',
-            self.t + self.l + '1-04_Act-I-no-3-Scene-Allegro-moderato.mp3'
+            self.t + self.l + '1-04_Act-I-no-3-Scene-Allegro-moderato_4d5781a4.mp3'
         )
 
     wr = '/w/Wagner_Richard/'
@@ -376,28 +376,28 @@ class TestClassical(unittest.TestCase):
     def test_wagner_01(self):
         self.assertDryRun(
             'Wagner_Meistersinger', '01.mp3',
-            self.wr + self.mn + '1-01_Vorspiel.mp3'
+            self.wr + self.mn + '1-01_Vorspiel_313c5f00.mp3'
         )
 
     def test_wagner_02(self):
         self.assertDryRun(
             'Wagner_Meistersinger', '02.mp3',
             self.wr + self.mn +
-            '1-02_Akt-I-Szene-I-Da-zu-dir-der-Heiland-kam-Gemeinde.mp3'
+            '1-02_Akt-I-Szene-I-Da-zu-dir-der-Heiland-kam-Gemeinde_cdd9f298.mp3'
         )
 
     def test_wagner_03(self):
         self.assertDryRun(
             'Wagner_Meistersinger', '03.mp3',
             self.wr + self.mn +
-            '1-03_Akt-I-Szene-I-Verweilt-Ein-Wort-Walther-Eva-Magdalene.mp3'
+            '1-03_Akt-I-Szene-I-Verweilt-Ein-Wort-Walther-Eva-Magdalene_adab7b8c.mp3'
         )
 
     def test_wagner_04(self):
         self.assertDryRun(
             'Wagner_Meistersinger', '04.mp3',
             self.wr + self.mn +
-            '1-04_Akt-I-Szene-I-Da-bin-ich-David-Magdalene-Walther-Eva.mp3'
+            '1-04_Akt-I-Szene-I-Da-bin-ich-David-Magdalene-Walther-Eva_f3f0231f.mp3'
         )
 
 
