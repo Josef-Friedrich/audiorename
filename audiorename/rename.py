@@ -6,6 +6,7 @@ import os
 
 from ansicolor import green
 from ansicolor import red
+from ansicolor import yellow
 import shutil
 
 from phrydy.mediafile import as_string
@@ -95,16 +96,18 @@ class Rename(object):
             if exception.errno != errno.EEXIST:
                 raise
 
-    def processMessage(self, action=u'Rename', error=False, indent=12,
-                       old_path=False, new_path=False, output=u'print'):
-        action = action + u':'
+    def processMessage(self, action=u'Rename', message_type=u'Success',
+                       indent=15, old_path=False, new_path=False,
+                       output=u'print'):
         message = action.ljust(indent)
-        message = u'[' + message + u']'
+        message = u'[' + message + u']:'
 
-        if error:
+        if message_type == u'Error':
             message = red(message, reverse=True)
-        else:
+        elif message_type == u'Success':
             message = green(message, reverse=True)
+        elif message_type == u'Warning':
+            message = yellow(message, reverse=True)
 
         if not old_path:
             old_path = self.old_path
@@ -141,16 +144,17 @@ class Rename(object):
                 self.processMessage(action=u'Rename')
                 shutil.move(self.old_path, self.new_path)
         elif self.new_path == self.old_path:
-            self.processMessage(action=u'Already renamed', error=False)
+            self.processMessage(action=u'Already renamed',
+                                message_type=u'Warning')
         else:
-            self.processMessage(action=u'File exits', error=True)
+            self.processMessage(action=u'File exits', message_type=u'Error')
 
     def execute(self):
         skip = self.args.skip_if_empty
         if not self.meta:
-            self.processMessage(action=u'Broken file', error=True)
+            self.processMessage(action=u'Broken file', message_type=u'Error')
         elif skip and (skip not in self.meta or not self.meta[skip]):
-            self.processMessage(action=u'No field', error=True)
+            self.processMessage(action=u'No field', message_type=u'Error')
         else:
             if self.args.dry_run:
                 self.dryRun()
