@@ -401,5 +401,15 @@ class TestClassical(unittest.TestCase):
         )
 
 
+class TestMessageUnittest(unittest.TestCase):
+
+    def setUp(self):
+        from audiorename.rename import Rename
+        self.r = Rename()
+
+    def test_message(self):
+        out = self.r.message(action=u'lol', old_path=u'old', new_path=u'new', output=u'return')
+        self.assertEqual(out, u'lol:        old\n         -> new')
+
 if __name__ == '__main__':
     unittest.main()

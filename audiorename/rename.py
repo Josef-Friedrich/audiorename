@@ -35,29 +35,30 @@ def default_formats(classical=False, compilation=False):
 
 
 class Rename(object):
-    def __init__(self, file, args):
+    def __init__(self, old_file=False, args=False):
         if args:
             self.args = args
 
-        self.old_file = file
+        if old_file:
+            self.old_file = old_file
 
-        if args.target_dir:
-            self.target_dir = args.target_dir
-        else:
-            self.target_dir = os.getcwd()
-
-        if args.source_as_target_dir:
-
-            if args.is_dir:
-                self.target_dir = args.path
+            if args.target_dir:
+                self.target_dir = args.target_dir
             else:
-                self.target_dir = os.path.dirname(args.path)
+                self.target_dir = os.getcwd()
 
-        self.old_path = os.path.realpath(self.old_file)
-        self.extension = self.old_file.split('.')[-1]
+            if args.source_as_target_dir:
 
-        meta = Meta(self.old_path, args.shell_friendly)
-        self.meta = meta.getMeta()
+                if args.is_dir:
+                    self.target_dir = args.path
+                else:
+                    self.target_dir = os.path.dirname(args.path)
+
+            self.old_path = os.path.realpath(self.old_file)
+            self.extension = self.old_file.split('.')[-1]
+
+            meta = Meta(self.old_path, args.shell_friendly)
+            self.meta = meta.getMeta()
 
     def generateFilename(self):
         if self.meta['comp'] and self.args.compilation:
@@ -100,6 +101,32 @@ class Rename(object):
         except OSError as exception:
             if exception.errno != errno.EEXIST:
                 raise
+
+    def message(self, action=u'Rename', error=False, indent=12,
+                old_path=False, new_path=False, output=u'print'):
+        action = action + u':'
+        message = action.ljust(indent)
+
+        if error:
+            message = red(message, reverse=True)
+        else:
+            message = green(message, reverse=True)
+
+        if not old_path:
+            old_path = self.old_path
+
+        if not new_path:
+            new_path = self.new_path
+
+        line1 = message + red(old_path) + '\n'
+        line2 = '-> '.rjust(indent) + green(new_path)
+
+        out = line1 + line2
+
+        if output == u'print':
+            print(out)
+        else:
+            return out
 
     def skipMessage(self, message='no field'):
         print(
