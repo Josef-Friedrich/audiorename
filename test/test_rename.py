@@ -305,13 +305,13 @@ class TestClassical(unittest.TestCase):
     def test_mozart_03(self):
         self.assertDryRun(
             'Mozart_Horn-concertos', '03.mp3',
-            self.m + self.h2 + '/01_I-Allegro.mp3'
+            self.m + self.h2 + '/03_I-Allegro.mp3'
         )
 
     def test_mozart_04(self):
         self.assertDryRun(
             'Mozart_Horn-concertos', '04.mp3',
-            self.m + self.h2 + '/02_II-Andante.mp3'
+            self.m + self.h2 + '/04_II-Andante.mp3'
         )
 
     s = '/s/Schubert_Franz/'
