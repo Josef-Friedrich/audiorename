@@ -13,6 +13,12 @@ from tmep import Functions
 from tmep import Template
 
 from .meta import Meta
+import six
+
+if six.PY2:
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf8')
 
 
 def default_formats(classical=False, compilation=False):

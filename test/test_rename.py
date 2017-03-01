@@ -429,5 +429,41 @@ class TestMessageUnittest(unittest.TestCase):
         self.assertEqual(out, u'[lol:        ] old\n            -> new')
 
 
+class TestUnicodeUnittest(unittest.TestCase):
+
+    def setUp(self):
+        self.uni = os.path.join(h.dir_test, 'äöü', 'ÅåÆæØø.mp3')
+        self.renamed = os.path.join('►', '►', '_',
+                                    '_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3')
+        self.indent = '            -> '
+
+    def test_dry_run(self):
+        with h.Capturing() as output:
+            audiorename.execute([
+                '--dry-run',
+                self.uni
+            ])
+        self.assertEqual(output[1],
+                         self.indent + os.path.join(h.dir_cwd, self.renamed))
+
+    def test_rename(self):
+        tmp_dir = tempfile.mkdtemp()
+        tmp = os.path.join(tmp_dir, 'äöü.mp3')
+        shutil.copyfile(self.uni, tmp)
+        with h.Capturing() as output:
+            audiorename.execute(['--target-dir', tmp_dir, tmp])
+
+        self.assertEqual(output[1],
+                        self.indent + os.path.join(tmp_dir, self.renamed))
+
+    def test_copy(self):
+        with h.Capturing() as output:
+            audiorename.execute(['--copy', self.uni])
+
+        self.assertEqual(output[1],
+                         self.indent + os.path.join(h.dir_cwd, self.renamed))
+        shutil.rmtree(h.dir_cwd + '/►/')
+
+
 if __name__ == '__main__':
     unittest.main()
