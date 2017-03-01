@@ -112,7 +112,7 @@ class Rename(object):
         if not new_path and hasattr(self, 'new_path'):
             new_path = self.new_path
 
-        line1 = message + u' ' +red(old_path) + '\n'
+        line1 = message + u' ' + red(old_path) + '\n'
         if new_path:
             line2 = u'-> '.rjust(indent + 3) + green(new_path)
         else:
