@@ -36,7 +36,8 @@ def default_formats(classical=False, compilation=False):
         return '$composer_initial/$composer_safe/' +  \
             '%shorten{$album_classical,48}' + \
             '_[%shorten{$performer_classical,32}]/' +  \
-            '${disctrack}_%shorten{$title_classical,64}_%shorten{$acoustid_id,8}'
+            '${disctrack}_%shorten{$title_classical,64}_' + \
+            '%shorten{$acoustid_id,8}'
 
 
 class Rename(object):

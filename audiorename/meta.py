@@ -273,7 +273,7 @@ class Meta(object):
 
         picked = []
         for p in performer:
-            if p[0] == u'conductor' or  p[0] == u'orchestra':
+            if p[0] == u'conductor' or p[0] == u'orchestra':
                 picked.append(p)
 
         if len(picked) > 0:

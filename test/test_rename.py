@@ -371,19 +371,22 @@ class TestClassical(unittest.TestCase):
     def test_tschaikowski_02(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-02.mp3',
-            self.t + self.l + '1-02_Act-I-no-1-Scene-Allegro-giusto_29413f6c.mp3'
+            self.t + self.l + '1-02_Act-I-no-1-Scene-Allegro-giusto_' +
+            '29413f6c.mp3'
         )
 
     def test_tschaikowski_03(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-03.mp3',
-            self.t + self.l + '1-03_Act-I-no-2-Valse-Tempo-di-valse_5303b318.mp3'
+            self.t + self.l + '1-03_Act-I-no-2-Valse-Tempo-di-valse_' +
+            '5303b318.mp3'
         )
 
     def test_tschaikowski_04(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-04.mp3',
-            self.t + self.l + '1-04_Act-I-no-3-Scene-Allegro-moderato_4d5781a4.mp3'
+            self.t + self.l + '1-04_Act-I-no-3-Scene-Allegro-moderato_' +
+            '4d5781a4.mp3'
         )
 
     wr = '/w/Wagner_Richard/'
@@ -399,21 +402,23 @@ class TestClassical(unittest.TestCase):
         self.assertDryRun(
             'Wagner_Meistersinger', '02.mp3',
             self.wr + self.mn +
-            '1-02_Akt-I-Szene-I-Da-zu-dir-der-Heiland-kam-Gemeinde_cdd9f298.mp3'
+            '1-02_Akt-I-Szene-I-Da-zu-dir-der-Heiland-kam-Gemeinde_' +
+            'cdd9f298.mp3'
         )
 
     def test_wagner_03(self):
         self.assertDryRun(
             'Wagner_Meistersinger', '03.mp3',
-            self.wr + self.mn +
-            '1-03_Akt-I-Szene-I-Verweilt-Ein-Wort-Walther-Eva-Magdalene_adab7b8c.mp3'
+            self.wr + self.mn + '1-03_Akt-I-Szene-I-Verweilt-Ein-Wort-' +
+            'Walther-Eva-Magdalene_adab7b8c.mp3'
         )
 
     def test_wagner_04(self):
         self.assertDryRun(
             'Wagner_Meistersinger', '04.mp3',
             self.wr + self.mn +
-            '1-04_Akt-I-Szene-I-Da-bin-ich-David-Magdalene-Walther-Eva_f3f0231f.mp3'
+            '1-04_Akt-I-Szene-I-Da-bin-ich-David-Magdalene-Walther-Eva' +
+            '_f3f0231f.mp3'
         )
 
 
@@ -454,7 +459,7 @@ class TestUnicodeUnittest(unittest.TestCase):
             audiorename.execute(['--target-dir', tmp_dir, tmp])
 
         self.assertEqual(output[1],
-                        self.indent + os.path.join(tmp_dir, self.renamed))
+                         self.indent + os.path.join(tmp_dir, self.renamed))
 
     def test_copy(self):
         with h.Capturing() as output:
