@@ -197,6 +197,12 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--mb-track-listing',
+    help='Print track listing for Musicbrainz website',
+    action='store_true'
+)
+
+parser.add_argument(
     '-v',
     '--version',
     action='version',
