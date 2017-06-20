@@ -196,7 +196,10 @@ parser.add_argument(
 
 parser.add_argument(
     '--mb-track-listing',
-    help='Print track listing for Musicbrainz website',
+    help='Print track listing for Musicbrainz website: Format: track. title \
+    (duration), e. g.: \
+      1. He, Zigeuner (1:31) \
+      2. Hochgetürmte Rimaflut (1:21)',
     action='store_true'
 )
 
