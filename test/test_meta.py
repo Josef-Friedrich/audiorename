@@ -572,12 +572,13 @@ class TestPerformer(unittest.TestCase):
 class TestPerformerUnit(unittest.TestCase):
 
     def setUp(self):
-        self.performer = [
-                [u'conductor', u'Lorin Mazel'],
-                [u'orchestra', u'Orchester des Bayerischen Rundfunks'],
-                [u'choir vocals', u'Chor des Bayerischen Rundfunks'],
-                [u'speaker', u'Loriot'],
-            ]
+        self.performer = [[u'conductor', u'Lorin Mazel'],
+                          [
+                          u'orchestra',
+                          u'Orchester des Bayerischen Rundfunks'
+                          ],
+                          [u'choir vocals', u'Chor des Bayerischen Rundfunks'],
+                          [u'speaker', u'Loriot']]
         from audiorename import meta
         self.meta = meta.Meta()
 

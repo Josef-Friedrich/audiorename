@@ -88,14 +88,12 @@ How to specify the target directory?
 Metadata fields
 ---------------
 
-'''
-    + pdoc.get_doc(additional_doc=fields) + '''
+''' + pdoc.get_doc(additional_doc=fields) + '''
 
 Functions
 ---------
 
-'''
-    + td.get()
+''' + td.get()
 )
 
 
