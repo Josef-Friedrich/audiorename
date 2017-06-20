@@ -136,6 +136,12 @@ class Rename(object):
         self.generateFilename()
         self.processMessage(action=u'Dry run')
 
+    def mbTrackListing(self):
+        m, s = divmod(self.meta['length'], 60)
+        mmss = '({:2d}:{:02d})'.format(int(m), int(s))
+        mmss = mmss.strip()
+        print(self.meta['album'] + ': ' + self.meta['title'] + ' ' + mmss)
+
     def action(self, copy=False):
         """Copy audio files to new path."""
         self.generateFilename()
@@ -161,6 +167,8 @@ class Rename(object):
         else:
             if self.args.dry_run:
                 self.dryRun()
+            elif self.args.mb_track_listing:
+                self.mbTrackListing()
             elif self.args.copy:
                 self.action(copy=True)
             else:
