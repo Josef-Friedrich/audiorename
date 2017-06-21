@@ -20,6 +20,8 @@ if six.PY2:
     reload(sys)
     sys.setdefaultencoding('utf8')
 
+counter = 0
+
 
 def default_formats(classical=False, compilation=False):
     if not classical and not compilation:
@@ -158,6 +160,8 @@ class Rename(object):
             self.processMessage(action=u'File exits', error=True)
 
     def execute(self):
+        global counter
+        counter += 1
         skip = self.args.skip_if_empty
         if not self.meta:
             self.processMessage(action=u'Broken file', error=True)
