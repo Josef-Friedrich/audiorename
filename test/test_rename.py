@@ -470,5 +470,25 @@ class TestUnicodeUnittest(unittest.TestCase):
         shutil.rmtree(h.dir_cwd + '/►/')
 
 
+class TestMBTrackListing(unittest.TestCase):
+
+    def mbTrackListing(self, folder, track):
+        with h.Capturing() as output:
+            audiorename.execute([
+                '--mb-track-listing',
+                os.path.join(h.dir_test, 'classical', folder, track)
+            ])
+        return output[0]
+
+    def test_debussy(self):
+        self.assertEqual(self.mbTrackListing('Debussy_Estampes-etc', '01.mp3'),
+                         'EstampesImagesPour le Piano: Estampes Pagodes ' +
+                         '(0:00)')
+
+    def test_schubert(self):
+        self.assertEqual(self.mbTrackListing('Schubert_Winterreise', '01.mp3'),
+                         'Winterreise: Winterreise, D. 911 Gute Nacht (0:00)')
+
+
 if __name__ == '__main__':
     unittest.main()

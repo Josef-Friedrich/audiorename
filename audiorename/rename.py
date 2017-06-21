@@ -138,8 +138,7 @@ class Rename(object):
 
     def mbTrackListing(self):
         m, s = divmod(self.meta['length'], 60)
-        mmss = '({:2d}:{:02d})'.format(int(m), int(s))
-        mmss = mmss.strip()
+        mmss = '({:d}:{:02d})'.format(int(m), int(s))
         print(self.meta['album'] + ': ' + self.meta['title'] + ' ' + mmss)
 
     def action(self, copy=False):
