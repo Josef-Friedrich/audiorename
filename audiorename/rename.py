@@ -140,8 +140,12 @@ class Rename(object):
 
     def mbTrackListing(self):
         m, s = divmod(self.meta['length'], 60)
-        mmss = '({:d}:{:02d})'.format(int(m), int(s))
-        print(self.meta['album'] + ': ' + self.meta['title'] + ' ' + mmss)
+        mmss = '{:d}:{:02d}'.format(int(m), int(s))
+        output = '{:d}. {:s}: {:s} ({:s})'.format(counter, self.meta['album'],
+                                                  self.meta['title'], mmss)
+        output = output.replace('Op.', 'op.')
+        output = output.replace('- ', '')
+        print(output)
 
     def action(self, copy=False):
         """Copy audio files to new path."""

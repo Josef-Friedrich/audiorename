@@ -481,13 +481,15 @@ class TestMBTrackListing(unittest.TestCase):
         return output[0]
 
     def test_debussy(self):
+        audiorename.rename.counter = 0
         self.assertEqual(self.mbTrackListing('Debussy_Estampes-etc', '01.mp3'),
-                         'EstampesImagesPour le Piano: Estampes Pagodes ' +
+                         '1. EstampesImagesPour le Piano: Estampes Pagodes ' +
                          '(0:00)')
 
     def test_schubert(self):
         self.assertEqual(self.mbTrackListing('Schubert_Winterreise', '01.mp3'),
-                         'Winterreise: Winterreise, D. 911 Gute Nacht (0:00)')
+                         '2. Winterreise: Winterreise, D. 911 Gute Nacht ' +
+                         '(0:00)')
 
 
 if __name__ == '__main__':
