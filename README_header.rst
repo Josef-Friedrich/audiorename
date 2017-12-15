@@ -4,9 +4,9 @@
 .. image:: https://travis-ci.org/Josef-Friedrich/audiorename.svg?branch=packaging
     :target: https://travis-ci.org/Josef-Friedrich/audiorename
 
-===========
+***********
 audiorename
-===========
+***********
 
 Rename audio files from metadata tags.
 
