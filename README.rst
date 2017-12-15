@@ -4,9 +4,11 @@
 .. image:: https://travis-ci.org/Josef-Friedrich/audiorename.svg?branch=packaging
     :target: https://travis-ci.org/Josef-Friedrich/audiorename
 
-===================================================
-audiorename - Rename audio files from metadata tags
-===================================================
+===========
+audiorename
+===========
+
+Rename audio files from metadata tags.
 
 Installation
 ============
@@ -16,29 +18,27 @@ From Github
 
 .. code:: Shell
 
-        git clone git@github.com:Josef-Friedrich/audiorename.git
-        cd audiorename
-        python setup.py install
+    git clone git@github.com:Josef-Friedrich/audiorename.git
+    cd audiorename
+    python setup.py install
 
 From PyPI
 ----------
 
 .. code:: Shell
 
-        pip install audiorename
-        easy_install audiorename
+    pip install audiorename
+    easy_install audiorename
 
 Usage
 =====
-
-Basic usage
------------
 
 .. code-block:: text
 
     usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-k] [-S] [-d]
                         [-e EXTENSION] [-t TARGET_DIR] [-s SKIP_IF_EMPTY] [-a]
-                        [-C] [-m FILTER_ALBUM_MIN] [-F] [--unittest] [-v]
+                        [-C] [-m FILTER_ALBUM_MIN] [-F] [--unittest]
+                        [--mb-track-listing] [-v]
                         path
     
     Rename audio files from metadata tags.
@@ -382,6 +382,41 @@ Basic usage
                             Rename only complete albums
       --unittest            The audio files are not renamed. Debug messages for
                             the unit test are printed out.
+      --mb-track-listing    Print track listing for Musicbrainz website: Format:
+                            track. title (duration), e. g.: 1. He, Zigeuner (1:31)
+                            2. Hochgetürmte Rimaflut (1:21)
       -v, --version         show program's version number and exit
 
 
+Development
+===========
+
+Test
+----
+
+::
+
+    tox
+
+
+Publish a new version
+---------------------
+
+::
+
+    git tag 1.1.1
+    git push --tags
+    python setup.py sdist upload
+
+
+Package documentation
+---------------------
+
+The package documentation is hosted on
+`readthedocs <http://audiorename.readthedocs.io>`_.
+
+Generate the package documentation:
+
+::
+
+    python setup.py build_sphinx
