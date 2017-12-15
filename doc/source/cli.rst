@@ -180,6 +180,8 @@ Comande line interface
         $original_year:        The release year of the original
                                version of the album
     
+        $performer_classical:    performer_classical
+    
         $samplerate:           in kilohertz, with units: e.g.,
                                “48kHz”
     
@@ -193,6 +195,8 @@ Comande line interface
         $title_classical:      title_classical
     
         $track:                track
+    
+        $track_classical:      track_classical
     
         $tracktotal:           tracktotal
     

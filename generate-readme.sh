@@ -1,18 +1,10 @@
 #! /bin/sh
 
-echo '.. image:: http://img.shields.io/pypi/v/audiorename.svg
-    :target: https://pypi.python.org/pypi/audiorename
-
-.. image:: https://travis-ci.org/Josef-Friedrich/audiorename.svg?branch=packaging
-    :target: https://travis-ci.org/Josef-Friedrich/audiorename
-
-
-.. code-block:: text
-
-' > README.rst
-
+cat README_header.rst > README.rst
+echo >> README.rst
 ./bin/audiorenamer -h | sed 's/^/    /g' >> README.rst
-
+echo >> README.rst
+cat README_footer.rst >> README.rst
 
 echo 'Comande line interface
 ======================

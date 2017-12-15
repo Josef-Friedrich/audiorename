@@ -4,9 +4,37 @@
 .. image:: https://travis-ci.org/Josef-Friedrich/audiorename.svg?branch=packaging
     :target: https://travis-ci.org/Josef-Friedrich/audiorename
 
+===================================================
+audiorename - Rename audio files from metadata tags
+===================================================
+
+Installation
+============
+
+From Github
+------------
+
+.. code:: Shell
+
+        git clone git@github.com:Josef-Friedrich/audiorename.git
+        cd audiorename
+        python setup.py install
+
+From PyPI
+----------
+
+.. code:: Shell
+
+        pip install audiorename
+        easy_install audiorename
+
+Usage
+=====
+
+Basic usage
+-----------
 
 .. code-block:: text
-
 
     usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-k] [-S] [-d]
                         [-e EXTENSION] [-t TARGET_DIR] [-s SKIP_IF_EMPTY] [-a]
@@ -184,6 +212,8 @@
         $original_year:        The release year of the original
                                version of the album
     
+        $performer_classical:    performer_classical
+    
         $samplerate:           in kilohertz, with units: e.g.,
                                “48kHz”
     
@@ -197,6 +227,8 @@
         $title_classical:      title_classical
     
         $track:                track
+    
+        $track_classical:      track_classical
     
         $tracktotal:           tracktotal
     
@@ -351,3 +383,5 @@
       --unittest            The audio files are not renamed. Debug messages for
                             the unit test are printed out.
       -v, --version         show program's version number and exit
+
+
