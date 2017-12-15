@@ -358,12 +358,12 @@ class TestClassical(unittest.TestCase):
         )
 
     t = '/t/Tchaikovsky_Pyotr-Ilyich/'
-    l = 'Swan-Lake-op-20_[Svetlanov-StaAcaSym]/'
+    lake = 'Swan-Lake-op-20_[Svetlanov-StaAcaSym]/'
 
     def test_tschaikowski_01(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-01.mp3',
-            self.t + self.l +
+            self.t + self.lake +
             '1-01_Introduction-Moderato-assai-Allegro-ma-non-troppo-' +
             'Tempo-I_3f6fc6b3.mp3'
         )
@@ -371,21 +371,21 @@ class TestClassical(unittest.TestCase):
     def test_tschaikowski_02(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-02.mp3',
-            self.t + self.l + '1-02_Act-I-no-1-Scene-Allegro-giusto_' +
+            self.t + self.lake + '1-02_Act-I-no-1-Scene-Allegro-giusto_' +
             '29413f6c.mp3'
         )
 
     def test_tschaikowski_03(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-03.mp3',
-            self.t + self.l + '1-03_Act-I-no-2-Valse-Tempo-di-valse_' +
+            self.t + self.lake + '1-03_Act-I-no-2-Valse-Tempo-di-valse_' +
             '5303b318.mp3'
         )
 
     def test_tschaikowski_04(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-04.mp3',
-            self.t + self.l + '1-04_Act-I-no-3-Scene-Allegro-moderato_' +
+            self.t + self.lake + '1-04_Act-I-no-3-Scene-Allegro-moderato_' +
             '4d5781a4.mp3'
         )
 
