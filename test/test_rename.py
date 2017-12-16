@@ -431,7 +431,8 @@ class TestMessageUnittest(unittest.TestCase):
     def test_message(self):
         out = self.r.processMessage(action=u'lol', old_path=u'old',
                                     new_path=u'new', output=u'return')
-        self.assertEqual(out, u'[lol:        ] old\n            -> new')
+        self.assertEqual(out,
+                         u'[lol:            ] old\n                -> new')
 
 
 class TestUnicodeUnittest(unittest.TestCase):
@@ -440,7 +441,7 @@ class TestUnicodeUnittest(unittest.TestCase):
         self.uni = os.path.join(h.dir_test, 'äöü', 'ÅåÆæØø.mp3')
         self.renamed = os.path.join('►', '►', '_',
                                     '_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3')
-        self.indent = '            -> '
+        self.indent = '                -> '
 
     def test_dry_run(self):
         with h.Capturing() as output:
@@ -449,7 +450,7 @@ class TestUnicodeUnittest(unittest.TestCase):
                 self.uni
             ])
         self.assertEqual(output[1],
-                         self.indent + os.path.join(h.dir_cwd, self.renamed))
+                         self.indent + self.renamed)
 
     def test_rename(self):
         tmp_dir = tempfile.mkdtemp()
@@ -459,14 +460,14 @@ class TestUnicodeUnittest(unittest.TestCase):
             audiorename.execute(['--target-dir', tmp_dir, tmp])
 
         self.assertEqual(output[1],
-                         self.indent + os.path.join(tmp_dir, self.renamed))
+                         self.indent + self.renamed)
 
     def test_copy(self):
         with h.Capturing() as output:
             audiorename.execute(['--copy', self.uni])
 
         self.assertEqual(output[1],
-                         self.indent + os.path.join(h.dir_cwd, self.renamed))
+                         self.indent + self.renamed)
         shutil.rmtree(h.dir_cwd + '/►/')
 
 
@@ -490,6 +491,23 @@ class TestMBTrackListing(unittest.TestCase):
         self.assertEqual(self.mbTrackListing('Schubert_Winterreise', '01.mp3'),
                          '2. Winterreise: Winterreise, D. 911 Gute Nacht ' +
                          '(0:00)')
+
+
+class TestCommonSubstring(unittest.TestCase):
+
+    def test_common_substring_beginning(self):
+        result = audiorename.rename.common_substring(
+            '/data/music/classical/lol.mp3',
+            '/data/music/classical/troll.mp3'
+        )
+        self.assertEqual(result, '/data/music/classical/')
+
+    def test_common_substring_mid(self):
+        result = audiorename.rename.common_substring(
+            '/lol/data/music/classical/lol.mp3',
+            '/troll/data/music/classical/troll.mp3'
+        )
+        self.assertEqual(result, '')
 
 
 if __name__ == '__main__':

@@ -4,8 +4,7 @@
 
 import os
 
-from ansicolor import green
-from ansicolor import red
+import ansicolor
 import shutil
 
 from phrydy.mediafile import as_string
@@ -15,12 +14,33 @@ from tmep import Template
 from .meta import Meta
 import six
 
+
+from difflib import SequenceMatcher
+
 if six.PY2:
     import sys
     reload(sys)
     sys.setdefaultencoding('utf8')
 
 counter = 0
+
+
+def common_substring(a, b):
+    """Find the common substring of two paths at the beginning of the path
+    string.
+
+    :param string a: Path string a
+    :param string b: Path string b
+
+    :return string: the substring
+    """
+    match = SequenceMatcher(None, a, b).find_longest_match(0, len(a), 0,
+                                                           len(b))
+
+    if match.a == 0:
+        return a[match.a: match.a + match.size]
+    else:
+        return ''
 
 
 def default_formats(classical=False, compilation=False):
@@ -43,6 +63,24 @@ def default_formats(classical=False, compilation=False):
 
 
 class Rename(object):
+
+    old_path = ''
+    """The old file path"""
+
+    new_path = ''
+    """The new file path"""
+
+    extension = ''
+    """The extension"""
+
+    meta = ''
+    """The meta object :class:`audiorename.meta.Meta`"""
+
+    args = ''
+
+    target_dir = ''
+    """The target directory"""
+
     def __init__(self, old_file=False, args=False):
         if args:
             self.args = args
@@ -104,16 +142,20 @@ class Rename(object):
             if exception.errno != errno.EEXIST:
                 raise
 
-    def processMessage(self, action=u'Rename', error=False, indent=12,
+    def processMessage(self, action=u'Rename', error=False, indent=16,
                        old_path=False, new_path=False, output=u'print'):
-        action = action + u':'
-        message = action.ljust(indent)
+        action_processed = action + u':'
+        message = action_processed.ljust(indent)
         message = u'[' + message + u']'
 
-        if error:
-            message = red(message, reverse=True)
+        if action == u'Already renamed':
+            message = ansicolor.blue(message, reverse=True)
+        elif action == u'Dry run':
+            message = ansicolor.white(message, reverse=True)
+        elif error:
+            message = ansicolor.red(message, reverse=True)
         else:
-            message = green(message, reverse=True)
+            message = ansicolor.green(message, reverse=True)
 
         if not old_path:
             old_path = self.old_path
@@ -121,9 +163,15 @@ class Rename(object):
         if not new_path and hasattr(self, 'new_path'):
             new_path = self.new_path
 
-        line1 = message + u' ' + red(old_path) + '\n'
+        substring = common_substring(old_path, new_path)
+
+        if substring:
+            old_path = old_path.replace(substring, '')
+            new_path = new_path.replace(substring, '')
+
+        line1 = message + u' ' + old_path + '\n'
         if new_path:
-            line2 = u'-> '.rjust(indent + 3) + green(new_path)
+            line2 = u'-> '.rjust(indent + 3) + ansicolor.yellow(new_path)
         else:
             line2 = u''
 
@@ -148,7 +196,12 @@ class Rename(object):
         print(output)
 
     def action(self, copy=False):
-        """Copy audio files to new path."""
+        """Rename or copy to new path
+
+        :param bool copy: Copy file
+
+        :return: None
+        """
         self.generateFilename()
         if not os.path.exists(self.new_path):
             self.createDir(self.new_path)

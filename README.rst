@@ -13,9 +13,6 @@ Rename audio files from metadata tags.
 Installation
 ============
 
-
-dfdf
-
 From Github
 -----------
 
@@ -40,7 +37,8 @@ Usage
 
     usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-k] [-S] [-d]
                         [-e EXTENSION] [-t TARGET_DIR] [-s SKIP_IF_EMPTY] [-a]
-                        [-C] [-m FILTER_ALBUM_MIN] [-F] [--unittest] [-v]
+                        [-C] [-m FILTER_ALBUM_MIN] [-F] [--unittest]
+                        [--mb-track-listing] [-v]
                         path
     
     Rename audio files from metadata tags.
@@ -384,6 +382,9 @@ Usage
                             Rename only complete albums
       --unittest            The audio files are not renamed. Debug messages for
                             the unit test are printed out.
+      --mb-track-listing    Print track listing for Musicbrainz website: Format:
+                            track. title (duration), e. g.: 1. He, Zigeuner (1:31)
+                            2. Hochgetürmte Rimaflut (1:21)
       -v, --version         show program's version number and exit
 
 
