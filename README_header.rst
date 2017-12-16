@@ -13,9 +13,6 @@ Rename audio files from metadata tags.
 Installation
 ============
 
-
-dfdf
-
 From Github
 -----------
 
