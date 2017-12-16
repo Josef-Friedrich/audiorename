@@ -4,8 +4,7 @@
 
 import os
 
-from ansicolor import green
-from ansicolor import red
+import ansicolor
 import shutil
 
 from phrydy.mediafile import as_string
@@ -122,16 +121,20 @@ class Rename(object):
             if exception.errno != errno.EEXIST:
                 raise
 
-    def processMessage(self, action=u'Rename', error=False, indent=12,
+    def processMessage(self, action=u'Rename', error=False, indent=16,
                        old_path=False, new_path=False, output=u'print'):
-        action = action + u':'
-        message = action.ljust(indent)
+        action_processed = action + u':'
+        message = action_processed.ljust(indent)
         message = u'[' + message + u']'
 
-        if error:
-            message = red(message, reverse=True)
+        if action == u'Already renamed':
+            message = ansicolor.blue(message, reverse=True)
+        elif action == u'Dry run':
+            message = ansicolor.white(message, reverse=True)
+        elif error:
+            message = ansicolor.red(message, reverse=True)
         else:
-            message = green(message, reverse=True)
+            message = ansicolor.green(message, reverse=True)
 
         if not old_path:
             old_path = self.old_path
@@ -139,9 +142,9 @@ class Rename(object):
         if not new_path and hasattr(self, 'new_path'):
             new_path = self.new_path
 
-        line1 = message + u' ' + red(old_path) + '\n'
+        line1 = message + u' ' + old_path + '\n'
         if new_path:
-            line2 = u'-> '.rjust(indent + 3) + green(new_path)
+            line2 = u'-> '.rjust(indent + 3) + ansicolor.yellow(new_path)
         else:
             line2 = u''
 
