@@ -450,7 +450,7 @@ class TestUnicodeUnittest(unittest.TestCase):
                 self.uni
             ])
         self.assertEqual(output[1],
-                         self.indent + os.path.join(h.dir_cwd, self.renamed))
+                         self.indent + self.renamed)
 
     def test_rename(self):
         tmp_dir = tempfile.mkdtemp()
@@ -460,14 +460,14 @@ class TestUnicodeUnittest(unittest.TestCase):
             audiorename.execute(['--target-dir', tmp_dir, tmp])
 
         self.assertEqual(output[1],
-                         self.indent + os.path.join(tmp_dir, self.renamed))
+                         self.indent + self.renamed)
 
     def test_copy(self):
         with h.Capturing() as output:
             audiorename.execute(['--copy', self.uni])
 
         self.assertEqual(output[1],
-                         self.indent + os.path.join(h.dir_cwd, self.renamed))
+                         self.indent + self.renamed)
         shutil.rmtree(h.dir_cwd + '/►/')
 
 

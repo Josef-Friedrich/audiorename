@@ -163,6 +163,12 @@ class Rename(object):
         if not new_path and hasattr(self, 'new_path'):
             new_path = self.new_path
 
+        substring = common_substring(old_path, new_path)
+
+        if substring:
+            old_path = old_path.replace(substring, '')
+            new_path = new_path.replace(substring, '')
+
         line1 = message + u' ' + old_path + '\n'
         if new_path:
             line2 = u'-> '.rjust(indent + 3) + ansicolor.yellow(new_path)
