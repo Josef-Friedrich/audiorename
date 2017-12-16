@@ -196,7 +196,12 @@ class Rename(object):
         print(output)
 
     def action(self, copy=False):
-        """Copy audio files to new path."""
+        """Rename or copy to new path
+
+        :param bool copy: Copy file
+
+        :return: None
+        """
         self.generateFilename()
         if not os.path.exists(self.new_path):
             self.createDir(self.new_path)
