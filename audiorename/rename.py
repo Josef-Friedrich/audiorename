@@ -14,12 +14,21 @@ from tmep import Template
 from .meta import Meta
 import six
 
+
+from difflib import SequenceMatcher
+
 if six.PY2:
     import sys
     reload(sys)
     sys.setdefaultencoding('utf8')
 
 counter = 0
+
+
+def common_substring(a, b):
+    match = SequenceMatcher(None, a, b).find_longest_match(0, len(a), 0,
+                                                           len(b))
+    return a[match.a: match.a + match.size]
 
 
 def default_formats(classical=False, compilation=False):
