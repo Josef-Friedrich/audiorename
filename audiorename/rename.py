@@ -148,14 +148,16 @@ class Rename(object):
         message = action_processed.ljust(indent)
         message = u'[' + message + u']'
 
-        if action == u'Already renamed':
-            message = ansicolor.blue(message, reverse=True)
+        if action == u'Rename' or action == u'Copy':
+            message = ansicolor.yellow(message, reverse=True)
+        elif action == u'Already renamed':
+            message = ansicolor.green(message, reverse=True)
         elif action == u'Dry run':
             message = ansicolor.white(message, reverse=True)
         elif error:
             message = ansicolor.red(message, reverse=True)
         else:
-            message = ansicolor.green(message, reverse=True)
+            message = ansicolor.white(message, reverse=True)
 
         if not old_path:
             old_path = self.old_path
