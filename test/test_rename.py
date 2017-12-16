@@ -495,12 +495,19 @@ class TestMBTrackListing(unittest.TestCase):
 
 class TestCommonSubstring(unittest.TestCase):
 
-    def test_common_substring(self):
+    def test_common_substring_beginning(self):
         result = audiorename.rename.common_substring(
             '/data/music/classical/lol.mp3',
             '/data/music/classical/troll.mp3'
         )
         self.assertEqual(result, '/data/music/classical/')
+
+    def test_common_substring_mid(self):
+        result = audiorename.rename.common_substring(
+            '/lol/data/music/classical/lol.mp3',
+            '/troll/data/music/classical/troll.mp3'
+        )
+        self.assertEqual(result, '')
 
 
 if __name__ == '__main__':

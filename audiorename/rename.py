@@ -26,9 +26,21 @@ counter = 0
 
 
 def common_substring(a, b):
+    """Find the common substring of two paths at the beginning of the path
+    string.
+
+    :param string a: Path string a
+    :param string b: Path string b
+
+    :return string: the substring
+    """
     match = SequenceMatcher(None, a, b).find_longest_match(0, len(a), 0,
                                                            len(b))
-    return a[match.a: match.a + match.size]
+
+    if match.a == 0:
+        return a[match.a: match.a + match.size]
+    else:
+        return ''
 
 
 def default_formats(classical=False, compilation=False):
