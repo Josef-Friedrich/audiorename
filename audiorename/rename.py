@@ -43,6 +43,24 @@ def default_formats(classical=False, compilation=False):
 
 
 class Rename(object):
+
+    old_path = ''
+    """The old file path"""
+
+    new_path = ''
+    """The new file path"""
+
+    extension = ''
+    """The extension"""
+
+    meta = ''
+    """The meta object :class:`audiorename.meta.Meta`"""
+
+    args = ''
+
+    target_dir = ''
+    """The target directory"""
+
     def __init__(self, old_file=False, args=False):
         if args:
             self.args = args
