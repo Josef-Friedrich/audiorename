@@ -80,12 +80,12 @@ class TestOverwriteProtection(unittest.TestCase):
     def test_album(self):
         with h.Capturing() as output:
             audiorename.execute([self.tmp_album])
-        self.assertTrue('File exits' in output[0])
+        self.assertTrue('Exits' in output[0])
 
     def test_compilation(self):
         with h.Capturing() as output:
             audiorename.execute([self.tmp_compilation])
-        self.assertTrue('File exits' in output[0])
+        self.assertTrue('Exits' in output[0])
 
     def test_album_already_renamed(self):
         with h.Capturing():
@@ -93,7 +93,7 @@ class TestOverwriteProtection(unittest.TestCase):
         with h.Capturing() as output:
             audiorename.execute([h.dir_cwd + h.path_album])
 
-        self.assertTrue('Already renamed' in output[0])
+        self.assertTrue('Renamed' in output[0])
 
     def test_compilation_already_renamed(self):
         with h.Capturing():
@@ -101,7 +101,7 @@ class TestOverwriteProtection(unittest.TestCase):
         with h.Capturing() as output:
             audiorename.execute([h.dir_cwd + h.path_compilation])
 
-        self.assertTrue('Already renamed' in output[0])
+        self.assertTrue('Renamed' in output[0])
 
     def tearDown(self):
         shutil.rmtree(h.dir_cwd + '/_compilations/')
@@ -432,7 +432,7 @@ class TestMessageUnittest(unittest.TestCase):
         out = self.r.processMessage(action=u'lol', old_path=u'old',
                                     new_path=u'new', output=u'return')
         self.assertEqual(out,
-                         u'[lol:            ] old\n                -> new')
+                         u'[lol:        ] old\n            -> new')
 
 
 class TestUnicodeUnittest(unittest.TestCase):
@@ -441,7 +441,7 @@ class TestUnicodeUnittest(unittest.TestCase):
         self.uni = os.path.join(h.dir_test, 'äöü', 'ÅåÆæØø.mp3')
         self.renamed = os.path.join('►', '►', '_',
                                     '_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3')
-        self.indent = '                -> '
+        self.indent = '            -> '
 
     def test_dry_run(self):
         with h.Capturing() as output:

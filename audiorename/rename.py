@@ -132,7 +132,7 @@ class Rename(object):
             if exception.errno != errno.EEXIST:
                 raise
 
-    def processMessage(self, action=u'Rename', error=False, indent=16,
+    def processMessage(self, action=u'Rename', error=False, indent=12,
                        old_path=False, new_path=False, output=u'print'):
         action_processed = action + u':'
         message = action_processed.ljust(indent)
@@ -140,7 +140,7 @@ class Rename(object):
 
         if action == u'Rename' or action == u'Copy':
             message = ansicolor.yellow(message, reverse=True)
-        elif action == u'Already renamed':
+        elif action == u'Renamed':
             message = ansicolor.green(message, reverse=True)
         elif action == u'Dry run':
             message = ansicolor.white(message, reverse=True)
@@ -198,9 +198,9 @@ class Rename(object):
                 self.processMessage(action=u'Rename')
                 shutil.move(self.old_path, self.new_path)
         elif self.new_path == self.old_path:
-            self.processMessage(action=u'Already renamed', error=False)
+            self.processMessage(action=u'Renamed', error=False)
         else:
-            self.processMessage(action=u'File exits', error=True)
+            self.processMessage(action=u'Exits', error=True)
 
     def execute(self):
         global counter
