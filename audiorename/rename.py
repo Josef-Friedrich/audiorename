@@ -14,33 +14,12 @@ from tmep import Template
 from .meta import Meta
 import six
 
-
-from difflib import SequenceMatcher
-
 if six.PY2:
     import sys
     reload(sys)
     sys.setdefaultencoding('utf8')
 
 counter = 0
-
-
-def common_substring(a, b):
-    """Find the common substring of two paths at the beginning of the path
-    string.
-
-    :param string a: Path string a
-    :param string b: Path string b
-
-    :return string: the substring
-    """
-    match = SequenceMatcher(None, a, b).find_longest_match(0, len(a), 0,
-                                                           len(b))
-
-    if match.a == 0:
-        return a[match.a: match.a + match.size]
-    else:
-        return ''
 
 
 def default_formats(classical=False, compilation=False):
@@ -63,12 +42,19 @@ def default_formats(classical=False, compilation=False):
 
 
 class Rename(object):
+    """Rename one file"""
 
     old_path = ''
-    """The old file path"""
+    """The absolute path of the old file."""
+
+    old_file = ''
+    """The input path of the old file."""
 
     new_path = ''
-    """The new file path"""
+    """The absolute path of the new file."""
+
+    new_file = ''
+    """The path inside the target directory of the new file."""
 
     extension = ''
     """The extension"""
@@ -81,6 +67,9 @@ class Rename(object):
     target_dir = ''
     """The target directory"""
 
+    cwd = os.getcwd()
+    """The path of the current working directory"""
+
     def __init__(self, old_file=False, args=False):
         if args:
             self.args = args
@@ -91,7 +80,7 @@ class Rename(object):
             if args.target_dir:
                 self.target_dir = args.target_dir
             else:
-                self.target_dir = os.getcwd()
+                self.target_dir = self.cwd
 
             if args.source_as_target_dir:
 
@@ -120,6 +109,7 @@ class Rename(object):
         new = t.substitute(self.meta, f.functions())
         new = self.postTemplate(new)
         new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
+        self.new_file = new
         self.new_path = os.path.join(self.target_dir, new)
 
     def postTemplate(self, text):
@@ -160,16 +150,10 @@ class Rename(object):
             message = ansicolor.white(message, reverse=True)
 
         if not old_path:
-            old_path = self.old_path
+            old_path = self.old_file
 
         if not new_path and hasattr(self, 'new_path'):
-            new_path = self.new_path
-
-        substring = common_substring(old_path, new_path)
-
-        if substring:
-            old_path = old_path.replace(substring, '')
-            new_path = new_path.replace(substring, '')
+            new_path = self.new_file
 
         line1 = message + u' ' + old_path + '\n'
         if new_path:

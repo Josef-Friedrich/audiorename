@@ -271,7 +271,7 @@ class TestClassical(unittest.TestCase):
             os.path.join(h.dir_test, 'classical', folder, track)
         ]), test)
 
-    d = '/d/Debussy_Claude/'
+    d = 'd/Debussy_Claude/'
     e = 'Estampes-L-100_[Jean-Claude-Pennetier]'
     p = 'Pour-le-piano-L-95_[Jean-Claude-Pennetier]'
 
@@ -299,7 +299,7 @@ class TestClassical(unittest.TestCase):
             self.d + self.p + '/04_Prelude_.mp3'
         )
 
-    m = '/m/Mozart_Wolfgang-Amadeus/'
+    m = 'm/Mozart_Wolfgang-Amadeus/'
     mp1 = u'[OrpChaOrc]'
     mp2 = u'[OrpChaOrc]'
     h1 = 'Concerto-for-French-Horn-no-1-in-D-major-K_' + mp1
@@ -330,7 +330,7 @@ class TestClassical(unittest.TestCase):
             self.m + self.h2 + '/04_II-Andante_001c2df3.mp3'
         )
 
-    s = '/s/Schubert_Franz/'
+    s = 's/Schubert_Franz/'
     w = 'Die-Winterreise-op-89-D-911_[Fischer-Dieskau-Moore]/'
 
     def test_schubert_01(self):
@@ -357,7 +357,7 @@ class TestClassical(unittest.TestCase):
             self.s + self.w + '04_Erstarrung_63bc8e2a.mp3'
         )
 
-    t = '/t/Tchaikovsky_Pyotr-Ilyich/'
+    t = 't/Tchaikovsky_Pyotr-Ilyich/'
     lake = 'Swan-Lake-op-20_[Svetlanov-StaAcaSym]/'
 
     def test_tschaikowski_01(self):
@@ -389,7 +389,7 @@ class TestClassical(unittest.TestCase):
             '4d5781a4.mp3'
         )
 
-    wr = '/w/Wagner_Richard/'
+    wr = 'w/Wagner_Richard/'
     mn = 'Die-Meistersinger-von-Nuernberg_[Karajan-StaDre-StaDre]/'
 
     def test_wagner_01(self):
@@ -491,23 +491,6 @@ class TestMBTrackListing(unittest.TestCase):
         self.assertEqual(self.mbTrackListing('Schubert_Winterreise', '01.mp3'),
                          '2. Winterreise: Winterreise, D. 911 Gute Nacht ' +
                          '(0:00)')
-
-
-class TestCommonSubstring(unittest.TestCase):
-
-    def test_common_substring_beginning(self):
-        result = audiorename.rename.common_substring(
-            '/data/music/classical/lol.mp3',
-            '/data/music/classical/troll.mp3'
-        )
-        self.assertEqual(result, '/data/music/classical/')
-
-    def test_common_substring_mid(self):
-        result = audiorename.rename.common_substring(
-            '/lol/data/music/classical/lol.mp3',
-            '/troll/data/music/classical/troll.mp3'
-        )
-        self.assertEqual(result, '')
 
 
 if __name__ == '__main__':
