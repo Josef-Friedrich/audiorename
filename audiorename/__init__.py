@@ -12,6 +12,7 @@ del get_versions
 
 
 def execute(args=None):
+    """Main function"""
     args = parser.parse_args(args)
     args.path = os.path.abspath(args.path)
     if os.path.isdir(args.path):
