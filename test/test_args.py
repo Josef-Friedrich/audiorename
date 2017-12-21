@@ -4,28 +4,28 @@ import unittest
 import re
 import six
 import audiorename
-import helper as h
+import helper
 
 
 class TestCommandlineInterface(unittest.TestCase):
 
     def test_help_short(self):
         with self.assertRaises(SystemExit) as cm:
-            with h.Capturing():
+            with helper.Capturing():
                 audiorename.execute(['-h'])
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '0')
 
     def test_help_long(self):
         with self.assertRaises(SystemExit) as cm:
-            with h.Capturing():
+            with helper.Capturing():
                 audiorename.execute(['--help'])
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '0')
 
     def test_without_arguments(self):
         with self.assertRaises(SystemExit) as cm:
-            with h.Capturing('err'):
+            with helper.Capturing('err'):
                 audiorename.execute()
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '2')
@@ -36,10 +36,10 @@ class TestVersion(unittest.TestCase):
     def test_version(self):
         with self.assertRaises(SystemExit):
             if six.PY2:
-                with h.Capturing('err') as output:
+                with helper.Capturing('err') as output:
                     audiorename.execute(['--version'])
             else:
-                with h.Capturing() as output:
+                with helper.Capturing() as output:
                     audiorename.execute(['--version'])
 
         result = re.search('[^ ]* [^ ]*', output[0])
@@ -50,7 +50,7 @@ class TestHelp(unittest.TestCase):
 
     def setUp(self):
         with self.assertRaises(SystemExit):
-            with h.Capturing() as output:
+            with helper.Capturing() as output:
                 audiorename.execute(['--help'])
         self.output = '\n'.join(output)
 

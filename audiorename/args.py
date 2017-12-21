@@ -103,7 +103,7 @@ def parse_args(argv):
     :param list argv: The command line arguments specified as a list: e. g
         :code:`['--dry-run', '.']`
 
-    :return dict:
+    :return: Dictionary
     """
 
     parser = argparse.ArgumentParser(
