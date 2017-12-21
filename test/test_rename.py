@@ -493,5 +493,41 @@ class TestMBTrackListing(unittest.TestCase):
                          '(0:00)')
 
 
+class TestDeleteExisting(unittest.TestCase):
+
+    def test_delete_existing(self):
+        tmp1 = h.tmp_file('album.mp3')
+        tmp2 = h.tmp_file('album.mp3')
+
+        target = tempfile.mkdtemp()
+
+        self.assertTrue(os.path.isfile(tmp1))
+        self.assertTrue(os.path.isfile(tmp2))
+
+        with h.Capturing() as output1:
+            audiorename.execute([
+                '--delete-existing',
+                '--target-dir',
+                target,
+                tmp1
+            ])
+
+        self.assertEqual(len(output1), 2)
+        self.assertFalse(os.path.isfile(tmp1))
+        self.assertTrue(os.path.isfile(tmp2))
+
+        with h.Capturing() as output2:
+            audiorename.execute([
+                '--delete-existing',
+                '--target-dir',
+                target,
+                tmp2
+            ])
+
+        self.assertTrue('Delete existing file: ' in output2[2])
+        self.assertFalse(os.path.isfile(tmp1))
+        self.assertFalse(os.path.isfile(tmp2))
+
+
 if __name__ == '__main__':
     unittest.main()

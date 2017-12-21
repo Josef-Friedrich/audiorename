@@ -86,14 +86,14 @@ class Rename(object):
         if old_file:
             self.old_file = old_file
 
-            if args.target_dir:
-                self.target_dir = args.target_dir
+            if self.args.target_dir:
+                self.target_dir = self.args.target_dir
             else:
                 self.target_dir = self.cwd
 
-            if args.source_as_target_dir:
+            if self.args.source_as_target_dir:
 
-                if args.is_dir:
+                if self.args.is_dir:
                     self.target_dir = args.path
                 else:
                     self.target_dir = os.path.dirname(args.path)
@@ -101,7 +101,7 @@ class Rename(object):
             self.old_path = os.path.realpath(self.old_file)
             self.extension = self.old_file.split('.')[-1]
 
-            meta = Meta(self.old_path, args.shell_friendly)
+            meta = Meta(self.old_path, self.args.shell_friendly)
             self.meta = meta.getMeta()
 
     def generateFilename(self):
@@ -210,6 +210,9 @@ class Rename(object):
             self.processMessage(action=u'Renamed', error=False)
         else:
             self.processMessage(action=u'Exits', error=True)
+            if self.args.delete_existing:
+                os.remove(self.old_path)
+                print('Delete existing file: ' + self.old_path)
 
     def execute(self):
         global counter

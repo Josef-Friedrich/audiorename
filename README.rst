@@ -35,27 +35,27 @@ Usage
 
 .. code-block:: text
 
-    usage: audiorenamer [-h] [-f FORMAT] [-c COMPILATION] [-k] [-S] [-d]
-                        [-e EXTENSION] [-t TARGET_DIR] [-s SKIP_IF_EMPTY] [-a]
-                        [-C] [-m FILTER_ALBUM_MIN] [-F] [--unittest]
-                        [--mb-track-listing] [-v]
+    usage: audiorenamer [-h] [-k] [-c COMPILATION] [-C] [-D] [-d] [-e EXTENSION]
+                        [-F] [-m FILTER_ALBUM_MIN] [-f FORMAT]
+                        [--mb-track-listing] [-S] [-s SKIP_IF_EMPTY] [-a]
+                        [-t TARGET_DIR] [--unittest] [-v]
                         path
     
-    Rename audio files from metadata tags.
+        Rename audio files from metadata tags.
     
-    How to specify the target directory?
+        How to specify the target directory?
     
-    1. By the default the audio files are moved or renamed to the parent
-       working directory.
-    2. Use the option ``-t <folder>`` or ``--target-dir <folder>`` to specifiy
-       a target directory.
-    3. Use the option ``-a`` or ``--source-as-target-dir`` to copy or rename
-       your audio files within the source directory.
+        1. By the default the audio files are moved or renamed to the parent
+           working directory.
+        2. Use the option ``-t <folder>`` or ``--target-dir <folder>`` to specifiy
+           a target directory.
+        3. Use the option ``-a`` or ``--source-as-target-dir`` to copy or rename
+           your audio files within the source directory.
     
-    Metadata fields
-    ---------------
+        Metadata fields
+        ---------------
     
-        $acoustid_fingerprint:    Acoustic ID fingerprint
+            $acoustid_fingerprint:    Acoustic ID fingerprint
     
         $acoustid_id:          Acoustic ID
     
@@ -240,10 +240,10 @@ Usage
         $year_safe:            First “original_year” then
                                “year”.
     
-    Functions
-    ---------
+        Functions
+        ---------
     
-        asciify
+            asciify
         -------
     
         %asciify{text}
@@ -359,32 +359,34 @@ Usage
     
     optional arguments:
       -h, --help            show this help message and exit
-      -f FORMAT, --format FORMAT
-                            A format string
+      -k, --classical       Use default format for classical music
       -c COMPILATION, --compilation COMPILATION
                             Format string for compilations
-      -k, --classical       Use default format for classical music
-      -S, --shell-friendly  Rename audio files “shell friendly”, this means
-                            without whitespaces, parentheses etc.
+      -C, --copy            Copy files instead of rename / move.
+      -D, --delete-existing
+                            Delete source file if the target file already exists.
       -d, --dry-run         Don’t rename or copy the audio files.
       -e EXTENSION, --extension EXTENSION
                             Extensions to rename
-      -t TARGET_DIR, --target-dir TARGET_DIR
-                            Target directory
+      -F, --filter-album-complete
+                            Rename only complete albums
+      -m FILTER_ALBUM_MIN, --filter-album-min FILTER_ALBUM_MIN
+                            Rename only albums containing at least X files.
+      -f FORMAT, --format FORMAT
+                            A format string
+      --mb-track-listing    Print track listing for Musicbrainz website: Format:
+                            track. title (duration), e. g.: 1. He, Zigeuner (1:31)
+                            2. Hochgetürmte Rimaflut (1:21)
+      -S, --shell-friendly  Rename audio files “shell friendly”, this means
+                            without whitespaces, parentheses etc.
       -s SKIP_IF_EMPTY, --skip-if-empty SKIP_IF_EMPTY
                             Skip renaming of field is empty.
       -a, --source-as-target-dir
                             Use specified source folder as target directory
-      -C, --copy            Copy files instead of rename / move.
-      -m FILTER_ALBUM_MIN, --filter-album-min FILTER_ALBUM_MIN
-                            Rename only albums containing at least X files.
-      -F, --filter-album-complete
-                            Rename only complete albums
+      -t TARGET_DIR, --target-dir TARGET_DIR
+                            Target directory
       --unittest            The audio files are not renamed. Debug messages for
                             the unit test are printed out.
-      --mb-track-listing    Print track listing for Musicbrainz website: Format:
-                            track. title (duration), e. g.: 1. He, Zigeuner (1:31)
-                            2. Hochgetürmte Rimaflut (1:21)
       -v, --version         show program's version number and exit
 
 
