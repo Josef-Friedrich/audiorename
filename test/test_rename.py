@@ -531,5 +531,45 @@ class TestDeleteExisting(unittest.TestCase):
         self.assertFalse(os.path.isfile(tmp2))
 
 
+class TestVerbose(unittest.TestCase):
+
+    def test_verbose(self):
+        tmp = h.tmp_file('album.mp3')
+
+        target = tempfile.mkdtemp()
+
+        with h.Capturing() as output:
+            audiorename.execute([
+                '--copy',
+                '--verbose',
+                '--target',
+                target,
+                tmp
+            ])
+
+        # '[Copy:       ] /tmp/tmpisugl3hp/album.mp3'
+        # '            -> /tmp/tmpcwqxsfgx/t/the album artist/the
+        # album_2001/4-02_full.mp3']
+
+        self.assertTrue(target in output[1])
+
+    def test_non_verbose(self):
+        tmp = h.tmp_file('album.mp3')
+
+        target = tempfile.mkdtemp()
+
+        with h.Capturing() as output:
+            audiorename.execute([
+                '--copy',
+                '--target',
+                target,
+                tmp
+            ])
+        # '[Copy:       ] /tmp/tmpycwB06/album.mp3'
+        # '            -> /t/the album artist/the album_2001/4-02_full.mp3'
+
+        self.assertFalse(target in output[1])
+
+
 if __name__ == '__main__':
     unittest.main()
