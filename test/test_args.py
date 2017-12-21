@@ -108,3 +108,27 @@ class TestHelp(unittest.TestCase):
     def test_field_year_safe(self):
         self.assertTrue('year_safe' in self.output)
         self.assertTrue('First “original_year”' in self.output)
+
+
+class TestArgsDefault(unittest.TestCase):
+
+    def test_defaults(self):
+        from audiorename.args import parser
+        args = parser.parse_args(['.'])
+        self.assertEqual(args.path, '.')
+
+        self.assertEqual(args.classical, False)
+        self.assertEqual(args.compilation, False)
+        self.assertEqual(args.copy, False)
+        self.assertEqual(args.delete_existing, False)
+        self.assertEqual(args.dry_run, False)
+        self.assertEqual(args.extension, 'mp3,m4a,flac,wma')
+        self.assertEqual(args.filter_album_complete, False)
+        self.assertEqual(args.filter_album_min, False)
+        self.assertEqual(args.format, False)
+        self.assertEqual(args.mb_track_listing, False)
+        self.assertEqual(args.shell_friendly, False)
+        self.assertEqual(args.skip_if_empty, False)
+        self.assertEqual(args.source_as_target_dir, False)
+        self.assertEqual(args.target_dir, '')
+        self.assertEqual(args.unittest, False)
