@@ -3,7 +3,7 @@
 """Rename audio files from metadata tags."""
 
 import os
-from audiorename.args import parser
+from audiorename.args import parse_args
 from .batch import Batch
 from ._version import get_versions
 
@@ -15,9 +15,9 @@ def execute(argv=None):
     """Main function
 
     :param list argv: The command line arguments specified as a list: e. g
-        ['--dry-run', '.']
+        :code:`['--dry-run', '.']`
     """
-    args = parser.parse_args(argv)
+    args = parse_args(argv)
     args.path = os.path.abspath(args.path)
     if os.path.isdir(args.path):
         args.is_dir = True
