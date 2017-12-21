@@ -132,3 +132,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(args.source_as_target_dir, False)
         self.assertEqual(args.target_dir, '')
         self.assertEqual(args.unittest, False)
+        self.assertEqual(args.verbose, False)
+
+
+class TestVerbose(unittest.TestCase):
+
+    def test_verbose(self):
+        pass

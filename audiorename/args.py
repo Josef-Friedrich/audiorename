@@ -72,6 +72,30 @@ fields = {
 """Documentation of the extra fields."""
 
 
+class ArgsDefault():
+    """This is a dummy class. The code only exists to document the return
+    value of the :func:`audiorename.args.parse_args`.  It can also be used
+    to mock the args object for testing purposes.
+    """
+
+    classical = False
+    compilation = False
+    copy = False
+    delete_existing = False
+    dry_run = False
+    extension = 'mp3,m4a,flac,wma'
+    filter_album_complete = False
+    filter_album_min = False
+    format = False
+    mb_track_listing = False
+    shell_friendly = False
+    skip_if_empty = False
+    source_as_target_dir = False
+    target_dir = ''
+    unittest = False
+    verbose = False
+
+
 def description():
     """Build the description string."""
     return '''\
@@ -98,12 +122,12 @@ def description():
 
 
 def parse_args(argv):
-    """Parse the command line arguments using the pyhton library `argparse`.
+    """Parse the command line arguments using the python library `argparse`.
 
     :param list argv: The command line arguments specified as a list: e. g
         :code:`['--dry-run', '.']`
 
-    :return: Dictionary
+    :return: Dictionary see :class:`audiorename.args.ArgsDefault`
     """
 
     parser = argparse.ArgumentParser(
@@ -249,6 +273,13 @@ def parse_args(argv):
         '--version',
         action='version',
         version='%(prog)s {version}'.format(version=get_versions()['version'])
+    )
+
+    # verbose
+    parser.add_argument(
+        '-V',
+        '--verbose',
+        action='store_true'
     )
 
     return parser.parse_args(argv)

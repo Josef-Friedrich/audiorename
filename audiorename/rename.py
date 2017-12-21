@@ -158,15 +158,25 @@ class Rename(object):
         else:
             message = ansicolor.white(message, reverse=True)
 
-        if not old_path:
-            old_path = self.old_file
+        if not old_path and hasattr(self, 'old_path'):
+            output_old = self.old_path
+        else:
+            output_old = old_path
 
         if not new_path and hasattr(self, 'new_path'):
-            new_path = self.new_file
+            output_new = self.new_path
+        else:
+            output_new = new_path
 
-        line1 = message + u' ' + old_path + '\n'
-        if new_path:
-            line2 = u'-> '.rjust(indent + 3) + ansicolor.yellow(new_path)
+        if not self.args.verbose:
+            if output_old and hasattr(self, 'cwd') and len(self.cwd) > 1:
+                output_old = output_old.replace(self.cwd, '')
+            if output_new and len(self.target_dir) > 1:
+                output_new = output_new.replace(self.target_dir, '')
+
+        line1 = message + u' ' + output_old + '\n'
+        if output_new:
+            line2 = u'-> '.rjust(indent + 3) + ansicolor.yellow(output_new)
         else:
             line2 = u''
 

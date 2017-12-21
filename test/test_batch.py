@@ -166,6 +166,7 @@ class TestSkip(unittest.TestCase):
         with h.Capturing() as output:
             audiorename.execute([
                 '-d',
+                '--verbose',
                 self.file
             ])
         self.output = output

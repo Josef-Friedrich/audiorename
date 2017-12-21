@@ -7,7 +7,7 @@ Comande line interface
     usage: audiorenamer [-h] [-k] [-c COMPILATION] [-C] [-D] [-d] [-e EXTENSION]
                         [-F] [-m FILTER_ALBUM_MIN] [-f FORMAT]
                         [--mb-track-listing] [-S] [-s SKIP_IF_EMPTY] [-a]
-                        [-t TARGET_DIR] [--unittest] [-v]
+                        [-t TARGET_DIR] [--unittest] [-v] [-V]
                         path
     
         Rename audio files from metadata tags.
@@ -357,3 +357,4 @@ Comande line interface
       --unittest            The audio files are not renamed. Debug messages for
                             the unit test are printed out.
       -v, --version         show program's version number and exit
+      -V, --verbose
