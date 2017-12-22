@@ -374,10 +374,29 @@ class MetaNG(MediaFile):
     def __init__(self, path, id3v23=False):
         super(MetaNG, self).__init__(path, id3v23=False)
 
+    @staticmethod
+    def initials(value):
+        """
+        :param str value: A string to extract the initials.
+        """
+        return value[0:1].lower()
+
+    @property
+    def album_classical(self):
+        """Example: ``Horn Concerto: I. Allegro``
+        """
+        return re.sub(r':.*$', '', self.work)
+
+    @property
+    def album_clean(self):
+        return re.sub(r' ?\([dD]is[ck].*\)$', '', self.album)
+
+    @property
+    def album_initial(self):
+        return self.initials(self.album_clean)
+
     @property
     def title_classical(self):
         """Example: ``Horn Concerto: I. Allegro``
-
-        :param str value: The title string.
         """
         return re.sub(r'^[^:]*: ?', '', self.title)

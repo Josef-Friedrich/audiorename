@@ -615,6 +615,11 @@ class TestMetaNG(unittest.TestCase):
                              '01.mp3')
 
         meta = MetaNG(media)
+        self.assertEqual(meta.album_classical,
+                         u'Die Meistersinger von Nürnberg')
+        self.assertEqual(meta.album_clean,
+                         u'Die Meistersinger von Nürnberg')
+        self.assertEqual(meta.album_initial, u'd')
         self.assertEqual(meta.title_classical, 'Vorspiel')
 
 
