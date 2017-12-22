@@ -3,6 +3,7 @@
 from audiorename.meta import roman_to_int
 import unittest
 import helper as h
+import os
 
 
 def get_real(path):
@@ -604,3 +605,18 @@ class TestPerformerUnit(unittest.TestCase):
         s = self.meta.shortenPerformer(u'Ludwig van Beethoven', separator=u'',
                                        abbreviation=u'')
         self.assertEqual(s, u'LudvanBee')
+
+
+class TestMetaNG(unittest.TestCase):
+
+    def test_meta(self):
+        from audiorename.meta import MetaNG
+        media = os.path.join(h.dir_test, 'classical', 'Wagner_Meistersinger',
+                             '01.mp3')
+
+        meta = MetaNG(media)
+        self.assertEqual(meta.title_classical, 'Vorspiel')
+
+
+if __name__ == '__main__':
+    unittest.main()
