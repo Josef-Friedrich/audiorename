@@ -8,6 +8,8 @@ In large releases with many tracks Picard can not get informations about works.
 """
 
 import musicbrainzngs as mbrainz
+from phrydy import MediaFile
+import phrydy
 
 
 def get_work(mb_trackid):
@@ -55,3 +57,22 @@ def get_work(mb_trackid):
             print("Work not found")
         else:
             print("received bad response from the MB server")
+
+
+def read(path):
+    try:
+        return MediaFile(path)
+    except phrydy.mediafile.UnreadableFileError:
+        print('Error reading file: ' + path)
+
+
+def save(path):
+    media = read(path)
+
+    result = get_work(media.mb_trackid)
+    work = result['recording']['work-relation-list'][0]
+
+    media.mb_workid = work['work']['id']
+    media.work = work['work']['title']
+    media.save()
+    return media
