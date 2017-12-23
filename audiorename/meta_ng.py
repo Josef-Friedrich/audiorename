@@ -93,37 +93,6 @@ class Meta(object):
             output[key] = value
         return output
 
-    def discTrack(self, meta):
-        """
-        Generate a combination of track and disc number, e. g.: ``1-04``,
-        ``3-06``.
-
-        :param dict meta: A dictionary with meta informations.
-        """
-        m = meta
-
-        if not m['track']:
-            return ''
-
-        if m['disctotal'] and int(m['disctotal']) > 99:
-            disk = str(m['disc']).zfill(3)
-        elif m['disctotal'] and int(m['disctotal']) > 9:
-            disk = str(m['disc']).zfill(2)
-        else:
-            disk = str(m['disc'])
-
-        if m['tracktotal'] and int(m['tracktotal']) > 99:
-            track = str(m['track']).zfill(3)
-        else:
-            track = str(m['track']).zfill(2)
-
-        if m['disc'] and m['disctotal'] and int(m['disctotal']) > 1:
-            return disk + '-' + track
-        elif m['disc'] and not m['disctotal']:
-            return disk + '-' + track
-        else:
-            return track
-
     def normalizePerformer(self, performer):
         out = []
         if isinstance(performer, list):
@@ -254,18 +223,6 @@ class Meta(object):
         else:
             return ''
 
-    def yearSafe(self, meta):
-        """
-        :param dict meta: A dictionary with meta informations.
-        """
-        if meta['original_year']:
-            value = meta['original_year']
-        elif meta['year']:
-            value = meta['year']
-        else:
-            value = ''
-        return value
-
     def getMeta(self):
         meta = self.getMediaFile()
 
@@ -273,7 +230,6 @@ class Meta(object):
 
             # composer
 
-            meta['disctrack'] = self.discTrack(meta)
             meta['performer_raw'] = self.performerRaw(meta)
             meta['performer_short'] = self.performerShort(
                 meta['performer_raw']
@@ -383,7 +339,46 @@ class MetaNG(MediaFile):
         return self.initials(self.composer_safe)
 
     @property
+    def disctrack(self):
+        """
+        Generate a combination of track and disc number, e. g.: ``1-04``,
+        ``3-06``.
+        """
+
+        if not self.track:
+            return ''
+
+        if self.disctotal and int(self.disctotal) > 99:
+            disk = str(self.disc).zfill(3)
+        elif self.disctotal and int(self.disctotal) > 9:
+            disk = str(self.disc).zfill(2)
+        else:
+            disk = str(self.disc)
+
+        if self.tracktotal and int(self.tracktotal) > 99:
+            track = str(self.track).zfill(3)
+        else:
+            track = str(self.track).zfill(2)
+
+        if self.disc and self.disctotal and int(self.disctotal) > 1:
+            return disk + '-' + track
+        elif self.disc and not self.disctotal:
+            return disk + '-' + track
+        else:
+            return track
+
+    @property
     def title_classical(self):
         """Example: ``Horn Concerto: I. Allegro``
         """
         return re.sub(r'^[^:]*: ?', '', self.title)
+
+    @property
+    def year_safe(self):
+        if self.original_year:
+            out = self.original_year
+        elif self.year:
+            out = self.year
+        else:
+            out = ''
+        return str(out)

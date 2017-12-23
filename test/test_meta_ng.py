@@ -11,29 +11,27 @@ def get_meta(path_list):
                 *path_list), ArgsDefault())
 
 
-#
-# class TestMeta(unittest.TestCase):
-#
-#     def setUp(self):
-#         self.meta = get_real([
-#             'h', 'Hines_Earl', 'Just-Friends_1989', '06_Indian-Summer.mp3'
-#         ])
-#
-#     def test_artistsafe(self):
-#         self.assertEqual(self.meta['artistsafe'], u'Earl Hines')
-#
-#     def test_artistsafe_sort(self):
-#         self.assertEqual(self.meta['artistsafe_sort'], u'Hines, Earl')
-#
-#     def test_year_safe(self):
-#         self.assertEqual(self.meta['year_safe'], 1989)
-#
-#     def test_artist_initial(self):
-#         self.assertEqual(self.meta['artist_initial'], u'h')
-#
-#     def test_album_initial(self):
-#         self.assertEqual(self.meta['album_initial'], u'j')
-#
+class TestMeta(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['real-world', 'h', 'Hines_Earl',
+                              'Just-Friends_1989', '06_Indian-Summer.mp3'])
+
+    def test_artistsafe(self):
+        self.assertEqual(self.meta.artistsafe, u'Earl Hines')
+
+    def test_artistsafe_sort(self):
+        self.assertEqual(self.meta.artistsafe_sort, u'Hines, Earl')
+
+    def test_year_safe(self):
+        self.assertEqual(self.meta.year_safe, '1989')
+
+    def test_artist_initial(self):
+        self.assertEqual(self.meta.artist_initial, u'h')
+
+    def test_album_initial(self):
+        self.assertEqual(self.meta.album_initial, u'j')
+
 
 class TestArtistSafeUnit(unittest.TestCase):
 
@@ -103,35 +101,31 @@ class TestArtistSafeUnit(unittest.TestCase):
         self.meta.artist_sort = 'Lastname, Prename'
         self.assertEqual(self.meta.artistsafe_sort, 'Lastname_Prename')
 
-#
-# class TestYearSafeUnit(unittest.TestCase):
-#
-#     def setUp(self):
-#         from audiorename import meta
-#         self.meta = meta.Meta()
-#
-#         self.m = {
-#             'year': u'',
-#             'original_year': u'',
-#         }
-#
-#     def test_empty(self):
-#         self.assertEqual(self.meta.yearSafe(self.m), '')
-#
-#     def test_year(self):
-#         self.m['year'] = '1978'
-#         self.assertEqual(self.meta.yearSafe(self.m), '1978')
-#
-#     def test_original_year(self):
-#         self.m['original_year'] = '1978'
-#         self.assertEqual(self.meta.yearSafe(self.m), '1978')
-#
-#     def test_year__original_year(self):
-#         self.m['year'] = '2016'
-#         self.m['original_year'] = '1978'
-#         self.assertEqual(self.meta.yearSafe(self.m), '1978')
-#
-#
+
+class TestYearSafeUnit(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta.year = None
+        self.meta.original_year = None
+
+    def test_empty(self):
+        self.assertEqual(self.meta.year_safe, '')
+
+    def test_year(self):
+        self.meta.year = 1978
+        self.assertEqual(self.meta.year_safe, '1978')
+
+    def test_original_year(self):
+        self.meta.original_year = 1978
+        self.assertEqual(self.meta.year_safe, '1978')
+
+    def test_year__original_year(self):
+        self.meta.year = 2016
+        self.meta.original_year = 1978
+        self.assertEqual(self.meta.year_safe, '1978')
+
+
 # class TestArtistSafe(unittest.TestCase):
 #
 #     def test_artist(self):
@@ -145,89 +139,79 @@ class TestArtistSafeUnit(unittest.TestCase):
 #     def test_albumartist(self):
 #         meta = get_meta('albumartist')
 #         self.assertEqual(meta['artistsafe'], u'albumartist')
-#
-#
-# class TestDiskTrackUnit(unittest.TestCase):
-#
-#     def setUp(self):
-#         from audiorename import meta
-#         self.meta = meta.Meta()
-#
-#         self.m = {
-#             'track': u'',
-#             'tracktotal': u'',
-#             'disc': u'',
-#             'disctotal': u'',
-#         }
-#
-#     def test_empty(self):
-#         self.assertEqual(self.meta.discTrack(self.m), u'')
-#
-#     def test_no_track(self):
-#         self.m['disc'] = '2'
-#         self.m['disctotal'] = '3'
-#         self.m['tracktotal'] = '36'
-#         self.assertEqual(self.meta.discTrack(self.m), u'')
-#
-#     def test_disc_track(self):
-#         self.m['disc'] = '2'
-#         self.m['track'] = '4'
-#         self.assertEqual(self.meta.discTrack(self.m), u'2-04')
-#
-#     def test_disk_total_one(self):
-#         self.m['disc'] = '1'
-#         self.m['track'] = '4'
-#         self.m['disctotal'] = '1'
-#         self.m['tracktotal'] = '36'
-#         self.assertEqual(self.meta.discTrack(self.m), u'04')
-#
-#     def test_all_set(self):
-#         self.m['disc'] = '2'
-#         self.m['track'] = '4'
-#         self.m['disctotal'] = '3'
-#         self.m['tracktotal'] = '36'
-#         self.assertEqual(self.meta.discTrack(self.m), u'2-04')
-#
-#     def test_zfill_track(self):
-#         self.m['track'] = '4'
-#         self.m['tracktotal'] = '100'
-#         self.assertEqual(self.meta.discTrack(self.m), u'004')
-#
-#         self.m['tracktotal'] = '10'
-#         self.assertEqual(self.meta.discTrack(self.m), u'04')
-#
-#         self.m['tracktotal'] = '5'
-#         self.assertEqual(self.meta.discTrack(self.m), u'04')
-#
-#     def test_zfill_disc(self):
-#         self.m['track'] = '4'
-#         self.m['tracktotal'] = '10'
-#         self.m['disc'] = '2'
-#         self.m['disctotal'] = '10'
-#         self.assertEqual(self.meta.discTrack(self.m), u'02-04')
-#
-#         self.m['disctotal'] = '100'
-#         self.assertEqual(self.meta.discTrack(self.m), u'002-04')
-#
-#
-# class TestDiskTrack(unittest.TestCase):
-#
-#     def test_single_disc(self):
-#         meta = get_real([
-#             'e', 'Everlast', 'Eat-At-Whiteys_2000', '02_Black-Jesus.mp3'
-#         ])
-#         self.assertEqual(meta['disctrack'], u'02')
-#
-#     def test_double_disk(self):
-#         meta = get_real([
-#             '_compilations',
-#             't',
-#             'The-Greatest-No1s-of-the-80s_1994',
-#             '2-09_Respectable.mp3'
-#         ])
-#         self.assertEqual(meta['disctrack'], u'2-09')
-#
-#
+
+
+class TestDiskTrackUnit(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta.track = u''
+        self.meta.tracktotal = u''
+        self.meta.disc = u''
+        self.meta.disctotal = u''
+
+    def test_empty(self):
+        self.assertEqual(self.meta.disctrack, u'')
+
+    def test_no_track(self):
+        self.meta.disc = '2'
+        self.meta.disctotal = '3'
+        self.meta.tracktotal = '36'
+        self.assertEqual(self.meta.disctrack, u'')
+
+    def test_disc_track(self):
+        self.meta.disc = '2'
+        self.meta.track = '4'
+        self.assertEqual(self.meta.disctrack, u'2-04')
+
+    def test_disk_total_one(self):
+        self.meta.disc = '1'
+        self.meta.track = '4'
+        self.meta.disctotal = '1'
+        self.meta.tracktotal = '36'
+        self.assertEqual(self.meta.disctrack, u'04')
+
+    def test_all_set(self):
+        self.meta.disc = '2'
+        self.meta.track = '4'
+        self.meta.disctotal = '3'
+        self.meta.tracktotal = '36'
+        self.assertEqual(self.meta.disctrack, u'2-04')
+
+    def test_zfill_track(self):
+        self.meta.track = '4'
+        self.meta.tracktotal = '100'
+        self.assertEqual(self.meta.disctrack, u'004')
+
+        self.meta.tracktotal = '10'
+        self.assertEqual(self.meta.disctrack, u'04')
+
+        self.meta.tracktotal = '5'
+        self.assertEqual(self.meta.disctrack, u'04')
+
+    def test_zfill_disc(self):
+        self.meta.track = '4'
+        self.meta.tracktotal = '10'
+        self.meta.disc = '2'
+        self.meta.disctotal = '10'
+        self.assertEqual(self.meta.disctrack, u'02-04')
+
+        self.meta.disctotal = '100'
+        self.assertEqual(self.meta.disctrack, u'002-04')
+
+
+class TestDiskTrack(unittest.TestCase):
+
+    def test_single_disc(self):
+        meta = get_meta(['real-world', 'e', 'Everlast', 'Eat-At-Whiteys_2000',
+                         '02_Black-Jesus.mp3'])
+        self.assertEqual(meta.disctrack, u'02')
+
+    def test_double_disk(self):
+        meta = get_meta(['real-world', '_compilations', 't',
+                         'The-Greatest-No1s-of-the-80s_1994',
+                         '2-09_Respectable.mp3'])
+        self.assertEqual(meta.disctrack, u'2-09')
 
 
 class TestAlbumClean(unittest.TestCase):
@@ -616,6 +600,7 @@ class TestMetaNG(unittest.TestCase):
             'Staatskapelle Dresden, Karajan, Herbert von')
         self.assertEqual(meta.composer_safe, u'Wagner, Richard')
         self.assertEqual(meta.composer_initial, u'w')
+        self.assertEqual(meta.disctrack, u'1-01')
         self.assertEqual(meta.title_classical, 'Vorspiel')
 
 
