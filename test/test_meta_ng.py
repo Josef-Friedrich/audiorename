@@ -57,7 +57,7 @@ class TestArtistSafeUnit(unittest.TestCase):
 
     def test_albumartist_credit(self):
         self.assertArtistSort('albumartist_credit')
-    
+
     def test_albumartist_sort(self):
         self.assertArtistSort('albumartist_sort')
 
@@ -602,6 +602,20 @@ class TestMetaNG(unittest.TestCase):
         self.assertEqual(meta.album_clean,
                          u'Die Meistersinger von Nürnberg')
         self.assertEqual(meta.album_initial, u'd')
+        self.assertEqual(
+            meta.artistsafe,
+            u'Richard Wagner; René Kollo, Helen Donath, Theo Adam, Geraint ' +
+            'Evans, Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der ' +
+            'Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle ' +
+            'Dresden, Herbert von Karajan')
+        self.assertEqual(
+            meta.artistsafe_sort,
+            u'Wagner, Richard; Kollo, René, Donath, Helen, Adam, Theo, ' +
+            'Evans, Geraint, Schreier, Peter, Hesse, Ruth, Ridderbusch, ' +
+            'Karl, Chor der Staatsoper Dresden, MDR Rundfunkchor Leipzig, ' +
+            'Staatskapelle Dresden, Karajan, Herbert von')
+        self.assertEqual(meta.composer_safe, u'Wagner, Richard')
+        self.assertEqual(meta.composer_initial, u'w')
         self.assertEqual(meta.title_classical, 'Vorspiel')
 
 

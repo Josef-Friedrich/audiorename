@@ -93,20 +93,6 @@ class Meta(object):
             output[key] = value
         return output
 
-    def composerSafe(self, meta):
-        if meta['composer_sort']:
-            value = meta['composer_sort']
-        elif meta['composer']:
-            value = meta['composer']
-        else:
-            value = meta['artistsafe']
-
-        if self.shell_friendly:
-            value = value.replace(', ', '_')
-
-        # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
-        return re.sub(r' ?/.*', '', value)
-
     def discTrack(self, meta):
         """
         Generate a combination of track and disc number, e. g.: ``1-04``,
@@ -286,8 +272,6 @@ class Meta(object):
         if not meta['skip']:
 
             # composer
-            meta['composer_safe'] = self.composerSafe(meta)
-            meta['composer_initial'] = self.initials(meta['composer_safe'])
 
             meta['disctrack'] = self.discTrack(meta)
             meta['performer_raw'] = self.performerRaw(meta)
@@ -378,6 +362,25 @@ class MetaNG(MediaFile):
     @property
     def artist_initial(self):
         return self.initials(self.artistsafe_sort)
+
+    @property
+    def composer_safe(self):
+        if self.composer_sort:
+            out = self.composer_sort
+        elif self.composer:
+            out = self.composer
+        else:
+            out = self.artistsafe
+
+        if self.args.shell_friendly:
+            out = out.replace(', ', '_')
+
+        # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
+        return re.sub(r' ?/.*', '', out)
+
+    @property
+    def composer_initial(self):
+        return self.initials(self.composer_safe)
 
     @property
     def title_classical(self):
