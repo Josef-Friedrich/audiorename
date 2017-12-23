@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from audiorename.meta_ng import MetaNG as Meta
+from audiorename.meta_ng import roman_to_int
 from audiorename.args import ArgsDefault
 import unittest
 import os
@@ -126,19 +127,19 @@ class TestYearSafeUnit(unittest.TestCase):
         self.assertEqual(self.meta.year_safe, '1978')
 
 
-# class TestArtistSafe(unittest.TestCase):
-#
-#     def test_artist(self):
-#         meta = get_meta('artist')
-#         self.assertEqual(meta['artistsafe'], u'artist')
-#
-#     def test_artist_sort(self):
-#         meta = get_meta('artist_sort')
-#         self.assertEqual(meta['artistsafe_sort'], u'artist_sort')
-#
-#     def test_albumartist(self):
-#         meta = get_meta('albumartist')
-#         self.assertEqual(meta['artistsafe'], u'albumartist')
+class TestArtistSafe(unittest.TestCase):
+
+    def test_artist(self):
+        meta = get_meta(['meta', 'artist.mp3'])
+        self.assertEqual(meta.artistsafe, u'artist')
+
+    def test_artist_sort(self):
+        meta = get_meta(['meta', 'artist_sort.mp3'])
+        self.assertEqual(meta.artistsafe_sort, u'artist_sort')
+
+    def test_albumartist(self):
+        meta = get_meta(['meta', 'albumartist.mp3'])
+        self.assertEqual(meta.artistsafe, u'albumartist')
 
 
 class TestDiskTrackUnit(unittest.TestCase):
@@ -239,28 +240,22 @@ class TestAlbumClean(unittest.TestCase):
                          '2-09_Respectable.mp3'])
         self.assertEqual(meta.album_clean, u'The Greatest No.1s of the 80s')
 
-#
-# class TestWork(unittest.TestCase):
-#
-#     def test_work(self):
-#         meta = get_classical([
-#             'Mozart_Horn-concertos',
-#             '01.mp3'
-#         ])
-#         self.assertEqual(
-#             meta['work'],
-#             u'Concerto for French Horn no. 1 in D major, ' +
-#             u'K. 386b KV 412 I. Allegro'
-#         )
-#         self.assertEqual(
-#             meta['mb_workid'],
-#             u'21fe0bf0-a040-387c-a39d-369d53c251fe'
-#         )
-#         self.assertEqual(
-#             meta['composer_sort'],
-#             u'Mozart, Wolfgang Amadeus'
-#         )
-#
+
+class TestWork(unittest.TestCase):
+
+    def test_work(self):
+        meta = get_meta(['classical', 'Mozart_Horn-concertos', '01.mp3'])
+        self.assertEqual(
+            meta.work,
+            u'Concerto for French Horn no. 1 in D major, ' +
+            u'K. 386b / KV 412: I. Allegro'
+        )
+        self.assertEqual(
+            meta.mb_workid,
+            u'21fe0bf0-a040-387c-a39d-369d53c251fe'
+        )
+        self.assertEqual(meta.composer_sort, u'Mozart, Wolfgang Amadeus')
+
 #
 # class TestClassicalUnit(unittest.TestCase):
 #
@@ -452,40 +447,42 @@ class TestAlbumClean(unittest.TestCase):
 #     def test_track_classical_wagner(self):
 #         self.assertEqual(self.wagner['track_classical'], u'1-01')
 #
-#
-# class TestTrackClassical(unittest.TestCase):
-#
-#     def setUp(self):
-#         from audiorename import meta
-#         self.meta = meta.Meta()
-#
-#     def assertRoman(self, roman, arabic):
-#         self.assertEqual(roman_to_int(roman), arabic)
-#
-#     def test_roman_to_int(self):
-#         self.assertRoman('I', 1)
-#         self.assertRoman('II', 2)
-#         self.assertRoman('III', 3)
-#         self.assertRoman('IV', 4)
-#         self.assertRoman('V', 5)
-#         self.assertRoman('VI', 6)
-#         self.assertRoman('VII', 7)
-#         self.assertRoman('VIII', 8)
-#         self.assertRoman('IX', 9)
-#         self.assertRoman('X', 10)
-#         self.assertRoman('XI', 11)
-#         self.assertRoman('XII', 12)
-#
-#     def assertTrack(self, title, compare):
-#         self.assertEqual(self.meta.trackClassical(title), compare)
-#
-#     def test_function(self):
-#         self.assertTrack('III. Credo', u'03')
-#         self.assertTrack('III Credo', '')
-#         self.assertTrack('Credo', '')
-#         self.assertEqual(self.meta.trackClassical('lol', 123), 123)
-#
-#
+
+
+class TestTrackClassical(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+
+    def assertRoman(self, roman, arabic):
+        self.assertEqual(roman_to_int(roman), arabic)
+
+    def test_roman_to_int(self):
+        self.assertRoman('I', 1)
+        self.assertRoman('II', 2)
+        self.assertRoman('III', 3)
+        self.assertRoman('IV', 4)
+        self.assertRoman('V', 5)
+        self.assertRoman('VI', 6)
+        self.assertRoman('VII', 7)
+        self.assertRoman('VIII', 8)
+        self.assertRoman('IX', 9)
+        self.assertRoman('X', 10)
+        self.assertRoman('XI', 11)
+        self.assertRoman('XII', 12)
+
+    def assertTrack(self, title, compare):
+        self.meta.title = title
+        self.assertEqual(self.meta.track_classical, compare)
+
+    def test_function(self):
+        self.assertTrack('III. Credo', u'03')
+        self.assertTrack('III Credo', '4-02')
+        self.assertTrack('Credo', '4-02')
+        self.meta.track = 123
+        self.assertEqual(self.meta.track_classical, '4-123')
+
+
 # class TestPerformer(unittest.TestCase):
 #
 #     def getMeta(self, extension):

@@ -120,109 +120,6 @@ class Meta(object):
 
         return out[len(separator):]
 
-    def performerRaw(self, meta=None):
-        """Generate a unifed performer list.
-
-        Picard doesn’t store performer values in m4a, alac.m4a, wma, wav,
-        aiff.
-
-        .. code-block:: python
-
-            performer = [
-                ['conductor', u'Herbert von Karajan'],
-                ['violin', u'Anne-Sophie Mutter'],
-            ]
-
-        """
-        f = self.media_file.format
-        m = self.media_file.mgfile
-        out = []
-
-        if (f == 'FLAC' or f == 'OGG') and 'performer' in m:
-            out = self.normalizePerformer(m['performer'])
-            if 'conductor' in m:
-                out.insert(0, ['conductor', m['conductor'][0]])
-        elif f == 'MP3':
-            # 4.2.2 TMCL Musician credits list
-            if 'TMCL' in m:
-                out = m['TMCL'].people
-            # 4.2.2 TIPL Involved people list
-            # TIPL is used for producer
-            elif 'TIPL' in m:
-                out = m['TIPL'].people
-
-            # 4.2.2 TPE3 Conductor/performer refinement
-            if 'TPE3' in m:
-                out.insert(0, ['conductor', m['TPE3'].text[0]])
-
-        else:
-            out = []
-
-        return out
-
-    def performerClassical(self, meta):
-        """http://musicbrainz.org/doc/Style/Classical/Release/Artist
-        """
-        if 'performer_short' in meta and len(meta['performer_short']) > 0:
-            return meta['performer_short']
-        elif 'albumartist' in meta:
-            return re.sub(r'^.*; ?', '', meta['albumartist'])
-        else:
-            return u''
-
-    def performerShort(self, performer):
-        out = u''
-
-        picked = []
-        for p in performer:
-            if p[0] == u'conductor' or p[0] == u'orchestra':
-                picked.append(p)
-
-        if len(picked) > 0:
-            performer = picked
-
-        for p in performer:
-
-            if p[0] == u'producer' or p[0] == u'executive producer' or \
-                    p[0] == 'balance engineer':
-                s = u''
-            elif p[0] == u'orchestra' or p[0] == u'choir vocals' or \
-                    p[0] == 'string quartet':
-                s = self.shortenPerformer(p[1], separator=u'',
-                                          abbreviation=u'')
-            else:
-                s = p[1].split(' ')[-1]
-            out = out + u', ' + s
-
-        out = out[2:]
-
-        return out
-
-    def performer(self, performer):
-        out = u''
-        for p in performer:
-            out = out + u', ' + p[1]
-
-        out = out[2:]
-
-        return out
-
-    def titleClassical(self, value):
-        """Example: ``Horn Concerto: I. Allegro``
-
-        :param str value: The title string.
-        """
-        return re.sub(r'^[^:]*: ?', '', value)
-
-    def trackClassical(self, title, disc_track=False):
-        roman = re.findall(r'^([IVXLCDM]*)\.', title)
-        if roman:
-            return str(roman_to_int(roman[0])).zfill(2)
-        elif disc_track:
-            return disc_track
-        else:
-            return ''
-
     def getMeta(self):
         meta = self.getMediaFile()
 
@@ -230,17 +127,6 @@ class Meta(object):
 
             # composer
 
-            meta['performer_raw'] = self.performerRaw(meta)
-            meta['performer_short'] = self.performerShort(
-                meta['performer_raw']
-            )
-            meta['performer'] = self.performer(meta['performer_raw'])
-            meta['performer_classical'] = self.performerClassical(meta)
-            meta['track_classical'] = self.trackClassical(
-                meta['title_classical'],
-                meta['disctrack']
-            )
-            meta['year_safe'] = self.yearSafe(meta)
             return self.sanitize(meta)
         else:
             return False
@@ -368,10 +254,111 @@ class MetaNG(MediaFile):
             return track
 
     @property
+    def performer_raw(self):
+        """Generate a unifed performer list.
+
+        Picard doesn’t store performer values in m4a, alac.m4a, wma, wav,
+        aiff.
+
+        .. code-block:: python
+
+            performer = [
+                ['conductor', u'Herbert von Karajan'],
+                ['violin', u'Anne-Sophie Mutter'],
+            ]
+
+        """
+        out = []
+
+        if (self.format == 'FLAC' or self.format == 'OGG') and \
+                'performer' in self.mgfile:
+            out = self.normalizePerformer(self.mgfile['performer'])
+            if 'conductor' in self.mgfile:
+                out.insert(0, ['conductor', self.mgfile['conductor'][0]])
+        elif self.format == 'MP3':
+            # 4.2.2 TMCL Musician credits list
+            if 'TMCL' in self.mgfile:
+                out = self.mgfile['TMCL'].people
+            # 4.2.2 TIPL Involved people list
+            # TIPL is used for producer
+            elif 'TIPL' in self.mgfile:
+                out = self.mgfile['TIPL'].people
+
+            # 4.2.2 TPE3 Conductor/performer refinement
+            if 'TPE3' in self.mgfile:
+                out.insert(0, ['conductor', self.mgfile['TPE3'].text[0]])
+
+        else:
+            out = []
+
+        return out
+
+    @property
+    def performer_classical(self):
+        """http://musicbrainz.org/doc/Style/Classical/Release/Artist
+        """
+        if len(self.performer_short) > 0:
+            return self.performer_short
+        elif self.albumartist:
+            return re.sub(r'^.*; ?', '', self.albumartist)
+        else:
+            return u''
+
+    @property
+    def performer_short(self):
+        out = u''
+
+        performer = self.performer_raw
+        picked = []
+        for p in performer:
+            if p[0] == u'conductor' or p[0] == u'orchestra':
+                picked.append(p)
+
+        if len(picked) > 0:
+            performer = picked
+
+        for p in performer:
+
+            if p[0] == u'producer' or p[0] == u'executive producer' or \
+                    p[0] == 'balance engineer':
+                s = u''
+            elif p[0] == u'orchestra' or p[0] == u'choir vocals' or \
+                    p[0] == 'string quartet':
+                s = self.shortenPerformer(p[1], separator=u'',
+                                          abbreviation=u'')
+            else:
+                s = p[1].split(' ')[-1]
+            out = out + u', ' + s
+
+        out = out[2:]
+
+        return out
+
+    @property
+    def performer(self):
+        out = u''
+        for performer in self.performer_raw:
+            out = out + u', ' + performer[1]
+
+        out = out[2:]
+
+        return out
+
+    @property
     def title_classical(self):
         """Example: ``Horn Concerto: I. Allegro``
         """
         return re.sub(r'^[^:]*: ?', '', self.title)
+
+    @property
+    def track_classical(self):
+        roman = re.findall(r'^([IVXLCDM]*)\.', self.title_classical)
+        if roman:
+            return str(roman_to_int(roman[0])).zfill(2)
+        elif self.disctrack:
+            return self.disctrack
+        else:
+            return ''
 
     @property
     def year_safe(self):
