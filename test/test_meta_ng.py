@@ -34,86 +34,75 @@ def get_meta(path_list):
 #     def test_album_initial(self):
 #         self.assertEqual(self.meta['album_initial'], u'j')
 #
-#
-# class TestArtistSafeUnit(unittest.TestCase):
-#
-#     def setUp(self):
-#         from audiorename import meta
-#         self.meta = meta.Meta()
-#
-#         self.m = {
-#             'albumartist_credit': u'',
-#             'albumartist_sort': u'',
-#             'albumartist': u'',
-#             'artist_credit': u'',
-#             'artist_sort': u'',
-#             'artist': u'',
-#         }
-#
-#     def assertArtistSort(self, key):
-#         self.m[key] = key
-#         safe, sort = self.meta.artistSafe(self.m)
-#         self.assertEqual(safe, key)
-#         self.assertEqual(sort, key)
-#
-#     def test_unkown(self):
-#         safe, sort = self.meta.artistSafe(self.m)
-#         self.assertEqual(safe, 'Unknown')
-#         self.assertEqual(sort, 'Unknown')
-#
-#     def test_albumartist_credit(self):
-#         self.assertArtistSort('albumartist_credit')
-#
-#     def test_albumartist_sort(self):
-#         self.assertArtistSort('albumartist_sort')
-#
-#     def test_albumartist(self):
-#         self.assertArtistSort('albumartist')
-#
-#     def test_artist_credit(self):
-#         self.assertArtistSort('artist_credit')
-#
-#     def test_artist_sort(self):
-#         self.assertArtistSort('artist_sort')
-#
-#     def test_artist(self):
-#         self.assertArtistSort('artist')
-#
-#     def test_artist__artist_sort(self):
-#         self.m['artist'] = 'artist'
-#         self.m['artist_sort'] = 'artist_sort'
-#         safe, sort = self.meta.artistSafe(self.m)
-#         self.assertEqual(safe, 'artist')
-#         self.assertEqual(sort, 'artist_sort')
-#
-#     def test_albumartist__artist__artist_sort(self):
-#         self.m['albumartist'] = 'albumartist'
-#         self.m['artist'] = 'artist'
-#         self.m['artist_sort'] = 'artist_sort'
-#         safe, sort = self.meta.artistSafe(self.m)
-#         self.assertEqual(safe, 'albumartist')
-#         self.assertEqual(sort, 'artist_sort')
-#
-#     def test_artist__albumartist_sort__artist_sort(self):
-#         self.m['albumartist_sort'] = 'albumartist_sort'
-#         self.m['artist'] = 'artist'
-#         self.m['artist_sort'] = 'artist_sort'
-#         safe, sort = self.meta.artistSafe(self.m)
-#         self.assertEqual(safe, 'artist')
-#         self.assertEqual(sort, 'albumartist_sort')
-#
-#     def test_shell_unfriendly(self):
-#         self.meta.shell_friendly = False
-#         self.m['artist_sort'] = 'Lastname, Prename'
-#         safe, sort = self.meta.artistSafe(self.m)
-#         self.assertEqual(sort, 'Lastname, Prename')
-#
-#     def test_shell_friendly(self):
-#         self.meta.shell_friendly = True
-#         self.m['artist_sort'] = 'Lastname, Prename'
-#         safe, sort = self.meta.artistSafe(self.m)
-#         self.assertEqual(sort, 'Lastname_Prename')
-#
+
+class TestArtistSafeUnit(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta.albumartist_credit = u''
+        self.meta.albumartist_sort = u''
+        self.meta.albumartist = u''
+        self.meta.artist_credit = u''
+        self.meta.artist_sort = u''
+        self.meta.artist = u''
+
+    def assertArtistSort(self, key):
+        setattr(self.meta, key, key)
+        self.assertEqual(self.meta.artistsafe, key)
+        self.assertEqual(self.meta.artistsafe_sort, key)
+
+    def test_unkown(self):
+        self.assertEqual(self.meta.artistsafe, u'Unknown')
+        self.assertEqual(self.meta.artistsafe_sort, u'Unknown')
+
+    def test_albumartist_credit(self):
+        self.assertArtistSort('albumartist_credit')
+    
+    def test_albumartist_sort(self):
+        self.assertArtistSort('albumartist_sort')
+
+    def test_albumartist(self):
+        self.assertArtistSort('albumartist')
+
+    def test_artist_credit(self):
+        self.assertArtistSort('artist_credit')
+
+    def test_artist_sort(self):
+        self.assertArtistSort('artist_sort')
+
+    def test_artist(self):
+        self.assertArtistSort('artist')
+
+    def test_artist__artist_sort(self):
+        self.meta.artist = 'artist'
+        self.meta.artist_sort = 'artist_sort'
+        self.assertEqual(self.meta.artistsafe, 'artist')
+        self.assertEqual(self.meta.artistsafe_sort, 'artist_sort')
+
+    def test_albumartist__artist__artist_sort(self):
+        self.meta.albumartist = 'albumartist'
+        self.meta.artist = 'artist'
+        self.meta.artist_sort = 'artist_sort'
+        self.assertEqual(self.meta.artistsafe, 'albumartist')
+        self.assertEqual(self.meta.artistsafe_sort, 'artist_sort')
+
+    def test_artist__albumartist_sort__artist_sort(self):
+        self.meta.albumartist_sort = 'albumartist_sort'
+        self.meta.artist = 'artist'
+        self.meta.artist_sort = 'artist_sort'
+        self.assertEqual(self.meta.artistsafe, 'artist')
+        self.assertEqual(self.meta.artistsafe_sort, 'albumartist_sort')
+
+    def test_shell_unfriendly(self):
+        self.meta.args.shell_friendly = False
+        self.meta.artist_sort = 'Lastname, Prename'
+        self.assertEqual(self.meta.artistsafe_sort, 'Lastname, Prename')
+
+    def test_shell_friendly(self):
+        self.meta.args.shell_friendly = True
+        self.meta.artist_sort = 'Lastname, Prename'
+        self.assertEqual(self.meta.artistsafe_sort, 'Lastname_Prename')
+
 #
 # class TestYearSafeUnit(unittest.TestCase):
 #

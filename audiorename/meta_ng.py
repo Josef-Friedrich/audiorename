@@ -343,10 +343,13 @@ class MetaNG(MediaFile):
             return self.albumartist_credit
         elif self.artist_credit:
             return self.artist_credit
-        elif self.artistsafe_sort:
-            return self.artistsafe_sort
+        # Same as aristsafe_sort
+        elif self.albumartist_sort:
+            return self.albumartist_sort
+        elif self.artist_sort:
+            return self.artist_sort
         else:
-            return u'Unkown'
+            return u'Unknown'
 
     @property
     def artistsafe_sort(self):
@@ -355,10 +358,17 @@ class MetaNG(MediaFile):
             out = self.albumartist_sort
         elif self.artist_sort:
             out = self.artist_sort
-        elif self.artistsafe:
-            out = self.artistsafe
+        # Same as artistsafe
+        elif self.albumartist:
+            out = self.albumartist
+        elif self.artist:
+            out = self.artist
+        elif self.albumartist_credit:
+            out = self.albumartist_credit
+        elif self.artist_credit:
+            out = self.artist_credit
         else:
-            out = u'Unkown'
+            out = u'Unknown'
 
         if self.args.shell_friendly:
             out = out.replace(', ', '_')
