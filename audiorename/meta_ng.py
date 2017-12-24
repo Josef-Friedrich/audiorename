@@ -54,18 +54,6 @@ class Meta(object):
 
         return meta
 
-    def sanitize(self, meta):
-        output = {}
-        for key, value in meta.items():
-            if isinstance(value, str) or \
-                    (six.PY2 and isinstance(value, unicode)) or \
-                    (six.PY3 and isinstance(value, bytes)):
-                value = Functions.tmpl_sanitize(value)
-                value = re.sub(r'\s{2,}', ' ', value)
-
-            output[key] = value
-        return output
-
     def getMeta(self):
         meta = self.getMediaFile()
 
@@ -83,6 +71,10 @@ class MetaNG(MediaFile):
     def __init__(self, path, args=False):
         super(MetaNG, self).__init__(path, False)
         self.args = args
+
+###############################################################################
+# Static methods
+###############################################################################
 
     @staticmethod
     def initials(value):
@@ -135,6 +127,19 @@ class MetaNG(MediaFile):
             count = count + 1
 
         return out[len(separator):]
+
+    @staticmethod
+    def sanitize(value):
+        if isinstance(value, str) or \
+                (six.PY2 and isinstance(value, unicode)) or \
+                (six.PY3 and isinstance(value, bytes)):
+            value = Functions.tmpl_sanitize(value)
+            value = re.sub(r'\s{2,}', ' ', value)
+        return value
+
+###############################################################################
+# Properties
+###############################################################################
 
     @property
     def album_classical(self):

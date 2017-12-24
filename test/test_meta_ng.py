@@ -336,7 +336,8 @@ class TestPropertyYearSafe(unittest.TestCase):
 # Static methods
 ###############################################################################
 
-class TestStaticMethodNormalizePerformerUnit(unittest.TestCase):
+
+class TestStaticMethodNormalizePerformer(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta(['files', 'album.mp3'])
@@ -354,7 +355,7 @@ class TestStaticMethodNormalizePerformerUnit(unittest.TestCase):
         self.assertEqual(out, [])
 
 
-class TestStaticMethodPerformerShortenUnit(unittest.TestCase):
+class TestStaticMethodPerformerShorten(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta(['files', 'album.mp3'])
@@ -378,6 +379,21 @@ class TestStaticMethodPerformerShortenUnit(unittest.TestCase):
                                        separator=u'',
                                        abbreviation=u'')
         self.assertEqual(s, u'LudvanBee')
+
+
+class TestStaticMethodSanitize(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+
+    def test_slash(self):
+        self.assertEqual(self.meta.sanitize(u'lol/lol'), u'lollol')
+
+    def test_whitespaces(self):
+        self.assertEqual(self.meta.sanitize(u'lol  lol'), u'lol lol')
+
+    def test_list(self):
+        self.assertEqual(self.meta.sanitize([]), [])
 
 
 ###############################################################################
