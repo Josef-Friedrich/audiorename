@@ -7,7 +7,6 @@ import re
 from phrydy import MediaFile
 from tmep import Functions
 import six
-import musicbrainzngs
 
 
 def roman_to_int(n):
@@ -21,32 +20,6 @@ def roman_to_int(n):
             result += integer
             i += len(numeral)
     return result
-
-
-def get_toplevel_work(work_id):
-
-    musicbrainzngs.set_useragent(
-        "audiorename",
-        "1.0.8",
-        "https://github.com/Josef-Friedrich/audiorename",
-    )
-
-    try:
-        result = musicbrainzngs.get_work_by_id(work_id, includes=['work-rels'])
-        print(result['work']['work-relation-list'])
-
-        relation_list = result['work']['work-relation-list']
-
-        for relation in relation_list:
-            print('\n\n')
-            print(relation)
-            print('Title: ' + relation['work']['title'])
-
-    except musicbrainzngs.ResponseError as err:
-        if err.cause.code == 404:
-            print("Work not found")
-        else:
-            print("received bad response from the MB server")
 
 
 """
