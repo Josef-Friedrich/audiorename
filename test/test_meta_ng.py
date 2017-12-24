@@ -452,184 +452,168 @@ class TestAllPropertiesWagner(unittest.TestCase):
         self.assertEqual(self.meta.title_classical, 'Vorspiel')
 
 
-#
-# class TestClassical(unittest.TestCase):
-#
-#     def setUp(self):
-#         self.mozart = get_classical([
-#             'Mozart_Horn-concertos',
-#             '01.mp3'
-#         ])
-#
-#         self.mozart2 = get_classical([
-#             'Mozart_Horn-concertos',
-#             '02.mp3'
-#         ])
-#
-#         self.schubert = get_classical([
-#             'Schubert_Winterreise',
-#             '01.mp3'
-#         ])
-#         self.tschaikowski = get_classical([
-#             'Tschaikowski_Swan-Lake',
-#             '1-01.mp3'
-#         ])
-#         self.wagner = get_classical([
-#             'Wagner_Meistersinger',
-#             '01.mp3'
-#         ])
-#
-#     # album_classical
-#     def test_album_classical_mozart(self):
-#         self.assertEqual(
-#             self.mozart['album_classical'],
-#             u'Concerto for French Horn no. 1 in D major, K. 386b KV 412'
-#         )
-#
-#     def test_album_classical_schubert(self):
-#         self.assertEqual(
-#             self.schubert['album_classical'],
-#             u'Die Winterreise, op. 89, D. 911'
-#         )
-#
-#     def test_album_classical_tschaikowski(self):
-#         self.assertEqual(
-#             self.tschaikowski['album_classical'],
-#             u'Swan Lake, op. 20'
-#         )
-#
-#     def test_album_classical_wagner(self):
-#         self.assertEqual(
-#             self.wagner['album_classical'],
-#             u'Die Meistersinger von N\xfcrnberg'
-#         )
-#
-#     # composer_initial
-#     def test_composer_initial_mozart(self):
-#         self.assertEqual(self.mozart['composer_initial'], u'm')
-#
-#     def test_composer_initial_schubert(self):
-#         self.assertEqual(self.schubert['composer_initial'], u's')
-#
-#     def test_composer_initial_tschaikowski(self):
-#         self.assertEqual(self.tschaikowski['composer_initial'], u't')
-#
-#     def test_composer_initial_wagner(self):
-#         self.assertEqual(self.wagner['composer_initial'], u'w')
-#
-#     # composer_safe
-#     def test_composer_safe_mozart(self):
-#         self.assertEqual(
-#             self.mozart['composer_safe'],
-#             u'Mozart, Wolfgang Amadeus'
-#         )
-#
-#     def test_composer_safe_mozart2(self):
-#         self.assertEqual(
-#             self.mozart2['composer_safe'],
-#             u'Mozart, Wolfgang Amadeus'
-#         )
-#
-#     def test_composer_safe_schubert(self):
-#         self.assertEqual(
-#             self.schubert['composer_safe'],
-#             u'Schubert, Franz'
-#         )
-#
-#     def test_composer_safe_tschaikowski(self):
-#         self.assertEqual(
-#             self.tschaikowski['composer_safe'],
-#             u'Tchaikovsky, Pyotr Ilyich'
-#         )
-#
-#     def test_composer_safe_wagner(self):
-#         self.assertEqual(
-#             self.wagner['composer_safe'],
-#             u'Wagner, Richard'
-#         )
-#
-#     # composer_sort
-#     def test_composer_sort_mozart(self):
-#         self.assertEqual(
-#             self.mozart['composer_sort'],
-#             u'Mozart, Wolfgang Amadeus'
-#         )
-#
-#     def test_composer_sort_schubert(self):
-#         self.assertEqual(
-#             self.schubert['composer_sort'],
-#             u'Schubert, Franz'
-#         )
-#
-#     def test_composer_sort_tschaikowski(self):
-#         self.assertEqual(
-#             self.tschaikowski['composer_sort'],
-#             u'Tchaikovsky, Pyotr Ilyich'
-#         )
-#
-#     def test_composer_sort_wagner(self):
-#         self.assertEqual(
-#             self.wagner['composer_sort'],
-#             u'Wagner, Richard'
-#         )
-#
-#     # performer_classical
-#     def test_performer_classical_mozart(self):
-#         self.assertEqual(
-#             self.mozart['performer_classical'],
-#             u'OrpChaOrc'
-#         )
-#
-#     def test_performer_classical_schubert(self):
-#         self.assertEqual(
-#             self.schubert['performer_classical'],
-#             u'Fischer-Dieskau, Moore'
-#         )
-#
-#     def test_performer_classical_tschaikowski(self):
-#         self.assertEqual(
-#             self.tschaikowski['performer_classical'],
-#             u'Svetlanov, StaAcaSym'
-#         )
-#
-#     def test_performer_classical_wagner(self):
-#         self.assertEqual(
-#             self.wagner['performer_classical'],
-#             u'Karajan, StaDre, StaDre'
-#         )
-#
-#     # title_classical
-#     def test_title_classical_mozart(self):
-#         self.assertEqual(self.mozart['title_classical'], u'I. Allegro')
-#
-#     def test_title_classical_schubert(self):
-#         self.assertEqual(
-#             self.schubert['title_classical'], u'Gute Nacht')
-#
-#     def test_title_classical_tschaikowski(self):
-#         self.assertEqual(
-#             self.tschaikowski['title_classical'],
-#             u'Introduction. Moderato assai - Allegro, ma non troppo -
-#               Tempo I'
-#         )
-#
-#     def test_title_classical_wagner(self):
-#         self.assertEqual(
-#             self.wagner['title_classical'], u'Vorspiel')
-#
-#     # track_classical
-#     def test_track_classical_mozart(self):
-#         self.assertEqual(self.mozart['track_classical'], u'01')
-#
-#     def test_track_classical_schubert(self):
-#         self.assertEqual(self.schubert['track_classical'], u'01')
-#
-#     def test_track_classical_tschaikowski(self):
-#         self.assertEqual(self.tschaikowski['track_classical'], u'1-01')
-#
-#     def test_track_classical_wagner(self):
-#         self.assertEqual(self.wagner['track_classical'], u'1-01')
-#
+class TestClassical(unittest.TestCase):
+
+    def setUp(self):
+        self.mozart = get_meta(['classical', 'Mozart_Horn-concertos',
+                               '01.mp3'])
+        self.mozart2 = get_meta(['classical', 'Mozart_Horn-concertos',
+                                '02.mp3'])
+        self.schubert = get_meta(['classical', 'Schubert_Winterreise',
+                                 '01.mp3'])
+        self.tschaikowski = get_meta(['classical', 'Tschaikowski_Swan-Lake',
+                                     '1-01.mp3'])
+        self.wagner = get_meta(['classical', 'Wagner_Meistersinger', '01.mp3'])
+
+    # album_classical
+    def test_album_classical_mozart(self):
+        self.assertEqual(
+            self.mozart.album_classical,
+            u'Concerto for French Horn no. 1 in D major, K. 386b / KV 412'
+        )
+
+    def test_album_classical_schubert(self):
+        self.assertEqual(
+            self.schubert.album_classical,
+            u'Die Winterreise, op. 89, D. 911'
+        )
+
+    def test_album_classical_tschaikowski(self):
+        self.assertEqual(
+            self.tschaikowski.album_classical,
+            u'Swan Lake, op. 20'
+        )
+
+    def test_album_classical_wagner(self):
+        self.assertEqual(
+            self.wagner.album_classical,
+            u'Die Meistersinger von N\xfcrnberg'
+        )
+
+    # composer_initial
+    def test_composer_initial_mozart(self):
+        self.assertEqual(self.mozart.composer_initial, u'm')
+
+    def test_composer_initial_schubert(self):
+        self.assertEqual(self.schubert.composer_initial, u's')
+
+    def test_composer_initial_tschaikowski(self):
+        self.assertEqual(self.tschaikowski.composer_initial, u't')
+
+    def test_composer_initial_wagner(self):
+        self.assertEqual(self.wagner.composer_initial, u'w')
+
+    # composer_safe
+    def test_composer_safe_mozart(self):
+        self.assertEqual(
+            self.mozart.composer_safe,
+            u'Mozart, Wolfgang Amadeus'
+        )
+
+    def test_composer_safe_mozart2(self):
+        self.assertEqual(
+            self.mozart2.composer_safe,
+            u'Mozart, Wolfgang Amadeus'
+        )
+
+    def test_composer_safe_schubert(self):
+        self.assertEqual(
+            self.schubert.composer_safe,
+            u'Schubert, Franz'
+        )
+
+    def test_composer_safe_tschaikowski(self):
+        self.assertEqual(
+            self.tschaikowski.composer_safe,
+            u'Tchaikovsky, Pyotr Ilyich'
+        )
+
+    def test_composer_safe_wagner(self):
+        self.assertEqual(
+            self.wagner.composer_safe,
+            u'Wagner, Richard'
+        )
+
+    # composer_sort
+    def test_composer_sort_mozart(self):
+        self.assertEqual(
+            self.mozart.composer_sort,
+            u'Mozart, Wolfgang Amadeus'
+        )
+
+    def test_composer_sort_schubert(self):
+        self.assertEqual(
+            self.schubert.composer_sort,
+            u'Schubert, Franz'
+        )
+
+    def test_composer_sort_tschaikowski(self):
+        self.assertEqual(
+            self.tschaikowski.composer_sort,
+            u'Tchaikovsky, Pyotr Ilyich'
+        )
+
+    def test_composer_sort_wagner(self):
+        self.assertEqual(
+            self.wagner.composer_sort,
+            u'Wagner, Richard'
+        )
+
+    # performer_classical
+    def test_performer_classical_mozart(self):
+        self.assertEqual(
+            self.mozart.performer_classical,
+            u'OrpChaOrc'
+        )
+
+    def test_performer_classical_schubert(self):
+        self.assertEqual(
+            self.schubert.performer_classical,
+            u'Fischer-Dieskau, Moore'
+        )
+
+    def test_performer_classical_tschaikowski(self):
+        self.assertEqual(
+            self.tschaikowski.performer_classical,
+            u'Svetlanov, StaAcaSym'
+        )
+
+    def test_performer_classical_wagner(self):
+        self.assertEqual(
+            self.wagner.performer_classical,
+            u'Karajan, StaDre, StaDre'
+        )
+
+    # title_classical
+    def test_title_classical_mozart(self):
+        self.assertEqual(self.mozart.title_classical, u'I. Allegro')
+
+    def test_title_classical_schubert(self):
+        self.assertEqual(
+            self.schubert.title_classical, u'Gute Nacht')
+
+    def test_title_classical_tschaikowski(self):
+        self.assertEqual(
+            self.tschaikowski.title_classical,
+            u'Introduction. Moderato assai - Allegro, ma non troppo - Tempo I'
+        )
+
+    def test_title_classical_wagner(self):
+        self.assertEqual(
+            self.wagner.title_classical, u'Vorspiel')
+
+    # track_classical
+    def test_track_classical_mozart(self):
+        self.assertEqual(self.mozart.track_classical, u'01')
+
+    def test_track_classical_schubert(self):
+        self.assertEqual(self.schubert.track_classical, u'01')
+
+    def test_track_classical_tschaikowski(self):
+        self.assertEqual(self.tschaikowski.track_classical, u'1-01')
+
+    def test_track_classical_wagner(self):
+        self.assertEqual(self.wagner.track_classical, u'1-01')
 
 
 if __name__ == '__main__':
