@@ -11,30 +11,56 @@ def get_meta(path_list):
     return Meta(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                 *path_list), ArgsDefault())
 
+###############################################################################
+# Properties
+###############################################################################
 
-class TestMeta(unittest.TestCase):
+
+# album_clean
+class TestPropertyAlbumClean(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['real-world', 'h', 'Hines_Earl',
-                              'Just-Friends_1989', '06_Indian-Summer.mp3'])
+        self.meta = get_meta(['files', 'album.mp3'])
 
-    def test_artistsafe(self):
-        self.assertEqual(self.meta.artistsafe, u'Earl Hines')
+    def assertAlbumClean(self, album, compare=u'Lorem ipsum'):
+        self.meta.album = album
+        self.assertEqual(self.meta.album_clean, compare)
 
-    def test_artistsafe_sort(self):
-        self.assertEqual(self.meta.artistsafe_sort, u'Hines, Earl')
+    def test_disc_removal(self):
+        self.assertAlbumClean('Lorem ipsum (Disc 1)')
+        self.assertAlbumClean('Lorem ipsum(Disc 1)')
+        self.assertAlbumClean('Lorem ipsum (Disc)')
+        self.assertAlbumClean('Lorem ipsum (Disk 100)')
+        self.assertAlbumClean('Lorem ipsum (disk99)')
 
-    def test_year_safe(self):
-        self.assertEqual(self.meta.year_safe, '1989')
+    def test_empty(self):
+        self.assertAlbumClean('', '')
 
-    def test_artist_initial(self):
-        self.assertEqual(self.meta.artist_initial, u'h')
+    def test_real_world(self):
+        meta = get_meta(['real-world', '_compilations', 't',
+                         'The-Greatest-No1s-of-the-80s_1994',
+                         '2-09_Respectable.mp3'])
+        self.assertEqual(meta.album_clean, u'The Greatest No.1s of the 80s')
 
-    def test_album_initial(self):
-        self.assertEqual(self.meta.album_initial, u'j')
+
+# artistsafe (integration)
+class TestPropertyArtistSafe(unittest.TestCase):
+
+    def test_artist(self):
+        meta = get_meta(['meta', 'artist.mp3'])
+        self.assertEqual(meta.artistsafe, u'artist')
+
+    def test_artist_sort(self):
+        meta = get_meta(['meta', 'artist_sort.mp3'])
+        self.assertEqual(meta.artistsafe_sort, u'artist_sort')
+
+    def test_albumartist(self):
+        meta = get_meta(['meta', 'albumartist.mp3'])
+        self.assertEqual(meta.artistsafe, u'albumartist')
 
 
-class TestArtistSafeUnit(unittest.TestCase):
+# artistsafe (unit)
+class TestPropertyArtistSafeUnit(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta(['files', 'album.mp3'])
@@ -103,46 +129,23 @@ class TestArtistSafeUnit(unittest.TestCase):
         self.assertEqual(self.meta.artistsafe_sort, 'Lastname_Prename')
 
 
-class TestYearSafeUnit(unittest.TestCase):
+# disctrack (integration)
+class TestPropertyDiskTrack(unittest.TestCase):
 
-    def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
-        self.meta.year = None
-        self.meta.original_year = None
+    def test_single_disc(self):
+        meta = get_meta(['real-world', 'e', 'Everlast', 'Eat-At-Whiteys_2000',
+                         '02_Black-Jesus.mp3'])
+        self.assertEqual(meta.disctrack, u'02')
 
-    def test_empty(self):
-        self.assertEqual(self.meta.year_safe, '')
-
-    def test_year(self):
-        self.meta.year = 1978
-        self.assertEqual(self.meta.year_safe, '1978')
-
-    def test_original_year(self):
-        self.meta.original_year = 1978
-        self.assertEqual(self.meta.year_safe, '1978')
-
-    def test_year__original_year(self):
-        self.meta.year = 2016
-        self.meta.original_year = 1978
-        self.assertEqual(self.meta.year_safe, '1978')
+    def test_double_disk(self):
+        meta = get_meta(['real-world', '_compilations', 't',
+                         'The-Greatest-No1s-of-the-80s_1994',
+                         '2-09_Respectable.mp3'])
+        self.assertEqual(meta.disctrack, u'2-09')
 
 
-class TestArtistSafe(unittest.TestCase):
-
-    def test_artist(self):
-        meta = get_meta(['meta', 'artist.mp3'])
-        self.assertEqual(meta.artistsafe, u'artist')
-
-    def test_artist_sort(self):
-        meta = get_meta(['meta', 'artist_sort.mp3'])
-        self.assertEqual(meta.artistsafe_sort, u'artist_sort')
-
-    def test_albumartist(self):
-        meta = get_meta(['meta', 'albumartist.mp3'])
-        self.assertEqual(meta.artistsafe, u'albumartist')
-
-
-class TestDiskTrackUnit(unittest.TestCase):
+# disctrack (unit)
+class TestPropertyDiskTrackUnit(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta(['files', 'album.mp3'])
@@ -201,47 +204,80 @@ class TestDiskTrackUnit(unittest.TestCase):
         self.assertEqual(self.meta.disctrack, u'002-04')
 
 
-class TestDiskTrack(unittest.TestCase):
+# performer*
+class TestPropertyPerformerDifferentFormats(unittest.TestCase):
 
-    def test_single_disc(self):
-        meta = get_meta(['real-world', 'e', 'Everlast', 'Eat-At-Whiteys_2000',
-                         '02_Black-Jesus.mp3'])
-        self.assertEqual(meta.disctrack, u'02')
+    def getMeta(self, extension):
+        return get_meta(['performers', 'blank.' + extension])
 
-    def test_double_disk(self):
-        meta = get_meta(['real-world', '_compilations', 't',
-                         'The-Greatest-No1s-of-the-80s_1994',
-                         '2-09_Respectable.mp3'])
-        self.assertEqual(meta.disctrack, u'2-09')
+    def assertPerformer(self, meta):
+        raw = meta.performer_raw
+        self.assertEqual(raw[0][0], u'conductor')
+        self.assertEqual(raw[0][1], u'Fabio Luisi')
+        self.assertEqual(raw[1][0], u'orchestra')
+        self.assertEqual(raw[1][1], u'Wiener Symphoniker')
+        self.assertEqual(raw[2][0], u'soprano vocals')
+        self.assertEqual(raw[2][1], u'Elena Filipova')
+        self.assertEqual(raw[3][0], u'choir vocals')
+        self.assertEqual(raw[3][1], u'Chor der Wiener Volksoper')
+
+        self.assertEqual(meta.performer, u'Fabio Luisi, Wiener ' +
+                         u'Symphoniker, Elena Filipova, Chor der Wiener ' +
+                         u'Volksoper')
+        self.assertEqual(meta.performer_short, u'Luisi, WieSym')
+
+        self.assertEqual(meta.performer_classical, u'Luisi, WieSym')
+
+    def test_flac(self):
+        meta = self.getMeta('flac')
+        self.assertPerformer(meta)
+
+    def test_mp3(self):
+        meta = self.getMeta('mp3')
+        self.assertPerformer(meta)
+
+    def test_ogg(self):
+        meta = self.getMeta('ogg')
+        self.assertPerformer(meta)
 
 
-class TestAlbumClean(unittest.TestCase):
+# track_classical
+class TestPropertyTrackClassical(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta(['files', 'album.mp3'])
 
-    def assertAlbumClean(self, album, compare=u'Lorem ipsum'):
-        self.meta.album = album
-        self.assertEqual(self.meta.album_clean, compare)
+    def assertRoman(self, roman, arabic):
+        self.assertEqual(roman_to_int(roman), arabic)
 
-    def test_disc_removal(self):
-        self.assertAlbumClean('Lorem ipsum (Disc 1)')
-        self.assertAlbumClean('Lorem ipsum(Disc 1)')
-        self.assertAlbumClean('Lorem ipsum (Disc)')
-        self.assertAlbumClean('Lorem ipsum (Disk 100)')
-        self.assertAlbumClean('Lorem ipsum (disk99)')
+    def test_roman_to_int(self):
+        self.assertRoman('I', 1)
+        self.assertRoman('II', 2)
+        self.assertRoman('III', 3)
+        self.assertRoman('IV', 4)
+        self.assertRoman('V', 5)
+        self.assertRoman('VI', 6)
+        self.assertRoman('VII', 7)
+        self.assertRoman('VIII', 8)
+        self.assertRoman('IX', 9)
+        self.assertRoman('X', 10)
+        self.assertRoman('XI', 11)
+        self.assertRoman('XII', 12)
 
-    def test_empty(self):
-        self.assertAlbumClean('', '')
+    def assertTrack(self, title, compare):
+        self.meta.title = title
+        self.assertEqual(self.meta.track_classical, compare)
 
-    def test_real_world(self):
-        meta = get_meta(['real-world', '_compilations', 't',
-                         'The-Greatest-No1s-of-the-80s_1994',
-                         '2-09_Respectable.mp3'])
-        self.assertEqual(meta.album_clean, u'The Greatest No.1s of the 80s')
+    def test_function(self):
+        self.assertTrack('III. Credo', u'03')
+        self.assertTrack('III Credo', '4-02')
+        self.assertTrack('Credo', '4-02')
+        self.meta.track = 123
+        self.assertEqual(self.meta.track_classical, '4-123')
 
 
-class TestWork(unittest.TestCase):
+# work (integration)
+class TestPropertyWork(unittest.TestCase):
 
     def test_work(self):
         meta = get_meta(['classical', 'Mozart_Horn-concertos', '01.mp3'])
@@ -256,19 +292,149 @@ class TestWork(unittest.TestCase):
         )
         self.assertEqual(meta.composer_sort, u'Mozart, Wolfgang Amadeus')
 
-#
-# class TestClassicalUnit(unittest.TestCase):
-#
-#     def setUp(self):
-#         from audiorename import meta
-#         self.meta = meta.Meta()
-#
-#     def test_classical_title(self):
-#         self.assertEqual(self.meta.titleClassical('work: title'), 'title')
-#         self.assertEqual(self.meta.titleClassical('work: work: title'),
-#                          'work: title')
-#         self.assertEqual(self.meta.titleClassical('title'), 'title')
-#
+
+# work (unit)
+class TestPropertyWorkUnit(unittest.TestCase):
+
+    def setUp(self):
+        from audiorename import meta
+        self.meta = meta.Meta()
+
+    def test_classical_title(self):
+        self.assertEqual(self.meta.titleClassical('work: title'), 'title')
+        self.assertEqual(self.meta.titleClassical('work: work: title'),
+                         'work: title')
+        self.assertEqual(self.meta.titleClassical('title'), 'title')
+
+
+# year_safe
+class TestPropertyYearSafe(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta.year = None
+        self.meta.original_year = None
+
+    def test_empty(self):
+        self.assertEqual(self.meta.year_safe, '')
+
+    def test_year(self):
+        self.meta.year = 1978
+        self.assertEqual(self.meta.year_safe, '1978')
+
+    def test_original_year(self):
+        self.meta.original_year = 1978
+        self.assertEqual(self.meta.year_safe, '1978')
+
+    def test_year__original_year(self):
+        self.meta.year = 2016
+        self.meta.original_year = 1978
+        self.assertEqual(self.meta.year_safe, '1978')
+
+
+###############################################################################
+# Static methods
+###############################################################################
+
+class TestStaticMethodNormalizePerformerUnit(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+
+    def test_unit_normalize_performer(self):
+        out = self.meta.normalizePerformer([u'John Lennon (vocals)',
+                                           u'Ringo Starr (drums)'])
+        self.assertEqual(out[0][0], u'vocals')
+        self.assertEqual(out[0][1], u'John Lennon')
+        self.assertEqual(out[1][0], u'drums')
+        self.assertEqual(out[1][1], u'Ringo Starr')
+
+    def test_unit_normalize_performer_string(self):
+        out = self.meta.normalizePerformer(u'Ludwig van Beethoven')
+        self.assertEqual(out, [])
+
+
+class TestStaticMethodPerformerShortenUnit(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+
+    def test_performer_shorten(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven')
+        self.assertEqual(s, u'Lud. van Bee.')
+
+    def test_performer_shorten_option_separator(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
+                                       separator=u'--')
+        self.assertEqual(s, u'Lud.--van--Bee.')
+
+    def test_performer_shorten_option_abbreviation(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
+                                       abbreviation=u'_')
+        self.assertEqual(s, u'Lud_ van Bee_')
+
+    def test_performer_shorten_option_all(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
+                                       separator=u'',
+                                       abbreviation=u'')
+        self.assertEqual(s, u'LudvanBee')
+
+
+###############################################################################
+# All properties
+###############################################################################
+
+
+class TestMeta(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['real-world', 'h', 'Hines_Earl',
+                              'Just-Friends_1989', '06_Indian-Summer.mp3'])
+
+    def test_artistsafe(self):
+        self.assertEqual(self.meta.artistsafe, u'Earl Hines')
+
+    def test_artistsafe_sort(self):
+        self.assertEqual(self.meta.artistsafe_sort, u'Hines, Earl')
+
+    def test_year_safe(self):
+        self.assertEqual(self.meta.year_safe, '1989')
+
+    def test_artist_initial(self):
+        self.assertEqual(self.meta.artist_initial, u'h')
+
+    def test_album_initial(self):
+        self.assertEqual(self.meta.album_initial, u'j')
+
+
+class TestMetaNG(unittest.TestCase):
+
+    def test_meta(self):
+        meta = get_meta(['classical', 'Wagner_Meistersinger', '01.mp3'])
+
+        self.assertEqual(meta.album_classical,
+                         u'Die Meistersinger von Nürnberg')
+        self.assertEqual(meta.album_clean,
+                         u'Die Meistersinger von Nürnberg')
+        self.assertEqual(meta.album_initial, u'd')
+        self.assertEqual(
+            meta.artistsafe,
+            u'Richard Wagner; René Kollo, Helen Donath, Theo Adam, Geraint ' +
+            'Evans, Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der ' +
+            'Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle ' +
+            'Dresden, Herbert von Karajan')
+        self.assertEqual(
+            meta.artistsafe_sort,
+            u'Wagner, Richard; Kollo, René, Donath, Helen, Adam, Theo, ' +
+            'Evans, Geraint, Schreier, Peter, Hesse, Ruth, Ridderbusch, ' +
+            'Karl, Chor der Staatsoper Dresden, MDR Rundfunkchor Leipzig, ' +
+            'Staatskapelle Dresden, Karajan, Herbert von')
+        self.assertEqual(meta.composer_safe, u'Wagner, Richard')
+        self.assertEqual(meta.composer_initial, u'w')
+        self.assertEqual(meta.disctrack, u'1-01')
+        self.assertEqual(meta.title_classical, 'Vorspiel')
+
+
 #
 # class TestClassical(unittest.TestCase):
 #
@@ -447,148 +613,6 @@ class TestWork(unittest.TestCase):
 #     def test_track_classical_wagner(self):
 #         self.assertEqual(self.wagner['track_classical'], u'1-01')
 #
-
-
-class TestTrackClassical(unittest.TestCase):
-
-    def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
-
-    def assertRoman(self, roman, arabic):
-        self.assertEqual(roman_to_int(roman), arabic)
-
-    def test_roman_to_int(self):
-        self.assertRoman('I', 1)
-        self.assertRoman('II', 2)
-        self.assertRoman('III', 3)
-        self.assertRoman('IV', 4)
-        self.assertRoman('V', 5)
-        self.assertRoman('VI', 6)
-        self.assertRoman('VII', 7)
-        self.assertRoman('VIII', 8)
-        self.assertRoman('IX', 9)
-        self.assertRoman('X', 10)
-        self.assertRoman('XI', 11)
-        self.assertRoman('XII', 12)
-
-    def assertTrack(self, title, compare):
-        self.meta.title = title
-        self.assertEqual(self.meta.track_classical, compare)
-
-    def test_function(self):
-        self.assertTrack('III. Credo', u'03')
-        self.assertTrack('III Credo', '4-02')
-        self.assertTrack('Credo', '4-02')
-        self.meta.track = 123
-        self.assertEqual(self.meta.track_classical, '4-123')
-
-
-class TestPropertyPerformerDifferentFormats(unittest.TestCase):
-
-    def getMeta(self, extension):
-        return get_meta(['performers', 'blank.' + extension])
-
-    def assertPerformer(self, meta):
-        raw = meta.performer_raw
-        self.assertEqual(raw[0][0], u'conductor')
-        self.assertEqual(raw[0][1], u'Fabio Luisi')
-        self.assertEqual(raw[1][0], u'orchestra')
-        self.assertEqual(raw[1][1], u'Wiener Symphoniker')
-        self.assertEqual(raw[2][0], u'soprano vocals')
-        self.assertEqual(raw[2][1], u'Elena Filipova')
-        self.assertEqual(raw[3][0], u'choir vocals')
-        self.assertEqual(raw[3][1], u'Chor der Wiener Volksoper')
-
-        self.assertEqual(meta.performer, u'Fabio Luisi, Wiener ' +
-                         u'Symphoniker, Elena Filipova, Chor der Wiener ' +
-                         u'Volksoper')
-        self.assertEqual(meta.performer_short, u'Luisi, WieSym')
-
-        self.assertEqual(meta.performer_classical, u'Luisi, WieSym')
-
-    def test_flac(self):
-        meta = self.getMeta('flac')
-        self.assertPerformer(meta)
-
-    def test_mp3(self):
-        meta = self.getMeta('mp3')
-        self.assertPerformer(meta)
-
-    def test_ogg(self):
-        meta = self.getMeta('ogg')
-        self.assertPerformer(meta)
-
-
-class TestStaticMethodNormalizePerformerUnit(unittest.TestCase):
-
-    def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
-
-    def test_unit_normalize_performer(self):
-        out = self.meta.normalizePerformer([u'John Lennon (vocals)',
-                                           u'Ringo Starr (drums)'])
-        self.assertEqual(out[0][0], u'vocals')
-        self.assertEqual(out[0][1], u'John Lennon')
-        self.assertEqual(out[1][0], u'drums')
-        self.assertEqual(out[1][1], u'Ringo Starr')
-
-    def test_unit_normalize_performer_string(self):
-        out = self.meta.normalizePerformer(u'Ludwig van Beethoven')
-        self.assertEqual(out, [])
-
-
-class TestStaticMethodPerformerShortenUnit(unittest.TestCase):
-
-    def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
-
-    def test_performer_shorten(self):
-        s = self.meta.shortenPerformer(u'Ludwig van Beethoven')
-        self.assertEqual(s, u'Lud. van Bee.')
-
-    def test_performer_shorten_option_separator(self):
-        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
-                                       separator=u'--')
-        self.assertEqual(s, u'Lud.--van--Bee.')
-
-    def test_performer_shorten_option_abbreviation(self):
-        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
-                                       abbreviation=u'_')
-        self.assertEqual(s, u'Lud_ van Bee_')
-
-    def test_performer_shorten_option_all(self):
-        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
-                                       separator=u'',
-                                       abbreviation=u'')
-        self.assertEqual(s, u'LudvanBee')
-
-
-class TestMetaNG(unittest.TestCase):
-
-    def test_meta(self):
-        meta = get_meta(['classical', 'Wagner_Meistersinger', '01.mp3'])
-
-        self.assertEqual(meta.album_classical,
-                         u'Die Meistersinger von Nürnberg')
-        self.assertEqual(meta.album_clean,
-                         u'Die Meistersinger von Nürnberg')
-        self.assertEqual(meta.album_initial, u'd')
-        self.assertEqual(
-            meta.artistsafe,
-            u'Richard Wagner; René Kollo, Helen Donath, Theo Adam, Geraint ' +
-            'Evans, Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der ' +
-            'Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle ' +
-            'Dresden, Herbert von Karajan')
-        self.assertEqual(
-            meta.artistsafe_sort,
-            u'Wagner, Richard; Kollo, René, Donath, Helen, Adam, Theo, ' +
-            'Evans, Geraint, Schreier, Peter, Hesse, Ruth, Ridderbusch, ' +
-            'Karl, Chor der Staatsoper Dresden, MDR Rundfunkchor Leipzig, ' +
-            'Staatskapelle Dresden, Karajan, Herbert von')
-        self.assertEqual(meta.composer_safe, u'Wagner, Richard')
-        self.assertEqual(meta.composer_initial, u'w')
-        self.assertEqual(meta.disctrack, u'1-01')
-        self.assertEqual(meta.title_classical, 'Vorspiel')
 
 
 if __name__ == '__main__':
