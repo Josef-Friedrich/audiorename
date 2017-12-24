@@ -100,22 +100,20 @@ class Rename(object):
 
             self.old_path = os.path.realpath(self.old_file)
             self.extension = self.old_file.split('.')[-1]
-
-            meta = Meta(self.old_path, self.args.shell_friendly)
-            self.meta = meta.getMeta()
+            self.meta = Meta(self.old_path, self.args)
 
     def generateFilename(self):
-        if self.meta['comp'] and self.args.compilation:
+        if self.meta.comp and self.args.compilation:
             format_string = self.args.compilation
-        elif not self.meta['comp'] and self.args.format:
+        elif not self.meta.comp and self.args.format:
             format_string = self.args.format
         else:
             format_string = default_formats(self.args.classical,
-                                            self.meta['comp'])
+                                            self.meta.comp)
 
         t = Template(as_string(format_string))
-        f = Functions(self.meta)
-        new = t.substitute(self.meta, f.functions())
+        f = Functions(self.meta.__dict__)
+        new = t.substitute(self.meta.__dict__, f.functions())
         new = self.postTemplate(new)
         new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
         self.new_file = new
@@ -192,10 +190,10 @@ class Rename(object):
         self.processMessage(action=u'Dry run')
 
     def mbTrackListing(self):
-        m, s = divmod(self.meta['length'], 60)
+        m, s = divmod(self.meta.length, 60)
         mmss = '{:d}:{:02d}'.format(int(m), int(s))
-        output = '{:d}. {:s}: {:s} ({:s})'.format(counter, self.meta['album'],
-                                                  self.meta['title'], mmss)
+        output = '{:d}. {:s}: {:s} ({:s})'.format(counter, self.meta.album,
+                                                  self.meta.title, mmss)
         output = output.replace('Op.', 'op.')
         output = output.replace('- ', '')
         print(output)

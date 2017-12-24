@@ -72,6 +72,9 @@ fields = {
 """Documentation of the extra fields."""
 
 
+all_fields = pdoc.get_doc(additional_doc=fields)
+
+
 class ArgsDefault():
     """This is a dummy class. The code only exists to document the return
     value of the :func:`audiorename.args.parse_args`.  It can also be used

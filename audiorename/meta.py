@@ -22,149 +22,44 @@ def roman_to_int(n):
     return result
 
 
-"""
-:param str path: The absolute path of the audio file.
-:param bool shell_friendly: Generate shell friendly strings.
-"""
+class Meta(MediaFile):
 
+    def __init__(self, path, args=False):
+        super(Meta, self).__init__(path, False)
+        self.args = args
 
-class Meta(object):
+    def toDict(self):
+        return phrydy.doc.get_doc()
 
-    def __init__(self, path=False, shell_friendly=False):
-        self.path = path
-        self.shell_friendly = shell_friendly
+###############################################################################
+# Static methods
+###############################################################################
 
-    def getMediaFile(self):
-        """Use the ``MediaFile`` class of the package ``phrydy`` to retrieve all
-        metadata informations and save this values in a dictionary.
-        """
-        meta = {}
-        try:
-            meta['skip'] = False
-            self.media_file = MediaFile(self.path)
-            for key in MediaFile.readable_fields():
-                value = getattr(self.media_file, key)
-                if key != 'art':
-                    if not value:
-                        value = ''
-                    meta[key] = value
-
-        except phrydy.mediafile.UnreadableFileError:
-            meta['skip'] = True
-
-        return meta
-
-    def sanitize(self, meta):
-        output = {}
-        for key, value in meta.items():
-            if isinstance(value, str) or \
-                    (six.PY2 and isinstance(value, unicode)) or \
-                    (six.PY3 and isinstance(value, bytes)):
-                value = Functions.tmpl_sanitize(value)
-                value = re.sub(r'\s{2,}', ' ', value)
-
-            output[key] = value
-        return output
-
-    def initials(self, value):
+    @staticmethod
+    def initials(value):
         """
         :param str value: A string to extract the initials.
         """
         return value[0:1].lower()
 
-    def albumClassical(self, value):
-        """Example: ``Horn Concerto: I. Allegro``
-
-        :param str value: The title string.
+    @staticmethod
+    def normalizePerformer(performer):
         """
-        return re.sub(r':.*$', '', value)
+        :param list performer: A list of raw performer strings like
 
-    def albumClean(self, album):
+        .. code-block:: python
+
+            [u'John Lennon (vocals)', u'Ringo Starr (drums)']
+
+        :return: A list
+
+        .. code-block:: python
+
+            [
+                ['vocals', u'John Lennon'],
+                ['drums', u'Ringo Starr'],
+            ]
         """
-        :param str album: The text of the album.
-        """
-        album = re.sub(r' ?\([dD]is[ck].*\)$', '', album)
-        return album
-
-    def artistSafe(self, meta):
-        """
-        :param dict meta: A dictionary with meta informations.
-        """
-        safe = ''
-        if meta['albumartist']:
-            safe = meta['albumartist']
-        elif meta['artist']:
-            safe = meta['artist']
-        elif meta['albumartist_credit']:
-            safe = meta['albumartist_credit']
-        elif meta['artist_credit']:
-            safe = meta['artist_credit']
-
-        sort = ''
-        if meta['albumartist_sort']:
-            sort = meta['albumartist_sort']
-        elif meta['artist_sort']:
-            sort = meta['artist_sort']
-        if self.shell_friendly:
-            sort = sort.replace(', ', '_')
-
-        if not sort and not safe:
-            sort = safe = 'Unknown'
-
-        if not sort:
-            sort = safe
-
-        if not safe:
-            safe = sort
-
-        return safe, sort
-
-    def composerSafe(self, meta):
-        if meta['composer_sort']:
-            value = meta['composer_sort']
-        elif meta['composer']:
-            value = meta['composer']
-        else:
-            value = meta['artistsafe']
-
-        if self.shell_friendly:
-            value = value.replace(', ', '_')
-
-        # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
-        return re.sub(r' ?/.*', '', value)
-
-    def discTrack(self, meta):
-        """
-        Generate a combination of track and disc number, e. g.: ``1-04``,
-        ``3-06``.
-
-        :param dict meta: A dictionary with meta informations.
-        """
-        m = meta
-
-        if not m['track']:
-            return ''
-
-        if m['disctotal'] and int(m['disctotal']) > 99:
-            disk = str(m['disc']).zfill(3)
-        elif m['disctotal'] and int(m['disctotal']) > 9:
-            disk = str(m['disc']).zfill(2)
-        else:
-            disk = str(m['disc'])
-
-        if m['tracktotal'] and int(m['tracktotal']) > 99:
-            track = str(m['track']).zfill(3)
-        else:
-            track = str(m['track']).zfill(2)
-
-        if m['disc'] and m['disctotal'] and int(m['disctotal']) > 1:
-            return disk + '-' + track
-        elif m['disc'] and not m['disctotal']:
-            return disk + '-' + track
-        else:
-            return track
-
-    def normalizePerformer(self, performer):
         out = []
         if isinstance(performer, list):
             for value in performer:
@@ -176,7 +71,17 @@ class Meta(object):
         else:
             return []
 
-    def shortenPerformer(self, performer, length=3, separator=u' ',
+    @staticmethod
+    def sanitize(value):
+        if isinstance(value, str) or \
+                (six.PY2 and isinstance(value, unicode)) or \
+                (six.PY3 and isinstance(value, bytes)):
+            value = Functions.tmpl_sanitize(value)
+            value = re.sub(r'\s{2,}', ' ', value)
+        return value
+
+    @staticmethod
+    def shortenPerformer(performer, length=3, separator=u' ',
                          abbreviation=u'.'):
         out = u''
         count = 0
@@ -191,59 +96,192 @@ class Meta(object):
 
         return out[len(separator):]
 
-    def performerRaw(self, meta=None):
+###############################################################################
+# Properties
+###############################################################################
+
+    @property
+    def album_classical(self):
+        """Example: ``Horn Concerto: I. Allegro``
+        """
+        return self.sanitize(re.sub(r':.*$', '', self.work))
+
+    @property
+    def album_clean(self):
+        return self.sanitize(re.sub(r' ?\([dD]is[ck].*\)$', '', self.album))
+
+    @property
+    def album_initial(self):
+        return self.initials(self.album_clean)
+
+    @property
+    def artist_initial(self):
+        return self.initials(self.artistsafe_sort)
+
+    @property
+    def artistsafe(self):
+        if self.albumartist:
+            out = self.albumartist
+        elif self.artist:
+            out = self.artist
+        elif self.albumartist_credit:
+            out = self.albumartist_credit
+        elif self.artist_credit:
+            out = self.artist_credit
+        # Same as aristsafe_sort
+        elif self.albumartist_sort:
+            out = self.albumartist_sort
+        elif self.artist_sort:
+            out = self.artist_sort
+        else:
+            out = u'Unknown'
+
+        return self.sanitize(out)
+
+    @property
+    def artistsafe_sort(self):
+        out = ''
+        if self.albumartist_sort:
+            out = self.albumartist_sort
+        elif self.artist_sort:
+            out = self.artist_sort
+        # Same as artistsafe
+        elif self.albumartist:
+            out = self.albumartist
+        elif self.artist:
+            out = self.artist
+        elif self.albumartist_credit:
+            out = self.albumartist_credit
+        elif self.artist_credit:
+            out = self.artist_credit
+        else:
+            out = u'Unknown'
+
+        if self.args.shell_friendly:
+            out = out.replace(', ', '_')
+
+        return self.sanitize(out)
+
+    @property
+    def composer_initial(self):
+        return self.initials(self.composer_safe)
+
+    @property
+    def composer_safe(self):
+        if self.composer_sort:
+            out = self.composer_sort
+        elif self.composer:
+            out = self.composer
+        else:
+            out = self.artistsafe
+
+        if self.args.shell_friendly:
+            out = out.replace(', ', '_')
+
+        # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
+        return self.sanitize(re.sub(r' ?/.*', '', out))
+
+    @property
+    def disctrack(self):
+        """
+        Generate a combination of track and disc number, e. g.: ``1-04``,
+        ``3-06``.
+        """
+
+        if not self.track:
+            return ''
+
+        if self.disctotal and int(self.disctotal) > 99:
+            disk = str(self.disc).zfill(3)
+        elif self.disctotal and int(self.disctotal) > 9:
+            disk = str(self.disc).zfill(2)
+        else:
+            disk = str(self.disc)
+
+        if self.tracktotal and int(self.tracktotal) > 99:
+            track = str(self.track).zfill(3)
+        else:
+            track = str(self.track).zfill(2)
+
+        if self.disc and self.disctotal and int(self.disctotal) > 1:
+            out = disk + '-' + track
+        elif self.disc and not self.disctotal:
+            out = disk + '-' + track
+        else:
+            out = track
+
+        return self.sanitize(out)
+
+    @property
+    def performer(self):
+        out = u''
+        for performer in self.performer_raw:
+            out = out + u', ' + performer[1]
+
+        out = out[2:]
+
+        return self.sanitize(out)
+
+    @property
+    def performer_classical(self):
+        """http://musicbrainz.org/doc/Style/Classical/Release/Artist
+        """
+        if len(self.performer_short) > 0:
+            out = self.performer_short
+        elif self.albumartist:
+            out = re.sub(r'^.*; ?', '', self.albumartist)
+        else:
+            out = u''
+
+        return self.sanitize(out)
+
+    @property
+    def performer_raw(self):
         """Generate a unifed performer list.
 
         Picard doesn’t store performer values in m4a, alac.m4a, wma, wav,
         aiff.
 
+        :return: A list
+
         .. code-block:: python
 
-            performer = [
+            [
                 ['conductor', u'Herbert von Karajan'],
                 ['violin', u'Anne-Sophie Mutter'],
             ]
 
         """
-        f = self.media_file.format
-        m = self.media_file.mgfile
         out = []
 
-        if (f == 'FLAC' or f == 'OGG') and 'performer' in m:
-            out = self.normalizePerformer(m['performer'])
-            if 'conductor' in m:
-                out.insert(0, ['conductor', m['conductor'][0]])
-        elif f == 'MP3':
+        if (self.format == 'FLAC' or self.format == 'OGG') and \
+                'performer' in self.mgfile:
+            out = self.normalizePerformer(self.mgfile['performer'])
+            if 'conductor' in self.mgfile:
+                out.insert(0, ['conductor', self.mgfile['conductor'][0]])
+        elif self.format == 'MP3':
             # 4.2.2 TMCL Musician credits list
-            if 'TMCL' in m:
-                out = m['TMCL'].people
+            if 'TMCL' in self.mgfile:
+                out = self.mgfile['TMCL'].people
             # 4.2.2 TIPL Involved people list
             # TIPL is used for producer
-            elif 'TIPL' in m:
-                out = m['TIPL'].people
+            elif 'TIPL' in self.mgfile:
+                out = self.mgfile['TIPL'].people
 
             # 4.2.2 TPE3 Conductor/performer refinement
-            if 'TPE3' in m:
-                out.insert(0, ['conductor', m['TPE3'].text[0]])
+            if 'conductor' not in out[0] and 'TPE3' in self.mgfile:
+                out.insert(0, ['conductor', self.mgfile['TPE3'].text[0]])
 
         else:
             out = []
 
-        return out
+        return self.sanitize(out)
 
-    def performerClassical(self, meta):
-        """http://musicbrainz.org/doc/Style/Classical/Release/Artist
-        """
-        if 'performer_short' in meta and len(meta['performer_short']) > 0:
-            return meta['performer_short']
-        elif 'albumartist' in meta:
-            return re.sub(r'^.*; ?', '', meta['albumartist'])
-        else:
-            return u''
-
-    def performerShort(self, performer):
+    @property
+    def performer_short(self):
         out = u''
 
+        performer = self.performer_raw
         picked = []
         for p in performer:
             if p[0] == u'conductor' or p[0] == u'orchestra':
@@ -267,109 +305,32 @@ class Meta(object):
 
         out = out[2:]
 
-        return out
-
-    def performer(self, performer):
-        out = u''
-        for p in performer:
-            out = out + u', ' + p[1]
-
-        out = out[2:]
-
-        return out
-
-    def titleClassical(self, value):
-        """Example: ``Horn Concerto: I. Allegro``
-
-        :param str value: The title string.
-        """
-        return re.sub(r'^[^:]*: ?', '', value)
-
-    def trackClassical(self, title, disc_track=False):
-        roman = re.findall(r'^([IVXLCDM]*)\.', title)
-        if roman:
-            return str(roman_to_int(roman[0])).zfill(2)
-        elif disc_track:
-            return disc_track
-        else:
-            return ''
-
-    def yearSafe(self, meta):
-        """
-        :param dict meta: A dictionary with meta informations.
-        """
-        if meta['original_year']:
-            value = meta['original_year']
-        elif meta['year']:
-            value = meta['year']
-        else:
-            value = ''
-        return value
-
-    def getMeta(self):
-        meta = self.getMediaFile()
-
-        if not meta['skip']:
-
-            # album
-            meta['album_classical'] = self.albumClassical(meta['work'])
-            meta['album_clean'] = self.albumClean(meta['album'])
-            meta['album_initial'] = self.initials(meta['album_clean'])
-
-            # artist
-            meta['artistsafe'], meta['artistsafe_sort'] = self.artistSafe(meta)
-            meta['artist_initial'] = self.initials(meta['artistsafe_sort'])
-
-            # composer
-            meta['composer_safe'] = self.composerSafe(meta)
-            meta['composer_initial'] = self.initials(meta['composer_safe'])
-
-            meta['disctrack'] = self.discTrack(meta)
-            meta['performer_raw'] = self.performerRaw(meta)
-            meta['performer_short'] = self.performerShort(
-                meta['performer_raw']
-            )
-            meta['performer'] = self.performer(meta['performer_raw'])
-            meta['performer_classical'] = self.performerClassical(meta)
-            meta['title_classical'] = self.titleClassical(meta['title'])
-            meta['track_classical'] = self.trackClassical(
-                meta['title_classical'],
-                meta['disctrack']
-            )
-            meta['year_safe'] = self.yearSafe(meta)
-            return self.sanitize(meta)
-        else:
-            return False
-
-
-class MetaNG(MediaFile):
-
-    def __init__(self, path, id3v23=False):
-        super(MetaNG, self).__init__(path, id3v23=False)
-
-    @staticmethod
-    def initials(value):
-        """
-        :param str value: A string to extract the initials.
-        """
-        return value[0:1].lower()
-
-    @property
-    def album_classical(self):
-        """Example: ``Horn Concerto: I. Allegro``
-        """
-        return re.sub(r':.*$', '', self.work)
-
-    @property
-    def album_clean(self):
-        return re.sub(r' ?\([dD]is[ck].*\)$', '', self.album)
-
-    @property
-    def album_initial(self):
-        return self.initials(self.album_clean)
+        return self.sanitize(out)
 
     @property
     def title_classical(self):
         """Example: ``Horn Concerto: I. Allegro``
         """
-        return re.sub(r'^[^:]*: ?', '', self.title)
+        return self.sanitize(re.sub(r'^[^:]*: ?', '', self.title))
+
+    @property
+    def track_classical(self):
+        roman = re.findall(r'^([IVXLCDM]*)\.', self.title_classical)
+        if roman:
+            out = str(roman_to_int(roman[0])).zfill(2)
+        elif self.disctrack:
+            out = self.disctrack
+        else:
+            out = ''
+
+        return self.sanitize(out)
+
+    @property
+    def year_safe(self):
+        if self.original_year:
+            out = self.original_year
+        elif self.year:
+            out = self.year
+        else:
+            out = ''
+        return self.sanitize(str(out))
