@@ -178,6 +178,10 @@ class MetaNG(MediaFile):
         return self.initials(self.album_clean)
 
     @property
+    def artist_initial(self):
+        return self.initials(self.artistsafe_sort)
+
+    @property
     def artistsafe(self):
         if self.albumartist:
             return self.albumartist
@@ -220,8 +224,8 @@ class MetaNG(MediaFile):
         return out
 
     @property
-    def artist_initial(self):
-        return self.initials(self.artistsafe_sort)
+    def composer_initial(self):
+        return self.initials(self.composer_safe)
 
     @property
     def composer_safe(self):
@@ -237,10 +241,6 @@ class MetaNG(MediaFile):
 
         # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
         return re.sub(r' ?/.*', '', out)
-
-    @property
-    def composer_initial(self):
-        return self.initials(self.composer_safe)
 
     @property
     def disctrack(self):

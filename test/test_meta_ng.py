@@ -385,11 +385,14 @@ class TestStaticMethodPerformerShortenUnit(unittest.TestCase):
 ###############################################################################
 
 
-class TestMeta(unittest.TestCase):
+class TestAllPropertiesHines(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta(['real-world', 'h', 'Hines_Earl',
                               'Just-Friends_1989', '06_Indian-Summer.mp3'])
+
+    def test_album_initial(self):
+        self.assertEqual(self.meta.album_initial, u'j')
 
     def test_artistsafe(self):
         self.assertEqual(self.meta.artistsafe, u'Earl Hines')
@@ -397,42 +400,56 @@ class TestMeta(unittest.TestCase):
     def test_artistsafe_sort(self):
         self.assertEqual(self.meta.artistsafe_sort, u'Hines, Earl')
 
-    def test_year_safe(self):
-        self.assertEqual(self.meta.year_safe, '1989')
-
     def test_artist_initial(self):
         self.assertEqual(self.meta.artist_initial, u'h')
 
+    def test_year_safe(self):
+        self.assertEqual(self.meta.year_safe, '1989')
+
+
+class TestAllPropertiesWagner(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['classical', 'Wagner_Meistersinger', '01.mp3'])
+
+    def test_album_classical(self):
+        self.assertEqual(self.meta.album_classical,
+                         u'Die Meistersinger von Nürnberg')
+
+    def test_album_clean(self):
+        self.assertEqual(self.meta.album_clean,
+                         u'Die Meistersinger von Nürnberg')
+
     def test_album_initial(self):
-        self.assertEqual(self.meta.album_initial, u'j')
+        self.assertEqual(self.meta.album_initial, u'd')
 
-
-class TestMetaNG(unittest.TestCase):
-
-    def test_meta(self):
-        meta = get_meta(['classical', 'Wagner_Meistersinger', '01.mp3'])
-
-        self.assertEqual(meta.album_classical,
-                         u'Die Meistersinger von Nürnberg')
-        self.assertEqual(meta.album_clean,
-                         u'Die Meistersinger von Nürnberg')
-        self.assertEqual(meta.album_initial, u'd')
+    def test_artistsafe(self):
         self.assertEqual(
-            meta.artistsafe,
+            self.meta.artistsafe,
             u'Richard Wagner; René Kollo, Helen Donath, Theo Adam, Geraint ' +
             'Evans, Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der ' +
             'Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle ' +
             'Dresden, Herbert von Karajan')
+
+    def test_artistsafe_sort(self):
         self.assertEqual(
-            meta.artistsafe_sort,
+            self.meta.artistsafe_sort,
             u'Wagner, Richard; Kollo, René, Donath, Helen, Adam, Theo, ' +
             'Evans, Geraint, Schreier, Peter, Hesse, Ruth, Ridderbusch, ' +
             'Karl, Chor der Staatsoper Dresden, MDR Rundfunkchor Leipzig, ' +
             'Staatskapelle Dresden, Karajan, Herbert von')
-        self.assertEqual(meta.composer_safe, u'Wagner, Richard')
-        self.assertEqual(meta.composer_initial, u'w')
-        self.assertEqual(meta.disctrack, u'1-01')
-        self.assertEqual(meta.title_classical, 'Vorspiel')
+
+    def test_composer_safe(self):
+        self.assertEqual(self.meta.composer_safe, u'Wagner, Richard')
+
+    def test_composer_initial(self):
+        self.assertEqual(self.meta.composer_initial, u'w')
+
+    def test_disctrack(self):
+        self.assertEqual(self.meta.disctrack, u'1-01')
+
+    def test_title_classical(self):
+        self.assertEqual(self.meta.title_classical, 'Vorspiel')
 
 
 #
