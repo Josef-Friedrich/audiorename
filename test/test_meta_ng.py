@@ -497,7 +497,7 @@ class TestClassical(unittest.TestCase):
     def test_album_classical_mozart(self):
         self.assertEqual(
             self.mozart.album_classical,
-            u'Concerto for French Horn no. 1 in D major, K. 386b / KV 412'
+            u'Concerto for French Horn no. 1 in D major, K. 386b KV 412'
         )
 
     def test_album_classical_schubert(self):

@@ -145,11 +145,11 @@ class MetaNG(MediaFile):
     def album_classical(self):
         """Example: ``Horn Concerto: I. Allegro``
         """
-        return re.sub(r':.*$', '', self.work)
+        return self.sanitize(re.sub(r':.*$', '', self.work))
 
     @property
     def album_clean(self):
-        return re.sub(r' ?\([dD]is[ck].*\)$', '', self.album)
+        return self.sanitize(re.sub(r' ?\([dD]is[ck].*\)$', '', self.album))
 
     @property
     def album_initial(self):
@@ -162,20 +162,22 @@ class MetaNG(MediaFile):
     @property
     def artistsafe(self):
         if self.albumartist:
-            return self.albumartist
+            out = self.albumartist
         elif self.artist:
-            return self.artist
+            out = self.artist
         elif self.albumartist_credit:
-            return self.albumartist_credit
+            out = self.albumartist_credit
         elif self.artist_credit:
-            return self.artist_credit
+            out = self.artist_credit
         # Same as aristsafe_sort
         elif self.albumartist_sort:
-            return self.albumartist_sort
+            out = self.albumartist_sort
         elif self.artist_sort:
-            return self.artist_sort
+            out = self.artist_sort
         else:
-            return u'Unknown'
+            out = u'Unknown'
+
+        return self.sanitize(out)
 
     @property
     def artistsafe_sort(self):
@@ -199,7 +201,7 @@ class MetaNG(MediaFile):
         if self.args.shell_friendly:
             out = out.replace(', ', '_')
 
-        return out
+        return self.sanitize(out)
 
     @property
     def composer_initial(self):
@@ -218,7 +220,7 @@ class MetaNG(MediaFile):
             out = out.replace(', ', '_')
 
         # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
-        return re.sub(r' ?/.*', '', out)
+        return self.sanitize(re.sub(r' ?/.*', '', out))
 
     @property
     def disctrack(self):
@@ -243,11 +245,13 @@ class MetaNG(MediaFile):
             track = str(self.track).zfill(2)
 
         if self.disc and self.disctotal and int(self.disctotal) > 1:
-            return disk + '-' + track
+            out = disk + '-' + track
         elif self.disc and not self.disctotal:
-            return disk + '-' + track
+            out = disk + '-' + track
         else:
-            return track
+            out = track
+
+        return self.sanitize(out)
 
     @property
     def performer(self):
@@ -257,18 +261,20 @@ class MetaNG(MediaFile):
 
         out = out[2:]
 
-        return out
+        return self.sanitize(out)
 
     @property
     def performer_classical(self):
         """http://musicbrainz.org/doc/Style/Classical/Release/Artist
         """
         if len(self.performer_short) > 0:
-            return self.performer_short
+            out = self.performer_short
         elif self.albumartist:
-            return re.sub(r'^.*; ?', '', self.albumartist)
+            out = re.sub(r'^.*; ?', '', self.albumartist)
         else:
-            return u''
+            out = u''
+
+        return self.sanitize(out)
 
     @property
     def performer_raw(self):
@@ -310,7 +316,7 @@ class MetaNG(MediaFile):
         else:
             out = []
 
-        return out
+        return self.sanitize(out)
 
     @property
     def performer_short(self):
@@ -340,23 +346,25 @@ class MetaNG(MediaFile):
 
         out = out[2:]
 
-        return out
+        return self.sanitize(out)
 
     @property
     def title_classical(self):
         """Example: ``Horn Concerto: I. Allegro``
         """
-        return re.sub(r'^[^:]*: ?', '', self.title)
+        return self.sanitize(re.sub(r'^[^:]*: ?', '', self.title))
 
     @property
     def track_classical(self):
         roman = re.findall(r'^([IVXLCDM]*)\.', self.title_classical)
         if roman:
-            return str(roman_to_int(roman[0])).zfill(2)
+            out = str(roman_to_int(roman[0])).zfill(2)
         elif self.disctrack:
-            return self.disctrack
+            out = self.disctrack
         else:
-            return ''
+            out = ''
+
+        return self.sanitize(out)
 
     @property
     def year_safe(self):
@@ -366,4 +374,4 @@ class MetaNG(MediaFile):
             out = self.year
         else:
             out = ''
-        return str(out)
+        return self.sanitize(str(out))
