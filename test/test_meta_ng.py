@@ -483,94 +483,84 @@ class TestTrackClassical(unittest.TestCase):
         self.assertEqual(self.meta.track_classical, '4-123')
 
 
-# class TestPerformer(unittest.TestCase):
-#
-#     def getMeta(self, extension):
-#         return h.get_meta([h.dir_test, 'performers', 'blank.' + extension])
-#
-#     def assertPerformer(self, meta):
-#         p = meta['performer_raw']
-#         self.assertEqual(p[0][0], u'conductor')
-#         self.assertEqual(p[0][1], u'Fabio Luisi')
-#         self.assertEqual(p[1][0], u'orchestra')
-#         self.assertEqual(p[1][1], u'Wiener Symphoniker')
-#         self.assertEqual(p[2][0], u'soprano vocals')
-#         self.assertEqual(p[2][1], u'Elena Filipova')
-#         self.assertEqual(p[3][0], u'choir vocals')
-#         self.assertEqual(p[3][1], u'Chor der Wiener Volksoper')
-#
-#         self.assertEqual(meta['performer'], u'Fabio Luisi, Wiener ' +
-#                          u'Symphoniker, Elena Filipova, Chor der Wiener ' +
-#                          u'Volksoper')
-#         self.assertEqual(meta['performer_short'], u'Luisi, WieSym')
-#
-#     def test_unit_normalize_performer(self):
-#         from audiorename import meta
-#         meta = meta.Meta()
-#         performer = [u'John Lennon (vocals)', u'Ringo Starr (drums)']
-#         out = meta.normalizePerformer(performer)
-#         self.assertEqual(out[0][0], u'vocals')
-#         self.assertEqual(out[0][1], u'John Lennon')
-#         self.assertEqual(out[1][0], u'drums')
-#         self.assertEqual(out[1][1], u'Ringo Starr')
-#
-#     def test_unit_normalize_performer_string(self):
-#         from audiorename import meta
-#         meta = meta.Meta()
-#         performer = u'Ludwig van Beethoven'
-#         out = meta.normalizePerformer(performer)
-#         self.assertEqual(out, [])
-#
-#     def test_flac(self):
-#         meta = self.getMeta('ogg')
-#         self.assertPerformer(meta)
-#
-#     def test_mp3(self):
-#         meta = self.getMeta('mp3')
-#         self.assertPerformer(meta)
-#
-#     def test_ogg(self):
-#         meta = self.getMeta('ogg')
-#         self.assertPerformer(meta)
-#
-#
-# class TestPerformerUnit(unittest.TestCase):
-#
-#     def setUp(self):
-#         self.performer = [[u'conductor', u'Lorin Mazel'],
-#                           [
-#                           u'orchestra',
-#                           u'Orchester des Bayerischen Rundfunks'
-#                           ],
-#                           [u'choir vocals',
-#                            u'Chor des Bayerischen Rundfunks'],
-#                           [u'speaker', u'Loriot']]
-#         from audiorename import meta
-#         self.meta = meta.Meta()
-#
-#     def test_performer_short(self):
-#         s = self.meta.performerShort(self.performer)
-#         self.assertEqual(s, u'Mazel, OrcdesBay')
-#
-#     def test_performer_shorten(self):
-#         s = self.meta.shortenPerformer(u'Ludwig van Beethoven')
-#         self.assertEqual(s, u'Lud. van Bee.')
-#
-#     def test_performer_shorten_option_separator(self):
-#         s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
-#                                        separator=u'--')
-#         self.assertEqual(s, u'Lud.--van--Bee.')
-#
-#     def test_performer_shorten_option_abbreviation(self):
-#         s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
-#                                        abbreviation=u'_')
-#         self.assertEqual(s, u'Lud_ van Bee_')
-#
-#     def test_performer_shorten_option_all(self):
-#         s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
-#                                        separator=u'',
-#                                        abbreviation=u'')
-#         self.assertEqual(s, u'LudvanBee')
+class TestPropertyPerformerDifferentFormats(unittest.TestCase):
+
+    def getMeta(self, extension):
+        return get_meta(['performers', 'blank.' + extension])
+
+    def assertPerformer(self, meta):
+        raw = meta.performer_raw
+        self.assertEqual(raw[0][0], u'conductor')
+        self.assertEqual(raw[0][1], u'Fabio Luisi')
+        self.assertEqual(raw[1][0], u'orchestra')
+        self.assertEqual(raw[1][1], u'Wiener Symphoniker')
+        self.assertEqual(raw[2][0], u'soprano vocals')
+        self.assertEqual(raw[2][1], u'Elena Filipova')
+        self.assertEqual(raw[3][0], u'choir vocals')
+        self.assertEqual(raw[3][1], u'Chor der Wiener Volksoper')
+
+        self.assertEqual(meta.performer, u'Fabio Luisi, Wiener ' +
+                         u'Symphoniker, Elena Filipova, Chor der Wiener ' +
+                         u'Volksoper')
+        self.assertEqual(meta.performer_short, u'Luisi, WieSym')
+
+        self.assertEqual(meta.performer_classical, u'Luisi, WieSym')
+
+    def test_flac(self):
+        meta = self.getMeta('flac')
+        self.assertPerformer(meta)
+
+    def test_mp3(self):
+        meta = self.getMeta('mp3')
+        self.assertPerformer(meta)
+
+    def test_ogg(self):
+        meta = self.getMeta('ogg')
+        self.assertPerformer(meta)
+
+
+class TestStaticMethodNormalizePerformerUnit(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+
+    def test_unit_normalize_performer(self):
+        out = self.meta.normalizePerformer([u'John Lennon (vocals)',
+                                           u'Ringo Starr (drums)'])
+        self.assertEqual(out[0][0], u'vocals')
+        self.assertEqual(out[0][1], u'John Lennon')
+        self.assertEqual(out[1][0], u'drums')
+        self.assertEqual(out[1][1], u'Ringo Starr')
+
+    def test_unit_normalize_performer_string(self):
+        out = self.meta.normalizePerformer(u'Ludwig van Beethoven')
+        self.assertEqual(out, [])
+
+
+class TestStaticMethodPerformerShortenUnit(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+
+    def test_performer_shorten(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven')
+        self.assertEqual(s, u'Lud. van Bee.')
+
+    def test_performer_shorten_option_separator(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
+                                       separator=u'--')
+        self.assertEqual(s, u'Lud.--van--Bee.')
+
+    def test_performer_shorten_option_abbreviation(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
+                                       abbreviation=u'_')
+        self.assertEqual(s, u'Lud_ van Bee_')
+
+    def test_performer_shorten_option_all(self):
+        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
+                                       separator=u'',
+                                       abbreviation=u'')
+        self.assertEqual(s, u'LudvanBee')
 
 
 class TestMetaNG(unittest.TestCase):

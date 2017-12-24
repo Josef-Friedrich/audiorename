@@ -93,33 +93,6 @@ class Meta(object):
             output[key] = value
         return output
 
-    def normalizePerformer(self, performer):
-        out = []
-        if isinstance(performer, list):
-            for value in performer:
-                value = value[:-1]
-                value = value.split(u' (')
-                if isinstance(value, list) and len(value) == 2:
-                    out.append([value[1], value[0]])
-            return out
-        else:
-            return []
-
-    def shortenPerformer(self, performer, length=3, separator=u' ',
-                         abbreviation=u'.'):
-        out = u''
-        count = 0
-        for s in performer.split(' '):
-            if count < 3:
-                if len(s) > length:
-                    part = s[:length] + abbreviation
-                else:
-                    part = s
-                out = out + separator + part
-            count = count + 1
-
-        return out[len(separator):]
-
     def getMeta(self):
         meta = self.getMediaFile()
 
@@ -144,6 +117,51 @@ class MetaNG(MediaFile):
         :param str value: A string to extract the initials.
         """
         return value[0:1].lower()
+
+    @staticmethod
+    def normalizePerformer(performer):
+        """
+        :param list performer: A list of raw performer strings like
+
+        .. code-block:: python
+
+            [u'John Lennon (vocals)', u'Ringo Starr (drums)']
+
+        :return: A list
+
+        .. code-block:: python
+
+            [
+                ['vocals', u'John Lennon'],
+                ['drums', u'Ringo Starr'],
+            ]
+        """
+        out = []
+        if isinstance(performer, list):
+            for value in performer:
+                value = value[:-1]
+                value = value.split(u' (')
+                if isinstance(value, list) and len(value) == 2:
+                    out.append([value[1], value[0]])
+            return out
+        else:
+            return []
+
+    @staticmethod
+    def shortenPerformer(performer, length=3, separator=u' ',
+                         abbreviation=u'.'):
+        out = u''
+        count = 0
+        for s in performer.split(' '):
+            if count < 3:
+                if len(s) > length:
+                    part = s[:length] + abbreviation
+                else:
+                    part = s
+                out = out + separator + part
+            count = count + 1
+
+        return out[len(separator):]
 
     @property
     def album_classical(self):
@@ -260,9 +278,11 @@ class MetaNG(MediaFile):
         Picard doesn’t store performer values in m4a, alac.m4a, wma, wav,
         aiff.
 
+        :return: A list
+
         .. code-block:: python
 
-            performer = [
+            [
                 ['conductor', u'Herbert von Karajan'],
                 ['violin', u'Anne-Sophie Mutter'],
             ]
@@ -285,7 +305,7 @@ class MetaNG(MediaFile):
                 out = self.mgfile['TIPL'].people
 
             # 4.2.2 TPE3 Conductor/performer refinement
-            if 'TPE3' in self.mgfile:
+            if 'conductor' not in out[0] and 'TPE3' in self.mgfile:
                 out.insert(0, ['conductor', self.mgfile['TPE3'].text[0]])
 
         else:
