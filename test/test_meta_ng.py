@@ -337,6 +337,18 @@ class TestPropertyYearSafe(unittest.TestCase):
 ###############################################################################
 
 
+class TestStaticMethodInitials(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+
+    def test_lowercase(self):
+        self.assertEqual(self.meta.initials(u'beethoven'), u'b')
+
+    def test_uppercase(self):
+        self.assertEqual(self.meta.initials(u'Beethoven'), u'b')
+
+
 class TestStaticMethodNormalizePerformer(unittest.TestCase):
 
     def setUp(self):
@@ -355,7 +367,22 @@ class TestStaticMethodNormalizePerformer(unittest.TestCase):
         self.assertEqual(out, [])
 
 
-class TestStaticMethodPerformerShorten(unittest.TestCase):
+class TestStaticMethodSanitize(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+
+    def test_slash(self):
+        self.assertEqual(self.meta.sanitize(u'lol/lol'), u'lollol')
+
+    def test_whitespaces(self):
+        self.assertEqual(self.meta.sanitize(u'lol  lol'), u'lol lol')
+
+    def test_list(self):
+        self.assertEqual(self.meta.sanitize([]), [])
+
+
+class TestStaticMethodShortenPerformer(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta(['files', 'album.mp3'])
@@ -379,21 +406,6 @@ class TestStaticMethodPerformerShorten(unittest.TestCase):
                                        separator=u'',
                                        abbreviation=u'')
         self.assertEqual(s, u'LudvanBee')
-
-
-class TestStaticMethodSanitize(unittest.TestCase):
-
-    def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
-
-    def test_slash(self):
-        self.assertEqual(self.meta.sanitize(u'lol/lol'), u'lollol')
-
-    def test_whitespaces(self):
-        self.assertEqual(self.meta.sanitize(u'lol  lol'), u'lol lol')
-
-    def test_list(self):
-        self.assertEqual(self.meta.sanitize([]), [])
 
 
 ###############################################################################

@@ -113,6 +113,15 @@ class MetaNG(MediaFile):
             return []
 
     @staticmethod
+    def sanitize(value):
+        if isinstance(value, str) or \
+                (six.PY2 and isinstance(value, unicode)) or \
+                (six.PY3 and isinstance(value, bytes)):
+            value = Functions.tmpl_sanitize(value)
+            value = re.sub(r'\s{2,}', ' ', value)
+        return value
+
+    @staticmethod
     def shortenPerformer(performer, length=3, separator=u' ',
                          abbreviation=u'.'):
         out = u''
@@ -127,15 +136,6 @@ class MetaNG(MediaFile):
             count = count + 1
 
         return out[len(separator):]
-
-    @staticmethod
-    def sanitize(value):
-        if isinstance(value, str) or \
-                (six.PY2 and isinstance(value, unicode)) or \
-                (six.PY3 and isinstance(value, bytes)):
-            value = Functions.tmpl_sanitize(value)
-            value = re.sub(r'\s{2,}', ' ', value)
-        return value
 
 ###############################################################################
 # Properties
@@ -250,6 +250,27 @@ class MetaNG(MediaFile):
             return track
 
     @property
+    def performer(self):
+        out = u''
+        for performer in self.performer_raw:
+            out = out + u', ' + performer[1]
+
+        out = out[2:]
+
+        return out
+
+    @property
+    def performer_classical(self):
+        """http://musicbrainz.org/doc/Style/Classical/Release/Artist
+        """
+        if len(self.performer_short) > 0:
+            return self.performer_short
+        elif self.albumartist:
+            return re.sub(r'^.*; ?', '', self.albumartist)
+        else:
+            return u''
+
+    @property
     def performer_raw(self):
         """Generate a unifed performer list.
 
@@ -292,17 +313,6 @@ class MetaNG(MediaFile):
         return out
 
     @property
-    def performer_classical(self):
-        """http://musicbrainz.org/doc/Style/Classical/Release/Artist
-        """
-        if len(self.performer_short) > 0:
-            return self.performer_short
-        elif self.albumartist:
-            return re.sub(r'^.*; ?', '', self.albumartist)
-        else:
-            return u''
-
-    @property
     def performer_short(self):
         out = u''
 
@@ -327,16 +337,6 @@ class MetaNG(MediaFile):
             else:
                 s = p[1].split(' ')[-1]
             out = out + u', ' + s
-
-        out = out[2:]
-
-        return out
-
-    @property
-    def performer(self):
-        out = u''
-        for performer in self.performer_raw:
-            out = out + u', ' + performer[1]
 
         out = out[2:]
 
