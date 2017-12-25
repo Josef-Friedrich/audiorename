@@ -133,3 +133,7 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(args.target_dir, '')
         self.assertEqual(args.unittest, False)
         self.assertEqual(args.verbose, False)
+
+
+if __name__ == '__main__':
+    unittest.main()

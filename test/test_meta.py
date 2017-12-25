@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from audiorename.meta import Meta
+from audiorename.meta import meta_to_dict
 from audiorename.meta import roman_to_int
 from audiorename.args import ArgsDefault
 import unittest
@@ -14,17 +15,11 @@ def get_meta(path_list):
 
 class TestToDict(unittest.TestCase):
 
-    def test_disc_removal(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+    def test_to_dict(self):
+        meta = get_meta(['files', 'album.mp3'])
 
-        for p in dir(Meta):
-            print(p)
-            #if isinstance(getattr(Meta,p),property):
-                #print(p)
-        #
-        # property_names=[p for p in dir(Meta) if isinstance(getattr(Meta,p),property)]
-        # print(property_names)
-
+        result = meta_to_dict(meta)
+        self.assertEqual(result['title'], u'full')
 
 
 ###############################################################################
@@ -309,19 +304,24 @@ class TestPropertyWork(unittest.TestCase):
         self.assertEqual(meta.composer_sort, u'Mozart, Wolfgang Amadeus')
 
 
-# work (unit)
-class TestPropertyWorkUnit(unittest.TestCase):
+# title_classical
+class TestPropertyTitleClassical(unittest.TestCase):
 
     def setUp(self):
-        from audiorename import meta
-        self.meta = meta.Meta()
+        self.meta = get_meta(['files', 'album.mp3'])
 
-    def test_classical_title(self):
-        self.assertEqual(self.meta.titleClassical('work: title'), 'title')
-        self.assertEqual(self.meta.titleClassical('work: work: title'),
-                         'work: title')
-        self.assertEqual(self.meta.titleClassical('title'), 'title')
+    def test_work_title(self):
+        self.meta.title = 'work: title'
+        self.assertEqual(self.meta.title_classical, 'title')
 
+
+    def test_work_work_title(self):
+        self.meta.title = 'work: work: title'
+        self.assertEqual(self.meta.title_classical, 'work: title')
+
+    def test_title(self):
+        self.meta.title = 'title'
+        self.assertEqual(self.meta.title_classical, 'title')
 
 # year_safe
 class TestPropertyYearSafe(unittest.TestCase):

@@ -3,6 +3,7 @@
 """Extend the class ``MediaFile`` of the package ``phrydy``."""
 
 import phrydy
+from .args import fields as module_fields
 import re
 from phrydy import MediaFile
 from tmep import Functions
@@ -22,14 +23,22 @@ def roman_to_int(n):
     return result
 
 
+def meta_to_dict(meta):
+    fields = phrydy.doc.fields.copy()
+    fields.update(module_fields)
+    out = {}
+    for field, description in sorted(fields.items()):
+        value = getattr(meta, field)
+        if value:
+            out[field] = value
+
+    return out
+
 class Meta(MediaFile):
 
     def __init__(self, path, args=False):
         super(Meta, self).__init__(path, False)
         self.args = args
-
-    def toDict(self):
-        return phrydy.doc.get_doc()
 
 ###############################################################################
 # Static methods
@@ -104,7 +113,7 @@ class Meta(MediaFile):
     def album_classical(self):
         """Example: ``Horn Concerto: I. Allegro``
         """
-        return self.sanitize(re.sub(r':.*$', '', self.work))
+        return self.sanitize(re.sub(r':.*$', '', (str(self.work))))
 
     @property
     def album_clean(self):
@@ -269,7 +278,7 @@ class Meta(MediaFile):
                 out = self.mgfile['TIPL'].people
 
             # 4.2.2 TPE3 Conductor/performer refinement
-            if 'conductor' not in out[0] and 'TPE3' in self.mgfile:
+            if len(out) > 0 and 'conductor' not in out[0] and 'TPE3' in self.mgfile:
                 out.insert(0, ['conductor', self.mgfile['TPE3'].text[0]])
 
         else:
@@ -311,7 +320,7 @@ class Meta(MediaFile):
     def title_classical(self):
         """Example: ``Horn Concerto: I. Allegro``
         """
-        return self.sanitize(re.sub(r'^[^:]*: ?', '', self.title))
+        return re.sub(r'^[^:]*: ?', '', self.title)
 
     @property
     def track_classical(self):

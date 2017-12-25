@@ -12,6 +12,7 @@ from tmep import Functions
 from tmep import Template
 
 from .meta import Meta
+from .meta import meta_to_dict
 import six
 
 if six.PY2:
@@ -111,9 +112,11 @@ class Rename(object):
             format_string = default_formats(self.args.classical,
                                             self.meta.comp)
 
+        meta_dict = meta_to_dict(self.meta)
+
         t = Template(as_string(format_string))
-        f = Functions(self.meta.__dict__)
-        new = t.substitute(self.meta.__dict__, f.functions())
+        f = Functions(meta_dict)
+        new = t.substitute(meta_dict, f.functions())
         new = self.postTemplate(new)
         new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
         self.new_file = new
