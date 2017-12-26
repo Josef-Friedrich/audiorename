@@ -28,14 +28,6 @@ audiorename.meta module
     :undoc-members:
     :show-inheritance:
 
-audiorename.meta_ng module
---------------------------
-
-.. automodule:: audiorename.meta_ng
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 audiorename.query module
 ------------------------
 

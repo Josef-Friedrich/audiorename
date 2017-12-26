@@ -7,6 +7,7 @@ import os
 import ansicolor
 import shutil
 
+import phrydy
 from phrydy.mediafile import as_string
 from tmep import Functions
 from tmep import Template
@@ -101,7 +102,11 @@ class Rename(object):
 
             self.old_path = os.path.realpath(self.old_file)
             self.extension = self.old_file.split('.')[-1]
-            self.meta = Meta(self.old_path, self.args)
+            try:
+                self.meta = Meta(self.old_path, self.args)
+
+            except phrydy.mediafile.UnreadableFileError:
+                self.skip = True
 
     def generateFilename(self):
         if self.meta.comp and self.args.compilation:
@@ -231,7 +236,7 @@ class Rename(object):
         skip = self.args.skip_if_empty
         if not self.meta:
             self.processMessage(action=u'Broken file', error=True)
-        elif skip and (skip not in self.meta or not self.meta[skip]):
+        elif skip and self.skip:
             self.processMessage(action=u'No field', error=True)
         else:
             if self.args.dry_run:

@@ -395,7 +395,7 @@ class TestStaticMethodSanitize(unittest.TestCase):
         self.assertEqual(self.meta.sanitize(u'lol  lol'), u'lol lol')
 
     def test_list(self):
-        self.assertEqual(self.meta.sanitize([]), [])
+        self.assertEqual(self.meta.sanitize([]), u'')
 
 
 class TestStaticMethodShortenPerformer(unittest.TestCase):

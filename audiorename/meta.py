@@ -36,6 +36,7 @@ def meta_to_dict(meta):
 
     return out
 
+
 class Meta(MediaFile):
 
     def __init__(self, path, args=False):
@@ -289,7 +290,7 @@ class Meta(MediaFile):
         else:
             out = []
 
-        return self.sanitize(out)
+        return out
 
     @property
     def performer_short(self):
