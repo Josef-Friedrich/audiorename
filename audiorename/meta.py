@@ -23,6 +23,17 @@ def roman_to_int(n):
     return result
 
 
+def sanitize(value):
+    if isinstance(value, str) or \
+            (six.PY2 and isinstance(value, unicode)) or \
+            (six.PY3 and isinstance(value, bytes)):
+        value = Functions.tmpl_sanitize(value)
+        value = re.sub(r'\s{2,}', ' ', value)
+    else:
+        value = u''
+    return value
+
+
 def meta_to_dict(meta):
     fields = phrydy.doc.fields.copy()
     fields.update(module_fields)
@@ -30,7 +41,7 @@ def meta_to_dict(meta):
     for field, description in sorted(fields.items()):
         value = getattr(meta, field)
         if value:
-            out[field] = value
+            out[field] = sanitize(value)
         else:
             out[field] = u''
 
@@ -122,7 +133,10 @@ class Meta(MediaFile):
 
     @property
     def album_clean(self):
-        return re.sub(r' ?\([dD]is[ck].*\)$', '', self.album)
+        if self.album:
+            return re.sub(r' ?\([dD]is[ck].*\)$', '', str(self.album))
+        else:
+            return u''
 
     @property
     def album_initial(self):

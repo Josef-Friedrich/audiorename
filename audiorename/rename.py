@@ -87,6 +87,7 @@ class Rename(object):
 
         if old_file:
             self.old_file = old_file
+            self.skip = False
 
             if self.args.target_dir:
                 self.target_dir = self.args.target_dir
