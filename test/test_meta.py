@@ -314,7 +314,6 @@ class TestPropertyTitleClassical(unittest.TestCase):
         self.meta.title = 'work: title'
         self.assertEqual(self.meta.title_classical, 'title')
 
-
     def test_work_work_title(self):
         self.meta.title = 'work: work: title'
         self.assertEqual(self.meta.title_classical, 'work: title')
@@ -322,6 +321,7 @@ class TestPropertyTitleClassical(unittest.TestCase):
     def test_title(self):
         self.meta.title = 'title'
         self.assertEqual(self.meta.title_classical, 'title')
+
 
 # year_safe
 class TestPropertyYearSafe(unittest.TestCase):

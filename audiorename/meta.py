@@ -31,6 +31,8 @@ def meta_to_dict(meta):
         value = getattr(meta, field)
         if value:
             out[field] = value
+        else:
+            out[field] = u''
 
     return out
 
@@ -87,6 +89,8 @@ class Meta(MediaFile):
                 (six.PY3 and isinstance(value, bytes)):
             value = Functions.tmpl_sanitize(value)
             value = re.sub(r'\s{2,}', ' ', value)
+        else:
+            value = u''
         return value
 
     @staticmethod
@@ -278,7 +282,8 @@ class Meta(MediaFile):
                 out = self.mgfile['TIPL'].people
 
             # 4.2.2 TPE3 Conductor/performer refinement
-            if len(out) > 0 and 'conductor' not in out[0] and 'TPE3' in self.mgfile:
+            if len(out) > 0 and 'conductor' not in out[0] \
+                    and 'TPE3' in self.mgfile:
                 out.insert(0, ['conductor', self.mgfile['TPE3'].text[0]])
 
         else:
