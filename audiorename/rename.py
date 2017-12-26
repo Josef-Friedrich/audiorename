@@ -82,12 +82,13 @@ class Rename(object):
     """The path of the current working directory"""
 
     def __init__(self, old_file=False, args=False):
+        self.skip = False
+
         if args:
             self.args = args
 
         if old_file:
             self.old_file = old_file
-            self.skip = False
 
             if self.args.target_dir:
                 self.target_dir = self.args.target_dir
@@ -237,7 +238,8 @@ class Rename(object):
         skip = self.args.skip_if_empty
         if not self.meta:
             self.processMessage(action=u'Broken file', error=True)
-        elif skip and self.skip:
+        elif skip and (not hasattr(self.meta, skip) or not
+                       getattr(self.meta, skip)):
             self.processMessage(action=u'No field', error=True)
         else:
             if self.args.dry_run:
