@@ -118,11 +118,11 @@ class Meta(MediaFile):
     def album_classical(self):
         """Example: ``Horn Concerto: I. Allegro``
         """
-        return self.sanitize(re.sub(r':.*$', '', (str(self.work))))
+        return re.sub(r':.*$', '', (str(self.work)))
 
     @property
     def album_clean(self):
-        return self.sanitize(re.sub(r' ?\([dD]is[ck].*\)$', '', self.album))
+        return re.sub(r' ?\([dD]is[ck].*\)$', '', self.album)
 
     @property
     def album_initial(self):
@@ -150,7 +150,7 @@ class Meta(MediaFile):
         else:
             out = u'Unknown'
 
-        return self.sanitize(out)
+        return out
 
     @property
     def artistsafe_sort(self):
@@ -174,7 +174,7 @@ class Meta(MediaFile):
         if self.args.shell_friendly:
             out = out.replace(', ', '_')
 
-        return self.sanitize(out)
+        return out
 
     @property
     def composer_initial(self):
@@ -193,7 +193,7 @@ class Meta(MediaFile):
             out = out.replace(', ', '_')
 
         # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
-        return self.sanitize(re.sub(r' ?/.*', '', out))
+        return re.sub(r' ?/.*', '', out)
 
     @property
     def disctrack(self):
@@ -224,7 +224,7 @@ class Meta(MediaFile):
         else:
             out = track
 
-        return self.sanitize(out)
+        return out
 
     @property
     def performer(self):
@@ -234,7 +234,7 @@ class Meta(MediaFile):
 
         out = out[2:]
 
-        return self.sanitize(out)
+        return out
 
     @property
     def performer_classical(self):
@@ -247,7 +247,7 @@ class Meta(MediaFile):
         else:
             out = u''
 
-        return self.sanitize(out)
+        return out
 
     @property
     def performer_raw(self):
@@ -320,7 +320,7 @@ class Meta(MediaFile):
 
         out = out[2:]
 
-        return self.sanitize(out)
+        return out
 
     @property
     def title_classical(self):
@@ -338,7 +338,7 @@ class Meta(MediaFile):
         else:
             out = ''
 
-        return self.sanitize(out)
+        return out
 
     @property
     def year_safe(self):
@@ -348,4 +348,4 @@ class Meta(MediaFile):
             out = self.year
         else:
             out = ''
-        return self.sanitize(str(out))
+        return str(out)
