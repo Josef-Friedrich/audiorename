@@ -435,6 +435,12 @@ class TestAllPropertiesHines(unittest.TestCase):
         self.meta = get_meta(['real-world', 'h', 'Hines_Earl',
                               'Just-Friends_1989', '06_Indian-Summer.mp3'])
 
+    def test_album_classical(self):
+        self.assertEqual(self.meta.album_classical, u'')
+
+    def test_album_clean(self):
+        self.assertEqual(self.meta.album_clean, u'Just Friends')
+
     def test_album_initial(self):
         self.assertEqual(self.meta.album_initial, u'j')
 

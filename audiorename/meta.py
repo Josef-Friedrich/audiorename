@@ -127,12 +127,30 @@ class Meta(MediaFile):
 
     @property
     def album_classical(self):
-        """Example: ``Horn Concerto: I. Allegro``
+        """Uses:
+
+        * ``phrydy.mediafile.MediaFile.work``
+
+        Examples:
+
+        * ``Horn Concerto: I. Allegro`` → ``I. Allegro``
+        * ``Die Meistersinger von Nürnberg``
         """
-        return re.sub(r':.*$', '', (str(self.work)))
+        if self.work:
+            return re.sub(r':.*$', '', (str(self.work)))
+        else:
+            return u''
 
     @property
     def album_clean(self):
+        """Uses:
+
+        * ``phrydy.mediafile.MediaFile.album``
+
+        Example:
+
+        * ``Just Friends (Disc 2)`` → ``Just Friends``
+        """
         if self.album:
             return re.sub(r' ?\([dD]is[ck].*\)$', '', str(self.album))
         else:
@@ -140,14 +158,41 @@ class Meta(MediaFile):
 
     @property
     def album_initial(self):
+        """Uses:
+
+        * :class:`audiorename.meta.Meta.album_clean`
+
+        Examples:
+
+        * ``Just Friends`` → ``j``
+        * ``Die Meistersinger von Nürnberg``  → ``d``
+        """
         return self.initials(self.album_clean)
 
     @property
     def artist_initial(self):
+        """Uses:
+
+        * :class:`audiorename.meta.Meta.artistsafe_sort`
+
+        Examples:
+
+        * ``Just Friends`` → ``j``
+        * ``Die Meistersinger von Nürnberg``  → ``d``
+        """
         return self.initials(self.artistsafe_sort)
 
     @property
     def artistsafe(self):
+        """Uses:
+
+        * ``phrydy.mediafile.MediaFile.albumartist``
+        * ``phrydy.mediafile.MediaFile.artist``
+        * ``phrydy.mediafile.MediaFile.albumartist_credit``
+        * ``phrydy.mediafile.MediaFile.artist_credit``
+        * ``phrydy.mediafile.MediaFile.albumartist_sort``
+        * ``phrydy.mediafile.MediaFile.artist_sort``
+        """
         if self.albumartist:
             out = self.albumartist
         elif self.artist:
@@ -168,6 +213,15 @@ class Meta(MediaFile):
 
     @property
     def artistsafe_sort(self):
+        """Uses:
+
+        * ``phrydy.mediafile.MediaFile.albumartist_sort``
+        * ``phrydy.mediafile.MediaFile.artist_sort``
+        * ``phrydy.mediafile.MediaFile.albumartist``
+        * ``phrydy.mediafile.MediaFile.artist``
+        * ``phrydy.mediafile.MediaFile.albumartist_credit``
+        * ``phrydy.mediafile.MediaFile.artist_credit``
+        """
         out = ''
         if self.albumartist_sort:
             out = self.albumartist_sort
@@ -192,10 +246,20 @@ class Meta(MediaFile):
 
     @property
     def composer_initial(self):
+        """Uses:
+
+        * :class:`audiorename.meta.Meta.composer_safe`
+        """
         return self.initials(self.composer_safe)
 
     @property
     def composer_safe(self):
+        """Uses:
+
+        * ``phrydy.mediafile.MediaFile.composer_sort``
+        * ``phrydy.mediafile.MediaFile.composer``
+        * :class:`audiorename.meta.Meta.artistsafe`
+        """
         if self.composer_sort:
             out = self.composer_sort
         elif self.composer:
@@ -214,6 +278,13 @@ class Meta(MediaFile):
         """
         Generate a combination of track and disc number, e. g.: ``1-04``,
         ``3-06``.
+
+        Uses:
+
+        * ``phrydy.mediafile.MediaFile.disctotal``
+        * ``phrydy.mediafile.MediaFile.disc``
+        * ``phrydy.mediafile.MediaFile.tracktotal``
+        * ``phrydy.mediafile.MediaFile.track``
         """
 
         if not self.track:
@@ -242,6 +313,10 @@ class Meta(MediaFile):
 
     @property
     def performer(self):
+        """Uses:
+
+        * :class:`audiorename.meta.Meta.performer_raw`
+        """
         out = u''
         for performer in self.performer_raw:
             out = out + u', ' + performer[1]
@@ -253,6 +328,11 @@ class Meta(MediaFile):
     @property
     def performer_classical(self):
         """http://musicbrainz.org/doc/Style/Classical/Release/Artist
+
+        Uses:
+
+        * :class:`audiorename.meta.Meta.performer_short`
+        * ``phrydy.mediafile.MediaFile.albumartist``
         """
         if len(self.performer_short) > 0:
             out = self.performer_short
@@ -279,6 +359,9 @@ class Meta(MediaFile):
                 ['violin', u'Anne-Sophie Mutter'],
             ]
 
+        Uses:
+
+        * ``phrydy.mediafile.MediaFile.mgfile``
         """
         out = []
 
@@ -308,6 +391,10 @@ class Meta(MediaFile):
 
     @property
     def performer_short(self):
+        """Uses:
+
+        * ``phrydy.mediafile.MediaFile.performer_raw``
+        """
         out = u''
 
         performer = self.performer_raw
@@ -338,12 +425,23 @@ class Meta(MediaFile):
 
     @property
     def title_classical(self):
-        """Example: ``Horn Concerto: I. Allegro``
+        """Uses:
+
+        * ``phrydy.mediafile.MediaFile.title``
+
+        Example:
+
+        * ``Horn Concerto: I. Allegro``
         """
         return re.sub(r'^[^:]*: ?', '', self.title)
 
     @property
     def track_classical(self):
+        """Uses:
+
+        * :class:`audiorename.meta.Meta.title_classical`
+        * :class:`audiorename.meta.Meta.disctrack`
+        """
         roman = re.findall(r'^([IVXLCDM]*)\.', self.title_classical)
         if roman:
             out = str(roman_to_int(roman[0])).zfill(2)
@@ -356,6 +454,11 @@ class Meta(MediaFile):
 
     @property
     def year_safe(self):
+        """Uses:
+
+        * ``phrydy.mediafile.MediaFile.original_year``
+        * ``phrydy.mediafile.MediaFile.year``
+        """
         if self.original_year:
             out = self.original_year
         elif self.year:
