@@ -390,7 +390,7 @@ class TestClassical(unittest.TestCase):
         )
 
     wr = '/w/Wagner_Richard/'
-    mn = 'Die-Meistersinger-von-Nuernberg_[Karajan-StaDre-StaDre]/'
+    mn = 'Die-Meistersinger-von-Nuernberg_[Karajan-StaDre]/'
 
     def test_wagner_01(self):
         self.assertDryRun(

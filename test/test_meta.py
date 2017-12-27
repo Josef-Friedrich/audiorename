@@ -36,13 +36,13 @@ class TestUnifyList(unittest.TestCase):
 
     def test_unify_list(self):
         seq = unify_list([
-            ['conductor', u'Herbert von Karajan'],
+            [u'conductor', u'Herbert von Karajan'],
             [u'orchestra', u'Staatskapelle Dresden'],
             [u'orchestra', u'Staatskapelle Dresden']
         ])
 
         self.assertEqual(seq, [
-            ['conductor', u'Herbert von Karajan'],
+            [u'conductor', u'Herbert von Karajan'],
             [u'orchestra', u'Staatskapelle Dresden']
         ])
 
@@ -555,24 +555,22 @@ class TestAllPropertiesWagner(unittest.TestCase):
 
     def test_performer(self):
         self.assertEqual(self.meta.performer,
-                         u'Herbert von Karajan, Staatskapelle Dresden, ' +
-                         'Staatskapelle Dresden')
+                         u'Herbert von Karajan, Staatskapelle Dresden')
 
     def test_performer_classical(self):
         self.assertEqual(self.meta.performer_classical,
-                         u'Karajan, StaDre, StaDre')
+                         u'Karajan, StaDre')
 
     def test_performer_raw(self):
         self.assertEqual(self.meta.performer_raw,
                          [
-                             ['conductor', u'Herbert von Karajan'],
-                             [u'orchestra', u'Staatskapelle Dresden'],
+                             [u'conductor', u'Herbert von Karajan'],
                              [u'orchestra', u'Staatskapelle Dresden']
                          ])
 
     def test_performer_short(self):
         self.assertEqual(self.meta.performer_short,
-                         u'Karajan, StaDre, StaDre')
+                         u'Karajan, StaDre')
 
     def test_title_classical(self):
         self.assertEqual(self.meta.title_classical, 'Vorspiel')
@@ -713,7 +711,7 @@ class TestClassical(unittest.TestCase):
     def test_performer_classical_wagner(self):
         self.assertEqual(
             self.wagner.performer_classical,
-            u'Karajan, StaDre, StaDre'
+            u'Karajan, StaDre'
         )
 
     # title_classical

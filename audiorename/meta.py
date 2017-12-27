@@ -97,7 +97,7 @@ class Meta(MediaFile):
                 value = value.split(u' (')
                 if isinstance(value, list) and len(value) == 2:
                     out.append([value[1], value[0]])
-            return unify_list(out)
+            return out
         else:
             return []
 
@@ -376,7 +376,7 @@ class Meta(MediaFile):
                 'performer' in self.mgfile:
             out = self.normalizePerformer(self.mgfile['performer'])
             if 'conductor' in self.mgfile:
-                out.insert(0, ['conductor', self.mgfile['conductor'][0]])
+                out.insert(0, [u'conductor', self.mgfile['conductor'][0]])
         elif self.format == 'MP3':
             # 4.2.2 TMCL Musician credits list
             if 'TMCL' in self.mgfile:
@@ -389,12 +389,12 @@ class Meta(MediaFile):
             # 4.2.2 TPE3 Conductor/performer refinement
             if len(out) > 0 and 'conductor' not in out[0] \
                     and 'TPE3' in self.mgfile:
-                out.insert(0, ['conductor', self.mgfile['TPE3'].text[0]])
+                out.insert(0, [u'conductor', self.mgfile['TPE3'].text[0]])
 
         else:
             out = []
 
-        return out
+        return unify_list(out)
 
     @property
     def performer_short(self):
