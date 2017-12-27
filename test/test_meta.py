@@ -444,14 +444,41 @@ class TestAllPropertiesHines(unittest.TestCase):
     def test_album_initial(self):
         self.assertEqual(self.meta.album_initial, u'j')
 
+    def test_artist_initial(self):
+        self.assertEqual(self.meta.artist_initial, u'h')
+
     def test_artistsafe(self):
         self.assertEqual(self.meta.artistsafe, u'Earl Hines')
 
     def test_artistsafe_sort(self):
         self.assertEqual(self.meta.artistsafe_sort, u'Hines, Earl')
 
-    def test_artist_initial(self):
-        self.assertEqual(self.meta.artist_initial, u'h')
+    def test_composer_initial(self):
+        self.assertEqual(self.meta.composer_initial, u'e')
+
+    def test_composer_safe(self):
+        self.assertEqual(self.meta.composer_safe, u'Earl Hines')
+
+    def test_disctrack(self):
+        self.assertEqual(self.meta.disctrack, u'06')
+
+    def test_performer(self):
+        self.assertEqual(self.meta.performer, u'')
+
+    def test_performer_classical(self):
+        self.assertEqual(self.meta.performer_classical, u'Earl Hines')
+
+    def test_performer_raw(self):
+        self.assertEqual(self.meta.performer_raw, [])
+
+    def test_performer_short(self):
+        self.assertEqual(self.meta.performer_short, u'')
+
+    def test_title_classical(self):
+        self.assertEqual(self.meta.title_classical, u'Indian Summer')
+
+    def test_track_classical(self):
+        self.assertEqual(self.meta.track_classical, u'06')
 
     def test_year_safe(self):
         self.assertEqual(self.meta.year_safe, '1989')
@@ -473,6 +500,9 @@ class TestAllPropertiesWagner(unittest.TestCase):
     def test_album_initial(self):
         self.assertEqual(self.meta.album_initial, u'd')
 
+    def test_artist_initial(self):
+        self.assertEqual(self.meta.artist_initial, u'w')
+
     def test_artistsafe(self):
         self.assertEqual(
             self.meta.artistsafe,
@@ -489,17 +519,44 @@ class TestAllPropertiesWagner(unittest.TestCase):
             'Karl, Chor der Staatsoper Dresden, MDR Rundfunkchor Leipzig, ' +
             'Staatskapelle Dresden, Karajan, Herbert von')
 
-    def test_composer_safe(self):
-        self.assertEqual(self.meta.composer_safe, u'Wagner, Richard')
-
     def test_composer_initial(self):
         self.assertEqual(self.meta.composer_initial, u'w')
+
+    def test_composer_safe(self):
+        self.assertEqual(self.meta.composer_safe, u'Wagner, Richard')
 
     def test_disctrack(self):
         self.assertEqual(self.meta.disctrack, u'1-01')
 
+    def test_performer(self):
+        self.assertEqual(self.meta.performer,
+                         u'Herbert von Karajan, Staatskapelle Dresden, ' +
+                         'Staatskapelle Dresden')
+
+    def test_performer_classical(self):
+        self.assertEqual(self.meta.performer_classical,
+                         u'Karajan, StaDre, StaDre')
+
+    def test_performer_raw(self):
+        self.assertEqual(self.meta.performer_raw,
+                         [
+                             ['conductor', u'Herbert von Karajan'],
+                             [u'orchestra', u'Staatskapelle Dresden'],
+                             [u'orchestra', u'Staatskapelle Dresden']
+                         ])
+
+    def test_performer_short(self):
+        self.assertEqual(self.meta.performer_short,
+                         u'Karajan, StaDre, StaDre')
+
     def test_title_classical(self):
         self.assertEqual(self.meta.title_classical, 'Vorspiel')
+
+    def test_track_classical(self):
+        self.assertEqual(self.meta.track_classical, '1-01')
+
+    def test_year_safe(self):
+        self.assertEqual(self.meta.year_safe, '1971')
 
 
 class TestClassical(unittest.TestCase):
