@@ -48,6 +48,13 @@ def meta_to_dict(meta):
     return out
 
 
+def unify_list(seq):
+    """https://www.peterbe.com/plog/uniqifiers-benchmark"""
+    noDupes = []
+    [noDupes.append(i) for i in seq if not noDupes.count(i)]
+    return noDupes
+
+
 class Meta(MediaFile):
 
     def __init__(self, path, args=False):
@@ -90,7 +97,7 @@ class Meta(MediaFile):
                 value = value.split(u' (')
                 if isinstance(value, list) and len(value) == 2:
                     out.append([value[1], value[0]])
-            return out
+            return unify_list(out)
         else:
             return []
 

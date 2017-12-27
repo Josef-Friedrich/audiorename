@@ -2,6 +2,7 @@
 
 from audiorename.meta import Meta
 from audiorename.meta import meta_to_dict
+from audiorename.meta import unify_list
 from audiorename.meta import roman_to_int
 from audiorename.args import ArgsDefault
 import unittest
@@ -13,6 +14,11 @@ def get_meta(path_list):
                 *path_list), ArgsDefault())
 
 
+###############################################################################
+# Functions
+###############################################################################
+
+
 class TestToDict(unittest.TestCase):
 
     def test_to_dict(self):
@@ -20,6 +26,25 @@ class TestToDict(unittest.TestCase):
 
         result = meta_to_dict(meta)
         self.assertEqual(result['title'], u'full')
+
+
+class TestUnifyList(unittest.TestCase):
+
+    def test_unify_numbers(self):
+        seq = unify_list([1, 1, 2, 2, 1, 1, 3])
+        self.assertEqual(seq, [1, 2, 3])
+
+    def test_unify_list(self):
+        seq = unify_list([
+            ['conductor', u'Herbert von Karajan'],
+            [u'orchestra', u'Staatskapelle Dresden'],
+            [u'orchestra', u'Staatskapelle Dresden']
+        ])
+
+        self.assertEqual(seq, [
+            ['conductor', u'Herbert von Karajan'],
+            [u'orchestra', u'Staatskapelle Dresden']
+        ])
 
 
 ###############################################################################
