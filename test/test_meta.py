@@ -16,14 +16,31 @@ def get_meta(path_list):
 ###############################################################################
 
 
-class TestToDict(unittest.TestCase):
+class TestExportDict(unittest.TestCase):
 
-    def test_to_dict(self):
+    def test_export_dict(self):
         meta = get_meta(['files', 'album.mp3'])
 
         result = meta.export_dict()
         self.assertEqual(result['title'], u'full')
 
+
+class TestFetchWork(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['classical', 'without_work.mp3'])
+
+    def test_fetch_work(self):
+        self.assertEqual(self.meta.mb_trackid,
+                         '00ba1660-4e35-4985-86b2-8b7a3e99b1e5')
+        self.assertEqual(self.meta.mb_workid, None)
+        self.assertEqual(self.meta.work, None)
+        self.meta.fetch_work()
+        self.assertEqual(self.meta.mb_trackid,
+                         '00ba1660-4e35-4985-86b2-8b7a3e99b1e5')
+
+        self.assertEqual(self.meta.work, u'Die Meistersinger von Nürnberg, ' +
+                         'WWV 96: Akt I. Vorspiel')
 
 ###############################################################################
 # Properties
