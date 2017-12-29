@@ -102,7 +102,7 @@ class Meta(MediaFile):
             return []
 
     @staticmethod
-    def sanitize(value):
+    def _sanitize(value):
         if isinstance(value, str) or \
                 (six.PY2 and isinstance(value, unicode)) or \
                 (six.PY3 and isinstance(value, bytes)):

@@ -414,13 +414,13 @@ class TestStaticMethodSanitize(unittest.TestCase):
         self.meta = get_meta(['files', 'album.mp3'])
 
     def test_slash(self):
-        self.assertEqual(self.meta.sanitize(u'lol/lol'), u'lollol')
+        self.assertEqual(self.meta._sanitize(u'lol/lol'), u'lollol')
 
     def test_whitespaces(self):
-        self.assertEqual(self.meta.sanitize(u'lol  lol'), u'lol lol')
+        self.assertEqual(self.meta._sanitize(u'lol  lol'), u'lol lol')
 
     def test_list(self):
-        self.assertEqual(self.meta.sanitize([]), u'')
+        self.assertEqual(self.meta._sanitize([]), u'')
 
 
 class TestStaticMethod_shorten_performer(unittest.TestCase):
