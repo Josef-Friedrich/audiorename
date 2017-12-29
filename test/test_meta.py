@@ -423,29 +423,29 @@ class TestStaticMethodSanitize(unittest.TestCase):
         self.assertEqual(self.meta.sanitize([]), u'')
 
 
-class TestStaticMethodShortenPerformer(unittest.TestCase):
+class TestStaticMethodshorten_performer(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta(['files', 'album.mp3'])
 
     def test_performer_shorten(self):
-        s = self.meta.shortenPerformer(u'Ludwig van Beethoven')
+        s = self.meta.shorten_performer(u'Ludwig van Beethoven')
         self.assertEqual(s, u'Lud. van Bee.')
 
     def test_performer_shorten_option_separator(self):
-        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
-                                       separator=u'--')
+        s = self.meta.shorten_performer(u'Ludwig van Beethoven',
+                                        separator=u'--')
         self.assertEqual(s, u'Lud.--van--Bee.')
 
     def test_performer_shorten_option_abbreviation(self):
-        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
-                                       abbreviation=u'_')
+        s = self.meta.shorten_performer(u'Ludwig van Beethoven',
+                                        abbreviation=u'_')
         self.assertEqual(s, u'Lud_ van Bee_')
 
     def test_performer_shorten_option_all(self):
-        s = self.meta.shortenPerformer(u'Ludwig van Beethoven',
-                                       separator=u'',
-                                       abbreviation=u'')
+        s = self.meta.shorten_performer(u'Ludwig van Beethoven',
+                                        separator=u'',
+                                        abbreviation=u'')
         self.assertEqual(s, u'LudvanBee')
 
 

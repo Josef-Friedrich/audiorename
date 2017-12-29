@@ -113,8 +113,8 @@ class Meta(MediaFile):
         return value
 
     @staticmethod
-    def shortenPerformer(performer, length=3, separator=u' ',
-                         abbreviation=u'.'):
+    def shorten_performer(performer, length=3, separator=u' ',
+                          abbreviation=u'.'):
         out = u''
         count = 0
         for s in performer.split(' '):
@@ -420,8 +420,8 @@ class Meta(MediaFile):
                 s = u''
             elif p[0] == u'orchestra' or p[0] == u'choir vocals' or \
                     p[0] == 'string quartet':
-                s = self.shortenPerformer(p[1], separator=u'',
-                                          abbreviation=u'')
+                s = self.shorten_performer(p[1], separator=u'',
+                                           abbreviation=u'')
             else:
                 s = p[1].split(' ')[-1]
             out = out + u', ' + s
