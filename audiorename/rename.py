@@ -208,7 +208,9 @@ class Rename(object):
         print(output)
 
     def fetch_work(self):
-        pass
+        self.meta.fetch_work()
+        self.meta.save()
+        self.processMessage(action=u'Get work')
 
     def action(self, copy=False):
         """Rename or copy to new path
