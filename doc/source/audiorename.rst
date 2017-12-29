@@ -27,6 +27,8 @@ audiorename.meta module
     :members:
     :undoc-members:
     :show-inheritance:
+    :special-members:
+    :private-members:
 
 audiorename.query module
 ------------------------
