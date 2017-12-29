@@ -10,19 +10,6 @@ from tmep import Functions
 import six
 
 
-def roman_to_int(n):
-    numeral_map = tuple(zip(
-        (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
-        ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
-    ))
-    i = result = 0
-    for integer, numeral in numeral_map:
-        while n[i:i + len(numeral)] == numeral:
-            result += integer
-            i += len(numeral)
-    return result
-
-
 class Meta(MediaFile):
 
     def __init__(self, path, args=False):
@@ -85,6 +72,20 @@ class Meta(MediaFile):
             return out
         else:
             return []
+
+    @staticmethod
+    def _roman_to_int(n):
+        numeral_map = tuple(zip(
+            (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
+            ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV',
+             'I')
+        ))
+        i = result = 0
+        for integer, numeral in numeral_map:
+            while n[i:i + len(numeral)] == numeral:
+                result += integer
+                i += len(numeral)
+        return result
 
     @staticmethod
     def _sanitize(value):
@@ -443,7 +444,7 @@ class Meta(MediaFile):
         """
         roman = re.findall(r'^([IVXLCDM]*)\.', self.title_classical)
         if roman:
-            out = str(roman_to_int(roman[0])).zfill(2)
+            out = str(self._roman_to_int(roman[0])).zfill(2)
         elif self.disctrack:
             out = self.disctrack
         else:

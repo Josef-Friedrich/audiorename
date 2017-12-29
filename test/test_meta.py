@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from audiorename.meta import Meta
-from audiorename.meta import roman_to_int
 from audiorename.args import ArgsDefault
 import unittest
 import os
@@ -13,7 +12,7 @@ def get_meta(path_list):
 
 
 ###############################################################################
-# Functions
+# Public methods
 ###############################################################################
 
 
@@ -263,7 +262,7 @@ class TestPropertyTrackClassical(unittest.TestCase):
         self.meta = get_meta(['files', 'album.mp3'])
 
     def assertRoman(self, roman, arabic):
-        self.assertEqual(roman_to_int(roman), arabic)
+        self.assertEqual(self.meta._roman_to_int(roman), arabic)
 
     def test_roman_to_int(self):
         self.assertRoman('I', 1)
