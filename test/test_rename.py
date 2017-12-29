@@ -7,75 +7,75 @@ import audiorename
 import os
 import shutil
 import tempfile
-import helper as h
+import helper
 
 
 class TestBasicRename(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = h.copy_to_tmp(['files', 'album.mp3'])
-        with h.Capturing():
+        self.tmp_album = helper.copy_to_tmp(['files', 'album.mp3'])
+        with helper.Capturing():
             audiorename.execute([self.tmp_album])
-        self.tmp_compilation = h.copy_to_tmp(['files', 'compilation.mp3'])
-        with h.Capturing():
+        self.tmp_compilation = helper.copy_to_tmp(['files', 'compilation.mp3'])
+        with helper.Capturing():
             audiorename.execute([self.tmp_compilation])
 
     def test_album(self):
         self.assertFalse(os.path.isfile(self.tmp_album))
-        self.assertTrue(h.is_file(
-            h.dir_cwd + h.path_album
+        self.assertTrue(helper.is_file(
+            helper.dir_cwd + helper.path_album
         ))
 
     def test_compilation(self):
         self.assertFalse(os.path.isfile(self.tmp_compilation))
-        self.assertTrue(h.is_file(
-            h.dir_cwd + h.path_compilation
+        self.assertTrue(helper.is_file(
+            helper.dir_cwd + helper.path_compilation
         ))
 
     def tearDown(self):
-        shutil.rmtree(h.dir_cwd + '/_compilations/')
-        shutil.rmtree(h.dir_cwd + '/t/')
+        shutil.rmtree(helper.dir_cwd + '/_compilations/')
+        shutil.rmtree(helper.dir_cwd + '/t/')
 
 
 class TestOverwriteProtection(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = h.copy_to_tmp(['files', 'album.mp3'])
-        with h.Capturing():
+        self.tmp_album = helper.copy_to_tmp(['files', 'album.mp3'])
+        with helper.Capturing():
             audiorename.execute(['--copy', self.tmp_album])
-        self.tmp_compilation = h.copy_to_tmp(['files', 'compilation.mp3'])
-        with h.Capturing():
+        self.tmp_compilation = helper.copy_to_tmp(['files', 'compilation.mp3'])
+        with helper.Capturing():
             audiorename.execute(['--copy', self.tmp_compilation])
 
     def test_album(self):
-        with h.Capturing() as output:
+        with helper.Capturing() as output:
             audiorename.execute([self.tmp_album])
         self.assertTrue('Exits' in output[0])
 
     def test_compilation(self):
-        with h.Capturing() as output:
+        with helper.Capturing() as output:
             audiorename.execute([self.tmp_compilation])
         self.assertTrue('Exits' in output[0])
 
     def test_album_already_renamed(self):
-        with h.Capturing():
+        with helper.Capturing():
             audiorename.execute([self.tmp_album])
-        with h.Capturing() as output:
-            audiorename.execute([h.dir_cwd + h.path_album])
+        with helper.Capturing() as output:
+            audiorename.execute([helper.dir_cwd + helper.path_album])
 
         self.assertTrue('Renamed' in output[0])
 
     def test_compilation_already_renamed(self):
-        with h.Capturing():
+        with helper.Capturing():
             audiorename.execute([self.tmp_compilation])
-        with h.Capturing() as output:
-            audiorename.execute([h.dir_cwd + h.path_compilation])
+        with helper.Capturing() as output:
+            audiorename.execute([helper.dir_cwd + helper.path_compilation])
 
         self.assertTrue('Renamed' in output[0])
 
     def tearDown(self):
-        shutil.rmtree(h.dir_cwd + '/_compilations/')
-        shutil.rmtree(h.dir_cwd + '/t/')
+        shutil.rmtree(helper.dir_cwd + '/_compilations/')
+        shutil.rmtree(helper.dir_cwd + '/t/')
 
 
 class TestMessageUnittest(unittest.TestCase):
@@ -96,13 +96,13 @@ class TestMessageUnittest(unittest.TestCase):
 class TestUnicodeUnittest(unittest.TestCase):
 
     def setUp(self):
-        self.uni = os.path.join(h.dir_test, 'äöü', 'ÅåÆæØø.mp3')
+        self.uni = os.path.join(helper.dir_test, 'äöü', 'ÅåÆæØø.mp3')
         self.renamed = os.path.join('/►', '►', '_',
                                     '_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3')
         self.indent = '            -> '
 
     def test_dry_run(self):
-        with h.Capturing() as output:
+        with helper.Capturing() as output:
             audiorename.execute([
                 '--dry-run',
                 self.uni
@@ -114,19 +114,19 @@ class TestUnicodeUnittest(unittest.TestCase):
         tmp_dir = tempfile.mkdtemp()
         tmp = os.path.join(tmp_dir, 'äöü.mp3')
         shutil.copyfile(self.uni, tmp)
-        with h.Capturing() as output:
+        with helper.Capturing() as output:
             audiorename.execute(['--target-dir', tmp_dir, tmp])
 
         self.assertEqual(output[1],
                          self.indent + self.renamed)
 
     def test_copy(self):
-        with h.Capturing() as output:
+        with helper.Capturing() as output:
             audiorename.execute(['--copy', self.uni])
 
         self.assertEqual(output[1],
                          self.indent + self.renamed)
-        shutil.rmtree(h.dir_cwd + '/►/')
+        shutil.rmtree(helper.dir_cwd + '/►/')
 
 
 if __name__ == '__main__':
