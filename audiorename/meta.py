@@ -34,20 +34,6 @@ def sanitize(value):
     return value
 
 
-def meta_to_dict(meta):
-    fields = phrydy.doc.fields.copy()
-    fields.update(module_fields)
-    out = {}
-    for field, description in sorted(fields.items()):
-        value = getattr(meta, field)
-        if value:
-            out[field] = sanitize(value)
-        else:
-            out[field] = u''
-
-    return out
-
-
 def unify_list(seq):
     """https://www.peterbe.com/plog/uniqifiers-benchmark"""
     noDupes = []
@@ -60,6 +46,23 @@ class Meta(MediaFile):
     def __init__(self, path, args=False):
         super(Meta, self).__init__(path, False)
         self.args = args
+
+###############################################################################
+# Public methods
+###############################################################################
+
+    def export_dict(self):
+        fields = phrydy.doc.fields.copy()
+        fields.update(module_fields)
+        out = {}
+        for field, description in sorted(fields.items()):
+            value = getattr(self, field)
+            if value:
+                out[field] = self._sanitize(value)
+            else:
+                out[field] = u''
+
+        return out
 
 ###############################################################################
 # Static methods

@@ -13,7 +13,6 @@ from tmep import Functions
 from tmep import Template
 
 from .meta import Meta
-from .meta import meta_to_dict
 import six
 
 if six.PY2:
@@ -119,7 +118,7 @@ class Rename(object):
             format_string = default_formats(self.args.classical,
                                             self.meta.comp)
 
-        meta_dict = meta_to_dict(self.meta)
+        meta_dict = self.meta.export_dict()
 
         t = Template(as_string(format_string))
         f = Functions(meta_dict)

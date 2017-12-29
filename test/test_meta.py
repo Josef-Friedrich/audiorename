@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from audiorename.meta import Meta
-from audiorename.meta import meta_to_dict
 from audiorename.meta import unify_list
 from audiorename.meta import roman_to_int
 from audiorename.args import ArgsDefault
@@ -24,7 +23,7 @@ class TestToDict(unittest.TestCase):
     def test_to_dict(self):
         meta = get_meta(['files', 'album.mp3'])
 
-        result = meta_to_dict(meta)
+        result = meta.export_dict()
         self.assertEqual(result['title'], u'full')
 
 
