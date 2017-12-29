@@ -174,10 +174,10 @@ class TestClassical(unittest.TestCase):
 class TestBasicCopy(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = helper.tmp_file('album.mp3')
+        self.tmp_album = helper.copy_to_tmp(['files', 'album.mp3'])
         with helper.Capturing():
             audiorename.execute(['--copy', self.tmp_album])
-        self.tmp_compilation = helper.tmp_file('compilation.mp3')
+        self.tmp_compilation = helper.copy_to_tmp(['files', 'compilation.mp3'])
         with helper.Capturing():
             audiorename.execute(['--copy', self.tmp_compilation])
 
@@ -207,8 +207,8 @@ class TestBasicCopy(unittest.TestCase):
 class TestDeleteExisting(unittest.TestCase):
 
     def test_delete_existing(self):
-        tmp1 = helper.tmp_file('album.mp3')
-        tmp2 = helper.tmp_file('album.mp3')
+        tmp1 = helper.copy_to_tmp(['files', 'album.mp3'])
+        tmp2 = helper.copy_to_tmp(['files', 'album.mp3'])
 
         target = tempfile.mkdtemp()
 
@@ -244,11 +244,11 @@ class TestDeleteExisting(unittest.TestCase):
 class TestDryRun(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = helper.tmp_file('album.mp3')
+        self.tmp_album = helper.copy_to_tmp(['files', 'album.mp3'])
         with helper.Capturing() as self.output_album:
             audiorename.execute(['--dry-run', self.tmp_album])
 
-        self.tmp_compilation = helper.tmp_file('compilation.mp3')
+        self.tmp_compilation = helper.copy_to_tmp(['files', 'compilation.mp3'])
         with helper.Capturing() as self.output_compilation:
             audiorename.execute(['--dry-run', self.tmp_compilation])
 
@@ -288,13 +288,13 @@ class TestCustomFormats(unittest.TestCase):
             audiorename.execute([
                 '--format',
                 'tmp/$title - $artist',
-                helper.tmp_file('album.mp3')
+                helper.copy_to_tmp(['files', 'album.mp3'])
             ])
         with helper.Capturing():
             audiorename.execute([
                 '--compilation',
                 'tmp/comp_$title - $artist',
-                helper.tmp_file('compilation.mp3')
+                helper.copy_to_tmp(['files', 'compilation.mp3'])
             ])
 
     def test_format(self):
@@ -338,7 +338,7 @@ class TestMBTrackListing(unittest.TestCase):
 class TestSourceAsTarget(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = helper.tmp_file('album.mp3')
+        self.tmp_album = helper.copy_to_tmp(['files', 'album.mp3'])
         self.dir_album = os.path.dirname(self.tmp_album)
         with helper.Capturing():
             audiorename.execute([
@@ -348,7 +348,7 @@ class TestSourceAsTarget(unittest.TestCase):
                 self.tmp_album
             ])
 
-        self.tmp_compilation = helper.tmp_file('compilation.mp3')
+        self.tmp_compilation = helper.copy_to_tmp(['files', 'compilation.mp3'])
         with helper.Capturing():
             audiorename.execute([
                 '--source-as-target-dir',
@@ -369,7 +369,7 @@ class TestSkipIfEmpty(unittest.TestCase):
             audiorename.execute([
                 '--skip-if-empty',
                 'lol',
-                helper.tmp_file('album.mp3')
+                helper.copy_to_tmp(['files', 'album.mp3'])
             ])
         with helper.Capturing() as self.compilation:
             audiorename.execute([
@@ -378,7 +378,7 @@ class TestSkipIfEmpty(unittest.TestCase):
                 '-d',
                 '-c',
                 '/tmp/c',
-                helper.tmp_file('compilation.mp3')
+                helper.copy_to_tmp(['files', 'compilation.mp3'])
             ])
 
     def test_album(self):
@@ -393,7 +393,7 @@ class TestTarget(unittest.TestCase):
 
     def setUp(self):
         self.tmp_dir = tempfile.mkdtemp()
-        self.tmp_album = helper.tmp_file('album.mp3')
+        self.tmp_album = helper.copy_to_tmp(['files', 'album.mp3'])
         with helper.Capturing():
             audiorename.execute([
                 '--target-dir',
@@ -403,7 +403,7 @@ class TestTarget(unittest.TestCase):
                 self.tmp_album
             ])
 
-        self.tmp_compilation = helper.tmp_file('compilation.mp3')
+        self.tmp_compilation = helper.copy_to_tmp(['files', 'compilation.mp3'])
         with helper.Capturing():
             audiorename.execute([
                 '--target-dir',
@@ -427,7 +427,7 @@ class TestTarget(unittest.TestCase):
 class TestVerbose(unittest.TestCase):
 
     def test_verbose(self):
-        tmp = helper.tmp_file('album.mp3')
+        tmp = helper.copy_to_tmp(['files', 'album.mp3'])
 
         target = tempfile.mkdtemp()
 
@@ -447,7 +447,7 @@ class TestVerbose(unittest.TestCase):
         self.assertTrue(target in output[1])
 
     def test_non_verbose(self):
-        tmp = helper.tmp_file('album.mp3')
+        tmp = helper.copy_to_tmp(['files', 'album.mp3'])
 
         target = tempfile.mkdtemp()
 

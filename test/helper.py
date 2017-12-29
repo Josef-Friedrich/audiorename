@@ -55,16 +55,6 @@ def is_file(path):
     return os.path.isfile(path)
 
 
-def tmp_file(test_file):
-    orig = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), 'files', test_file
-    )
-    tmp_dir = tempfile.mkdtemp()
-    tmp = os.path.join(tmp_dir, test_file)
-    shutil.copyfile(orig, tmp)
-    return tmp
-
-
 def copy_to_tmp(path_list):
     orig = os.path.join(os.path.dirname(os.path.abspath(__file__)), *path_list)
 

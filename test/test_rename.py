@@ -13,10 +13,10 @@ import helper as h
 class TestBasicRename(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = h.tmp_file('album.mp3')
+        self.tmp_album = h.copy_to_tmp(['files', 'album.mp3'])
         with h.Capturing():
             audiorename.execute([self.tmp_album])
-        self.tmp_compilation = h.tmp_file('compilation.mp3')
+        self.tmp_compilation = h.copy_to_tmp(['files', 'compilation.mp3'])
         with h.Capturing():
             audiorename.execute([self.tmp_compilation])
 
@@ -40,10 +40,10 @@ class TestBasicRename(unittest.TestCase):
 class TestOverwriteProtection(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = h.tmp_file('album.mp3')
+        self.tmp_album = h.copy_to_tmp(['files', 'album.mp3'])
         with h.Capturing():
             audiorename.execute(['--copy', self.tmp_album])
-        self.tmp_compilation = h.tmp_file('compilation.mp3')
+        self.tmp_compilation = h.copy_to_tmp(['files', 'compilation.mp3'])
         with h.Capturing():
             audiorename.execute(['--copy', self.tmp_compilation])
 
