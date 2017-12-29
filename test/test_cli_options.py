@@ -7,16 +7,16 @@ import audiorename
 import os
 import shutil
 import tempfile
-import helper as h
+import helper
 
 
 # --classical
 class TestClassical(unittest.TestCase):
 
     def assertDryRun(self, folder, track, test):
-        self.assertEqual(h.dry_run([
+        self.assertEqual(helper.dry_run([
             '--classical',
-            os.path.join(h.dir_test, 'classical', folder, track)
+            os.path.join(helper.dir_test, 'classical', folder, track)
         ]), test)
 
     d = '/d/Debussy_Claude/'
@@ -174,19 +174,19 @@ class TestClassical(unittest.TestCase):
 class TestBasicCopy(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = h.tmp_file('album.mp3')
-        with h.Capturing():
+        self.tmp_album = helper.tmp_file('album.mp3')
+        with helper.Capturing():
             audiorename.execute(['--copy', self.tmp_album])
-        self.tmp_compilation = h.tmp_file('compilation.mp3')
-        with h.Capturing():
+        self.tmp_compilation = helper.tmp_file('compilation.mp3')
+        with helper.Capturing():
             audiorename.execute(['--copy', self.tmp_compilation])
 
     def test_album(self):
-        self.assertTrue(h.is_file(self.tmp_album))
+        self.assertTrue(helper.is_file(self.tmp_album))
         self.assertTrue(
             os.path.isfile(
-                h.dir_cwd +
-                h.path_album
+                helper.dir_cwd +
+                helper.path_album
             )
         )
 
@@ -194,28 +194,28 @@ class TestBasicCopy(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.tmp_compilation))
         self.assertTrue(
             os.path.isfile(
-                h.dir_cwd + h.path_compilation
+                helper.dir_cwd + helper.path_compilation
             )
         )
 
     def tearDown(self):
-        shutil.rmtree(h.dir_cwd + '/_compilations/')
-        shutil.rmtree(h.dir_cwd + '/t/')
+        shutil.rmtree(helper.dir_cwd + '/_compilations/')
+        shutil.rmtree(helper.dir_cwd + '/t/')
 
 
 # --delete-existing
 class TestDeleteExisting(unittest.TestCase):
 
     def test_delete_existing(self):
-        tmp1 = h.tmp_file('album.mp3')
-        tmp2 = h.tmp_file('album.mp3')
+        tmp1 = helper.tmp_file('album.mp3')
+        tmp2 = helper.tmp_file('album.mp3')
 
         target = tempfile.mkdtemp()
 
         self.assertTrue(os.path.isfile(tmp1))
         self.assertTrue(os.path.isfile(tmp2))
 
-        with h.Capturing() as output1:
+        with helper.Capturing() as output1:
             audiorename.execute([
                 '--delete-existing',
                 '--target-dir',
@@ -227,7 +227,7 @@ class TestDeleteExisting(unittest.TestCase):
         self.assertFalse(os.path.isfile(tmp1))
         self.assertTrue(os.path.isfile(tmp2))
 
-        with h.Capturing() as output2:
+        with helper.Capturing() as output2:
             audiorename.execute([
                 '--delete-existing',
                 '--target-dir',
@@ -244,38 +244,38 @@ class TestDeleteExisting(unittest.TestCase):
 class TestDryRun(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = h.tmp_file('album.mp3')
-        with h.Capturing() as self.output_album:
+        self.tmp_album = helper.tmp_file('album.mp3')
+        with helper.Capturing() as self.output_album:
             audiorename.execute(['--dry-run', self.tmp_album])
 
-        self.tmp_compilation = h.tmp_file('compilation.mp3')
-        with h.Capturing() as self.output_compilation:
+        self.tmp_compilation = helper.tmp_file('compilation.mp3')
+        with helper.Capturing() as self.output_compilation:
             audiorename.execute(['--dry-run', self.tmp_compilation])
 
     def test_output_album(self):
-        self.assertTrue(h.has(self.output_album, 'Dry run'))
-        self.assertTrue(h.has(self.output_album, self.tmp_album))
+        self.assertTrue(helper.has(self.output_album, 'Dry run'))
+        self.assertTrue(helper.has(self.output_album, self.tmp_album))
 
     def test_output_compilation(self):
-        self.assertTrue(h.has(self.output_compilation, 'Dry run'))
+        self.assertTrue(helper.has(self.output_compilation, 'Dry run'))
         self.assertTrue(
-            h.has(self.output_compilation, self.tmp_compilation)
+            helper.has(self.output_compilation, self.tmp_compilation)
         )
 
     def test_album(self):
-        self.assertTrue(h.is_file(self.tmp_album))
+        self.assertTrue(helper.is_file(self.tmp_album))
         self.assertFalse(
             os.path.isfile(
-                h.dir_cwd +
-                h.path_album
+                helper.dir_cwd +
+                helper.path_album
             )
         )
 
     def test_compilation(self):
-        self.assertTrue(h.is_file(self.tmp_compilation))
+        self.assertTrue(helper.is_file(self.tmp_compilation))
         self.assertFalse(
             os.path.isfile(
-                h.dir_cwd + h.path_compilation
+                helper.dir_cwd + helper.path_compilation
             )
         )
 
@@ -284,41 +284,41 @@ class TestDryRun(unittest.TestCase):
 class TestCustomFormats(unittest.TestCase):
 
     def setUp(self):
-        with h.Capturing():
+        with helper.Capturing():
             audiorename.execute([
                 '--format',
                 'tmp/$title - $artist',
-                h.tmp_file('album.mp3')
+                helper.tmp_file('album.mp3')
             ])
-        with h.Capturing():
+        with helper.Capturing():
             audiorename.execute([
                 '--compilation',
                 'tmp/comp_$title - $artist',
-                h.tmp_file('compilation.mp3')
+                helper.tmp_file('compilation.mp3')
             ])
 
     def test_format(self):
         self.assertTrue(os.path.isfile(
-            h.dir_cwd + '/tmp/full - the artist.mp3'
+            helper.dir_cwd + '/tmp/full - the artist.mp3'
         ))
 
     def test_compilation(self):
         self.assertTrue(os.path.isfile(
-            h.dir_cwd + '/tmp/comp_full - the artist.mp3'
+            helper.dir_cwd + '/tmp/comp_full - the artist.mp3'
         ))
 
     def tearDown(self):
-        shutil.rmtree(h.dir_cwd + '/tmp/')
+        shutil.rmtree(helper.dir_cwd + '/tmp/')
 
 
 # --mb-track-listing
 class TestMBTrackListing(unittest.TestCase):
 
     def mbTrackListing(self, folder, track):
-        with h.Capturing() as output:
+        with helper.Capturing() as output:
             audiorename.execute([
                 '--mb-track-listing',
-                os.path.join(h.dir_test, 'classical', folder, track)
+                os.path.join(helper.dir_test, 'classical', folder, track)
             ])
         return output[0]
 
@@ -338,9 +338,9 @@ class TestMBTrackListing(unittest.TestCase):
 class TestSourceAsTarget(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = h.tmp_file('album.mp3')
+        self.tmp_album = helper.tmp_file('album.mp3')
         self.dir_album = os.path.dirname(self.tmp_album)
-        with h.Capturing():
+        with helper.Capturing():
             audiorename.execute([
                 '--source-as-target-dir',
                 '-f',
@@ -348,8 +348,8 @@ class TestSourceAsTarget(unittest.TestCase):
                 self.tmp_album
             ])
 
-        self.tmp_compilation = h.tmp_file('compilation.mp3')
-        with h.Capturing():
+        self.tmp_compilation = helper.tmp_file('compilation.mp3')
+        with helper.Capturing():
             audiorename.execute([
                 '--source-as-target-dir',
                 '-c',
@@ -358,34 +358,34 @@ class TestSourceAsTarget(unittest.TestCase):
             ])
 
     def test_album(self):
-        self.assertTrue(h.is_file(self.dir_album + '/a.mp3'))
+        self.assertTrue(helper.is_file(self.dir_album + '/a.mp3'))
 
 
 # --skip-if-empty
 class TestSkipIfEmpty(unittest.TestCase):
 
     def setUp(self):
-        with h.Capturing() as self.album:
+        with helper.Capturing() as self.album:
             audiorename.execute([
                 '--skip-if-empty',
                 'lol',
-                h.tmp_file('album.mp3')
+                helper.tmp_file('album.mp3')
             ])
-        with h.Capturing() as self.compilation:
+        with helper.Capturing() as self.compilation:
             audiorename.execute([
                 '--skip-if-empty',
                 'album',
                 '-d',
                 '-c',
                 '/tmp/c',
-                h.tmp_file('compilation.mp3')
+                helper.tmp_file('compilation.mp3')
             ])
 
     def test_album(self):
-        self.assertTrue(h.has(self.album, 'No field'))
+        self.assertTrue(helper.has(self.album, 'No field'))
 
     def test_compilation(self):
-        self.assertTrue(h.has(self.compilation, 'Dry run'))
+        self.assertTrue(helper.has(self.compilation, 'Dry run'))
 
 
 # --target-dir
@@ -393,8 +393,8 @@ class TestTarget(unittest.TestCase):
 
     def setUp(self):
         self.tmp_dir = tempfile.mkdtemp()
-        self.tmp_album = h.tmp_file('album.mp3')
-        with h.Capturing():
+        self.tmp_album = helper.tmp_file('album.mp3')
+        with helper.Capturing():
             audiorename.execute([
                 '--target-dir',
                 self.tmp_dir,
@@ -403,8 +403,8 @@ class TestTarget(unittest.TestCase):
                 self.tmp_album
             ])
 
-        self.tmp_compilation = h.tmp_file('compilation.mp3')
-        with h.Capturing():
+        self.tmp_compilation = helper.tmp_file('compilation.mp3')
+        with helper.Capturing():
             audiorename.execute([
                 '--target-dir',
                 self.tmp_dir,
@@ -414,10 +414,10 @@ class TestTarget(unittest.TestCase):
             ])
 
     def test_album(self):
-        self.assertTrue(h.is_file(self.tmp_dir + '/album.mp3'))
+        self.assertTrue(helper.is_file(self.tmp_dir + '/album.mp3'))
 
     def test_compilation(self):
-        self.assertTrue(h.is_file(self.tmp_dir + '/compilation.mp3'))
+        self.assertTrue(helper.is_file(self.tmp_dir + '/compilation.mp3'))
 
     def tearDown(self):
         shutil.rmtree(self.tmp_dir)
@@ -427,11 +427,11 @@ class TestTarget(unittest.TestCase):
 class TestVerbose(unittest.TestCase):
 
     def test_verbose(self):
-        tmp = h.tmp_file('album.mp3')
+        tmp = helper.tmp_file('album.mp3')
 
         target = tempfile.mkdtemp()
 
-        with h.Capturing() as output:
+        with helper.Capturing() as output:
             audiorename.execute([
                 '--copy',
                 '--verbose',
@@ -447,11 +447,11 @@ class TestVerbose(unittest.TestCase):
         self.assertTrue(target in output[1])
 
     def test_non_verbose(self):
-        tmp = h.tmp_file('album.mp3')
+        tmp = helper.tmp_file('album.mp3')
 
         target = tempfile.mkdtemp()
 
-        with h.Capturing() as output:
+        with helper.Capturing() as output:
             audiorename.execute([
                 '--copy',
                 '--target',
