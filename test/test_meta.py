@@ -4,6 +4,8 @@ from audiorename.meta import Meta
 from audiorename.args import ArgsDefault
 import unittest
 import os
+import tempfile
+import shutil
 
 
 def get_meta(path_list):
@@ -25,10 +27,31 @@ class TestExportDict(unittest.TestCase):
         self.assertEqual(result['title'], u'full')
 
 
+# Test file:
+# test/classical/without_work.mp3
+#
+# Same as without work:
+# test/classical/Wagner_Meistersinger/01.mp3
+#
+# mb_trackid:
+#   00ba1660-4e35-4985-86b2-8b7a3e99b1e5
+#
+# mb_workid:
+#   6b198406-4fbf-3d61-82db-0b7ef195a7fe
+#
+# work:
+#  Die Meistersinger von Nürnberg, WWV 96: Akt I. Vorspiel
 class TestFetchWork(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['classical', 'without_work.mp3'])
+        test_file = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            'classical',
+            'without_work.mp3'
+        )
+        self.tmp_file = tempfile.mktemp()
+        shutil.copy2(test_file, self.tmp_file)
+        self.meta = Meta(self.tmp_file)
 
     def test_fetch_work(self):
         self.assertEqual(self.meta.mb_trackid,
@@ -38,8 +61,15 @@ class TestFetchWork(unittest.TestCase):
         self.meta.fetch_work()
         self.assertEqual(self.meta.mb_trackid,
                          '00ba1660-4e35-4985-86b2-8b7a3e99b1e5')
-
         self.assertEqual(self.meta.work, u'Die Meistersinger von Nürnberg, ' +
+                         'WWV 96: Akt I. Vorspiel')
+
+        self.meta.save()
+
+        finished = Meta(self.tmp_file)
+        self.assertEqual(finished.mb_trackid,
+                         '00ba1660-4e35-4985-86b2-8b7a3e99b1e5')
+        self.assertEqual(finished.work, u'Die Meistersinger von Nürnberg, ' +
                          'WWV 96: Akt I. Vorspiel')
 
 ###############################################################################

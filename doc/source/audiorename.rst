@@ -30,14 +30,6 @@ audiorename.meta module
     :special-members:
     :private-members:
 
-audiorename.query module
-------------------------
-
-.. automodule:: audiorename.query
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 audiorename.rename module
 -------------------------
 
