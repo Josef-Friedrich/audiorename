@@ -23,17 +23,6 @@ def roman_to_int(n):
     return result
 
 
-def sanitize(value):
-    if isinstance(value, str) or \
-            (six.PY2 and isinstance(value, unicode)) or \
-            (six.PY3 and isinstance(value, bytes)):
-        value = Functions.tmpl_sanitize(value)
-        value = re.sub(r'\s{2,}', ' ', value)
-    else:
-        value = u''
-    return value
-
-
 class Meta(MediaFile):
 
     def __init__(self, path, args=False):
