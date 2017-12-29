@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Test the submodule “meta.py”."""
+
 from audiorename.meta import Meta
 from audiorename.args import ArgsDefault
 import unittest

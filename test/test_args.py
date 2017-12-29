@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Test the submodule “args.py”."""
+
 import unittest
 import re
 import six

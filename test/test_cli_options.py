@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Test all command line options."""
+
 import unittest
 import audiorename
 import os

@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+"""Helper module for all tests."""
+
 import os
 import shutil
 import tempfile

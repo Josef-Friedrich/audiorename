@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Test the submodule “rename.py”."""
+
 import unittest
 import audiorename
 import os

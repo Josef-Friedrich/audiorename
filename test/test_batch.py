@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+"""Test the submodule “batch.py”."""
+
 import unittest
 import os
 import audiorename
