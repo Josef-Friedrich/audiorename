@@ -34,6 +34,9 @@ def gen_file_list(files, path, extension='mp3'):
 
 
 def get_meta(path_list):
+    """
+    :param list path_list: A list of path segments.
+    """
     m = meta.Meta(os.path.join(*path_list))
     return m.getMeta()
 
@@ -41,8 +44,8 @@ def get_meta(path_list):
 def has(list, search):
     """Check of a string is in list
 
-    :params list list: A list to search in.
-    :params str search: The string to search.
+    :param list list: A list to search in.
+    :param str search: The string to search.
     """
     return any(search in string for string in list)
 
@@ -50,12 +53,15 @@ def has(list, search):
 def is_file(path):
     """Check if file exists
 
-    ":params list path: Path of the file as a list"
+    :param list path: Path of the file as a list
     """
     return os.path.isfile(path)
 
 
 def copy_to_tmp(path_list):
+    """
+    :param list path_list: A list of path segments.
+    """
     orig = os.path.join(os.path.dirname(os.path.abspath(__file__)), *path_list)
 
     tmp = os.path.join(tempfile.mkdtemp(), os.path.basename(orig))
