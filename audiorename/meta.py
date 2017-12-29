@@ -66,7 +66,7 @@ class Meta(MediaFile):
 ###############################################################################
 
     @staticmethod
-    def initials(value):
+    def _initials(value):
         """
         :param str value: A string to extract the initials.
         """
@@ -174,7 +174,7 @@ class Meta(MediaFile):
         * ``Just Friends`` → ``j``
         * ``Die Meistersinger von Nürnberg``  → ``d``
         """
-        return self.initials(self.album_clean)
+        return self._initials(self.album_clean)
 
     @property
     def artist_initial(self):
@@ -187,7 +187,7 @@ class Meta(MediaFile):
         * ``Just Friends`` → ``j``
         * ``Die Meistersinger von Nürnberg``  → ``d``
         """
-        return self.initials(self.artistsafe_sort)
+        return self._initials(self.artistsafe_sort)
 
     @property
     def artistsafe(self):
@@ -257,7 +257,7 @@ class Meta(MediaFile):
 
         * :class:`audiorename.meta.Meta.composer_safe`
         """
-        return self.initials(self.composer_safe)
+        return self._initials(self.composer_safe)
 
     @property
     def composer_safe(self):
