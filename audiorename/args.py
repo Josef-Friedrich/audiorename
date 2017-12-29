@@ -97,6 +97,7 @@ class ArgsDefault():
     target_dir = ''
     unittest = False
     verbose = False
+    work = False
 
 
 def description():
@@ -282,6 +283,16 @@ def parse_args(argv):
     parser.add_argument(
         '-V',
         '--verbose',
+        action='store_true'
+    )
+
+    # verbose
+    parser.add_argument(
+        '-w',
+        '--work',
+        help='Fetch the tag fields “work” and “mb_workid” from Musicbrainz \
+        and save this fields into the audio file. The audio file must have \
+        the tag field “mb_trackid”. The give audio file is not renamed.',
         action='store_true'
     )
 

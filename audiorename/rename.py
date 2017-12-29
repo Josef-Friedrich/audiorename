@@ -208,6 +208,9 @@ class Rename(object):
         output = output.replace('- ', '')
         print(output)
 
+    def fetch_work(self):
+        pass
+
     def action(self, copy=False):
         """Rename or copy to new path
 
@@ -248,6 +251,8 @@ class Rename(object):
                 self.mbTrackListing()
             elif self.args.copy:
                 self.action(copy=True)
+            elif self.args.work:
+                self.fetch_work()
             else:
                 self.action()
 

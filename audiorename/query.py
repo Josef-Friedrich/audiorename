@@ -13,6 +13,7 @@ import phrydy
 
 
 def get_toplevel_work(work_id):
+    """Examination code. Not used yet!"""
 
     mbrainz.set_useragent(
         "audiorename",
