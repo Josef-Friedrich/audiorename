@@ -396,15 +396,15 @@ class TestStaticMethodNormalizePerformer(unittest.TestCase):
         self.meta = get_meta(['files', 'album.mp3'])
 
     def test_unit_normalize_performer(self):
-        out = self.meta.normalizePerformer([u'John Lennon (vocals)',
-                                           u'Ringo Starr (drums)'])
+        out = self.meta._normalize_performer([u'John Lennon (vocals)',
+                                             u'Ringo Starr (drums)'])
         self.assertEqual(out[0][0], u'vocals')
         self.assertEqual(out[0][1], u'John Lennon')
         self.assertEqual(out[1][0], u'drums')
         self.assertEqual(out[1][1], u'Ringo Starr')
 
     def test_unit_normalize_performer_string(self):
-        out = self.meta.normalizePerformer(u'Ludwig van Beethoven')
+        out = self.meta._normalize_performer(u'Ludwig van Beethoven')
         self.assertEqual(out, [])
 
 

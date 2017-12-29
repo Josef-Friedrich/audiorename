@@ -73,7 +73,7 @@ class Meta(MediaFile):
         return value[0:1].lower()
 
     @staticmethod
-    def normalizePerformer(performer):
+    def _normalize_performer(performer):
         """
         :param list performer: A list of raw performer strings like
 
@@ -374,7 +374,7 @@ class Meta(MediaFile):
 
         if (self.format == 'FLAC' or self.format == 'OGG') and \
                 'performer' in self.mgfile:
-            out = self.normalizePerformer(self.mgfile['performer'])
+            out = self._normalize_performer(self.mgfile['performer'])
             if 'conductor' in self.mgfile:
                 out.insert(0, [u'conductor', self.mgfile['conductor'][0]])
         elif self.format == 'MP3':
