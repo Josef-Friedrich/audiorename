@@ -67,7 +67,8 @@ def tmp_file(test_file):
 
 def copy_to_tmp(path_list):
     orig = os.path.join(os.path.dirname(os.path.abspath(__file__)), *path_list)
-    tmp = os.path.join(tempfile.mkdtemp(), orig)
+
+    tmp = os.path.join(tempfile.mkdtemp(), os.path.basename(orig))
     shutil.copyfile(orig, tmp)
     return tmp
 
