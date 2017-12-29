@@ -464,5 +464,12 @@ class TestVerbose(unittest.TestCase):
         self.assertFalse(target in output[1])
 
 
+# --work
+class TestWork(unittest.TestCase):
+
+    def test_pass(self):
+        pass
+
+
 if __name__ == '__main__':
     unittest.main()
