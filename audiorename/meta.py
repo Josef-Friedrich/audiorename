@@ -34,13 +34,6 @@ def sanitize(value):
     return value
 
 
-def unify_list(seq):
-    """https://www.peterbe.com/plog/uniqifiers-benchmark"""
-    noDupes = []
-    [noDupes.append(i) for i in seq if not noDupes.count(i)]
-    return noDupes
-
-
 class Meta(MediaFile):
 
     def __init__(self, path, args=False):
@@ -130,6 +123,13 @@ class Meta(MediaFile):
             count = count + 1
 
         return out[len(separator):]
+
+    @staticmethod
+    def _unify_list(seq):
+        """https://www.peterbe.com/plog/uniqifiers-benchmark"""
+        noDupes = []
+        [noDupes.append(i) for i in seq if not noDupes.count(i)]
+        return noDupes
 
 ###############################################################################
 # Properties
@@ -397,7 +397,7 @@ class Meta(MediaFile):
         else:
             out = []
 
-        return unify_list(out)
+        return self._unify_list(out)
 
     @property
     def performer_short(self):

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from audiorename.meta import Meta
-from audiorename.meta import unify_list
 from audiorename.meta import roman_to_int
 from audiorename.args import ArgsDefault
 import unittest
@@ -25,25 +24,6 @@ class TestToDict(unittest.TestCase):
 
         result = meta.export_dict()
         self.assertEqual(result['title'], u'full')
-
-
-class TestUnifyList(unittest.TestCase):
-
-    def test_unify_numbers(self):
-        seq = unify_list([1, 1, 2, 2, 1, 1, 3])
-        self.assertEqual(seq, [1, 2, 3])
-
-    def test_unify_list(self):
-        seq = unify_list([
-            [u'conductor', u'Herbert von Karajan'],
-            [u'orchestra', u'Staatskapelle Dresden'],
-            [u'orchestra', u'Staatskapelle Dresden']
-        ])
-
-        self.assertEqual(seq, [
-            [u'conductor', u'Herbert von Karajan'],
-            [u'orchestra', u'Staatskapelle Dresden']
-        ])
 
 
 ###############################################################################
@@ -422,7 +402,7 @@ class TestStaticMethodSanitize(unittest.TestCase):
         self.assertEqual(self.meta._sanitize([]), u'')
 
 
-class TestStaticMethod_shorten_performer(unittest.TestCase):
+class TestStaticMethodShortenPerformer(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta(['files', 'album.mp3'])
@@ -446,6 +426,28 @@ class TestStaticMethod_shorten_performer(unittest.TestCase):
                                          separator=u'',
                                          abbreviation=u'')
         self.assertEqual(s, u'LudvanBee')
+
+
+class TestStaticMethodUnifyList(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+
+    def test_unify_numbers(self):
+        seq = self.meta._unify_list([1, 1, 2, 2, 1, 1, 3])
+        self.assertEqual(seq, [1, 2, 3])
+
+    def test_unify_list(self):
+        seq = self.meta._unify_list([
+            [u'conductor', u'Herbert von Karajan'],
+            [u'orchestra', u'Staatskapelle Dresden'],
+            [u'orchestra', u'Staatskapelle Dresden']
+        ])
+
+        self.assertEqual(seq, [
+            [u'conductor', u'Herbert von Karajan'],
+            [u'orchestra', u'Staatskapelle Dresden']
+        ])
 
 
 ###############################################################################
