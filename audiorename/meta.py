@@ -70,9 +70,14 @@ class Meta(MediaFile):
         try:
             result = mbrainz.get_recording_by_id(self.mb_trackid,
                                                  includes=['work-rels'])
-            work = result['recording']['work-relation-list'][0]
-            self.mb_workid = work['work']['id']
-            self.work = work['work']['title']
+            if 'recording' in result and \
+                    'work-relation-list' in result['recording'] and \
+                    len(result['recording']['work-relation-list']) > 0:
+                work = result['recording']['work-relation-list'][0]
+                self.mb_workid = work['work']['id']
+                self.work = work['work']['title']
+            else:
+                print("Work relation doesn’t exist.")
 
         except mbrainz.ResponseError as err:
             if err.cause.code == 404:
