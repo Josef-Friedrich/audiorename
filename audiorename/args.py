@@ -286,7 +286,7 @@ def parse_args(argv):
         action='store_true'
     )
 
-    # verbose
+    # work
     parser.add_argument(
         '-w',
         '--work',
