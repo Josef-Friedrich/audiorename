@@ -38,7 +38,7 @@ Usage
     usage: audiorenamer [-h] [-k] [-c COMPILATION] [-C] [-D] [-d] [-e EXTENSION]
                         [-F] [-m FILTER_ALBUM_MIN] [-f FORMAT]
                         [--mb-track-listing] [-S] [-s SKIP_IF_EMPTY] [-a]
-                        [-t TARGET_DIR] [--unittest] [-v] [-V]
+                        [-t TARGET_DIR] [--unittest] [-v] [-V] [-w]
                         path
     
         Rename audio files from metadata tags.
@@ -389,6 +389,10 @@ Usage
                             the unit test are printed out.
       -v, --version         show program's version number and exit
       -V, --verbose
+      -w, --work            Fetch the tag fields “work” and “mb_workid”
+                            from Musicbrainz and save this fields into the audio
+                            file. The audio file must have the tag field
+                            “mb_trackid”. The give audio file is not renamed.
 
 
 Development
