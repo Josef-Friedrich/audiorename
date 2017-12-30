@@ -58,6 +58,10 @@ Comande line interface
                                MusicBrainz wiki has a list of
                                type names
     
+        $arranger:             arranger
+    
+        $art:                  art
+    
         $artist:               artist
     
         $artist_credit:        The track-specific artist credit
@@ -121,6 +125,8 @@ Comande line interface
         $country:              The country the release was
                                issued in.
     
+        $date:                 date
+    
         $day:                  The release day of the specific
                                release
     
@@ -140,7 +146,13 @@ Comande line interface
     
         $genre:                genre
     
+        $genres:               genres
+    
         $grouping:             grouping
+    
+        $images:               images
+    
+        $initial_key:          initial_key
     
         $label:                The label which issued the
                                release. There may be more than
@@ -152,6 +164,8 @@ Comande line interface
                                639-3 standard.
     
         $length:               in seconds
+    
+        $lyricist:             lyricist
     
         $lyrics:               lyrics
     
@@ -172,6 +186,8 @@ Comande line interface
         $month:                The release month of the specific
                                release
     
+        $original_date:        original_date
+    
         $original_day:         The release day of the original
                                version of the album
     
@@ -182,6 +198,20 @@ Comande line interface
                                version of the album
     
         $performer_classical:    performer_classical
+    
+        $r128_album_gain:      An optional gain for album
+                               normalization
+    
+        $r128_track_gain:      An optional gain for track
+                               normalization
+    
+        $rg_album_gain:        rg_album_gain
+    
+        $rg_album_peak:        rg_album_peak
+    
+        $rg_track_gain:        rg_track_gain
+    
+        $rg_track_peak:        rg_track_peak
     
         $samplerate:           in kilohertz, with units: e.g.,
                                “48kHz”
