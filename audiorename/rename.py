@@ -231,7 +231,7 @@ class Rename(object):
         elif self.new_path == self.old_path:
             self.processMessage(action=u'Renamed', error=False)
         else:
-            self.processMessage(action=u'Exits', error=True)
+            self.processMessage(action=u'Exists', error=True)
             if self.args.delete_existing:
                 os.remove(self.old_path)
                 print('Delete existing file: ' + self.old_path)

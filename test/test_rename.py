@@ -50,12 +50,12 @@ class TestOverwriteProtection(unittest.TestCase):
     def test_album(self):
         with helper.Capturing() as output:
             audiorename.execute([self.tmp_album])
-        self.assertTrue('Exits' in output[0])
+        self.assertTrue('Exists' in output[0])
 
     def test_compilation(self):
         with helper.Capturing() as output:
             audiorename.execute([self.tmp_compilation])
-        self.assertTrue('Exits' in output[0])
+        self.assertTrue('Exists' in output[0])
 
     def test_album_already_renamed(self):
         with helper.Capturing():
