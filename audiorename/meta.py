@@ -22,8 +22,7 @@ class Meta(MediaFile):
 ###############################################################################
 
     def export_dict(self):
-        fields = phrydy.doc.fields.copy()
-        fields.update(module_fields)
+        fields = phrydy.doc.merge_fields(phrydy.doc.fields, module_fields)
         out = {}
         for field, description in sorted(fields.items()):
             value = getattr(self, field)
