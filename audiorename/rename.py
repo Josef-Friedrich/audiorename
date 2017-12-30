@@ -8,7 +8,7 @@ import ansicolor
 import shutil
 
 import phrydy
-from phrydy.mediafile import as_string
+from phrydy.utils import as_string
 from tmep import Functions
 from tmep import Template
 
