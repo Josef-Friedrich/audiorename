@@ -3,6 +3,7 @@
 """Create the command line interface using the package “argparse”."""
 
 import argparse
+import phrydy
 from phrydy import doc as pdoc
 from ._version import get_versions
 from tmep import doc as tdoc
@@ -72,7 +73,7 @@ fields = {
 """Documentation of the extra fields."""
 
 
-all_fields = pdoc.get_doc(additional_doc=fields)
+all_fields = pdoc.merge_fields(phrydy.doc.fields, fields)
 
 
 class ArgsDefault():

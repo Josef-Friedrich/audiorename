@@ -9,7 +9,6 @@ import sys
 import six
 import re
 import audiorename
-from audiorename import meta
 
 if six.PY2:
     from cStringIO import StringIO
@@ -34,11 +33,13 @@ def gen_file_list(files, path, extension='mp3'):
 
 
 def get_meta(path_list):
-    """
-    :param list path_list: A list of path segments.
-    """
-    m = meta.Meta(os.path.join(*path_list))
-    return m.getMeta()
+    return audiorename.meta.Meta(
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            *path_list
+        ),
+        audiorename.args.ArgsDefault()
+    )
 
 
 def has(list, search):
