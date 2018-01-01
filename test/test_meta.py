@@ -304,6 +304,20 @@ class TestPropertyPerformerDifferentFormats(unittest.TestCase):
         self.assertPerformer(meta)
 
 
+# soundtrack
+class TestPropertySoundtrack(unittest.TestCase):
+
+    def test_soundtrack(self):
+        # albumtype -> bootleg
+        # meta = get_meta(['soundtrack', 'Pulp-Fiction', '01.mp3'])
+        meta = get_meta(['show-case', 'Beatles_Yesterday.mp3'])
+        self.assertEqual(meta.soundtrack, True)
+
+    def test_no_soundtrack(self):
+        meta = get_meta(['classical', 'Schubert_Winterreise', '01.mp3'])
+        self.assertEqual(meta.soundtrack, False)
+
+
 # track_classical
 class TestPropertyTrackClassical(unittest.TestCase):
 

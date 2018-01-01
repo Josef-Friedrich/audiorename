@@ -57,6 +57,11 @@ fields = {
         'description': 'performer_classical',
         'category': 'ordinary',
     },
+    'soundtrack': {
+        'description': 'Boolean flag which indicates if the audio file is ' +
+        'a soundtrack',
+        'category': 'ordinary',
+    },
     'title_classical': {
         'description': 'title_classical',
         'category': 'ordinary',

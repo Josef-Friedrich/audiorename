@@ -476,6 +476,13 @@ class Meta(MediaFile):
         return out
 
     @property
+    def soundtrack(self):
+        if self.albumtype and u'soundtrack' in self.albumtype.lower():
+            return True
+        else:
+            return False
+
+    @property
     def title_classical(self):
         """Uses:
 
