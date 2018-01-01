@@ -42,7 +42,7 @@ formats = {
     'soundtrack': '$album_initial/' +
                   '%shorten{$album_clean}' +
                   '%ifdef{year_safe,_${year_safe}}/' +
-                  '${disctrack}_${artist_safe}_%shorten{$title}'
+                  '${disctrack}_${artist}_%shorten{$title}'
 }
 
 
@@ -111,6 +111,8 @@ class Rename(object):
             format_string = self.args.format
         elif self.args.classical:
             format_string = formats['classical']
+        elif self.args.soundtrack:
+            format_string = formats['soundtrack']
         elif self.meta.comp:
             format_string = formats['default']['compilation']
         else:

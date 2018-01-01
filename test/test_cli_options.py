@@ -337,11 +337,75 @@ class TestMBTrackListing(unittest.TestCase):
 # --soundtrack
 class TestSoundtrack(unittest.TestCase):
 
-    def setUp(self):
-        pass
+    def assertDryRun(self, folder, track, test):
+        self.assertEqual(helper.dry_run([
+            '--soundtrack',
+            os.path.join(helper.dir_test, 'soundtrack', folder, track)
+        ]), test)
 
-    def test_soundtrack(self):
-        pass
+    def test_pulp_01(self):
+        self.assertDryRun(
+            'Pulp-Fiction', '01.mp3',
+            '/p/Pulp-Fiction_1994/01_[dialogue]_Pumpkin-and-Honey-Bunny.mp3'
+        )
+
+    def test_pulp_02(self):
+        self.assertDryRun(
+            'Pulp-Fiction', '02.mp3',
+            '/p/Pulp-Fiction_1994/02_Dick-Dale-and-His-Del-Tones_Misirlou.mp3'
+        )
+
+    def test_pulp_03(self):
+        self.assertDryRun(
+            'Pulp-Fiction', '03.mp3',
+            '/p/Pulp-Fiction_1994/03_Kool-The-Gang_Jungle-Boogie.mp3'
+        )
+
+    def test_pulp_04(self):
+        self.assertDryRun(
+            'Pulp-Fiction', '04.mp3',
+            '/p/Pulp-Fiction_1994/' +
+            '04_[dialogue]_Royale-With-Cheese-dialogue.mp3'
+        )
+
+    def test_pulp_05(self):
+        self.assertDryRun(
+            'Pulp-Fiction', '05.mp3',
+            '/p/Pulp-Fiction_1994/' +
+            '05_The-Brothers-Johnson_Strawberry-Letter-23.mp3'
+        )
+
+    def test_pulp_06(self):
+        self.assertDryRun(
+            'Pulp-Fiction', '06.mp3',
+            '/p/Pulp-Fiction_1994/' +
+            '06_[dialogue]_Ezekiel-2517-dialogue-Samuel-L.mp3'
+        )
+
+    def test_pulp_07(self):
+        self.assertDryRun(
+            'Pulp-Fiction', '07.mp3',
+            '/p/Pulp-Fiction_1994/07_Al-Green_Lets-Stay-Together.mp3'
+        )
+
+    def test_pulp_08(self):
+        self.assertDryRun(
+            'Pulp-Fiction', '08.mp3',
+            '/p/Pulp-Fiction_1994/08_The-Tornadoes_Bustin-Surfboards.mp3'
+        )
+
+    def test_pulp_09(self):
+        self.assertDryRun(
+            'Pulp-Fiction', '09.mp3',
+            '/p/Pulp-Fiction_1994/09_The-Centurions_Bullwinkle-Part-II.mp3'
+        )
+
+    def test_pulp_10(self):
+        self.assertDryRun(
+            'Pulp-Fiction', '10.mp3',
+            '/p/Pulp-Fiction_1994/' +
+            '10_Dusty-Springfield_Son-of-a-Preacher-Man.mp3'
+        )
 
 
 # --source-as-target-dir

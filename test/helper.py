@@ -93,6 +93,14 @@ class Capturing(list):
 
 
 def dry_run(options):
+    """Exectue the audiorename command in the ”dry” mode and capture the
+    output to get the renamed file path.
+
+    :param list options: List of additional options
+
+    :return: The renamed file path
+    :rtype string:
+    """
     with Capturing() as output:
         audiorename.execute([
             '--target', '/',
