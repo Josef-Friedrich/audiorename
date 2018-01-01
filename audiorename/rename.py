@@ -69,7 +69,11 @@ formats = {
         '_[%shorten{$performer_classical,32}]/' +
         '${disctrack}_%shorten{$title_classical,64}_' +
         '%shorten{$acoustid_id,8}'
-    }
+    },
+    'soundtrack': '$album_initial/' +
+                  '%shorten{$album_clean}' +
+                  '%ifdef{year_safe,_${year_safe}}/' +
+                  '${disctrack}_${artist_safe}_%shorten{$title}'
 }
 
 
