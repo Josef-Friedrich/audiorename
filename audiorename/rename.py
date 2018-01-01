@@ -113,6 +113,8 @@ class Rename(object):
             format_string = formats['classical']
         elif self.args.soundtrack:
             format_string = formats['soundtrack']
+        elif self.meta.soundtrack:
+            format_string = '_soundtrack/' + formats['soundtrack']
         elif self.meta.comp:
             format_string = formats['default']['compilation']
         else:
