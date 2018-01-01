@@ -63,13 +63,11 @@ formats = {
                        '%ifdef{year_safe,_${year_safe}}/' +
                        '${disctrack}_%shorten{$title}'
     },
-    'classical': {
-        '$composer_initial/$composer_safe/' +
-        '%shorten{$album_classical,48}' +
-        '_[%shorten{$performer_classical,32}]/' +
-        '${disctrack}_%shorten{$title_classical,64}_' +
-        '%shorten{$acoustid_id,8}'
-    },
+    'classical': '$composer_initial/$composer_safe/' +
+                 '%shorten{$album_classical,48}' +
+                 '_[%shorten{$performer_classical,32}]/' +
+                 '${disctrack}_%shorten{$title_classical,64}_' +
+                 '%shorten{$acoustid_id,8}',
     'soundtrack': '$album_initial/' +
                   '%shorten{$album_clean}' +
                   '%ifdef{year_safe,_${year_safe}}/' +
@@ -140,9 +138,12 @@ class Rename(object):
             format_string = self.args.compilation
         elif not self.meta.comp and self.args.format:
             format_string = self.args.format
+        elif self.args.classical:
+            format_string = formats['classical']
+        elif self.meta.comp:
+            format_string = formats['default']['compilation']
         else:
-            format_string = default_formats(self.args.classical,
-                                            self.meta.comp)
+            format_string = formats['default']['normal']
 
         meta_dict = self.meta.export_dict()
 
