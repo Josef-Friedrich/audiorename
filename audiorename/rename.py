@@ -22,35 +22,6 @@ if six.PY2:
 
 counter = 0
 
-
-def default_formats(classical=False, compilation=False):
-    """Provide default format string formats
-
-    :param bool classical: True if the audio file is a classical piece.
-    :param bool compilation: True if the aufio file is a member of
-        a compilation.
-
-    :return: The formatted string
-    :rtype: string
-    """
-    if not classical and not compilation:
-        return '$artist_initial/' + \
-            '%shorten{$artistsafe_sort}/' +  \
-            '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +  \
-            '${disctrack}_%shorten{$title}'
-    elif not classical and compilation:
-        return '_compilations/' +  \
-            '$album_initial/' +  \
-            '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +  \
-            '${disctrack}_%shorten{$title}'
-    elif classical:
-        return '$composer_initial/$composer_safe/' +  \
-            '%shorten{$album_classical,48}' + \
-            '_[%shorten{$performer_classical,32}]/' +  \
-            '${disctrack}_%shorten{$title_classical,64}_' + \
-            '%shorten{$acoustid_id,8}'
-
-
 formats = {
     'default': {
         'normal': '$artist_initial/' +
