@@ -51,6 +51,28 @@ def default_formats(classical=False, compilation=False):
             '%shorten{$acoustid_id,8}'
 
 
+formats = {
+    'default': {
+        'normal': '$artist_initial/' +
+                  '%shorten{$artistsafe_sort}/' +
+                  '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +
+                  '${disctrack}_%shorten{$title}',
+        'compilation': '_compilations/' +
+                       '$album_initial/' +
+                       '%shorten{$album_clean}' +
+                       '%ifdef{year_safe,_${year_safe}}/' +
+                       '${disctrack}_%shorten{$title}'
+    },
+    'classical': {
+        '$composer_initial/$composer_safe/' +
+        '%shorten{$album_classical,48}' +
+        '_[%shorten{$performer_classical,32}]/' +
+        '${disctrack}_%shorten{$title_classical,64}_' +
+        '%shorten{$acoustid_id,8}'
+    }
+}
+
+
 class Rename(object):
     """Rename one file"""
 
