@@ -94,6 +94,7 @@ class ArgsDefault():
     mb_track_listing = False
     shell_friendly = False
     skip_if_empty = False
+    soundtrack = False
     source_as_target_dir = False
     target_dir = ''
     unittest = False
@@ -246,6 +247,13 @@ def parse_args(argv):
         '--skip-if-empty',
         help='Skip renaming of field is empty.',
         default=False
+    )
+
+    # soundtrack
+    parser.add_argument(
+        '--soundtrack',
+        help='Default format string for a soundtrack audio file.',
+        action='store_true'
     )
 
     # source_as_target_dir

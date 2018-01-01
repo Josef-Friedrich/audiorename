@@ -131,6 +131,7 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(args.mb_track_listing, False)
         self.assertEqual(args.shell_friendly, False)
         self.assertEqual(args.skip_if_empty, False)
+        self.assertEqual(args.soundtrack, False)
         self.assertEqual(args.source_as_target_dir, False)
         self.assertEqual(args.target_dir, '')
         self.assertEqual(args.unittest, False)

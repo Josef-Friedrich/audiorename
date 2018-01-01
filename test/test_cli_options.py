@@ -334,6 +334,16 @@ class TestMBTrackListing(unittest.TestCase):
                          '(0:00)')
 
 
+# --soundtrack
+class TestSoundtrack(unittest.TestCase):
+
+    def setUp(self):
+        pass
+
+    def test_soundtrack(self):
+        pass
+
+
 # --source-as-target-dir
 class TestSourceAsTarget(unittest.TestCase):
 
