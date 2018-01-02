@@ -89,11 +89,6 @@ def execute(argv=None):
         :code:`['--dry-run', '.']`
     """
     args = parse_args(argv)
-    args.path = os.path.abspath(args.path)
-    if os.path.isdir(args.path):
-        args.is_dir = True
-    else:
-        args.is_dir = False
 
     if args.filter_album_min or args.filter_album_complete:
         args.filter = True
