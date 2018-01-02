@@ -1,3 +1,4 @@
 include LICENSE
 include versioneer.py
 include audiorename/_version.py
+prune test
