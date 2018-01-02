@@ -25,9 +25,6 @@ class Job(object):
     soundtrack
     """
 
-    filters = []
-    """Filters"""
-
     def __init__(self, args):
         self._args = args
 
