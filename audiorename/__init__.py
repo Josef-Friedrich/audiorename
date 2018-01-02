@@ -14,6 +14,7 @@ del get_versions
 class Job(object):
     """Holds informations of one job which can handle multiple files.
 
+    A jobs represents one call of the program on the command line.
     Unifies and processes the data of the `argparse` call. The properies of
     this class can be used to display an overview message of the job.
     """
