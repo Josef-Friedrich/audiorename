@@ -6,6 +6,7 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.todo',
     'sphinx.ext.viewcode',
 ]
 templates_path = ['_templates']
@@ -21,7 +22,7 @@ release = audiorename.__version__
 language = None
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
-todo_include_todos = False
+
 html_static_path = []
 htmlhelp_basename = 'audiorenamedoc'
 
@@ -45,3 +46,6 @@ texinfo_documents = [
      author, 'audiorename', 'Rename audio files from metadata tags.',
      'Miscellaneous'),
 ]
+
+[extensions]
+todo_include_todos = True

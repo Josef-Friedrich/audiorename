@@ -12,11 +12,11 @@ del get_versions
 
 
 class Job(object):
+    """Holds informations of one job which can handle multiple files.
 
-    """Holds informations of one job which can handle multiple files."""
-
-    source = u''
-    """The source path. May be a directory or a file."""
+    Unifies and processes the data of the `argparse` call. The properies of
+    this class can be used to display an overview message of the job.
+    """
 
     target = u''
 
@@ -27,17 +27,55 @@ class Job(object):
     soundtrack
     """
 
-    action = u''
-    """
-    rename/move (default)
-    copy
-    """
-
     filters = []
     """Filters"""
 
     def __init__(self, args):
-        pass
+        self._args = args
+
+    @property
+    def action(self):
+        """
+        * move: Rename / move the file (default).
+        * copy: Copy the source file to the target path.
+        """
+        if self._args.dry_run:
+            return u'dry_run'
+        if self._args.copy:
+            return u'copy'
+        else:
+            return u'move'
+
+    @property
+    def filter(self):
+        out = {}
+
+        if self._args.filter_album_min:
+            out['album_min'] = self._args.filter_album_min
+
+        if self._args.filter_album_complete:
+            out['album_complete'] = self._args.filter_album_complete
+        return out
+
+    @property
+    def source(self):
+        """The source path as a absolute path. Maybe a directory or a file."""
+        return os.path.abspath(self._args.path)
+
+    @property
+    def target(self):
+        """The path of the target path as an absolute path. Is always a
+        directory.
+
+        .. todo::
+            Add test
+        """
+        if self._args.source_as_target_dir:
+            return os.path.dirname(self._args.source)
+        elif self._args.target_dir:
+            return self._args.target_dir
+        else:
+            return os.getcwd()
 
 
 class PerFile(object):

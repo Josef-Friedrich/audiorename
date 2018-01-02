@@ -10,6 +10,11 @@ Contents:
     cli
     modules
 
+Todos:
+
+.. todolist::
+
+
 ******************
 Indices and tables
 ******************
