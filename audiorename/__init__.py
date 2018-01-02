@@ -18,8 +18,6 @@ class Job(object):
     this class can be used to display an overview message of the job.
     """
 
-    target = u''
-
     formats = {}
     """
     default
@@ -66,14 +64,14 @@ class Job(object):
     def target(self):
         """The path of the target path as an absolute path. Is always a
         directory.
-
-        .. todo::
-            Add test
         """
         if self._args.source_as_target_dir:
-            return os.path.dirname(self._args.source)
+            if os.path.isdir(self.source):
+                return os.path.abspath(self.source)
+            else:
+                return os.path.abspath(os.path.dirname(self.source))
         elif self._args.target_dir:
-            return self._args.target_dir
+            return os.path.abspath(self._args.target_dir)
         else:
             return os.getcwd()
 

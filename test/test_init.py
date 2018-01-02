@@ -30,6 +30,15 @@ class TestJob(unittest.TestCase):
         job = Job(self.args)
         self.assertEqual(job.filter, {})
 
+    def test_property_target(self):
+        job = Job(self.args)
+        self.args.path = u'.'
+        self.assertEqual(job.target, os.getcwd())
+        self.args.target_dir = 'test'
+        self.assertEqual(job.target, os.path.abspath('test'))
+        self.args.source_as_target_dir = True
+        self.assertEqual(job.target, os.getcwd())
+
 
 if __name__ == '__main__':
     unittest.main()
