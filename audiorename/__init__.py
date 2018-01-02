@@ -11,6 +11,41 @@ __version__ = get_versions()['version']
 del get_versions
 
 
+class Job(object):
+
+    """Holds informations of one job which can handle multiple files."""
+
+    source = u''
+    """The source path. May be a directory or a file."""
+
+    target = u''
+
+    formats = {}
+    """
+    default
+    compilation
+    soundtrack
+    """
+
+    action = u''
+    """
+    rename/move (default)
+    copy
+    """
+
+    filters = []
+    """Filters"""
+
+    def __init__(self, args):
+        pass
+
+
+class PerFile(object):
+
+    def __init(self):
+        pass
+
+
 def execute(argv=None):
     """Main function
 
