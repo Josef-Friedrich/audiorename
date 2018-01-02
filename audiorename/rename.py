@@ -22,28 +22,59 @@ if six.PY2:
 
 counter = 0
 
-formats = {
-    'default': {
-        'normal': '$artist_initial/' +
-                  '%shorten{$artistsafe_sort}/' +
-                  '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' +
-                  '${disctrack}_%shorten{$title}',
-        'compilation': '_compilations/' +
-                       '$album_initial/' +
-                       '%shorten{$album_clean}' +
-                       '%ifdef{year_safe,_${year_safe}}/' +
-                       '${disctrack}_%shorten{$title}'
-    },
-    'classical': '$composer_initial/$composer_safe/' +
-                 '%shorten{$album_classical,48}' +
-                 '_[%shorten{$performer_classical,32}]/' +
-                 '${disctrack}_%shorten{$title_classical,64}_' +
-                 '%shorten{$acoustid_id,8}',
-    'soundtrack': '$album_initial/' +
-                  '%shorten{$album_clean}' +
-                  '%ifdef{year_safe,_${year_safe}}/' +
-                  '${disctrack}_${artist}_%shorten{$title}'
-}
+
+class DefaultFormats(object):
+
+    default = '$artist_initial/' + \
+              '%shorten{$artistsafe_sort}/' + \
+              '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' + \
+              '${disctrack}_%shorten{$title}'
+
+    compilation = '_compilations/' + \
+                  '$album_initial/' + \
+                  '%shorten{$album_clean}' + \
+                  '%ifdef{year_safe,_${year_safe}}/' + \
+                  '${disctrack}_%shorten{$title}'
+
+    soundtrack = '_soundtrack/' + \
+                 '$album_initial/' + \
+                 '%shorten{$album_clean}' + \
+                 '%ifdef{year_safe,_${year_safe}}/' + \
+                 '${disctrack}_${artist}_%shorten{$title}'
+
+    classical = '$composer_initial/$composer_safe/' + \
+                '%shorten{$album_classical,48}' + \
+                '_[%shorten{$performer_classical,32}]/' + \
+                '${disctrack}_%shorten{$title_classical,64}_' + \
+                '%shorten{$acoustid_id,8}'
+
+
+class Formats(object):
+
+    default = u''
+    compilation = u''
+    soundtrack = u''
+
+    def __init__(self, args):
+        defaults = DefaultFormats()
+
+        if args.format:
+            defaults.default = args.format
+
+        if args.compilation:
+            defaults.compilation = args.compilation
+
+        if args.soundtrack:
+            defaults.soundtrack = args.soundtrack
+
+        if args.classical:
+            self.default = defaults.classical
+            self.compilation = defaults.classical
+            self.soundtrack = defaults.classical
+        else:
+            self.default = defaults.default
+            self.compilation = defaults.compilation
+            self.soundtrack = defaults.soundtrack
 
 
 class Rename(object):
@@ -96,20 +127,13 @@ class Rename(object):
                 self.skip = True
 
     def generateFilename(self):
-        if self.meta.comp and self.args.compilation:
-            format_string = self.args.compilation
-        elif not self.meta.comp and self.args.format:
-            format_string = self.args.format
-        elif self.args.classical:
-            format_string = formats['classical']
-        elif self.args.soundtrack:
-            format_string = formats['soundtrack']
-        elif self.meta.soundtrack:
-            format_string = '_soundtrack/' + formats['soundtrack']
+        formats = Formats(self.args)
+        if self.meta.soundtrack:
+            format_string = formats.soundtrack
         elif self.meta.comp:
-            format_string = formats['default']['compilation']
+            format_string = formats.compilation
         else:
-            format_string = formats['default']['normal']
+            format_string = formats.default
 
         meta_dict = self.meta.export_dict()
 

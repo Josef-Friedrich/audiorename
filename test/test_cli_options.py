@@ -340,6 +340,10 @@ class TestSoundtrack(unittest.TestCase):
     def assertDryRun(self, folder, track, test):
         self.assertEqual(helper.dry_run([
             '--soundtrack',
+            '$album_initial/' +
+            '%shorten{$album_clean}' +
+            '%ifdef{year_safe,_${year_safe}}/' +
+            '${disctrack}_${artist}_%shorten{$title}',
             os.path.join(helper.dir_test, 'soundtrack', folder, track)
         ]), test)
 

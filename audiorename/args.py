@@ -161,7 +161,9 @@ def parse_args(argv):
     parser.add_argument(
         '-k',
         '--classical',
-        help='Use default format for classical music',
+        help='Use the default format for classical music. If you use this \
+        option, both parameters (--format and --compilation) have no \
+        effect. Classical music is sorted by the lastname of the composer.',
         action='store_true'
     )
 
@@ -169,7 +171,8 @@ def parse_args(argv):
     parser.add_argument(
         '-c',
         '--compilation',
-        help='Format string for compilations',
+        help='Format string for compilations. Use metadata fields and \
+        functions to build the format string.',
         default=False
     )
 
@@ -225,15 +228,17 @@ def parse_args(argv):
     parser.add_argument(
         '-f',
         '--format',
-        help='A format string',
+        help='The default format string for audio files that are not \
+        compilations or compilations. Use metadata fields and functions to \
+        build the format string.',
         default=False
     )
 
     # mb_track_listing
     parser.add_argument(
         '--mb-track-listing',
-        help='Print track listing for Musicbrainz website: Format: track. title \
-        (duration), e. g.: \
+        help='Print track listing for Musicbrainz website: Format: track. \
+        title (duration), e. g.: \
           1. He, Zigeuner (1:31) \
           2. Hochgetürmte Rimaflut (1:21)',
         action='store_true'
@@ -259,8 +264,9 @@ def parse_args(argv):
     # soundtrack
     parser.add_argument(
         '--soundtrack',
-        help='Default format string for a soundtrack audio file.',
-        action='store_true'
+        help='Format string for a soundtrack audio file. Use metadata fields \
+        and functions to build the format string.',
+        default=False
     )
 
     # source_as_target_dir

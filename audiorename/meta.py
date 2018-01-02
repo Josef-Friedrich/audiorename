@@ -477,7 +477,8 @@ class Meta(MediaFile):
 
     @property
     def soundtrack(self):
-        if self.albumtype and u'soundtrack' in self.albumtype.lower():
+        if (self.albumtype and u'soundtrack' in self.albumtype.lower()) or \
+                (self.genre and u'soundtrack' in self.genre.lower()):
             return True
         else:
             return False
