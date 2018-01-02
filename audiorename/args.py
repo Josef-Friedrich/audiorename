@@ -140,7 +140,6 @@ def parse_args(argv):
 
     :return: Dictionary see :class:`audiorename.args.ArgsDefault`
 
-
     .. todo:: Rename arguemnt `path` to `source`
     """
 
@@ -148,7 +147,6 @@ def parse_args(argv):
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=description()
     )
-
 
     parser.add_argument(
         'path',
