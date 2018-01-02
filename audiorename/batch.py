@@ -10,8 +10,9 @@ import os
 
 class Batch(object):
 
-    def __init__(self, args):
+    def __init__(self, args, job):
         self.args = args
+        self.job = job
         self.album = []
         self.album_title = ''
 
@@ -86,8 +87,8 @@ class Batch(object):
 
     def execute(self):
         """Process all files of a given path or process a single file."""
-        if self.args.is_dir:
-            for path, dirs, files in os.walk(self.args.path):
+        if os.path.isdir(self.job.source):
+            for path, dirs, files in os.walk(self.job.source):
                 dirs.sort()
                 files.sort()
                 for file_name in files:
@@ -96,7 +97,7 @@ class Batch(object):
                         if self.args.filter:
                             self.make_bundles(p)
                         else:
-                            do_rename(p, args=self.args)
+                            do_rename(p, args=self.args, job=self.job)
 
             # Process the last bundle left over
             if self.args.filter:
@@ -105,4 +106,4 @@ class Batch(object):
         else:
             p = self.args.path
             if self.check_extension(p):
-                do_rename(p, args=self.args)
+                do_rename(p, args=self.args, job=self.job)

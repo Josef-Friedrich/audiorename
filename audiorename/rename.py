@@ -75,26 +75,17 @@ class Rename(object):
     cwd = os.getcwd()
     """The path of the current working directory"""
 
-    def __init__(self, old_file=False, args=False):
+    def __init__(self, old_file=False, args=False, job=False):
         self.skip = False
 
         if args:
             self.args = args
 
+        if job:
+            self.job = job
+
         if old_file:
             self.old_file = old_file
-
-            if self.args.target_dir:
-                self.target_dir = self.args.target_dir
-            else:
-                self.target_dir = self.cwd
-
-            if self.args.source_as_target_dir:
-
-                if self.args.is_dir:
-                    self.target_dir = args.path
-                else:
-                    self.target_dir = os.path.dirname(args.path)
 
             self.old_path = os.path.realpath(self.old_file)
             self.extension = self.old_file.split('.')[-1]
@@ -128,7 +119,7 @@ class Rename(object):
         new = self.postTemplate(new)
         new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
         self.new_file = new
-        self.new_path = os.path.join(self.target_dir, new)
+        self.new_path = os.path.join(self.job.target, new)
 
     def postTemplate(self, text):
         if isinstance(text, str) or isinstance(text, unicode):
@@ -180,8 +171,8 @@ class Rename(object):
         if not self.args.verbose:
             if output_old and hasattr(self, 'cwd') and len(self.cwd) > 1:
                 output_old = output_old.replace(self.cwd, '')
-            if output_new and len(self.target_dir) > 1:
-                output_new = output_new.replace(self.target_dir, '')
+            if output_new and len(self.job.target) > 1:
+                output_new = output_new.replace(self.job.target, '')
 
         line1 = message + u' ' + output_old + '\n'
         if output_new:
@@ -260,9 +251,9 @@ class Rename(object):
                 self.action()
 
 
-def do_rename(path, args=None):
+def do_rename(path, args=None, job=None):
     if args.unittest:
         print(os.path.abspath(path))
     else:
-        audio = Rename(path, args)
+        audio = Rename(path, args, job)
         audio.execute()

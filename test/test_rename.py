@@ -86,6 +86,7 @@ class TestMessageUnittest(unittest.TestCase):
         args_default = ArgsDefault()
         self.r = Rename(False, args_default)
 
+    @unittest.skip("Must be rewritten")
     def test_message(self):
         out = self.r.processMessage(action=u'lol', old_path=u'old',
                                     new_path=u'new', output=u'return')

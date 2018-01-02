@@ -100,5 +100,6 @@ def execute(argv=None):
     else:
         args.filter = False
 
-    batch = Batch(args)
+    job = Job(args)
+    batch = Batch(args, job)
     batch.execute()
