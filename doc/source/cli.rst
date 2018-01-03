@@ -4,11 +4,12 @@ Comande line interface
 .. code-block:: text
 
 
-    usage: audiorenamer [-h] [-k] [-c COMPILATION] [-C] [-D] [-d] [-e EXTENSION]
-                        [-F] [-m album_min] [-f FORMAT]
-                        [--mb-track-listing] [-S] [-s SKIP_IF_EMPTY] [-a]
-                        [-t TARGET_DIR] [--unittest] [-v] [-V] [-w]
-                        path
+    usage: audiorenamer [-h] [-D] [-s SKIP_IF_EMPTY] [-v] [-j] [-V]
+                        [-C | -d | -M | --mb-track-listing | -w] [-F]
+                        [-m ALBUM_MIN] [-e EXTENSION] [-k] [-S] [-c FORMAT_STRING]
+                        [-f FORMAT_STRING] [--soundtrack FORMAT_STRING] [-a]
+                        [-t TARGET_DIR]
+                        source
     
         Rename audio files from metadata tags.
     
@@ -21,10 +22,10 @@ Comande line interface
         3. Use the option ``-a`` or ``--source-as-target`` to copy or rename
            your audio files within the source directory.
     
-        Metadata fields
-        ---------------
+    Metadata fields
+    ===============
     
-            $acoustid_fingerprint:    Acoustic ID fingerprint
+        $acoustid_fingerprint:    Acoustic ID fingerprint
     
         $acoustid_id:          Acoustic ID
     
@@ -221,6 +222,9 @@ Comande line interface
                                possible values are taken from
                                the ISO 15924 standard.
     
+        $soundtrack:           Boolean flag which indicates if
+                               the audio file is a soundtrack
+    
         $title:                The title of a audio file.
     
         $title_classical:      title_classical
@@ -239,10 +243,10 @@ Comande line interface
         $year_safe:            First “original_year” then
                                “year”.
     
-        Functions
-        ---------
+    Functions
+    =========
     
-            asciify
+        asciify
         -------
     
         %asciify{text}
@@ -354,41 +358,65 @@ Comande line interface
             Convert “text” to UPPERCASE.
     
     positional arguments:
-      path                  A folder containing audio files or a audio file
+      source                A folder containing audio files or a audio file
     
     optional arguments:
       -h, --help            show this help message and exit
-      -k, --classical       Use default format for classical music
-      -c COMPILATION, --compilation COMPILATION
-                            Format string for compilations
-      -C, --copy            Copy files instead of rename / move.
       -D, --delete-existing
                             Delete source file if the target file already exists.
+      -s SKIP_IF_EMPTY, --skip-if-empty SKIP_IF_EMPTY
+                            Skip renaming of field is empty.
+      -v, --version         show program's version number and exit
+    
+    output:
+      -j, --job-info        Display informations about the current job. This
+                            informations are printted out before any actions on
+                            the audio files are executed.
+      -V, --verbose         Make the command line output more verbose.
+    
+    actions:
+      -C, --copy            Copy files instead of rename / move.
       -d, --dry-run         Don’t rename or copy the audio files.
-      -e EXTENSION, --extension EXTENSION
-                            Extensions to rename
-      -F, --album-complete
-                            Rename only complete albums
-      -m album_min, --album-min album_min
-                            Rename only albums containing at least X files.
-      -f FORMAT, --format FORMAT
-                            A format string
+      -M, --move            Move / rename a file. This is the default action. The
+                            option can be omitted.
       --mb-track-listing    Print track listing for Musicbrainz website: Format:
                             track. title (duration), e. g.: 1. He, Zigeuner (1:31)
                             2. Hochgetürmte Rimaflut (1:21)
-      -S, --shell-friendly  Rename audio files “shell friendly”, this means
-                            without whitespaces, parentheses etc.
-      -s SKIP_IF_EMPTY, --skip-if-empty SKIP_IF_EMPTY
-                            Skip renaming of field is empty.
-      -a, --source-as-target
-                            Use specified source folder as target directory
-      -t TARGET_DIR, --target-dir TARGET_DIR
-                            Target directory
-      --unittest            The audio files are not renamed. Debug messages for
-                            the unit test are printed out.
-      -v, --version         show program's version number and exit
-      -V, --verbose
       -w, --work            Fetch the tag fields “work” and “mb_workid”
                             from Musicbrainz and save this fields into the audio
                             file. The audio file must have the tag field
                             “mb_trackid”. The give audio file is not renamed.
+    
+    filters:
+      -F, --album-complete  Rename only complete albums
+      -m ALBUM_MIN, --album-min ALBUM_MIN
+                            Rename only albums containing at least X files.
+      -e EXTENSION, --extension EXTENSION
+                            Extensions to rename
+    
+    formats:
+      -k, --classical       Use the default format for classical music. If you use
+                            this option, both parameters (--format and
+                            --compilation) have no effect. Classical music is
+                            sorted by the lastname of the composer.
+      -S, --shell-friendly  Rename audio files “shell friendly”, this means
+                            without whitespaces, parentheses etc.
+    
+    format strings:
+      -c FORMAT_STRING, --compilation FORMAT_STRING
+                            Format string for compilations. Use metadata fields
+                            and functions to build the format string.
+      -f FORMAT_STRING, --format FORMAT_STRING
+                            The default format string for audio files that are not
+                            compilations or compilations. Use metadata fields and
+                            functions to build the format string.
+      --soundtrack FORMAT_STRING
+                            Format string for a soundtrack audio file. Use
+                            metadata fields and functions to build the format
+                            string.
+    
+    target:
+      -a, --source-as-target
+                            Use specified source folder as target directory
+      -t TARGET_DIR, --target-dir TARGET_DIR
+                            Target directory
