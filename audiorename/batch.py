@@ -104,6 +104,6 @@ class Batch(object):
                 self.make_bundles()
 
         else:
-            p = self.args.path
+            p = self.job.source
             if self.check_extension(p):
                 do_rename(p, args=self.args, job=self.job)

@@ -124,8 +124,8 @@ class TestArgsDefault(unittest.TestCase):
 
     def test_defaults(self):
         from audiorename.args import parse_args
-        args = parse_args(['.'])
-        self.assertEqual(args.path, '.')
+        args = parse_args(['lol'])
+        self.assertEqual(args.source, 'lol')
 
         self.assertEqual(args.classical, False)
         self.assertEqual(args.compilation, False)

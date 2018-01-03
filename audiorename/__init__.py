@@ -67,7 +67,7 @@ class Job(object):
     @property
     def source(self):
         """The source path as a absolute path. Maybe a directory or a file."""
-        return os.path.abspath(self._args.path)
+        return os.path.abspath(self._args.source)
 
     @property
     def target(self):
