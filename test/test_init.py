@@ -75,6 +75,11 @@ class TestJob(unittest.TestCase):
         self.args.extension = 'lol'
         self.assertEqual(job.filter.extension, 'lol')
 
+    def test_output_color(self):
+        job = Job(self.args)
+        self.args.color = True
+        self.assertEqual(job.output.color, True)
+
     def test_output_job_info(self):
         job = Job(self.args)
         self.args.job_info = True

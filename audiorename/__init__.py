@@ -136,11 +136,13 @@ class Job(object):
     @property
     def output(self):
         Output = namedtuple('Output', [
+            'color',
             'job_info',
             'verbose',
         ])
 
         return Output(
+            self._args.color,
             self._args.job_info,
             self._args.verbose,
         )

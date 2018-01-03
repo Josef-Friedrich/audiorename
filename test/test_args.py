@@ -147,6 +147,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.classical, False)
         self.assertEqual(self.args.classical, self.default.classical)
 
+    def test_color(self):
+        self.assertEqual(self.args.color, False)
+        self.assertEqual(self.args.color, self.default.color)
+
     def test_compilation(self):
         self.assertEqual(self.args.compilation, False)
         self.assertEqual(self.args.compilation, self.default.compilation)

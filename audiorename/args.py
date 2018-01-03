@@ -90,6 +90,7 @@ class ArgsDefault():
     album_complete = False
     album_min = False
     classical = False
+    color = False
     compilation = False
     copy = False
     delete_existing = False
@@ -329,6 +330,14 @@ def parse_args(argv):
 ###############################################################################
 
     output = parser.add_argument_group('output')
+
+    # color
+    output.add_argument(
+        '-K',
+        '--color',
+        help='Colorize the standard output of the program with ANSI colors.',
+        action='store_true'
+    )
 
     # job_info
     output.add_argument(
