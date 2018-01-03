@@ -3,6 +3,7 @@
 """Test the code in the __init__ file."""
 
 import audiorename
+from audiorename import MessageJob
 from audiorename import Job
 from audiorename.args import ArgsDefault
 import unittest
@@ -17,6 +18,18 @@ class TestMessageJob(unittest.TestCase):
         with helper.Capturing() as output:
             audiorename.execute(['--dry-run', '--job-info', tmp])
         self.assertEqual(output[0], 'action: dry_run')
+
+    def test_unit_color(self):
+        message = MessageJob(helper.get_job(color=True))
+        with helper.Capturing() as output:
+            message.print_output()
+        self.assertTrue(u'\x1b' in output[0])
+
+    def test_unit_nocolor(self):
+        message = MessageJob(helper.get_job(color=False))
+        with helper.Capturing() as output:
+            message.print_output()
+        self.assertFalse(u'\x1b' in output[0])
 
 
 class TestJob(unittest.TestCase):

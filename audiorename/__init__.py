@@ -3,6 +3,7 @@
 """Rename audio files from metadata tags."""
 
 import os
+import ansicolor
 from audiorename.args import parse_args
 from .batch import Batch
 from ._version import get_versions
@@ -174,9 +175,11 @@ class MessageJob(object):
         self.job = job
         self.keys = ['action', 'source', 'target']
 
-    @staticmethod
-    def format_key_value(key, value):
-        return key + ': ' + value + '\n'
+    def format_key_value(self, key, value):
+        key = key + ':'
+        if self.job.output.color:
+            key = ansicolor.yellow(key)
+        return key + ' ' + value + '\n'
 
     def print_output(self):
         out = u''
