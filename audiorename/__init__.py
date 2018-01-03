@@ -65,8 +65,8 @@ class Job(object):
         ])
 
         return Filter(
-            self._args.filter_album_complete,
-            self._args.filter_album_min,
+            self._args.album_complete,
+            self._args.album_min,
             self._args.extension
         )
 
@@ -123,7 +123,7 @@ def execute(argv=None):
     """
     args = parse_args(argv)
 
-    if args.filter_album_min or args.filter_album_complete:
+    if args.album_min or args.album_complete:
         args.filter = True
     else:
         args.filter = False

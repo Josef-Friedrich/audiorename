@@ -5,7 +5,7 @@ Comande line interface
 
 
     usage: audiorenamer [-h] [-k] [-c COMPILATION] [-C] [-D] [-d] [-e EXTENSION]
-                        [-F] [-m FILTER_ALBUM_MIN] [-f FORMAT]
+                        [-F] [-m album_min] [-f FORMAT]
                         [--mb-track-listing] [-S] [-s SKIP_IF_EMPTY] [-a]
                         [-t TARGET_DIR] [--unittest] [-v] [-V] [-w]
                         path
@@ -367,9 +367,9 @@ Comande line interface
       -d, --dry-run         Don’t rename or copy the audio files.
       -e EXTENSION, --extension EXTENSION
                             Extensions to rename
-      -F, --filter-album-complete
+      -F, --album-complete
                             Rename only complete albums
-      -m FILTER_ALBUM_MIN, --filter-album-min FILTER_ALBUM_MIN
+      -m album_min, --album-min album_min
                             Rename only albums containing at least X files.
       -f FORMAT, --format FORMAT
                             A format string

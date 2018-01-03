@@ -32,7 +32,7 @@ class Batch(object):
         """Compare the number of tracks in an album with the minimal track
         threshold.
         """
-        if len(self.album) > int(self.args.filter_album_min):
+        if len(self.album) > int(self.args.album_min):
             return True
         else:
             return False
@@ -53,9 +53,9 @@ class Batch(object):
         """Check an album for quantity and completeness."""
         quantity = True
         completeness = True
-        if self.args.filter_album_min and not self.check_quantity():
+        if self.args.album_min and not self.check_quantity():
             quantity = False
-        if self.args.filter_album_complete and not self.check_completeness():
+        if self.args.album_complete and not self.check_completeness():
             completeness = False
 
         if quantity and completeness:

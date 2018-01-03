@@ -66,31 +66,31 @@ class TestBatch(unittest.TestCase):
             ])
         self.assertEqual(self.album_complete, output)
 
-    def test_filter_album_min(self):
+    def test_album_min(self):
         with helper.Capturing() as output:
             audiorename.execute([
                 '--unittest',
-                '--filter-album-min',
+                '--album-min',
                 '7',
                 helper.test_files
             ])
         self.assertEqual(self.album_complete + self.album_incomplete, output)
 
-    def test_filter_album_min_no_match(self):
+    def test_album_min_no_match(self):
         with helper.Capturing() as output:
             audiorename.execute([
                 '--unittest',
-                '--filter-album-min',
+                '--album-min',
                 '23',
                 helper.test_files
             ])
         self.assertEqual([], output)
 
-    def test_filter_album_complete(self):
+    def test_album_complete(self):
         with helper.Capturing() as output:
             audiorename.execute([
                 '--unittest',
-                '--filter-album-complete',
+                '--album-complete',
                 helper.test_files
             ])
         self.assertEqual(
@@ -104,9 +104,9 @@ class TestBatch(unittest.TestCase):
         with helper.Capturing() as output:
             audiorename.execute([
                 '--unittest',
-                '--filter-album-min',
+                '--album-min',
                 '7',
-                '--filter-album-complete',
+                '--album-complete',
                 helper.test_files
             ])
         self.assertEqual(self.album_complete, output)

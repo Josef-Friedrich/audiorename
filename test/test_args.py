@@ -129,9 +129,19 @@ class TestArgsDefault(unittest.TestCase):
         self.default.source = 'lol'
         self.args = parse_args(['lol'])
 
+    # positional arguments
     def test_source(self):
         self.assertEqual(self.args.source, 'lol')
         self.assertEqual(self.args.source, self.default.source)
+
+    # optional arguments
+    def test_album_complete(self):
+        self.assertEqual(self.args.album_complete, False)
+        self.assertEqual(self.args.album_complete, self.default.album_complete)
+
+    def test_album_min(self):
+        self.assertEqual(self.args.album_min, False)
+        self.assertEqual(self.args.album_min, self.default.album_min)
 
     def test_classical(self):
         self.assertEqual(self.args.classical, False)
@@ -157,16 +167,6 @@ class TestArgsDefault(unittest.TestCase):
     def test_extension(self):
         self.assertEqual(self.args.extension, 'mp3,m4a,flac,wma')
         self.assertEqual(self.args.extension, self.default.extension)
-
-    def test_filter_album_complete(self):
-        self.assertEqual(self.args.filter_album_complete, False)
-        self.assertEqual(self.args.filter_album_complete,
-                         self.default.filter_album_complete)
-
-    def test_filter_album_min(self):
-        self.assertEqual(self.args.filter_album_min, False)
-        self.assertEqual(self.args.filter_album_min,
-                         self.default.filter_album_min)
 
     def test_format(self):
         self.assertEqual(self.args.format, False)

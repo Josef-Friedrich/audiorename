@@ -87,14 +87,14 @@ class ArgsDefault():
     to mock the args object for testing purposes.
     """
 
+    album_complete = False
+    album_min = False
     classical = False
     compilation = False
     copy = False
     delete_existing = False
     dry_run = False
     extension = 'mp3,m4a,flac,wma'
-    filter_album_complete = False
-    filter_album_min = False
     format = False
     job_info = False
     mb_track_listing = False
@@ -272,28 +272,28 @@ def parse_args(argv):
 
     filters = parser.add_argument_group('filters')
 
+    # album_complete
+    filters.add_argument(
+        '-F',
+        '--album-complete',
+        help='Rename only complete albums',
+        action='store_true'
+    )
+
+    # album_min
+    filters.add_argument(
+        '-m',
+        '--album-min',
+        help='Rename only albums containing at least X files.',
+        default=False
+    )
+
     # extension
     filters.add_argument(
         '-e',
         '--extension',
         help='Extensions to rename',
         default='mp3,m4a,flac,wma'
-    )
-
-    # filter_album_complete
-    filters.add_argument(
-        '-F',
-        '--filter-album-complete',
-        help='Rename only complete albums',
-        action='store_true'
-    )
-
-    # filter_album_min
-    filters.add_argument(
-        '-m',
-        '--filter-album-min',
-        help='Rename only albums containing at least X files.',
-        default=False
     )
 
 ###############################################################################
