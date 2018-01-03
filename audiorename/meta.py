@@ -13,9 +13,9 @@ import musicbrainzngs as mbrainz
 
 class Meta(MediaFile):
 
-    def __init__(self, path, args=False):
+    def __init__(self, path, shell_friendly=False):
         super(Meta, self).__init__(path, False)
-        self.args = args
+        self.shell_friendly = shell_friendly
 
 ###############################################################################
 # Public methods
@@ -291,7 +291,7 @@ class Meta(MediaFile):
         else:
             out = u'Unknown'
 
-        if self.args.shell_friendly:
+        if self.shell_friendly:
             out = out.replace(', ', '_')
 
         return out
@@ -319,7 +319,7 @@ class Meta(MediaFile):
         else:
             out = self.artistsafe
 
-        if self.args.shell_friendly:
+        if self.shell_friendly:
             out = out.replace(', ', '_')
 
         # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'

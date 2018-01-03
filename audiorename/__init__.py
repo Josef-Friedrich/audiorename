@@ -79,6 +79,11 @@ class Job(object):
     def __init__(self, args):
         self._args = args
 
+        self.delete_existing = args.delete_existing
+        self.skip_if_empty = args.skip_if_empty
+        self.unittest = args.unittest
+        self.shell_friendly = args.shell_friendly
+
     @property
     def action(self):
         """
@@ -90,16 +95,19 @@ class Job(object):
         * dry_run
         * mb_track_listing
         * move
+        * work
 
         """
-        if self._args.mb_track_listing:
-            return u'mb_track_listing'
+        if self._args.copy:
+            return u'copy'
         elif self._args.dry_run:
             return u'dry_run'
-        elif self._args.copy:
-            return u'copy'
+        elif self._args.mb_track_listing:
+            return u'mb_track_listing'
         elif self._args.move:
             return u'move'
+        elif self._args.work:
+            return u'work'
         else:
             return u'move'
 
@@ -189,5 +197,5 @@ def execute(argv=None):
     if job.output.job_info:
         message = MessageJob(job)
         message.print_output()
-    batch = Batch(args, job)
+    batch = Batch(job)
     batch.execute()

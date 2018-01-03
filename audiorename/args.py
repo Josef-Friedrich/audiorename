@@ -158,6 +158,14 @@ def parse_args(argv):
     # Options (sorted alphabetically)
     ##
 
+    # delete_existing
+    parser.add_argument(
+        '-D',
+        '--delete-existing',
+        help='Delete source file if the target file already exists.',
+        action='store_true'
+    )
+
     # skip_if_empty
     parser.add_argument(
         '-s',
@@ -180,16 +188,6 @@ def parse_args(argv):
         '--version',
         action='version',
         version='%(prog)s {version}'.format(version=get_versions()['version'])
-    )
-
-    # work
-    parser.add_argument(
-        '-w',
-        '--work',
-        help='Fetch the tag fields “work” and “mb_workid” from Musicbrainz \
-        and save this fields into the audio file. The audio file must have \
-        the tag field “mb_trackid”. The give audio file is not renamed.',
-        action='store_true'
     )
 
 ###############################################################################
@@ -220,15 +218,6 @@ def parse_args(argv):
 ###############################################################################
 
     actions = parser.add_argument_group('actions')
-
-    # delete_existing
-    actions.add_argument(
-        '-D',
-        '--delete-existing',
-        help='Delete source file if the target file already exists.',
-        action='store_true'
-    )
-
     exclusive = actions.add_mutually_exclusive_group()
 
     # copy
@@ -263,6 +252,16 @@ def parse_args(argv):
         title (duration), e. g.: \
           1. He, Zigeuner (1:31) \
           2. Hochgetürmte Rimaflut (1:21)',
+        action='store_true'
+    )
+
+    # work
+    exclusive.add_argument(
+        '-w',
+        '--work',
+        help='Fetch the tag fields “work” and “mb_workid” from Musicbrainz \
+        and save this fields into the audio file. The audio file must have \
+        the tag field “mb_trackid”. The give audio file is not renamed.',
         action='store_true'
     )
 

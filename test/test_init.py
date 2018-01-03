@@ -48,6 +48,16 @@ class TestJob(unittest.TestCase):
         self.args.move = True
         self.assertEqual(job.action, u'move')
 
+    def test_action_work(self):
+        job = Job(self.args)
+        self.args.work = True
+        self.assertEqual(job.action, u'work')
+
+    def test_delete_existing(self):
+        self.args.delete_existing = True
+        job = Job(self.args)
+        self.assertEqual(job.delete_existing, True)
+
     def test_filter_album_complete(self):
         job = Job(self.args)
         self.args.album_complete = 19
@@ -84,10 +94,25 @@ class TestJob(unittest.TestCase):
         self.args.source_as_target_dir = True
         self.assertEqual(job.target, os.getcwd())
 
+    def test_shell_friendly(self):
+        self.args.shell_friendly = True
+        job = Job(self.args)
+        self.assertEqual(job.shell_friendly, True)
+
+    def test_skip_if_empty(self):
+        self.args.skip_if_empty = True
+        job = Job(self.args)
+        self.assertEqual(job.skip_if_empty, True)
+
     def test_source(self):
         self.args.path = u'.'
         job = Job(self.args)
         self.assertEqual(job.source, os.path.abspath(u'.'))
+
+    def test_unittest(self):
+        self.args.unittest = True
+        job = Job(self.args)
+        self.assertEqual(job.unittest, True)
 
 
 if __name__ == '__main__':

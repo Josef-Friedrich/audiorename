@@ -3,7 +3,6 @@
 """Test the submodule “meta.py”."""
 
 from audiorename.meta import Meta
-from audiorename.args import ArgsDefault
 import unittest
 import os
 import tempfile
@@ -12,7 +11,7 @@ import shutil
 
 def get_meta(path_list):
     return Meta(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                *path_list), ArgsDefault())
+                *path_list))
 
 
 ###############################################################################
@@ -182,12 +181,12 @@ class TestPropertyArtistSafeUnit(unittest.TestCase):
         self.assertEqual(self.meta.artistsafe_sort, 'albumartist_sort')
 
     def test_shell_unfriendly(self):
-        self.meta.args.shell_friendly = False
+        self.meta.shell_friendly = False
         self.meta.artist_sort = 'Lastname, Prename'
         self.assertEqual(self.meta.artistsafe_sort, 'Lastname, Prename')
 
     def test_shell_friendly(self):
-        self.meta.args.shell_friendly = True
+        self.meta.shell_friendly = True
         self.meta.artist_sort = 'Lastname, Prename'
         self.assertEqual(self.meta.artistsafe_sort, 'Lastname_Prename')
 

@@ -10,8 +10,7 @@ import os
 
 class Batch(object):
 
-    def __init__(self, args, job):
-        self.args = args
+    def __init__(self, job):
         self.job = job
         self.bundle_filter = job.filter.album_complete or job.filter.album_min
         self.album = []
@@ -61,7 +60,7 @@ class Batch(object):
 
         if quantity and completeness:
             for p in self.album:
-                do_rename(p['path'], args=self.args, job=self.job)
+                do_rename(p['path'], job=self.job)
 
         self.album = []
 
@@ -98,7 +97,7 @@ class Batch(object):
                         if self.bundle_filter:
                             self.make_bundles(p)
                         else:
-                            do_rename(p, args=self.args, job=self.job)
+                            do_rename(p, job=self.job)
 
             # Process the last bundle left over
             if self.bundle_filter:
@@ -107,4 +106,4 @@ class Batch(object):
         else:
             p = self.job.source
             if self.check_extension(p):
-                do_rename(p, args=self.args, job=self.job)
+                do_rename(p, job=self.job)

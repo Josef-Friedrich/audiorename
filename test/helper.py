@@ -38,7 +38,7 @@ def get_meta(path_list):
             os.path.dirname(os.path.abspath(__file__)),
             *path_list
         ),
-        audiorename.args.ArgsDefault()
+        False
     )
 
 

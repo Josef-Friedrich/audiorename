@@ -109,19 +109,14 @@ class Rename(object):
     meta = ''
     """The meta object :class:`audiorename.meta.Meta`"""
 
-    args = ''
-
     target_dir = ''
     """The target directory"""
 
     cwd = os.getcwd()
     """The path of the current working directory"""
 
-    def __init__(self, old_file=False, args=False, job=False):
+    def __init__(self, old_file=False, job=False):
         self.skip = False
-
-        if args:
-            self.args = args
 
         if job:
             self.job = job
@@ -132,7 +127,7 @@ class Rename(object):
             self.old_path = os.path.realpath(self.old_file)
             self.extension = self.old_file.split('.')[-1]
             try:
-                self.meta = Meta(self.old_path, self.args)
+                self.meta = Meta(self.old_path, self.job.shell_friendly)
 
             except phrydy.mediafile.UnreadableFileError:
                 self.skip = True
@@ -160,7 +155,7 @@ class Rename(object):
 
     def postTemplate(self, text):
         if isinstance(text, str) or isinstance(text, unicode):
-            if self.args.shell_friendly:
+            if self.job.shell_friendly:
                 text = Functions.tmpl_asciify(text)
                 text = Functions.tmpl_delchars(text, '().,!"\'’')
                 text = Functions.tmpl_replchars(text, '-', ' ')
@@ -216,7 +211,7 @@ class Rename(object):
             self.message.process(action=u'Renamed', error=False)
         else:
             self.message.process(action=u'Exists', error=True)
-            if self.args.delete_existing:
+            if self.job.delete_existing:
                 os.remove(self.old_path)
                 print('Delete existing file: ' + self.old_path)
 
@@ -226,7 +221,7 @@ class Rename(object):
         """
         global counter
         counter += 1
-        skip = self.args.skip_if_empty
+        skip = self.job.skip_if_empty
         if not self.meta:
             self.message.process(action=u'Broken file', error=True)
         elif skip and (not hasattr(self.meta, skip) or not
@@ -239,15 +234,15 @@ class Rename(object):
                 self.mbTrackListing()
             elif self.job.action == u'copy':
                 self.action(copy=True)
-            elif self.args.work:
+            elif self.job.action == u'work':
                 self.fetch_work()
             else:
                 self.action()
 
 
-def do_rename(path, args=None, job=None):
-    if args.unittest:
+def do_rename(path, job=None):
+    if job.unittest:
         print(os.path.abspath(path))
     else:
-        audio = Rename(path, args, job)
+        audio = Rename(path, job)
         audio.execute()
