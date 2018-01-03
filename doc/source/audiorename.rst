@@ -1,11 +1,19 @@
 audiorename package
 ===================
 
+Module contents
+---------------
+
+.. automodule:: audiorename
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
 audiorename.args module
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: audiorename.args
     :members:
@@ -13,7 +21,7 @@ audiorename.args module
     :show-inheritance:
 
 audiorename.batch module
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: audiorename.batch
     :members:
@@ -21,7 +29,7 @@ audiorename.batch module
     :show-inheritance:
 
 audiorename.meta module
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: audiorename.meta
     :members:
@@ -31,18 +39,9 @@ audiorename.meta module
     :private-members:
 
 audiorename.rename module
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: audiorename.rename
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: audiorename
     :members:
     :undoc-members:
     :show-inheritance:
