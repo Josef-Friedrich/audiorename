@@ -191,11 +191,6 @@ def execute(argv=None):
     """
     args = parse_args(argv)
 
-    if args.album_min or args.album_complete:
-        args.filter = True
-    else:
-        args.filter = False
-
     job = Job(args)
     if job.output.job_info:
         message = MessageJob(job)
