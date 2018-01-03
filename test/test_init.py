@@ -53,9 +53,22 @@ class TestJob(unittest.TestCase):
         job = Job(self.args)
         self.assertEqual(job.source, os.path.abspath(u'.'))
 
-    def test_property_filter(self):
+    def test_property_filter_extension(self):
         job = Job(self.args)
-        self.assertEqual(job.filter, {})
+        self.args.extension = 'lol'
+        self.assertEqual(job.filter.extension, 'lol')
+
+    def test_property_filter_album_complete(self):
+        job = Job(self.args)
+        self.args.filter_album_complete = 19
+        self.assertEqual(job.filter.album_min, False)
+        self.assertEqual(job.filter.album_complete, 19)
+
+    def test_property_filter_album_min(self):
+        job = Job(self.args)
+        self.args.filter_album_min = 19
+        self.assertEqual(job.filter.album_min, 19)
+        self.assertEqual(job.filter.album_complete, False)
 
     def test_property_target(self):
         job = Job(self.args)

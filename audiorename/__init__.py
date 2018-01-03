@@ -6,6 +6,7 @@ import os
 from audiorename.args import parse_args
 from .batch import Batch
 from ._version import get_versions
+from collections import namedtuple
 
 __version__ = get_versions()['version']
 del get_versions
@@ -15,8 +16,10 @@ class Job(object):
     """Holds informations of one job which can handle multiple files.
 
     A jobs represents one call of the program on the command line.
-    Unifies and processes the data of the `argparse` call. The properies of
-    this class can be used to display an overview message of the job.
+    This class unifies and processes the data of the `argparse` call. It groups
+    the `argparse` key value pairs into parent proteries. The properties of
+    this class can be used to display an overview message of the
+    job.
     """
 
     formats = {}
@@ -55,14 +58,17 @@ class Job(object):
 
     @property
     def filter(self):
-        out = {}
+        Filter = namedtuple('Filter', [
+            'album_complete',
+            'album_min',
+            'extension'
+        ])
 
-        if self._args.filter_album_min:
-            out['album_min'] = self._args.filter_album_min
-
-        if self._args.filter_album_complete:
-            out['album_complete'] = self._args.filter_album_complete
-        return out
+        return Filter(
+            self._args.filter_album_complete,
+            self._args.filter_album_min,
+            self._args.extension
+        )
 
     @property
     def source(self):
