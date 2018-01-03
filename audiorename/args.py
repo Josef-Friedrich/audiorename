@@ -315,6 +315,7 @@ def parse_args(argv):
     format_strings.add_argument(
         '-c',
         '--compilation',
+        metavar='FORMAT_STRING',
         help='Format string for compilations. Use metadata fields and \
         functions to build the format string.',
         default=False
@@ -324,6 +325,7 @@ def parse_args(argv):
     format_strings.add_argument(
         '-f',
         '--format',
+        metavar='FORMAT_STRING',
         help='The default format string for audio files that are not \
         compilations or compilations. Use metadata fields and functions to \
         build the format string.',
@@ -333,6 +335,7 @@ def parse_args(argv):
     # soundtrack
     format_strings.add_argument(
         '--soundtrack',
+        metavar='FORMAT_STRING',
         help='Format string for a soundtrack audio file. Use metadata fields \
         and functions to build the format string.',
         default=False
