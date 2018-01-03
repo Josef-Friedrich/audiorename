@@ -87,8 +87,26 @@ class Job(object):
 
 class PerFile(object):
 
-    def __init(self):
+    def __init__(self):
         pass
+
+
+class MessageJob(object):
+
+    def __init__(self, job):
+        self.job = job
+        self.keys = ['action', 'source', 'target']
+
+    @staticmethod
+    def format_key_value(key, value):
+        return key + ': ' + value + '\n'
+
+    def print_output(self):
+        out = u''
+        for key in self.keys:
+            out = out + self.format_key_value(key, getattr(self.job, key))
+
+        print(out)
 
 
 def execute(argv=None):
@@ -105,5 +123,8 @@ def execute(argv=None):
         args.filter = False
 
     job = Job(args)
+    if args.job_info:
+        message = MessageJob(job)
+        message.print_output()
     batch = Batch(args, job)
     batch.execute()

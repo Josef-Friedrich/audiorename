@@ -2,10 +2,21 @@
 
 """Test the code in the __init__ file."""
 
+import audiorename
 from audiorename import Job
 from audiorename.args import ArgsDefault
 import unittest
 import os
+import helper
+
+
+class TestMessageJob(unittest.TestCase):
+
+    def test_message_job(self):
+        tmp = helper.copy_to_tmp(['files', 'album.mp3'])
+        with helper.Capturing() as output:
+            audiorename.execute(['--dry-run', '--job-info', tmp])
+        self.assertEqual(output[0], 'action: dry_run')
 
 
 class TestJob(unittest.TestCase):

@@ -96,6 +96,7 @@ class ArgsDefault():
     filter_album_complete = False
     filter_album_min = False
     format = False
+    job_info = False
     mb_track_listing = False
     move = False
     shell_friendly = False
@@ -181,13 +182,6 @@ def parse_args(argv):
         version='%(prog)s {version}'.format(version=get_versions()['version'])
     )
 
-    # verbose
-    parser.add_argument(
-        '-V',
-        '--verbose',
-        action='store_true'
-    )
-
     # work
     parser.add_argument(
         '-w',
@@ -195,6 +189,29 @@ def parse_args(argv):
         help='Fetch the tag fields “work” and “mb_workid” from Musicbrainz \
         and save this fields into the audio file. The audio file must have \
         the tag field “mb_trackid”. The give audio file is not renamed.',
+        action='store_true'
+    )
+
+###############################################################################
+# output
+###############################################################################
+
+    output = parser.add_argument_group('output')
+
+    # job_info
+    output.add_argument(
+        '-j',
+        '--job-info',
+        help='Display informations about the current job. This informations \
+        are printted out before any actions on the audio files are executed.',
+        action='store_true'
+    )
+
+    # verbose
+    output.add_argument(
+        '-V',
+        '--verbose',
+        help='Make the command line output more verbose.',
         action='store_true'
     )
 
