@@ -77,6 +77,71 @@ class Formats(object):
             self.soundtrack = defaults.soundtrack
 
 
+class MessageFile(object):
+    """Print out message on file level, foreach file to rename or to copy.
+
+    :param string job: A instance of the class
+        :class:`audiorename.Job`
+    :param string source: The source file
+    :param string target: The target file
+    """
+
+    def __init__(self, job, source, target=None):
+        self.job = job
+        self._source = source
+        if target:
+            self._target = target
+        self.verbose = job.output.verbose
+
+    @property
+    def source(self):
+        cwd = os.getcwd()
+        if not self.verbose and len(cwd) > 1:
+            return self._source.replace(cwd, '')
+        else:
+            return self._source
+
+    @property
+    def target(self):
+        if not hasattr(self, '_target'):
+            return ''
+        if not self.verbose and len(self.job.target) > 1:
+            return self._target.replace(self.job.target, '')
+        else:
+            return self._target
+
+    @target.setter
+    def target(self, value):
+        self._target = value
+
+    def process(self, action=u'Rename', error=False):
+        indent = 12
+        action_processed = action + u':'
+        message = action_processed.ljust(indent)
+        message = u'[' + message + u']'
+
+        if action == u'Rename' or action == u'Copy':
+            message = ansicolor.yellow(message, reverse=True)
+        elif action == u'Renamed':
+            message = ansicolor.green(message, reverse=True)
+        elif action == u'Dry run':
+            message = ansicolor.white(message, reverse=True)
+        elif error:
+            message = ansicolor.red(message, reverse=True)
+        else:
+            message = ansicolor.white(message, reverse=True)
+
+        line1 = message + u' ' + self.source + '\n'
+        if self.target:
+            line2 = u'-> '.rjust(indent + 3) + ansicolor.yellow(self.target)
+        else:
+            line2 = u''
+
+        out = line1 + line2
+
+        print(out)
+
+
 class Rename(object):
     """Rename one file"""
 
@@ -126,6 +191,8 @@ class Rename(object):
             except phrydy.mediafile.UnreadableFileError:
                 self.skip = True
 
+        self.message = MessageFile(job, self.old_path)
+
     def generateFilename(self):
         formats = Formats(self.args)
         if self.meta.soundtrack:
@@ -144,6 +211,7 @@ class Rename(object):
         new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
         self.new_file = new
         self.new_path = os.path.join(self.job.target, new)
+        self.message.target = self.new_path
 
     def postTemplate(self, text):
         if isinstance(text, str) or isinstance(text, unicode):
@@ -165,55 +233,9 @@ class Rename(object):
             if exception.errno != errno.EEXIST:
                 raise
 
-    def processMessage(self, action=u'Rename', error=False, indent=12,
-                       old_path=False, new_path=False, output=u'print'):
-        action_processed = action + u':'
-        message = action_processed.ljust(indent)
-        message = u'[' + message + u']'
-
-        if action == u'Rename' or action == u'Copy':
-            message = ansicolor.yellow(message, reverse=True)
-        elif action == u'Renamed':
-            message = ansicolor.green(message, reverse=True)
-        elif action == u'Dry run':
-            message = ansicolor.white(message, reverse=True)
-        elif error:
-            message = ansicolor.red(message, reverse=True)
-        else:
-            message = ansicolor.white(message, reverse=True)
-
-        if not old_path and hasattr(self, 'old_path'):
-            output_old = self.old_path
-        else:
-            output_old = old_path
-
-        if not new_path and hasattr(self, 'new_path'):
-            output_new = self.new_path
-        else:
-            output_new = new_path
-
-        if not self.job.output.verbose:
-            if output_old and hasattr(self, 'cwd') and len(self.cwd) > 1:
-                output_old = output_old.replace(self.cwd, '')
-            if output_new and len(self.job.target) > 1:
-                output_new = output_new.replace(self.job.target, '')
-
-        line1 = message + u' ' + output_old + '\n'
-        if output_new:
-            line2 = u'-> '.rjust(indent + 3) + ansicolor.yellow(output_new)
-        else:
-            line2 = u''
-
-        out = line1 + line2
-
-        if output == u'print':
-            print(out)
-        else:
-            return out
-
     def dryRun(self):
         self.generateFilename()
-        self.processMessage(action=u'Dry run')
+        self.message.process(action=u'Dry run')
 
     def mbTrackListing(self):
         m, s = divmod(self.meta.length, 60)
@@ -227,7 +249,7 @@ class Rename(object):
     def fetch_work(self):
         self.meta.fetch_work()
         self.meta.save()
-        self.processMessage(action=u'Get work')
+        self.message.process(action=u'Get work')
 
     def action(self, copy=False):
         """Rename or copy to new path
@@ -240,15 +262,15 @@ class Rename(object):
         if not os.path.exists(self.new_path):
             self.createDir(self.new_path)
             if copy:
-                self.processMessage(action=u'Copy')
+                self.message.process(action=u'Copy')
                 shutil.copy2(self.old_path, self.new_path)
             else:
-                self.processMessage(action=u'Rename')
+                self.message.process(action=u'Rename')
                 shutil.move(self.old_path, self.new_path)
         elif self.new_path == self.old_path:
-            self.processMessage(action=u'Renamed', error=False)
+            self.message.process(action=u'Renamed', error=False)
         else:
-            self.processMessage(action=u'Exists', error=True)
+            self.message.process(action=u'Exists', error=True)
             if self.args.delete_existing:
                 os.remove(self.old_path)
                 print('Delete existing file: ' + self.old_path)
@@ -261,10 +283,10 @@ class Rename(object):
         counter += 1
         skip = self.args.skip_if_empty
         if not self.meta:
-            self.processMessage(action=u'Broken file', error=True)
+            self.message.process(action=u'Broken file', error=True)
         elif skip and (not hasattr(self.meta, skip) or not
                        getattr(self.meta, skip)):
-            self.processMessage(action=u'No field', error=True)
+            self.message.process(action=u'No field', error=True)
         else:
             if self.job.action == u'dry_run':
                 self.dryRun()
