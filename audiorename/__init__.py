@@ -71,6 +71,18 @@ class Job(object):
         )
 
     @property
+    def output(self):
+        Output = namedtuple('Output', [
+            'job_info',
+            'verbose',
+        ])
+
+        return Output(
+            self._args.job_info,
+            self._args.verbose,
+        )
+
+    @property
     def source(self):
         """The source path as a absolute path. Maybe a directory or a file."""
         return os.path.abspath(self._args.source)
@@ -129,7 +141,7 @@ def execute(argv=None):
         args.filter = False
 
     job = Job(args)
-    if args.job_info:
+    if job.output.job_info:
         message = MessageJob(job)
         message.print_output()
     batch = Batch(args, job)

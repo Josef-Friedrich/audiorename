@@ -192,7 +192,7 @@ class Rename(object):
         else:
             output_new = new_path
 
-        if not self.args.verbose:
+        if not self.job.output.verbose:
             if output_old and hasattr(self, 'cwd') and len(self.cwd) > 1:
                 output_old = output_old.replace(self.cwd, '')
             if output_new and len(self.job.target) > 1:

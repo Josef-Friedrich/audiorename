@@ -24,53 +24,58 @@ class TestJob(unittest.TestCase):
     def setUp(self):
         self.args = ArgsDefault()
 
-    def test_property_action(self):
+    def test_action(self):
         job = Job(self.args)
         self.assertEqual(job.action, u'move')
 
-    def test_property_action_copy(self):
+    def test_action_copy(self):
         job = Job(self.args)
         self.args.copy = True
         self.assertEqual(job.action, u'copy')
 
-    def test_property_action_dry_run(self):
+    def test_action_dry_run(self):
         job = Job(self.args)
         self.args.dry_run = True
         self.assertEqual(job.action, u'dry_run')
 
-    def test_property_action_mb_track_listing(self):
+    def test_action_mb_track_listing(self):
         job = Job(self.args)
         self.args.mb_track_listing = True
         self.assertEqual(job.action, u'mb_track_listing')
 
-    def test_property_action_move(self):
+    def test_action_move(self):
         job = Job(self.args)
         self.args.move = True
         self.assertEqual(job.action, u'move')
 
-    def test_property_source(self):
-        self.args.path = u'.'
-        job = Job(self.args)
-        self.assertEqual(job.source, os.path.abspath(u'.'))
-
-    def test_property_filter_album_complete(self):
+    def test_filter_album_complete(self):
         job = Job(self.args)
         self.args.album_complete = 19
         self.assertEqual(job.filter.album_min, False)
         self.assertEqual(job.filter.album_complete, 19)
 
-    def test_property_filter_album_min(self):
+    def test_filter_album_min(self):
         job = Job(self.args)
         self.args.album_min = 19
         self.assertEqual(job.filter.album_min, 19)
         self.assertEqual(job.filter.album_complete, False)
 
-    def test_property_filter_extension(self):
+    def test_filter_extension(self):
         job = Job(self.args)
         self.args.extension = 'lol'
         self.assertEqual(job.filter.extension, 'lol')
 
-    def test_property_target(self):
+    def test_output_job_info(self):
+        job = Job(self.args)
+        self.args.job_info = True
+        self.assertEqual(job.output.job_info, True)
+
+    def test_output_verbose(self):
+        job = Job(self.args)
+        self.args.verbose = True
+        self.assertEqual(job.output.verbose, True)
+
+    def test_target(self):
         job = Job(self.args)
         self.args.path = u'.'
         self.assertEqual(job.target, os.getcwd())
@@ -78,6 +83,11 @@ class TestJob(unittest.TestCase):
         self.assertEqual(job.target, os.path.abspath('test'))
         self.args.source_as_target_dir = True
         self.assertEqual(job.target, os.getcwd())
+
+    def test_source(self):
+        self.args.path = u'.'
+        job = Job(self.args)
+        self.assertEqual(job.source, os.path.abspath(u'.'))
 
 
 if __name__ == '__main__':
