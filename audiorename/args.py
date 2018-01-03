@@ -97,6 +97,7 @@ class ArgsDefault():
     filter_album_min = False
     format = False
     mb_track_listing = False
+    move = False
     shell_friendly = False
     skip_if_empty = False
     soundtrack = False
@@ -227,6 +228,15 @@ def parse_args(argv):
         '-d',
         '--dry-run',
         help='Don’t rename or copy the audio files.',
+        action='store_true'
+    )
+
+    # move
+    exclusive.add_argument(
+        '-M',
+        '--move',
+        help='Move / rename a file. This is the default action. The option \
+        can be omitted.',
         action='store_true'
     )
 

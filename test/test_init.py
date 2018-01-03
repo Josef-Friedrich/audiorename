@@ -16,10 +16,26 @@ class TestJob(unittest.TestCase):
     def test_property_action(self):
         job = Job(self.args)
         self.assertEqual(job.action, u'move')
+
+    def test_property_action_copy(self):
+        job = Job(self.args)
         self.args.copy = True
         self.assertEqual(job.action, u'copy')
+
+    def test_property_action_dry_run(self):
+        job = Job(self.args)
         self.args.dry_run = True
         self.assertEqual(job.action, u'dry_run')
+
+    def test_property_action_mb_track_listing(self):
+        job = Job(self.args)
+        self.args.mb_track_listing = True
+        self.assertEqual(job.action, u'mb_track_listing')
+
+    def test_property_action_move(self):
+        job = Job(self.args)
+        self.args.move = True
+        self.assertEqual(job.action, u'move')
 
     def test_property_source(self):
         self.args.path = u'.'

@@ -32,13 +32,24 @@ class Job(object):
     @property
     def action(self):
         """
-        * move: Rename / move the file (default).
-        * copy: Copy the source file to the target path.
+        :return:
+
+        :rtype: string
+
+        * copy
+        * dry_run
+        * mb_track_listing
+        * move
+
         """
-        if self._args.dry_run:
+        if self._args.mb_track_listing:
+            return u'mb_track_listing'
+        elif self._args.dry_run:
             return u'dry_run'
-        if self._args.copy:
+        elif self._args.copy:
             return u'copy'
+        elif self._args.move:
+            return u'move'
         else:
             return u'move'
 

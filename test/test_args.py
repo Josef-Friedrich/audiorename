@@ -137,6 +137,7 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(args.filter_album_min, False)
         self.assertEqual(args.format, False)
         self.assertEqual(args.mb_track_listing, False)
+        self.assertEqual(args.move, False)
         self.assertEqual(args.shell_friendly, False)
         self.assertEqual(args.skip_if_empty, False)
         self.assertEqual(args.soundtrack, False)

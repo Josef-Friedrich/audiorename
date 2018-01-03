@@ -263,11 +263,11 @@ class Rename(object):
                        getattr(self.meta, skip)):
             self.processMessage(action=u'No field', error=True)
         else:
-            if self.args.dry_run:
+            if self.job.action == u'dry_run':
                 self.dryRun()
-            elif self.args.mb_track_listing:
+            elif self.job.action == u'mb_track_listing':
                 self.mbTrackListing()
-            elif self.args.copy:
+            elif self.job.action == u'copy':
                 self.action(copy=True)
             elif self.args.work:
                 self.fetch_work()
