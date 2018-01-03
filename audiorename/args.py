@@ -204,14 +204,6 @@ def parse_args(argv):
 
     actions = parser.add_argument_group('actions')
 
-    # copy
-    actions.add_argument(
-        '-C',
-        '--copy',
-        help='Copy files instead of rename / move.',
-        action='store_true'
-    )
-
     # delete_existing
     actions.add_argument(
         '-D',
@@ -220,8 +212,18 @@ def parse_args(argv):
         action='store_true'
     )
 
+    exclusive = actions.add_mutually_exclusive_group()
+
+    # copy
+    exclusive.add_argument(
+        '-C',
+        '--copy',
+        help='Copy files instead of rename / move.',
+        action='store_true'
+    )
+
     # dry_run
-    actions.add_argument(
+    exclusive.add_argument(
         '-d',
         '--dry-run',
         help='Don’t rename or copy the audio files.',
@@ -229,7 +231,7 @@ def parse_args(argv):
     )
 
     # mb_track_listing
-    actions.add_argument(
+    exclusive.add_argument(
         '--mb-track-listing',
         help='Print track listing for Musicbrainz website: Format: track. \
         title (duration), e. g.: \

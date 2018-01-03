@@ -32,6 +32,14 @@ class TestCommandlineInterface(unittest.TestCase):
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '2')
 
+    def test_without_mutually_exclusive(self):
+        with self.assertRaises(SystemExit) as cm:
+            with helper.Capturing('err') as output:
+                audiorename.execute(['--copy', '--mb-track-listing', '.'])
+        the_exception = cm.exception
+        self.assertEqual(str(the_exception), '2')
+        self.assertTrue('not allowed with argument' in ' '.join(output))
+
 
 class TestVersion(unittest.TestCase):
 
