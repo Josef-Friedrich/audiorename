@@ -13,6 +13,7 @@ class Batch(object):
     def __init__(self, args, job):
         self.args = args
         self.job = job
+        self.bundle_filter = job.filter.album_complete or job.filter.album_min
         self.album = []
         self.album_title = ''
 
@@ -21,7 +22,7 @@ class Batch(object):
 
         :params str path: The path of the tracks.
         """
-        extension = self.args.extension.split(',')
+        extension = self.job.filter.extension.split(',')
         extension = ['.' + e for e in extension]
         if path.lower().endswith(tuple(extension)):
             return True
@@ -32,7 +33,7 @@ class Batch(object):
         """Compare the number of tracks in an album with the minimal track
         threshold.
         """
-        if len(self.album) > int(self.args.album_min):
+        if len(self.album) > int(self.job.filter.album_min):
             return True
         else:
             return False
@@ -53,14 +54,14 @@ class Batch(object):
         """Check an album for quantity and completeness."""
         quantity = True
         completeness = True
-        if self.args.album_min and not self.check_quantity():
+        if self.job.filter.album_min and not self.check_quantity():
             quantity = False
-        if self.args.album_complete and not self.check_completeness():
+        if self.job.filter.album_complete and not self.check_completeness():
             completeness = False
 
         if quantity and completeness:
             for p in self.album:
-                do_rename(p['path'], args=self.args)
+                do_rename(p['path'], args=self.args, job=self.job)
 
         self.album = []
 
@@ -94,13 +95,13 @@ class Batch(object):
                 for file_name in files:
                     p = os.path.join(path, file_name)
                     if self.check_extension(p):
-                        if self.args.filter:
+                        if self.bundle_filter:
                             self.make_bundles(p)
                         else:
                             do_rename(p, args=self.args, job=self.job)
 
             # Process the last bundle left over
-            if self.args.filter:
+            if self.bundle_filter:
                 self.make_bundles()
 
         else:
