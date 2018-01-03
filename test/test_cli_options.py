@@ -412,7 +412,7 @@ class TestSoundtrack(unittest.TestCase):
         )
 
 
-# --source-as-target-dir
+# --source-as-target
 class TestSourceAsTarget(unittest.TestCase):
 
     def setUp(self):
@@ -420,7 +420,7 @@ class TestSourceAsTarget(unittest.TestCase):
         self.dir_album = os.path.dirname(self.tmp_album)
         with helper.Capturing():
             audiorename.execute([
-                '--source-as-target-dir',
+                '--source-as-target',
                 '-f',
                 'a',
                 self.tmp_album
@@ -429,7 +429,7 @@ class TestSourceAsTarget(unittest.TestCase):
         self.tmp_compilation = helper.copy_to_tmp(['files', 'compilation.mp3'])
         with helper.Capturing():
             audiorename.execute([
-                '--source-as-target-dir',
+                '--source-as-target',
                 '-c',
                 'c',
                 self.tmp_compilation

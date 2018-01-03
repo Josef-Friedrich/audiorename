@@ -197,10 +197,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.soundtrack, False)
         self.assertEqual(self.args.soundtrack, self.default.soundtrack)
 
-    def test_source_as_target_dir(self):
-        self.assertEqual(self.args.source_as_target_dir, False)
-        self.assertEqual(self.args.source_as_target_dir,
-                         self.default.source_as_target_dir)
+    def test_source_as_target(self):
+        self.assertEqual(self.args.source_as_target, False)
+        self.assertEqual(self.args.source_as_target,
+                         self.default.source_as_target)
 
     def test_target_dir(self):
         self.assertEqual(self.args.target_dir, '')

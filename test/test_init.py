@@ -91,7 +91,7 @@ class TestJob(unittest.TestCase):
         self.assertEqual(job.target, os.getcwd())
         self.args.target_dir = 'test'
         self.assertEqual(job.target, os.path.abspath('test'))
-        self.args.source_as_target_dir = True
+        self.args.source_as_target = True
         self.assertEqual(job.target, os.getcwd())
 
     def test_shell_friendly(self):

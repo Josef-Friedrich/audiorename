@@ -18,7 +18,7 @@ Comande line interface
            working directory.
         2. Use the option ``-t <folder>`` or ``--target-dir <folder>`` to specifiy
            a target directory.
-        3. Use the option ``-a`` or ``--source-as-target-dir`` to copy or rename
+        3. Use the option ``-a`` or ``--source-as-target`` to copy or rename
            your audio files within the source directory.
     
         Metadata fields
@@ -380,7 +380,7 @@ Comande line interface
                             without whitespaces, parentheses etc.
       -s SKIP_IF_EMPTY, --skip-if-empty SKIP_IF_EMPTY
                             Skip renaming of field is empty.
-      -a, --source-as-target-dir
+      -a, --source-as-target
                             Use specified source folder as target directory
       -t TARGET_DIR, --target-dir TARGET_DIR
                             Target directory

@@ -155,7 +155,7 @@ class Job(object):
         """The path of the target path as an absolute path. Is always a
         directory.
         """
-        if self._args.source_as_target_dir:
+        if self._args.source_as_target:
             if os.path.isdir(self.source):
                 return os.path.abspath(self.source)
             else:

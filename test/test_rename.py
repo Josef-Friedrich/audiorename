@@ -87,7 +87,7 @@ class TestMessageFile(unittest.TestCase):
         self.MessageFile = MessageFile
         args = ArgsDefault()
         args.source = '/tmp'
-        args.source_as_target_dir = True
+        args.source_as_target = True
         self.job = Job(args)
 
     def test_without_target(self):
