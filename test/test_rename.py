@@ -91,7 +91,6 @@ class TestMessageFile(unittest.TestCase):
             message.process(action=u'lol')
         self.assertTrue('[lol:        ]' in output[0])
 
-
     def test_with_target(self):
         message = self.MessageFile(self.job, 'source.mp3', 'target.mp3')
         with helper.Capturing() as output:
