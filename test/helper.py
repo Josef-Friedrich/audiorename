@@ -110,3 +110,28 @@ def dry_run(options):
 
     output = re.sub(r'.*-> ', '', output[1])
     return re.sub(r'\x1b\[[\d;]*m', '', output)
+
+
+def filter_source(output):
+    """
+    :param list output: Output captured from the standard output of the
+        command line interface.
+
+    .. code:: Python
+
+        [
+            '\x1b[0;7;37m[Dry run:    ]\x1b[0;0m /tmp/album.mp3',
+            '            -> \x1b[0;0;33m/tmp/4-02_full.mp3\x1b[0;0m'
+        ]
+
+    :return: A filtered output list.
+
+    .. code:: Python
+
+        ['/tmp/album.mp3']
+
+    """
+    del output[1::2]
+    for i in range(len(output)):
+        output[i] = re.sub(r'.*\[.*:.*\].* ', '', output[i])
+    return output
