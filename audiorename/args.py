@@ -182,29 +182,6 @@ def parse_args(argv):
     )
 
 ###############################################################################
-# output
-###############################################################################
-
-    output = parser.add_argument_group('output')
-
-    # job_info
-    output.add_argument(
-        '-j',
-        '--job-info',
-        help='Display informations about the current job. This informations \
-        are printted out before any actions on the audio files are executed.',
-        action='store_true'
-    )
-
-    # verbose
-    output.add_argument(
-        '-V',
-        '--verbose',
-        help='Make the command line output more verbose.',
-        action='store_true'
-    )
-
-###############################################################################
 # actions
 ###############################################################################
 
@@ -345,6 +322,29 @@ def parse_args(argv):
         help='Format string for a soundtrack audio file. Use metadata fields \
         and functions to build the format string.',
         default=False
+    )
+
+###############################################################################
+# output
+###############################################################################
+
+    output = parser.add_argument_group('output')
+
+    # job_info
+    output.add_argument(
+        '-j',
+        '--job-info',
+        help='Display informations about the current job. This informations \
+        are printted out before any actions on the audio files are executed.',
+        action='store_true'
+    )
+
+    # verbose
+    output.add_argument(
+        '-V',
+        '--verbose',
+        help='Make the command line output more verbose.',
+        action='store_true'
     )
 
 ###############################################################################
