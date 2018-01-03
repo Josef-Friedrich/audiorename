@@ -109,11 +109,6 @@ class TestJob(unittest.TestCase):
         job = Job(self.args)
         self.assertEqual(job.source, os.path.abspath(u'.'))
 
-    def test_unittest(self):
-        self.args.unittest = True
-        job = Job(self.args)
-        self.assertEqual(job.unittest, True)
-
 
 if __name__ == '__main__':
     unittest.main()

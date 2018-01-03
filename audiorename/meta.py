@@ -493,7 +493,10 @@ class Meta(MediaFile):
 
         * ``Horn Concerto: I. Allegro``
         """
-        return re.sub(r'^[^:]*: ?', '', self.title)
+        if self.title:
+            return re.sub(r'^[^:]*: ?', '', self.title)
+        else:
+            return u''
 
     @property
     def track_classical(self):

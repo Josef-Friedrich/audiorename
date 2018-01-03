@@ -105,7 +105,6 @@ class ArgsDefault():
     source_as_target_dir = False
     source = u'.'
     target_dir = ''
-    unittest = False
     verbose = False
     work = False
 
@@ -172,14 +171,6 @@ def parse_args(argv):
         '--skip-if-empty',
         help='Skip renaming of field is empty.',
         default=False
-    )
-
-    # unittest
-    parser.add_argument(
-        '--unittest',
-        help='The audio files are not renamed. Debug messages for the unit test \
-        are printed out.',
-        action='store_true'
     )
 
     # version

@@ -241,8 +241,5 @@ class Rename(object):
 
 
 def do_rename(path, job=None):
-    if job.unittest:
-        print(os.path.abspath(path))
-    else:
-        audio = Rename(path, job)
-        audio.execute()
+    audio = Rename(path, job)
+    audio.execute()

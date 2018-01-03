@@ -81,7 +81,6 @@ class Job(object):
 
         self.delete_existing = args.delete_existing
         self.skip_if_empty = args.skip_if_empty
-        self.unittest = args.unittest
         self.shell_friendly = args.shell_friendly
 
     @property
