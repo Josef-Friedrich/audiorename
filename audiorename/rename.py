@@ -77,9 +77,10 @@ class MessageFile(object):
         else:
             message = ansicolor.white(message, reverse=True)
 
-        line1 = message + u' ' + self.source + '\n'
+        line1 = message + u' ' + self.source
         if self.target:
-            line2 = u'-> '.rjust(indent + 3) + ansicolor.yellow(self.target)
+            line2 = u'\n' + u'-> '.rjust(indent + 3) + \
+                ansicolor.yellow(self.target)
         else:
             line2 = u''
 
