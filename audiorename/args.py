@@ -157,132 +157,12 @@ def parse_args(argv):
     # Options (sorted alphabetically)
     ##
 
-    # classical
-    parser.add_argument(
-        '-k',
-        '--classical',
-        help='Use the default format for classical music. If you use this \
-        option, both parameters (--format and --compilation) have no \
-        effect. Classical music is sorted by the lastname of the composer.',
-        action='store_true'
-    )
-
-    # compilation
-    parser.add_argument(
-        '-c',
-        '--compilation',
-        help='Format string for compilations. Use metadata fields and \
-        functions to build the format string.',
-        default=False
-    )
-
-    # copy
-    parser.add_argument(
-        '-C',
-        '--copy',
-        help='Copy files instead of rename / move.',
-        action='store_true'
-    )
-
-    # delete_existing
-    parser.add_argument(
-        '-D',
-        '--delete-existing',
-        help='Delete source file if the target file already exists.',
-        action='store_true'
-    )
-
-    # dry_run
-    parser.add_argument(
-        '-d',
-        '--dry-run',
-        help='Don’t rename or copy the audio files.',
-        action='store_true'
-    )
-
-    # extension
-    parser.add_argument(
-        '-e',
-        '--extension',
-        help='Extensions to rename',
-        default='mp3,m4a,flac,wma'
-    )
-
-    # filter_album_complete
-    parser.add_argument(
-        '-F',
-        '--filter-album-complete',
-        help='Rename only complete albums',
-        action='store_true'
-    )
-
-    # filter_album_min
-    parser.add_argument(
-        '-m',
-        '--filter-album-min',
-        help='Rename only albums containing at least X files.',
-        default=False
-    )
-
-    # format
-    parser.add_argument(
-        '-f',
-        '--format',
-        help='The default format string for audio files that are not \
-        compilations or compilations. Use metadata fields and functions to \
-        build the format string.',
-        default=False
-    )
-
-    # mb_track_listing
-    parser.add_argument(
-        '--mb-track-listing',
-        help='Print track listing for Musicbrainz website: Format: track. \
-        title (duration), e. g.: \
-          1. He, Zigeuner (1:31) \
-          2. Hochgetürmte Rimaflut (1:21)',
-        action='store_true'
-    )
-
-    # shell_friendly
-    parser.add_argument(
-        '-S',
-        '--shell-friendly',
-        help='Rename audio files “shell friendly”, this means without \
-        whitespaces, parentheses etc.',
-        action='store_true'
-    )
-
     # skip_if_empty
     parser.add_argument(
         '-s',
         '--skip-if-empty',
         help='Skip renaming of field is empty.',
         default=False
-    )
-
-    # soundtrack
-    parser.add_argument(
-        '--soundtrack',
-        help='Format string for a soundtrack audio file. Use metadata fields \
-        and functions to build the format string.',
-        default=False
-    )
-
-    # source_as_target_dir
-    parser.add_argument(
-        '-a',
-        '--source-as-target-dir',
-        help='Use specified source folder as target directory',
-        action='store_true'
-    )
-
-    # target_dir
-    parser.add_argument(
-        '-t',
-        '--target-dir',
-        help='Target directory',
-        default=''
     )
 
     # unittest
@@ -316,6 +196,156 @@ def parse_args(argv):
         and save this fields into the audio file. The audio file must have \
         the tag field “mb_trackid”. The give audio file is not renamed.',
         action='store_true'
+    )
+
+###############################################################################
+# actions
+###############################################################################
+
+    actions = parser.add_argument_group('actions')
+
+    # copy
+    actions.add_argument(
+        '-C',
+        '--copy',
+        help='Copy files instead of rename / move.',
+        action='store_true'
+    )
+
+    # delete_existing
+    actions.add_argument(
+        '-D',
+        '--delete-existing',
+        help='Delete source file if the target file already exists.',
+        action='store_true'
+    )
+
+    # dry_run
+    actions.add_argument(
+        '-d',
+        '--dry-run',
+        help='Don’t rename or copy the audio files.',
+        action='store_true'
+    )
+
+    # mb_track_listing
+    actions.add_argument(
+        '--mb-track-listing',
+        help='Print track listing for Musicbrainz website: Format: track. \
+        title (duration), e. g.: \
+          1. He, Zigeuner (1:31) \
+          2. Hochgetürmte Rimaflut (1:21)',
+        action='store_true'
+    )
+
+###############################################################################
+# filters
+###############################################################################
+
+    filters = parser.add_argument_group('filters')
+
+    # extension
+    filters.add_argument(
+        '-e',
+        '--extension',
+        help='Extensions to rename',
+        default='mp3,m4a,flac,wma'
+    )
+
+    # filter_album_complete
+    filters.add_argument(
+        '-F',
+        '--filter-album-complete',
+        help='Rename only complete albums',
+        action='store_true'
+    )
+
+    # filter_album_min
+    filters.add_argument(
+        '-m',
+        '--filter-album-min',
+        help='Rename only albums containing at least X files.',
+        default=False
+    )
+
+###############################################################################
+# formats
+###############################################################################
+
+    formats = parser.add_argument_group('formats')
+
+    # classical
+    formats.add_argument(
+        '-k',
+        '--classical',
+        help='Use the default format for classical music. If you use this \
+        option, both parameters (--format and --compilation) have no \
+        effect. Classical music is sorted by the lastname of the composer.',
+        action='store_true'
+    )
+
+    # shell_friendly
+    formats.add_argument(
+        '-S',
+        '--shell-friendly',
+        help='Rename audio files “shell friendly”, this means without \
+        whitespaces, parentheses etc.',
+        action='store_true'
+    )
+
+###############################################################################
+# formats_strings
+###############################################################################
+
+    format_strings = parser.add_argument_group('format strings')
+
+    # compilation
+    format_strings.add_argument(
+        '-c',
+        '--compilation',
+        help='Format string for compilations. Use metadata fields and \
+        functions to build the format string.',
+        default=False
+    )
+
+    # format
+    format_strings.add_argument(
+        '-f',
+        '--format',
+        help='The default format string for audio files that are not \
+        compilations or compilations. Use metadata fields and functions to \
+        build the format string.',
+        default=False
+    )
+
+    # soundtrack
+    format_strings.add_argument(
+        '--soundtrack',
+        help='Format string for a soundtrack audio file. Use metadata fields \
+        and functions to build the format string.',
+        default=False
+    )
+
+###############################################################################
+# target
+###############################################################################
+
+    target = parser.add_argument_group('target')
+
+    # source_as_target_dir
+    target.add_argument(
+        '-a',
+        '--source-as-target-dir',
+        help='Use specified source folder as target directory',
+        action='store_true'
+    )
+
+    # target_dir
+    target.add_argument(
+        '-t',
+        '--target-dir',
+        help='Target directory',
+        default=''
     )
 
     return parser.parse_args(argv)
