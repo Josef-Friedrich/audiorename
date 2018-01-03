@@ -105,7 +105,7 @@ class ArgsDefault():
     soundtrack = False
     source_as_target = False
     source = u'.'
-    target_dir = ''
+    target = ''
     verbose = False
     work = False
 
@@ -119,7 +119,7 @@ def description():
 
     1. By the default the audio files are moved or renamed to the parent
        working directory.
-    2. Use the option ``-t <folder>`` or ``--target-dir <folder>`` to specifiy
+    2. Use the option ``-t <folder>`` or ``--target <folder>`` to specifiy
        a target directory.
     3. Use the option ``-a`` or ``--source-as-target`` to copy or rename
        your audio files within the source directory.
@@ -370,10 +370,10 @@ def parse_args(argv):
         action='store_true'
     )
 
-    # target_dir
+    # target
     target.add_argument(
         '-t',
-        '--target-dir',
+        '--target',
         help='Target directory',
         default=''
     )

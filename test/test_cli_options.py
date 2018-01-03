@@ -218,7 +218,7 @@ class TestDeleteExisting(unittest.TestCase):
         with helper.Capturing() as output1:
             audiorename.execute([
                 '--delete-existing',
-                '--target-dir',
+                '--target',
                 target,
                 tmp1
             ])
@@ -230,7 +230,7 @@ class TestDeleteExisting(unittest.TestCase):
         with helper.Capturing() as output2:
             audiorename.execute([
                 '--delete-existing',
-                '--target-dir',
+                '--target',
                 target,
                 tmp2
             ])
@@ -466,7 +466,7 @@ class TestSkipIfEmpty(unittest.TestCase):
         self.assertTrue(helper.has(self.compilation, 'Dry run'))
 
 
-# --target-dir
+# --target
 class TestTarget(unittest.TestCase):
 
     def setUp(self):
@@ -474,7 +474,7 @@ class TestTarget(unittest.TestCase):
         self.tmp_album = helper.copy_to_tmp(['files', 'album.mp3'])
         with helper.Capturing():
             audiorename.execute([
-                '--target-dir',
+                '--target',
                 self.tmp_dir,
                 '-f',
                 'album',
@@ -484,7 +484,7 @@ class TestTarget(unittest.TestCase):
         self.tmp_compilation = helper.copy_to_tmp(['files', 'compilation.mp3'])
         with helper.Capturing():
             audiorename.execute([
-                '--target-dir',
+                '--target',
                 self.tmp_dir,
                 '-c',
                 'compilation',

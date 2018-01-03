@@ -108,7 +108,7 @@ class TestJob(unittest.TestCase):
         job = Job(self.args)
         self.args.path = u'.'
         self.assertEqual(job.target, os.getcwd())
-        self.args.target_dir = 'test'
+        self.args.target = 'test'
         self.assertEqual(job.target, os.path.abspath('test'))
         self.args.source_as_target = True
         self.assertEqual(job.target, os.getcwd())

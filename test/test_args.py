@@ -206,9 +206,9 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.source_as_target,
                          self.default.source_as_target)
 
-    def test_target_dir(self):
-        self.assertEqual(self.args.target_dir, '')
-        self.assertEqual(self.args.target_dir, self.default.target_dir)
+    def test_target(self):
+        self.assertEqual(self.args.target, '')
+        self.assertEqual(self.args.target, self.default.target)
 
     def test_verbose(self):
         self.assertEqual(self.args.verbose, False)

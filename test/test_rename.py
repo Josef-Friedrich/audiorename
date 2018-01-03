@@ -116,7 +116,7 @@ class TestUnicodeUnittest(unittest.TestCase):
         tmp = os.path.join(tmp_dir, 'äöü.mp3')
         shutil.copyfile(self.uni, tmp)
         with helper.Capturing() as output:
-            audiorename.execute(['--target-dir', tmp_dir, tmp])
+            audiorename.execute(['--target', tmp_dir, tmp])
         self.assertTrue(self.renamed in output[1])
 
     def test_copy(self):

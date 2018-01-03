@@ -109,7 +109,7 @@ class Rename(object):
     meta = ''
     """The meta object :class:`audiorename.meta.Meta`"""
 
-    target_dir = ''
+    target = ''
     """The target directory"""
 
     cwd = os.getcwd()

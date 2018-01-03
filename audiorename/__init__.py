@@ -163,8 +163,8 @@ class Job(object):
                 return os.path.abspath(self.source)
             else:
                 return os.path.abspath(os.path.dirname(self.source))
-        elif self._args.target_dir:
-            return os.path.abspath(self._args.target_dir)
+        elif self._args.target:
+            return os.path.abspath(self._args.target)
         else:
             return os.getcwd()
 
