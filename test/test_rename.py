@@ -78,20 +78,23 @@ class TestOverwriteProtection(unittest.TestCase):
         shutil.rmtree(helper.dir_cwd + '/t/')
 
 
-class TestMessageUnittest(unittest.TestCase):
+class TestMessageFile(unittest.TestCase):
 
     def setUp(self):
-        from audiorename.rename import Rename
+        from audiorename.rename import MessageFile
         from audiorename.args import ArgsDefault
-        args_default = ArgsDefault()
-        self.r = Rename(False, args_default)
+        from audiorename import Job
+        self.MessageFile = MessageFile
+        args = ArgsDefault()
+        args.source = '/tmp'
+        args.source_as_target_dir = True
+        self.job = Job(args)
 
-    @unittest.skip("Must be rewritten")
-    def test_message(self):
-        out = self.r.processMessage(action=u'lol', old_path=u'old',
-                                    new_path=u'new', output=u'return')
-        self.assertTrue('[lol:        ]' in out)
-        self.assertTrue('new' in out)
+    def test_without_target(self):
+        message = self.MessageFile(self.job, 'lol.mp3')
+        with helper.Capturing() as output:
+            message.process(action=u'lol')
+        self.assertTrue('[lol:        ]' in output[0])
 
 
 class TestUnicodeUnittest(unittest.TestCase):
