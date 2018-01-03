@@ -123,15 +123,15 @@ def description():
     3. Use the option ``-a`` or ``--source-as-target-dir`` to copy or rename
        your audio files within the source directory.
 
-    Metadata fields
-    ---------------
+Metadata fields
+===============
 
-    ''' + pdoc.get_doc(additional_doc=fields) + '''
+''' + pdoc.get_doc(additional_doc=fields) + '''
 
-    Functions
-    ---------
+Functions
+=========
 
-    ''' + td.get()
+''' + td.get()
 
 
 def parse_args(argv):
