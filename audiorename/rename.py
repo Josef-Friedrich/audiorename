@@ -254,6 +254,9 @@ class Rename(object):
                 print('Delete existing file: ' + self.old_path)
 
     def execute(self):
+        """
+        .. todo:: Rethink `fetch work`
+        """
         global counter
         counter += 1
         skip = self.args.skip_if_empty
