@@ -82,19 +82,15 @@ class TestMessageFile(unittest.TestCase):
 
     def setUp(self):
         from audiorename.rename import MessageFile
-        from audiorename.args import ArgsDefault
-        from audiorename import Job
         self.MessageFile = MessageFile
-        args = ArgsDefault()
-        args.source = '/tmp'
-        args.source_as_target = True
-        self.job = Job(args)
+        self.job = helper.get_job(source='/tmp', source_as_target=True)
 
     def test_without_target(self):
         message = self.MessageFile(self.job, 'lol.mp3')
         with helper.Capturing() as output:
             message.process(action=u'lol')
         self.assertTrue('[lol:        ]' in output[0])
+
 
     def test_with_target(self):
         message = self.MessageFile(self.job, 'source.mp3', 'target.mp3')

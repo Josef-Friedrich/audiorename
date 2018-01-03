@@ -9,6 +9,8 @@ import sys
 import six
 import re
 import audiorename
+from audiorename import Job
+from audiorename.args import ArgsDefault
 
 if six.PY2:
     from cStringIO import StringIO
@@ -40,6 +42,14 @@ def get_meta(path_list):
         ),
         False
     )
+
+
+def get_job(**arguments):
+    args = ArgsDefault()
+    params = locals()
+    for argument, value in params['arguments'].items():
+        setattr(args, argument, value)
+    return Job(args)
 
 
 def has(list, search):
