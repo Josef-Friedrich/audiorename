@@ -159,12 +159,6 @@ class Job(object):
             return os.getcwd()
 
 
-class PerFile(object):
-
-    def __init__(self):
-        pass
-
-
 class MessageJob(object):
 
     def __init__(self, job):
