@@ -12,21 +12,68 @@ __version__ = get_versions()['version']
 del get_versions
 
 
+class DefaultFormats(object):
+
+    default = '$artist_initial/' + \
+              '%shorten{$artistsafe_sort}/' + \
+              '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' + \
+              '${disctrack}_%shorten{$title}'
+
+    compilation = '_compilations/' + \
+                  '$album_initial/' + \
+                  '%shorten{$album_clean}' + \
+                  '%ifdef{year_safe,_${year_safe}}/' + \
+                  '${disctrack}_%shorten{$title}'
+
+    soundtrack = '_soundtrack/' + \
+                 '$album_initial/' + \
+                 '%shorten{$album_clean}' + \
+                 '%ifdef{year_safe,_${year_safe}}/' + \
+                 '${disctrack}_${artist}_%shorten{$title}'
+
+    classical = '$composer_initial/$composer_safe/' + \
+                '%shorten{$album_classical,48}' + \
+                '_[%shorten{$performer_classical,32}]/' + \
+                '${disctrack}_%shorten{$title_classical,64}_' + \
+                '%shorten{$acoustid_id,8}'
+
+
+class Formats(object):
+
+    default = u''
+    compilation = u''
+    soundtrack = u''
+
+    def __init__(self, args):
+        defaults = DefaultFormats()
+
+        if args.format:
+            defaults.default = args.format
+
+        if args.compilation:
+            defaults.compilation = args.compilation
+
+        if args.soundtrack:
+            defaults.soundtrack = args.soundtrack
+
+        if args.classical:
+            self.default = defaults.classical
+            self.compilation = defaults.classical
+            self.soundtrack = defaults.classical
+        else:
+            self.default = defaults.default
+            self.compilation = defaults.compilation
+            self.soundtrack = defaults.soundtrack
+
+
 class Job(object):
     """Holds informations of one job which can handle multiple files.
 
     A jobs represents one call of the program on the command line.
     This class unifies and processes the data of the `argparse` call. It groups
-    the `argparse` key value pairs into parent proteries. The properties of
-    this class can be used to display an overview message of the
-    job.
-    """
-
-    formats = {}
-    """
-    default
-    compilation
-    soundtrack
+    the `argparse` key value pairs into parent properties. The properties of
+    this class for example can be used to display easily an overview message of
+    the job.
     """
 
     def __init__(self, args):
@@ -69,6 +116,15 @@ class Job(object):
             self._args.album_min,
             self._args.extension
         )
+
+    @property
+    def format(self):
+        """
+        default
+        compilation
+        soundtrack
+        """
+        return Formats(self._args)
 
     @property
     def output(self):

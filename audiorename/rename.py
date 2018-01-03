@@ -23,60 +23,6 @@ if six.PY2:
 counter = 0
 
 
-class DefaultFormats(object):
-
-    default = '$artist_initial/' + \
-              '%shorten{$artistsafe_sort}/' + \
-              '%shorten{$album_clean}%ifdef{year_safe,_${year_safe}}/' + \
-              '${disctrack}_%shorten{$title}'
-
-    compilation = '_compilations/' + \
-                  '$album_initial/' + \
-                  '%shorten{$album_clean}' + \
-                  '%ifdef{year_safe,_${year_safe}}/' + \
-                  '${disctrack}_%shorten{$title}'
-
-    soundtrack = '_soundtrack/' + \
-                 '$album_initial/' + \
-                 '%shorten{$album_clean}' + \
-                 '%ifdef{year_safe,_${year_safe}}/' + \
-                 '${disctrack}_${artist}_%shorten{$title}'
-
-    classical = '$composer_initial/$composer_safe/' + \
-                '%shorten{$album_classical,48}' + \
-                '_[%shorten{$performer_classical,32}]/' + \
-                '${disctrack}_%shorten{$title_classical,64}_' + \
-                '%shorten{$acoustid_id,8}'
-
-
-class Formats(object):
-
-    default = u''
-    compilation = u''
-    soundtrack = u''
-
-    def __init__(self, args):
-        defaults = DefaultFormats()
-
-        if args.format:
-            defaults.default = args.format
-
-        if args.compilation:
-            defaults.compilation = args.compilation
-
-        if args.soundtrack:
-            defaults.soundtrack = args.soundtrack
-
-        if args.classical:
-            self.default = defaults.classical
-            self.compilation = defaults.classical
-            self.soundtrack = defaults.classical
-        else:
-            self.default = defaults.default
-            self.compilation = defaults.compilation
-            self.soundtrack = defaults.soundtrack
-
-
 class MessageFile(object):
     """Print out message on file level, foreach file to rename or to copy.
 
@@ -194,13 +140,12 @@ class Rename(object):
         self.message = MessageFile(job, self.old_path)
 
     def generateFilename(self):
-        formats = Formats(self.args)
         if self.meta.soundtrack:
-            format_string = formats.soundtrack
+            format_string = self.job.format.soundtrack
         elif self.meta.comp:
-            format_string = formats.compilation
+            format_string = self.job.format.compilation
         else:
-            format_string = formats.default
+            format_string = self.job.format.default
 
         meta_dict = self.meta.export_dict()
 
