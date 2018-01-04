@@ -139,12 +139,14 @@ class Job(object):
         Output = namedtuple('Output', [
             'color',
             'job_info',
+            'one_line',
             'verbose',
         ])
 
         return Output(
             self._args.color,
             self._args.job_info,
+            self._args.one_line,
             self._args.verbose,
         )
 

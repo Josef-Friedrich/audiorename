@@ -85,6 +85,10 @@ class TestMessageFile(unittest.TestCase):
         self.MessageFile = MessageFile
         self.job = helper.get_job(source='/tmp', source_as_target=True)
 
+    def message(self, **arguments):
+        job = helper.get_job(**arguments)
+        return self.MessageFile(job, 'source.mp3', 'target.mp3')
+
     def test_without_target(self):
         message = self.MessageFile(self.job, 'lol.mp3')
         with helper.Capturing() as output:
@@ -95,6 +99,20 @@ class TestMessageFile(unittest.TestCase):
         message = self.MessageFile(self.job, 'source.mp3', 'target.mp3')
         with helper.Capturing() as output:
             message.process(action=u'lol')
+        self.assertTrue('target.mp3' in output[1])
+
+    def test_one_line(self):
+        message = self.message(source='/tmp', one_line=True)
+        with helper.Capturing() as output:
+            message.process(action=u'lol')
+        self.assertTrue('source.mp3' in output[0])
+        self.assertTrue('target.mp3' in output[0])
+
+    def test_two_lines(self):
+        message = self.message(source='/tmp', one_line=False)
+        with helper.Capturing() as output:
+            message.process(action=u'lol')
+        self.assertTrue('source.mp3' in output[0])
         self.assertTrue('target.mp3' in output[1])
 
 

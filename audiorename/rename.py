@@ -77,16 +77,18 @@ class MessageFile(object):
         else:
             message = ansicolor.white(message, reverse=True)
 
+        if self.job.output.one_line:
+            connection = u' -> '
+        else:
+            connection = u'\n' + u'-> '.rjust(indent + 3)
+
         line1 = message + u' ' + self.source
         if self.target:
-            line2 = u'\n' + u'-> '.rjust(indent + 3) + \
-                ansicolor.yellow(self.target)
+            line2 = connection + ansicolor.yellow(self.target)
         else:
             line2 = u''
 
-        out = line1 + line2
-
-        print(out)
+        print(line1 + line2)
 
 
 class Rename(object):

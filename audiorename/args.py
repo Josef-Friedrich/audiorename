@@ -100,11 +100,12 @@ class ArgsDefault():
     job_info = False
     mb_track_listing = False
     move = False
+    one_line = False
     shell_friendly = False
     skip_if_empty = False
     soundtrack = False
-    source_as_target = False
     source = u'.'
+    source_as_target = False
     target = ''
     verbose = False
     work = False
@@ -345,6 +346,15 @@ def parse_args(argv):
         '--job-info',
         help='Display informations about the current job. This informations \
         are printted out before any actions on the audio files are executed.',
+        action='store_true'
+    )
+
+    # one_line
+    output.add_argument(
+        '-o',
+        '--one-line',
+        help='Display the rename / copy action status on one line instead of \
+        two.',
         action='store_true'
     )
 

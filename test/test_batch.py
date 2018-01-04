@@ -55,8 +55,9 @@ class TestBatch(unittest.TestCase):
 
     def test_folder_complete(self):
         with helper.Capturing() as output:
-            audiorename.execute(['--dry-run', '--verbose', helper.test_files])
-        self.assertEqual(self.all, helper.filter_source(output))
+            audiorename.execute(['--dry-run', '--verbose', '--one-line',
+                                helper.test_files])
+        self.assertEqual(self.all, helper.filter_source_one_line(output))
 
     def test_folder_sub(self):
         with helper.Capturing() as output:

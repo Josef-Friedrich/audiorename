@@ -189,6 +189,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.move, False)
         self.assertEqual(self.args.move, self.default.move)
 
+    def test_one_line(self):
+        self.assertEqual(self.args.one_line, False)
+        self.assertEqual(self.args.one_line, self.default.one_line)
+
     def test_shell_friendly(self):
         self.assertEqual(self.args.shell_friendly, False)
         self.assertEqual(self.args.shell_friendly, self.default.shell_friendly)

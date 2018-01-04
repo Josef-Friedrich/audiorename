@@ -99,6 +99,11 @@ class TestJob(unittest.TestCase):
         self.args.job_info = True
         self.assertEqual(job.output.job_info, True)
 
+    def test_output_one_line(self):
+        job = Job(self.args)
+        self.args.one_line = True
+        self.assertEqual(job.output.one_line, True)
+
     def test_output_verbose(self):
         job = Job(self.args)
         self.args.verbose = True
