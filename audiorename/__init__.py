@@ -175,7 +175,7 @@ class MessageJob(object):
 
     def __init__(self, job):
         self.job = job
-        self.keys = ['action', 'source', 'target']
+        self.job_properties = ['action', 'source', 'target']
 
     def format_key_value(self, key, value):
         key = key + ':'
@@ -183,10 +183,17 @@ class MessageJob(object):
             key = ansicolor.yellow(key)
         return key + ' ' + value + '\n'
 
+    def versions(self):
+        import phrydy
+        import tmep
+        return self.format_key_value('audiorename', __version__) + \
+            self.format_key_value('phrydy', phrydy.__version__) + \
+            self.format_key_value('tmep', tmep.__version__)
+
     def print_output(self):
-        out = u''
-        for key in self.keys:
-            out = out + self.format_key_value(key, getattr(self.job, key))
+        out = self.versions()
+        for prop in self.job_properties:
+            out = out + self.format_key_value(prop, getattr(self.job, prop))
 
         print(out)
 

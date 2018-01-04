@@ -17,7 +17,10 @@ class TestMessageJob(unittest.TestCase):
         tmp = helper.copy_to_tmp(['files', 'album.mp3'])
         with helper.Capturing() as output:
             audiorename.execute(['--dry-run', '--job-info', tmp])
-        self.assertEqual(output[0], 'action: dry_run')
+        self.assertTrue('audiorename' in output[0])
+        self.assertTrue('phrydy' in output[1])
+        self.assertTrue('tmep' in output[2])
+        self.assertEqual(output[3], 'action: dry_run')
 
     @unittest.skip('Fails with tox')
     def test_unit_color(self):
