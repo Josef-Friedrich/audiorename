@@ -115,6 +115,19 @@ class TestMessageFile(unittest.TestCase):
         self.assertTrue('source.mp3' in output[0])
         self.assertTrue('target.mp3' in output[1])
 
+    def test_no_color(self):
+        message = self.message(source='/tmp', color=False)
+        with helper.Capturing() as output:
+            message.process(u'lol')
+        self.assertTrue('] source.mp3' in output[0])
+
+    @unittest.skip('not working with tox')
+    def test_color(self):
+        message = self.message(source='/tmp', color=True)
+        with helper.Capturing() as output:
+            message.process(u'lol')
+        self.assertTrue(u']\x1b[0;0m source.mp3' in output[0])
+
 
 class TestUnicodeUnittest(unittest.TestCase):
 
