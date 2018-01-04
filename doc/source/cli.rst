@@ -4,11 +4,11 @@ Comande line interface
 .. code-block:: text
 
 
-    usage: audiorenamer [-h] [-D] [-s SKIP_IF_EMPTY] [-v] [-j] [-V]
+    usage: audiorenamer [-h] [-D] [-s SKIP_IF_EMPTY] [-v]
                         [-C | -d | -M | --mb-track-listing | -w] [-F]
                         [-m ALBUM_MIN] [-e EXTENSION] [-k] [-S] [-c FORMAT_STRING]
-                        [-f FORMAT_STRING] [--soundtrack FORMAT_STRING] [-a]
-                        [-t target]
+                        [-f FORMAT_STRING] [--soundtrack FORMAT_STRING] [-K] [-j]
+                        [-o] [-V] [-a] [-t TARGET]
                         source
     
         Rename audio files from metadata tags.
@@ -368,12 +368,6 @@ Comande line interface
                             Skip renaming of field is empty.
       -v, --version         show program's version number and exit
     
-    output:
-      -j, --job-info        Display informations about the current job. This
-                            informations are printted out before any actions on
-                            the audio files are executed.
-      -V, --verbose         Make the command line output more verbose.
-    
     actions:
       -C, --copy            Copy files instead of rename / move.
       -d, --dry-run         Don’t rename or copy the audio files.
@@ -415,8 +409,18 @@ Comande line interface
                             metadata fields and functions to build the format
                             string.
     
+    output:
+      -K, --color           Colorize the standard output of the program with ANSI
+                            colors.
+      -j, --job-info        Display informations about the current job. This
+                            informations are printted out before any actions on
+                            the audio files are executed.
+      -o, --one-line        Display the rename / copy action status on one line
+                            instead of two.
+      -V, --verbose         Make the command line output more verbose.
+    
     target:
       -a, --source-as-target
                             Use specified source folder as target directory
-      -t target, --target target
+      -t TARGET, --target TARGET
                             Target directory
