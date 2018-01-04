@@ -60,31 +60,44 @@ class MessageFile(object):
     def target(self, value):
         self._target = value
 
-    def process(self, action=u'Rename', error=False):
-        indent = 12
-        action_processed = action + u':'
-        message = action_processed.ljust(indent)
-        message = u'[' + message + u']'
-
-        if action == u'Rename' or action == u'Copy':
-            message = ansicolor.yellow(message, reverse=True)
-        elif action == u'Renamed':
-            message = ansicolor.green(message, reverse=True)
-        elif action == u'Dry run':
-            message = ansicolor.white(message, reverse=True)
-        elif error:
-            message = ansicolor.red(message, reverse=True)
+    @staticmethod
+    def color(message):
+        if message == u'Rename' or message == u'Copy':
+            return u'yellow'
+        elif message == u'Renamed':
+            return u'green'
+        elif message == u'Dry run':
+            return u'white'
+        elif message == u'Exists' or \
+                message == 'No field' or \
+                message == u'Broken file':
+            return u'red'
         else:
-            message = ansicolor.white(message, reverse=True)
+            return u'white'
+
+    def process(self, message):
+        indent = 12
+        message_processed = message + u':'
+        message_processed = message_processed.ljust(indent)
+        message_processed = u'[' + message_processed + u']'
+
+        if self.job.output.color:
+            color = self.color(message)
+            colorize = getattr(ansicolor, color)
+            message_processed = colorize(message_processed, reverse=True)
 
         if self.job.output.one_line:
             connection = u' -> '
         else:
             connection = u'\n' + u'-> '.rjust(indent + 3)
 
-        line1 = message + u' ' + self.source
+        line1 = message_processed + u' ' + self.source
         if self.target:
-            line2 = connection + ansicolor.yellow(self.target)
+            if self.job.output.color:
+                target = ansicolor.yellow(self.target)
+            else:
+                target = self.target
+            line2 = connection + target
         else:
             line2 = u''
 
@@ -178,7 +191,7 @@ class Rename(object):
 
     def dryRun(self):
         self.generateFilename()
-        self.message.process(action=u'Dry run')
+        self.message.process(u'Dry run')
 
     def mbTrackListing(self):
         m, s = divmod(self.meta.length, 60)
@@ -192,7 +205,7 @@ class Rename(object):
     def fetch_work(self):
         self.meta.fetch_work()
         self.meta.save()
-        self.message.process(action=u'Get work')
+        self.message.process(u'Get work')
 
     def action(self, copy=False):
         """Rename or copy to new path
@@ -205,15 +218,15 @@ class Rename(object):
         if not os.path.exists(self.new_path):
             self.createDir(self.new_path)
             if copy:
-                self.message.process(action=u'Copy')
+                self.message.process(u'Copy')
                 shutil.copy2(self.old_path, self.new_path)
             else:
-                self.message.process(action=u'Rename')
+                self.message.process(u'Rename')
                 shutil.move(self.old_path, self.new_path)
         elif self.new_path == self.old_path:
-            self.message.process(action=u'Renamed', error=False)
+            self.message.process(u'Renamed')
         else:
-            self.message.process(action=u'Exists', error=True)
+            self.message.process(u'Exists')
             if self.job.delete_existing:
                 os.remove(self.old_path)
                 print('Delete existing file: ' + self.old_path)
@@ -226,10 +239,10 @@ class Rename(object):
         counter += 1
         skip = self.job.skip_if_empty
         if not self.meta:
-            self.message.process(action=u'Broken file', error=True)
+            self.message.process(u'Broken file')
         elif skip and (not hasattr(self.meta, skip) or not
                        getattr(self.meta, skip)):
-            self.message.process(action=u'No field', error=True)
+            self.message.process(u'No field')
         else:
             if self.job.action == u'dry_run':
                 self.dryRun()
