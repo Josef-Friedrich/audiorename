@@ -3,6 +3,8 @@
 """Test the submodule “meta.py”."""
 
 from audiorename.meta import Meta
+from audiorename.meta import Enrich
+
 import unittest
 import os
 import tempfile
@@ -12,6 +14,39 @@ import shutil
 def get_meta(path_list):
     return Meta(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                 *path_list))
+
+
+class TestEnrich(unittest.TestCase):
+
+    @staticmethod
+    def get_enrich(path_segments):
+        return Enrich(get_meta(path_segments))
+
+    def test_recording_pulp_01(self):
+        enrich = self.get_enrich(['soundtrack', 'Pulp-Fiction', '01.mp3'])
+        result = enrich.recording()
+        self.assertEqual(result['id'],
+                         u'0480672d-4d88-4824-a06b-917ff408eabe')
+
+    def test_recording_mozart_01(self):
+        enrich = self.get_enrich(['classical', 'Mozart_Horn-concertos',
+                                 '01.mp3'])
+        result = enrich.recording()
+        self.assertEqual(result['work-relation-list'][0]['work']['id'],
+                         u'21fe0bf0-a040-387c-a39d-369d53c251fe')
+
+    def test_release_pulp_01(self):
+        enrich = self.get_enrich(['soundtrack', 'Pulp-Fiction', '01.mp3'])
+        result = enrich.release()
+        self.assertEqual(result['release-group']['id'],
+                         u'1703cd63-9401-33c0-87c6-50c4ba2e0ba8')
+
+    def test_release_mozart_01(self):
+        enrich = self.get_enrich(['classical', 'Mozart_Horn-concertos',
+                                 '01.mp3'])
+        result = enrich.release()
+        self.assertEqual(result['release-group']['id'],
+                         u'e1fa28f0-e56e-395b-82d3-a8de54e8c627')
 
 
 ###############################################################################
