@@ -438,6 +438,17 @@ class TestSourceAsTarget(unittest.TestCase):
     def test_album(self):
         self.assertTrue(helper.is_file(self.dir_album + '/a.mp3'))
 
+# --stats
+
+
+class TestStats(unittest.TestCase):
+
+    def test_dry_run(self):
+        with helper.Capturing() as output:
+            audiorename.execute(['--dry-run', '--stats',
+                                helper.path(['real-world'])])
+        self.assertEqual(int(output[-1]), 138)
+
 
 # --skip-if-empty
 class TestSkipIfEmpty(unittest.TestCase):

@@ -25,6 +25,10 @@ path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
 test_files = os.path.join(dir_test, 'files')
 
 
+def path(path_list):
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), *path_list)
+
+
 def gen_file_list(files, path, extension='mp3'):
     output = []
     for f in files:

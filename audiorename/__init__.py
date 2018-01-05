@@ -13,6 +13,20 @@ __version__ = get_versions()['version']
 del get_versions
 
 
+class Counter(object):
+
+    exists = 0
+    no_field = 0
+    rename = 0
+    renamed = 0
+    dry_run = 0
+
+
+class Stats(object):
+
+    counter = Counter()
+
+
 class DefaultFormats(object):
 
     default = '$artist_initial/' + \
@@ -77,6 +91,8 @@ class Job(object):
     the job.
     """
 
+    stats = Stats()
+
     def __init__(self, args):
         self._args = args
 
@@ -140,6 +156,7 @@ class Job(object):
             'color',
             'job_info',
             'one_line',
+            'stats',
             'verbose',
         ])
 
@@ -147,6 +164,7 @@ class Job(object):
             self._args.color,
             self._args.job_info,
             self._args.one_line,
+            self._args.stats,
             self._args.verbose,
         )
 
@@ -198,6 +216,12 @@ class MessageJob(object):
         print(out)
 
 
+def print_stats(job):
+    if job.output.stats:
+        print(job.stats.counter.rename)
+        print(job.stats.counter.dry_run)
+
+
 def execute(argv=None):
     """Main function
 
@@ -205,10 +229,11 @@ def execute(argv=None):
         :code:`['--dry-run', '.']`
     """
     args = parse_args(argv)
-
     job = Job(args)
     if job.output.job_info:
         message = MessageJob(job)
         message.print_output()
     batch = Batch(job)
     batch.execute()
+
+    print_stats(job)

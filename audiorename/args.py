@@ -106,6 +106,7 @@ class ArgsDefault():
     soundtrack = False
     source = u'.'
     source_as_target = False
+    stats = False
     target = ''
     verbose = False
     work = False
@@ -355,6 +356,14 @@ def parse_args(argv):
         '--one-line',
         help='Display the rename / copy action status on one line instead of \
         two.',
+        action='store_true'
+    )
+
+    # stats
+    output.add_argument(
+        '-T',
+        '--stats',
+        help='Show statistics at the end of the execution.',
         action='store_true'
     )
 

@@ -214,6 +214,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.target, '')
         self.assertEqual(self.args.target, self.default.target)
 
+    def test_stats(self):
+        self.assertEqual(self.args.stats, False)
+        self.assertEqual(self.args.stats, self.default.stats)
+
     def test_verbose(self):
         self.assertEqual(self.args.verbose, False)
         self.assertEqual(self.args.verbose, self.default.verbose)

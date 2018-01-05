@@ -192,6 +192,8 @@ class Rename(object):
     def dryRun(self):
         self.generateFilename()
         self.message.process(u'Dry run')
+        self.job.stats.counter.dry_run = \
+            self.job.stats.counter.dry_run + 1
 
     def mbTrackListing(self):
         m, s = divmod(self.meta.length, 60)
@@ -223,6 +225,8 @@ class Rename(object):
             else:
                 self.message.process(u'Rename')
                 shutil.move(self.old_path, self.new_path)
+                self.job.stats.counter.rename = \
+                    self.job.stats.counter.rename + 1
         elif self.new_path == self.old_path:
             self.message.process(u'Renamed')
         else:
