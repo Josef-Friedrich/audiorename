@@ -150,6 +150,9 @@ class Rename(object):
 
         self.message = MessageFile(job, self.old_path)
 
+    def count(self, key):
+        self.job.stats.counter.count(key)
+
     def generate_filename(self):
         if self.meta.soundtrack:
             format_string = self.job.format.soundtrack
@@ -192,8 +195,7 @@ class Rename(object):
     def dry_run(self):
         self.generate_filename()
         self.message.process(u'Dry run')
-        self.job.stats.counter.dry_run = \
-            self.job.stats.counter.dry_run + 1
+        self.count('dry_run')
 
     def mb_track_listing(self):
         m, s = divmod(self.meta.length, 60)
@@ -225,12 +227,13 @@ class Rename(object):
             else:
                 self.message.process(u'Rename')
                 shutil.move(self.old_path, self.new_path)
-                self.job.stats.counter.rename = \
-                    self.job.stats.counter.rename + 1
+                self.count('rename')
         elif self.new_path == self.old_path:
             self.message.process(u'Renamed')
+            self.count('renamed')
         else:
             self.message.process(u'Exists')
+            self.count('exists')
             if self.job.delete_existing:
                 os.remove(self.old_path)
                 print('Delete existing file: ' + self.old_path)
@@ -247,6 +250,7 @@ class Rename(object):
         elif skip and (not hasattr(self.meta, skip) or not
                        getattr(self.meta, skip)):
             self.message.process(u'No field')
+            self.count('no_field')
         else:
             if self.job.action == u'dry_run':
                 self.dry_run()

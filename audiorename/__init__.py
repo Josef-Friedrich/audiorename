@@ -68,6 +68,7 @@ class Counter(object):
 class Stats(object):
 
     counter = Counter()
+    timer = Timer()
 
 
 class DefaultFormats(object):
@@ -135,8 +136,6 @@ class Job(object):
     """
 
     stats = Stats()
-
-    timer = Timer()
 
     def __init__(self, args):
         self._args = args
@@ -263,7 +262,7 @@ class MessageJob(object):
 
 def print_stats(job):
     if job.output.stats:
-        print(job.timer.result())
+        print(job.stats.timer.result())
         print(job.stats.counter.rename)
         print(job.stats.counter.dry_run)
 
@@ -277,11 +276,11 @@ def execute(argv=None):
     args = parse_args(argv)
     job = Job(args)
     job.stats.counter.reset()
-    job.timer.start()
+    job.stats.timer.start()
     if job.output.job_info:
         message = MessageJob(job)
         message.print_output()
     batch = Batch(job)
     batch.execute()
-    job.timer.stop()
+    job.stats.timer.stop()
     print_stats(job)
