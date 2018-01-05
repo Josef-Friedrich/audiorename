@@ -150,7 +150,7 @@ class Rename(object):
 
         self.message = MessageFile(job, self.old_path)
 
-    def generateFilename(self):
+    def generate_filename(self):
         if self.meta.soundtrack:
             format_string = self.job.format.soundtrack
         elif self.meta.comp:
@@ -163,13 +163,13 @@ class Rename(object):
         t = Template(as_string(format_string))
         f = Functions(meta_dict)
         new = t.substitute(meta_dict, f.functions())
-        new = self.postTemplate(new)
+        new = self.post_template(new)
         new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
         self.new_file = new
         self.new_path = os.path.join(self.job.target, new)
         self.message.target = self.new_path
 
-    def postTemplate(self, text):
+    def post_template(self, text):
         if isinstance(text, str) or isinstance(text, unicode):
             if self.job.shell_friendly:
                 text = Functions.tmpl_asciify(text)
@@ -180,7 +180,7 @@ class Rename(object):
             text = Functions.tmpl_delchars(text, ':*?"<>|\~&{}')
         return text
 
-    def createDir(self, path):
+    def create_dir(self, path):
         path = os.path.dirname(path)
         import errno
         try:
@@ -189,13 +189,13 @@ class Rename(object):
             if exception.errno != errno.EEXIST:
                 raise
 
-    def dryRun(self):
-        self.generateFilename()
+    def dry_run(self):
+        self.generate_filename()
         self.message.process(u'Dry run')
         self.job.stats.counter.dry_run = \
             self.job.stats.counter.dry_run + 1
 
-    def mbTrackListing(self):
+    def mb_track_listing(self):
         m, s = divmod(self.meta.length, 60)
         mmss = '{:d}:{:02d}'.format(int(m), int(s))
         output = '{:d}. {:s}: {:s} ({:s})'.format(counter, self.meta.album,
@@ -216,9 +216,9 @@ class Rename(object):
 
         :return: None
         """
-        self.generateFilename()
+        self.generate_filename()
         if not os.path.exists(self.new_path):
-            self.createDir(self.new_path)
+            self.create_dir(self.new_path)
             if copy:
                 self.message.process(u'Copy')
                 shutil.copy2(self.old_path, self.new_path)
@@ -249,9 +249,9 @@ class Rename(object):
             self.message.process(u'No field')
         else:
             if self.job.action == u'dry_run':
-                self.dryRun()
+                self.dry_run()
             elif self.job.action == u'mb_track_listing':
-                self.mbTrackListing()
+                self.mb_track_listing()
             elif self.job.action == u'copy':
                 self.action(copy=True)
             elif self.job.action == u'work':
