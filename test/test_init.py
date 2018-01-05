@@ -171,5 +171,35 @@ class TestTimer(unittest.TestCase):
         self.assertEqual(self.get_result(10.00001, 10.00002), '0.0s')
 
 
+class TestCounter(unittest.TestCase):
+
+    def setUp(self):
+        from audiorename import Counter
+        self.counter = Counter()
+
+    def test_reset(self):
+        self.counter.rename = 13
+        self.counter.reset()
+        self.assertEqual(self.counter.rename, 0)
+
+    def test_count(self):
+        self.counter.count('rename')
+        self.assertEqual(self.counter.rename, 1)
+        self.counter.count('rename')
+        self.assertEqual(self.counter.rename, 2)
+
+    def test_get_counters(self):
+        self.assertEqual(self.counter.get_counters(), ['dry_run', 'exists',
+                         'no_field', 'rename', 'renamed'])
+
+    def test_result(self):
+        self.assertEqual(self.counter.result(),
+                         'dry_run=0 exists=0 no_field=0 rename=0 renamed=0')
+
+        self.counter.count('no_field')
+        self.assertEqual(self.counter.result(),
+                         'dry_run=0 exists=0 no_field=1 rename=0 renamed=0')
+
+
 if __name__ == '__main__':
     unittest.main()

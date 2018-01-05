@@ -45,6 +45,25 @@ class Counter(object):
         self.renamed = 0
         self.dry_run = 0
 
+    def count(self, counter):
+        setattr(self, counter, getattr(self, counter) + 1)
+
+    def get_counters(self):
+        counters = []
+        for attr, value in self.__class__.__dict__.items():
+            if value == 0:
+                counters.append(attr)
+        counters.sort()
+        return counters
+
+    def result(self):
+        counters = self.get_counters()
+        out = []
+        for counter in counters:
+            out.append(counter + '=' + str(getattr(self, counter)))
+
+        return ' '.join(out)
+
 
 class Stats(object):
 
