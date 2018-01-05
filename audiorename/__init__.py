@@ -21,6 +21,13 @@ class Counter(object):
     renamed = 0
     dry_run = 0
 
+    def reset(self):
+        self.exists = 0
+        self.no_field = 0
+        self.rename = 0
+        self.renamed = 0
+        self.dry_run = 0
+
 
 class Stats(object):
 
@@ -230,6 +237,7 @@ def execute(argv=None):
     """
     args = parse_args(argv)
     job = Job(args)
+    job.stats.counter.reset()
     if job.output.job_info:
         message = MessageJob(job)
         message.print_output()

@@ -446,8 +446,8 @@ class TestStats(unittest.TestCase):
     def test_dry_run(self):
         with helper.Capturing() as output:
             audiorename.execute(['--dry-run', '--stats',
-                                helper.path(['real-world'])])
-        self.assertEqual(int(output[-1]), 138)
+                                helper.path(['mixed_formats'])])
+        self.assertEqual(int(output[-1]), 3)
 
 
 # --skip-if-empty
