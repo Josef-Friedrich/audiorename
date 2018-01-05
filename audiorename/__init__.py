@@ -8,9 +8,26 @@ from audiorename.args import parse_args
 from .batch import Batch
 from ._version import get_versions
 from collections import namedtuple
+import time
 
 __version__ = get_versions()['version']
 del get_versions
+
+
+class Timer(object):
+
+    begin = 0
+
+    end = 0
+
+    def start(self):
+        self.begin = time.time()
+
+    def stop(self):
+        self.end = time.time()
+
+    def result(self):
+        return '{:.1f}s'.format(self.end - self.begin)
 
 
 class Counter(object):
@@ -99,6 +116,8 @@ class Job(object):
     """
 
     stats = Stats()
+
+    timer = Timer()
 
     def __init__(self, args):
         self._args = args
@@ -225,6 +244,7 @@ class MessageJob(object):
 
 def print_stats(job):
     if job.output.stats:
+        print(job.timer.result())
         print(job.stats.counter.rename)
         print(job.stats.counter.dry_run)
 
@@ -238,10 +258,11 @@ def execute(argv=None):
     args = parse_args(argv)
     job = Job(args)
     job.stats.counter.reset()
+    job.timer.start()
     if job.output.job_info:
         message = MessageJob(job)
         message.print_output()
     batch = Batch(job)
     batch.execute()
-
+    job.timer.stop()
     print_stats(job)

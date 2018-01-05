@@ -142,5 +142,34 @@ class TestJob(unittest.TestCase):
         self.assertEqual(job.source, os.path.abspath(u'.'))
 
 
+class TestTimer(unittest.TestCase):
+
+    def setUp(self):
+        from audiorename import Timer
+        self.timer = Timer()
+
+    def get_result(self, begin, end):
+        self.timer.begin = begin
+        self.timer.end = end
+        return self.timer.result()
+
+    def test_method_start(self):
+        self.timer.start()
+        self.assertTrue(self.timer.begin > 0)
+
+    def test_method_stop(self):
+        self.timer.stop()
+        self.assertTrue(self.timer.end > 0)
+
+    def test_method_result(self):
+        self.assertEqual(self.get_result(10.3475, 14.594), '4.2s')
+
+    def test_method_result_large(self):
+        self.assertEqual(self.get_result(10, 145), '135.0s')
+
+    def test_method_result_small(self):
+        self.assertEqual(self.get_result(10.00001, 10.00002), '0.0s')
+
+
 if __name__ == '__main__':
     unittest.main()
