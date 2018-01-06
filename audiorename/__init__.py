@@ -9,6 +9,7 @@ from .batch import Batch
 from ._version import get_versions
 from collections import namedtuple, OrderedDict
 import time
+import sys
 
 __version__ = get_versions()['version']
 del get_versions
@@ -293,14 +294,21 @@ def execute(argv=None):
     :param list argv: The command line arguments specified as a list: e. g
         :code:`['--dry-run', '.']`
     """
-    args = parse_args(argv)
-    job = Job(args)
-    job.stats.counter.reset()
-    job.stats.timer.start()
-    if job.output.job_info:
-        job_info(job)
-    batch = Batch(job)
-    batch.execute()
-    job.stats.timer.stop()
-    if job.output.stats:
-        stats(job)
+
+    try:
+        args = parse_args(argv)
+        job = Job(args)
+        job.stats.counter.reset()
+        job.stats.timer.start()
+        if job.output.job_info:
+            job_info(job)
+        batch = Batch(job)
+        batch.execute()
+        job.stats.timer.stop()
+        if job.output.stats:
+            stats(job)
+    except KeyboardInterrupt:
+        job.stats.timer.stop()
+        if job.output.stats:
+            stats(job)
+        sys.exit(0)
