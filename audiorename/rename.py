@@ -110,14 +110,8 @@ class Rename(object):
     source = ''
     """The absolute path of the old file."""
 
-    old_file = ''
-    """The input path of the old file."""
-
     target = ''
     """The absolute path of the new file."""
-
-    new_file = ''
-    """The path inside the target directory of the new file."""
 
     extension = ''
     """The extension"""
@@ -127,9 +121,6 @@ class Rename(object):
 
     target = ''
     """The target directory"""
-
-    cwd = os.getcwd()
-    """The path of the current working directory"""
 
     def __init__(self, source, job):
         self.skip = False
