@@ -107,13 +107,13 @@ class MessageFile(object):
 class Rename(object):
     """Rename one file"""
 
-    old_path = ''
+    source = ''
     """The absolute path of the old file."""
 
     old_file = ''
     """The input path of the old file."""
 
-    new_path = ''
+    target = ''
     """The absolute path of the new file."""
 
     new_file = ''
@@ -131,24 +131,19 @@ class Rename(object):
     cwd = os.getcwd()
     """The path of the current working directory"""
 
-    def __init__(self, old_file=False, job=False):
+    def __init__(self, source, job):
         self.skip = False
+        self.job = job
 
-        if job:
-            self.job = job
+        self.source = os.path.realpath(source)
+        self.extension = self.source.split('.')[-1]
+        try:
+            self.meta = Meta(self.source, self.job.shell_friendly)
 
-        if old_file:
-            self.old_file = old_file
+        except phrydy.mediafile.UnreadableFileError:
+            self.skip = True
 
-            self.old_path = os.path.realpath(self.old_file)
-            self.extension = self.old_file.split('.')[-1]
-            try:
-                self.meta = Meta(self.old_path, self.job.shell_friendly)
-
-            except phrydy.mediafile.UnreadableFileError:
-                self.skip = True
-
-        self.message = MessageFile(job, self.old_path)
+        self.message = MessageFile(job, self.source)
 
     def count(self, key):
         self.job.stats.counter.count(key)
@@ -169,8 +164,8 @@ class Rename(object):
         new = self.post_template(new)
         new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
         self.new_file = new
-        self.new_path = os.path.join(self.job.target, new)
-        self.message.target = self.new_path
+        self.target = os.path.join(self.job.target, new)
+        self.message.target = self.target
 
     def post_template(self, text):
         if isinstance(text, str) or isinstance(text, unicode):
@@ -219,24 +214,24 @@ class Rename(object):
         :return: None
         """
         self.generate_filename()
-        if not os.path.exists(self.new_path):
-            self.create_dir(self.new_path)
+        if not os.path.exists(self.target):
+            self.create_dir(self.target)
             if copy:
                 self.message.process(u'Copy')
-                shutil.copy2(self.old_path, self.new_path)
+                shutil.copy2(self.source, self.target)
             else:
                 self.message.process(u'Rename')
-                shutil.move(self.old_path, self.new_path)
+                shutil.move(self.source, self.target)
                 self.count('rename')
-        elif self.new_path == self.old_path:
+        elif self.target == self.source:
             self.message.process(u'Renamed')
             self.count('renamed')
         else:
             self.message.process(u'Exists')
             self.count('exists')
             if self.job.delete_existing:
-                os.remove(self.old_path)
-                print('Delete existing file: ' + self.old_path)
+                os.remove(self.source)
+                print('Delete existing file: ' + self.source)
 
     def execute(self):
         """
@@ -245,7 +240,7 @@ class Rename(object):
         global counter
         counter += 1
         skip = self.job.skip_if_empty
-        
+
         if not self.meta:
             self.message.process(u'Broken file')
 
