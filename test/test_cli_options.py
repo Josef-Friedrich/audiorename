@@ -311,6 +311,24 @@ class TestCustomFormats(unittest.TestCase):
         shutil.rmtree(helper.dir_cwd + '/tmp/')
 
 
+# --job-info
+class TestJobInfo(unittest.TestCase):
+
+    def test_dry_run(self):
+        with helper.Capturing() as output:
+            audiorename.execute(['--dry-run', '--job-info',
+                                helper.path(['mixed_formats'])])
+
+        output = str(output)
+        self.assertTrue('Versions: ' in output)
+        self.assertTrue('audiorename=' in output)
+        self.assertTrue('phrydy=' in output)
+        self.assertTrue('tmep=' in output)
+        self.assertTrue('Action: dry_run' in output)
+        self.assertTrue('Source: ' in output)
+        self.assertTrue('Target: ' in output)
+
+
 # --mb-track-listing
 class Testmb_track_listing(unittest.TestCase):
 
@@ -440,16 +458,18 @@ class TestSourceAsTarget(unittest.TestCase):
     def test_album(self):
         self.assertTrue(helper.is_file(self.dir_album + '/a.mp3'))
 
+
 # --stats
-
-
 class TestStats(unittest.TestCase):
 
     def test_dry_run(self):
         with helper.Capturing() as output:
             audiorename.execute(['--dry-run', '--stats',
                                 helper.path(['mixed_formats'])])
-        self.assertEqual(int(output[-1]), 3)
+
+        self.assertTrue('Execution time:' in str(output))
+        self.assertTrue('Counter: dry_run=3 exists=0 no_field=0 rename=0 ' +
+                        'renamed=0' in output)
 
 
 # --skip-if-empty

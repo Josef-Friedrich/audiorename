@@ -2,38 +2,10 @@
 
 """Test the code in the __init__ file."""
 
-import audiorename
-from audiorename import MessageJob
 from audiorename import Job
 from audiorename.args import ArgsDefault
 import unittest
 import os
-import helper
-
-
-class TestMessageJob(unittest.TestCase):
-
-    def test_message_job(self):
-        tmp = helper.copy_to_tmp(['files', 'album.mp3'])
-        with helper.Capturing() as output:
-            audiorename.execute(['--dry-run', '--job-info', tmp])
-        self.assertTrue('audiorename' in output[0])
-        self.assertTrue('phrydy' in output[1])
-        self.assertTrue('tmep' in output[2])
-        self.assertEqual(output[3], 'action: dry_run')
-
-    @unittest.skip('Fails with tox')
-    def test_unit_color(self):
-        message = MessageJob(helper.get_job(color=True))
-        with helper.Capturing() as output:
-            message.print_output()
-        self.assertTrue(u'\x1b' in output[0])
-
-    def test_unit_nocolor(self):
-        message = MessageJob(helper.get_job(color=False))
-        with helper.Capturing() as output:
-            message.print_output()
-        self.assertFalse(u'\x1b' in output[0])
 
 
 class TestJob(unittest.TestCase):

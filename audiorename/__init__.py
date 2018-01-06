@@ -7,11 +7,39 @@ import ansicolor
 from audiorename.args import parse_args
 from .batch import Batch
 from ._version import get_versions
-from collections import namedtuple
+from collections import namedtuple, OrderedDict
 import time
 
 __version__ = get_versions()['version']
 del get_versions
+
+
+class KeyValue(object):
+
+    def __init__(self, color=False):
+        self.color = color
+        self.kv = OrderedDict()
+
+    def add(self, key, value):
+        self.kv[key] = value
+
+    def result(self):
+        out = ''
+        for key, value in self.kv.items():
+            key = key + ':'
+            if self.color:
+                key = ansicolor.yellow(key)
+            out = out + key + ' ' + value + '\n'
+        return out
+
+    def result_one_line(self):
+        out = []
+        for key, value in self.kv.items():
+            if self.color:
+                key = ansicolor.green(key)
+            out.append(key + '=' + str(value))
+
+        return ' '.join(out)
 
 
 class Timer(object):
@@ -233,38 +261,30 @@ class Job(object):
             return os.getcwd()
 
 
-class MessageJob(object):
+def job_info(job):
+    import phrydy
+    import tmep
 
-    def __init__(self, job):
-        self.job = job
-        self.job_properties = ['action', 'source', 'target']
+    versions = KeyValue(job.output.color)
+    versions.add('audiorename', __version__)
+    versions.add('phrydy', phrydy.__version__)
+    versions.add('tmep', tmep.__version__)
 
-    def format_key_value(self, key, value):
-        key = key + ':'
-        if self.job.output.color:
-            key = ansicolor.yellow(key)
-        return key + ' ' + value + '\n'
+    info = KeyValue(job.output.color)
+    info.add('Versions', versions.result_one_line())
+    info.add('Action', job.action)
+    info.add('Source', job.source)
+    info.add('Target', job.target)
 
-    def versions(self):
-        import phrydy
-        import tmep
-        return self.format_key_value('audiorename', __version__) + \
-            self.format_key_value('phrydy', phrydy.__version__) + \
-            self.format_key_value('tmep', tmep.__version__)
-
-    def print_output(self):
-        out = self.versions()
-        for prop in self.job_properties:
-            out = out + self.format_key_value(prop, getattr(self.job, prop))
-
-        print(out)
+    print(info.result())
 
 
-def print_stats(job):
-    if job.output.stats:
-        print(job.stats.timer.result())
-        print(job.stats.counter.rename)
-        print(job.stats.counter.dry_run)
+def stats(job):
+    kv = KeyValue(job.output.color)
+
+    kv.add('Execution time', job.stats.timer.result())
+    kv.add('Counter', job.stats.counter.result())
+    print(kv.result())
 
 
 def execute(argv=None):
@@ -278,9 +298,9 @@ def execute(argv=None):
     job.stats.counter.reset()
     job.stats.timer.start()
     if job.output.job_info:
-        message = MessageJob(job)
-        message.print_output()
+        job_info(job)
     batch = Batch(job)
     batch.execute()
     job.stats.timer.stop()
-    print_stats(job)
+    if job.output.stats:
+        stats(job)
