@@ -4,6 +4,8 @@
 
 from audiorename.meta import Meta
 from audiorename.meta import Enrich
+from audiorename.meta import work_recursion
+
 
 import unittest
 import os
@@ -47,6 +49,19 @@ class TestEnrich(unittest.TestCase):
         result = enrich.release()
         self.assertEqual(result['release-group']['id'],
                          u'e1fa28f0-e56e-395b-82d3-a8de54e8c627')
+
+    def test_work_mozart_zauberfloete_unit(self):
+        # recording_id 6a0599ea-5c06-483a-ba66-f3a036da900a
+        # work_id eafec51f-47c5-3c66-8c36-a524246c85f8
+        # Akt 1: 5adc213f-700a-4435-9e95-831ed720f348
+        result = work_recursion('eafec51f-47c5-3c66-8c36-a524246c85f8')
+
+        self.assertEqual(result[0]['id'],
+                         'eafec51f-47c5-3c66-8c36-a524246c85f8')
+        self.assertEqual(result[1]['id'],
+                         '5adc213f-700a-4435-9e95-831ed720f348')
+        self.assertEqual(result[2]['id'],
+                         'e208c5f5-5d37-3dfc-ac0b-999f207c9e46')
 
 
 ###############################################################################
