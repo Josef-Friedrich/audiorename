@@ -245,23 +245,29 @@ class Rename(object):
         global counter
         counter += 1
         skip = self.job.skip_if_empty
+        
         if not self.meta:
             self.message.process(u'Broken file')
+
         elif skip and (not hasattr(self.meta, skip) or not
                        getattr(self.meta, skip)):
             self.message.process(u'No field')
             self.count('no_field')
+
+        elif self.job.action == u'dry_run':
+            self.dry_run()
+
+        elif self.job.action == u'mb_track_listing':
+            self.mb_track_listing()
+
+        elif self.job.action == u'copy':
+            self.action(copy=True)
+
+        elif self.job.action == u'work':
+            self.fetch_work()
+
         else:
-            if self.job.action == u'dry_run':
-                self.dry_run()
-            elif self.job.action == u'mb_track_listing':
-                self.mb_track_listing()
-            elif self.job.action == u'copy':
-                self.action(copy=True)
-            elif self.job.action == u'work':
-                self.fetch_work()
-            else:
-                self.action()
+            self.action()
 
 
 def do_rename(path, job=None):
