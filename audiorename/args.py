@@ -246,7 +246,7 @@ def parse_args(argv):
     # no_rename
     exclusive.add_argument(
         '-n',
-        '--no_rename',
+        '--no-rename',
         help='Don’t rename, move, copy dry run. Do nothing.',
         action='store_true'
     )

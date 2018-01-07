@@ -178,11 +178,6 @@ class Rename(object):
             if exception.errno != errno.EEXIST:
                 raise
 
-    def dry_run(self):
-        self.generate_filename()
-        self.message.process(u'Dry run')
-        self.count('dry_run')
-
     def mb_track_listing(self):
         m, s = divmod(self.meta.length, 60)
         mmss = '{:d}:{:02d}'.format(int(m), int(s))
@@ -192,68 +187,80 @@ class Rename(object):
         output = output.replace('- ', '')
         print(output)
 
-    def fetch_work(self):
-        self.meta.fetch_work()
-        self.meta.save()
-        self.message.process(u'Get work')
-
-    def action(self, copy=False):
-        """Rename or copy to new path
-
-        :param bool copy: Copy file
-
-        :return: None
-        """
-        self.generate_filename()
-        if not os.path.exists(self.target):
-            self.create_dir(self.target)
-            if copy:
-                self.message.process(u'Copy')
-                shutil.copy2(self.source, self.target)
-            else:
-                self.message.process(u'Rename')
-                shutil.move(self.source, self.target)
-                self.count('rename')
-        elif self.target == self.source:
-            self.message.process(u'Renamed')
-            self.count('renamed')
-        else:
-            self.message.process(u'Exists')
-            self.count('exists')
-            if self.job.delete_existing:
-                os.remove(self.source)
-                print('Delete existing file: ' + self.source)
-
     def execute(self):
         """
         .. todo:: Rethink `fetch work`
         """
         global counter
         counter += 1
-        skip = self.job.skip_if_empty
+
+        ##
+        # Skips
+        ##
 
         if not self.meta:
             self.message.process(u'Broken file')
+            return
 
-        elif skip and (not hasattr(self.meta, skip) or not
-                       getattr(self.meta, skip)):
+        skip = self.job.skip_if_empty
+        if skip and (not hasattr(self.meta, skip) or not
+                     getattr(self.meta, skip)):
             self.message.process(u'No field')
             self.count('no_field')
+            return
 
-        elif self.job.output.mb_track_listing is True:
+        ##
+        # Output only
+        ##
+
+        if self.job.output.mb_track_listing:
             self.mb_track_listing()
+            return
 
-        elif self.job.rename_action == u'dry_run':
-            self.dry_run()
+        ##
+        # Metadata actions
+        ##
 
-        elif self.job.rename_action == u'copy':
-            self.action(copy=True)
+        if self.job.metadata_actions.enrich_metadata:
+            print('Enrich metadata')
+            self.meta.fetch_work()
 
-        elif self.job.metadata_actions.enrich_metadata is True:
-            self.fetch_work()
+        if self.job.metadata_actions.remap_classical:
+            print('Remap classical')
 
-        else:
-            self.action()
+        if self.job.metadata_actions.remap_classical or \
+                self.job.metadata_actions.enrich_metadata:
+            self.meta.save()
+
+        ##
+        # Rename action
+        ##
+
+        if self.job.rename_action != 'no_rename':
+            self.generate_filename()
+
+            if self.job.rename_action == u'dry_run':
+                self.message.process(u'Dry run')
+                self.count('dry_run')
+
+            elif not os.path.exists(self.target):
+                self.create_dir(self.target)
+                if self.job.rename_action == u'copy':
+                    self.message.process(u'Copy')
+                    shutil.copy2(self.source, self.target)
+                else:
+                    self.message.process(u'Rename')
+                    shutil.move(self.source, self.target)
+                    self.count('rename')
+            elif self.target == self.source:
+                self.message.process(u'Renamed')
+                self.count('renamed')
+            else:
+                self.message.process(u'Exists')
+                self.count('exists')
+                if self.job.delete_existing:
+                    os.remove(self.source)
+                    print('Delete existing file: ' + self.source)
 
 
 def do_rename(path, job=None):

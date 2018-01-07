@@ -291,9 +291,9 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertEqual(orig.work, None)
 
         with helper.Capturing() as output:
-            audiorename.execute(['--enrich-metadata', tmp])
+            audiorename.execute(['--enrich-metadata', '--no-rename', tmp])
 
-        self.assertTrue('Get work:' in output[0])
+        self.assertTrue('Enrich metadata' in output[0])
 
         with_work = Meta(tmp)
         self.assertEqual(
