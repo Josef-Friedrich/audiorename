@@ -4,8 +4,6 @@
 
 from audiorename.meta import Meta
 from audiorename.meta import Enrich
-from audiorename.meta import work_recursion
-
 
 import unittest
 import os
@@ -20,33 +18,34 @@ def get_meta(path_list):
 
 class TestEnrich(unittest.TestCase):
 
+    def setUp(self):
+        Enrich.set_useragent()
+
     @staticmethod
     def get_enrich(path_segments):
         return Enrich(get_meta(path_segments))
 
     def test_recording_pulp_01(self):
-        enrich = self.get_enrich(['soundtrack', 'Pulp-Fiction', '01.mp3'])
-        result = enrich.recording()
+        # ['soundtrack', 'Pulp-Fiction', '01.mp3']
+        result = Enrich.get_recording(u'0480672d-4d88-4824-a06b-917ff408eabe')
         self.assertEqual(result['id'],
                          u'0480672d-4d88-4824-a06b-917ff408eabe')
 
     def test_recording_mozart_01(self):
-        enrich = self.get_enrich(['classical', 'Mozart_Horn-concertos',
-                                 '01.mp3'])
-        result = enrich.recording()
+        # ['classical', 'Mozart_Horn-concertos', '01.mp3']
+        result = Enrich.get_recording('7886ad6c-11af-435b-8ec3-bca5711f7728')
         self.assertEqual(result['work-relation-list'][0]['work']['id'],
                          u'21fe0bf0-a040-387c-a39d-369d53c251fe')
 
     def test_release_pulp_01(self):
-        enrich = self.get_enrich(['soundtrack', 'Pulp-Fiction', '01.mp3'])
-        result = enrich.release()
+        # ['soundtrack', 'Pulp-Fiction', '01.mp3']
+        result = Enrich.get_release('ab81edcb-9525-47cd-8247-db4fa969f525')
         self.assertEqual(result['release-group']['id'],
                          u'1703cd63-9401-33c0-87c6-50c4ba2e0ba8')
 
     def test_release_mozart_01(self):
-        enrich = self.get_enrich(['classical', 'Mozart_Horn-concertos',
-                                 '01.mp3'])
-        result = enrich.release()
+        # ['classical', 'Mozart_Horn-concertos', '01.mp3'])
+        result = Enrich.get_release('5ed650c5-0f72-4b79-80a7-c458c869f53e')
         self.assertEqual(result['release-group']['id'],
                          u'e1fa28f0-e56e-395b-82d3-a8de54e8c627')
 
@@ -54,7 +53,7 @@ class TestEnrich(unittest.TestCase):
         # recording_id 6a0599ea-5c06-483a-ba66-f3a036da900a
         # work_id eafec51f-47c5-3c66-8c36-a524246c85f8
         # Akt 1: 5adc213f-700a-4435-9e95-831ed720f348
-        result = work_recursion('eafec51f-47c5-3c66-8c36-a524246c85f8')
+        result = Enrich.work_recursion('eafec51f-47c5-3c66-8c36-a524246c85f8')
 
         self.assertEqual(result[0]['id'],
                          'eafec51f-47c5-3c66-8c36-a524246c85f8')
@@ -62,6 +61,10 @@ class TestEnrich(unittest.TestCase):
                          '5adc213f-700a-4435-9e95-831ed720f348')
         self.assertEqual(result[2]['id'],
                          'e208c5f5-5d37-3dfc-ac0b-999f207c9e46')
+
+    # def test_object(self):
+    #     enrich = self.get_enrich(['classical', 'Mozart_Horn-concertos',
+    # '01.mp3'])
 
 
 ###############################################################################

@@ -16,13 +16,101 @@ class Enrich(object):
     def __init__(self, meta):
         self.meta = meta
 
+        self.set_useragent()
+
+        if meta.mb_trackid:
+            self.recording = self.get_recording(meta.mb_trackid)
+
+        if meta.mb_albumid:
+            self.release = self.get_release(meta.mb_albumid)
+
+        work_id = ''
+        if meta.mb_workid:
+            work_id = meta.mb_workid
+        else:
+            try:
+                work_id = self.recording['work-relation-list'][0]['work']['id']
+            except KeyError:
+                pass
+
+        if work_id:
+            self.work = self.get_work(work_id)
+
+    @staticmethod
+    def set_useragent():
         mbrainz.set_useragent(
             "audiorename",
             "1.2.5",
             "https://github.com/Josef-Friedrich/audiorename",
         )
 
-    def recording(self):
+    @staticmethod
+    def work_recursion(work_id, works=[]):
+        """
+        .. code-block:: JSON
+
+            {
+              "work": {
+                "work-relation-list": [
+                  {
+                    "type-id": "ca8d3642-ce5f-49f8-91f2-125d72524e6a",
+                    "direction": "backward",
+                    "target": "5adc213f-700a-4435-9e95-831ed720f348",
+                    "ordering-key": "3",
+                    "work": {
+                      "id": "5adc213f-700a-4435-9e95-831ed720f348",
+                      "language": "deu",
+                      "title": "Die Zauberfl\u00f6te, K. 620: Akt I"
+                    },
+                    "type": "parts"
+                  },
+                  {
+                    "type-id": "51975ed8-bbfa-486b-9f28-5947f4370299",
+                    "work": {
+                      "disambiguation": "for piano, arr. Matthias",
+                      "id": "798f4c25-0ab3-44ba-81b6-3d856aedf82a",
+                      "language": "zxx",
+                      "title": "Die Zauberfl\u00f6te, K. 620: Aria ..."
+                    },
+                    "type": "arrangement",
+                    "target": "798f4c25-0ab3-44ba-81b6-3d856aedf82a"
+                  }
+                ],
+                "type": "Aria",
+                "id": "eafec51f-47c5-3c66-8c36-a524246c85f8",
+                "language": "deu",
+                "title": "Die Zauberfl\u00f6te: Act I, Scene II. No. 2 Aria .."
+              }
+            }
+        """
+
+        try:
+            result = mbrainz.get_work_by_id(work_id,
+                                            includes=['work-rels'])
+            work = result['work']
+            works.append({'id': work['id'], 'title': work['title']})
+
+            parent_work = False
+            if work['work-relation-list']:
+                for relation in work['work-relation-list']:
+                    if 'direction' in relation and \
+                            relation['direction'] == 'backward':
+                        parent_work = relation
+                        break
+
+            if parent_work:
+                Enrich.work_recursion(parent_work['work']['id'], works)
+
+        except mbrainz.ResponseError as err:
+            if err.cause.code == 404:
+                print("Item not found")
+            else:
+                print("Received bad response from the MB server")
+
+        return works
+
+    @staticmethod
+    def get_recording(track_id):
         """
 
         soundtrack/Pulp-Fiction/01.mp3
@@ -67,7 +155,7 @@ class Enrich(object):
         """
 
         try:
-            result = mbrainz.get_recording_by_id(self.meta.mb_trackid,
+            result = mbrainz.get_recording_by_id(track_id,
                                                  includes=['work-rels'])
             return result['recording']
 
@@ -77,7 +165,8 @@ class Enrich(object):
             else:
                 print("received bad response from the MB server")
 
-    def release(self):
+    @staticmethod
+    def get_release(album_id):
         """
 
         soundtrack/Pulp-Fiction/01.mp3
@@ -182,7 +271,7 @@ class Enrich(object):
             """
 
         try:
-            result = mbrainz.get_release_by_id(self.meta.mb_albumid,
+            result = mbrainz.get_release_by_id(album_id,
                                                includes=['release-groups'])
             return result['release']
 
@@ -192,84 +281,9 @@ class Enrich(object):
             else:
                 print("received bad response from the MB server")
 
-        # def work_hierachy(self):
-        #     if self.meta.mb_workid:
-        #         work_id = self.meta.mb_workid
-        #     else:
-        #         recording = self.recording()
-
-
-def work_recursion(work_id, works=[]):
-    # https://musicbrainz.org/recording/6a0599ea-5c06-483a-ba66-f3a036da900a
-
-    """
-    .. code-block:: JSON
-
-        {
-          "work": {
-            "work-relation-list": [
-              {
-                "type-id": "ca8d3642-ce5f-49f8-91f2-125d72524e6a",
-                "direction": "backward",
-                "target": "5adc213f-700a-4435-9e95-831ed720f348",
-                "ordering-key": "3",
-                "work": {
-                  "id": "5adc213f-700a-4435-9e95-831ed720f348",
-                  "language": "deu",
-                  "title": "Die Zauberfl\u00f6te, K. 620: Akt I"
-                },
-                "type": "parts"
-              },
-              {
-                "type-id": "51975ed8-bbfa-486b-9f28-5947f4370299",
-                "work": {
-                  "disambiguation": "for piano, arr. Matthias",
-                  "id": "798f4c25-0ab3-44ba-81b6-3d856aedf82a",
-                  "language": "zxx",
-                  "title": "Die Zauberfl\u00f6te, K. 620: Aria ..."
-                },
-                "type": "arrangement",
-                "target": "798f4c25-0ab3-44ba-81b6-3d856aedf82a"
-              }
-            ],
-            "type": "Aria",
-            "id": "eafec51f-47c5-3c66-8c36-a524246c85f8",
-            "language": "deu",
-            "title": "Die Zauberfl\u00f6te: Act I, Scene II. No. 2 Aria ..."
-          }
-        }
-    """
-
-    try:
-
-        mbrainz.set_useragent(
-            "audiorename",
-            "1.2.5",
-            "https://github.com/Josef-Friedrich/audiorename",
-        )
-        result = mbrainz.get_work_by_id(work_id,
-                                        includes=['work-rels'])
-        work = result['work']
-        works.append({'id': work['id'], 'title': work['title']})
-
-        parent_work = False
-        if work['work-relation-list']:
-            for relation in work['work-relation-list']:
-                if 'direction' in relation and \
-                        relation['direction'] == 'backward':
-                    parent_work = relation
-                    break
-
-        if parent_work:
-            work_recursion(parent_work['work']['id'], works)
-
-    except mbrainz.ResponseError as err:
-        if err.cause.code == 404:
-            print("Item not found")
-        else:
-            print("Received bad response from the MB server")
-
-    return works
+    @staticmethod
+    def get_work(work_id):
+        return Enrich.work_recursion(work_id)
 
 
 class Meta(MediaFile):
