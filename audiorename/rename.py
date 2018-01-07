@@ -240,16 +240,16 @@ class Rename(object):
             self.message.process(u'No field')
             self.count('no_field')
 
-        elif self.job.action == u'dry_run':
-            self.dry_run()
-
-        elif self.job.action == u'mb_track_listing':
+        elif self.job.output.mb_track_listing is True:
             self.mb_track_listing()
 
-        elif self.job.action == u'copy':
+        elif self.job.rename_action == u'dry_run':
+            self.dry_run()
+
+        elif self.job.rename_action == u'copy':
             self.action(copy=True)
 
-        elif self.job.action == u'work':
+        elif self.job.metadata_actions.enrich_metadata is True:
             self.fetch_work()
 
         else:

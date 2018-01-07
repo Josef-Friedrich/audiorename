@@ -35,7 +35,7 @@ class TestCommandlineInterface(unittest.TestCase):
     def test_without_mutually_exclusive(self):
         with self.assertRaises(SystemExit) as cm:
             with helper.Capturing('err') as output:
-                audiorename.execute(['--copy', '--mb-track-listing', '.'])
+                audiorename.execute(['--copy', '--move', '.'])
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '2')
         self.assertTrue('not allowed with argument' in ' '.join(output))
@@ -159,6 +159,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.copy, False)
         self.assertEqual(self.args.copy, self.default.copy)
 
+    def test_debug(self):
+        self.assertEqual(self.args.debug, False)
+        self.assertEqual(self.args.debug, self.default.debug)
+
     def test_delete_existing(self):
         self.assertEqual(self.args.delete_existing, False)
         self.assertEqual(self.args.delete_existing,
@@ -167,6 +171,11 @@ class TestArgsDefault(unittest.TestCase):
     def test_dry_run(self):
         self.assertEqual(self.args.dry_run, False)
         self.assertEqual(self.args.dry_run, self.default.dry_run)
+
+    def test_enrich_metadata(self):
+        self.assertEqual(self.args.enrich_metadata, False)
+        self.assertEqual(self.args.enrich_metadata,
+                         self.default.enrich_metadata)
 
     def test_extension(self):
         self.assertEqual(self.args.extension, 'mp3,m4a,flac,wma')
@@ -180,6 +189,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.job_info, False)
         self.assertEqual(self.args.job_info, self.default.job_info)
 
+    def test_no_rename(self):
+        self.assertEqual(self.args.no_rename, False)
+        self.assertEqual(self.args.no_rename, self.default.no_rename)
+
     def test_mb_track_listing(self):
         self.assertEqual(self.args.mb_track_listing, False)
         self.assertEqual(self.args.mb_track_listing,
@@ -192,6 +205,11 @@ class TestArgsDefault(unittest.TestCase):
     def test_one_line(self):
         self.assertEqual(self.args.one_line, False)
         self.assertEqual(self.args.one_line, self.default.one_line)
+
+    def test_remap_classical(self):
+        self.assertEqual(self.args.remap_classical, False)
+        self.assertEqual(self.args.remap_classical,
+                         self.default.remap_classical)
 
     def test_shell_friendly(self):
         self.assertEqual(self.args.shell_friendly, False)
@@ -221,10 +239,6 @@ class TestArgsDefault(unittest.TestCase):
     def test_verbose(self):
         self.assertEqual(self.args.verbose, False)
         self.assertEqual(self.args.verbose, self.default.verbose)
-
-    def test_work(self):
-        self.assertEqual(self.args.work, False)
-        self.assertEqual(self.args.work, self.default.work)
 
 
 if __name__ == '__main__':

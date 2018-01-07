@@ -93,14 +93,18 @@ class ArgsDefault():
     color = False
     compilation = False
     copy = False
+    debug = False
     delete_existing = False
     dry_run = False
+    enrich_metadata = False
     extension = 'mp3,m4a,flac,wma'
     format = False
     job_info = False
+    no_rename = False
     mb_track_listing = False
     move = False
     one_line = False
+    remap_classical = False
     shell_friendly = False
     skip_if_empty = False
     soundtrack = False
@@ -109,7 +113,6 @@ class ArgsDefault():
     stats = False
     target = ''
     verbose = False
-    work = False
 
 
 def description():
@@ -185,11 +188,35 @@ def parse_args(argv):
     )
 
 ###############################################################################
-# actions
+# Metadata actions
 ###############################################################################
 
-    actions = parser.add_argument_group('actions')
-    exclusive = actions.add_mutually_exclusive_group()
+    metadata_actions = parser.add_argument_group('metadata actions')
+
+    # enrich_metadata
+    metadata_actions.add_argument(
+        '-E',
+        '--enrich-metadata',
+        help='Fetch the tag fields “work” and “mb_workid” from Musicbrainz \
+        and save this fields into the audio file. The audio file must have \
+        the tag field “mb_trackid”. The give audio file is not renamed.',
+        action='store_true'
+    )
+
+    # remap_classical
+    metadata_actions.add_argument(
+        '-r',
+        '--remap-classical',
+        help='',
+        action='store_true'
+    )
+
+###############################################################################
+# Rename actions
+###############################################################################
+
+    rename_actions = parser.add_argument_group('rename actions')
+    exclusive = rename_actions.add_mutually_exclusive_group()
 
     # copy
     exclusive.add_argument(
@@ -216,23 +243,11 @@ def parse_args(argv):
         action='store_true'
     )
 
-    # mb_track_listing
+    # no_rename
     exclusive.add_argument(
-        '--mb-track-listing',
-        help='Print track listing for Musicbrainz website: Format: track. \
-        title (duration), e. g.: \
-          1. He, Zigeuner (1:31) \
-          2. Hochgetürmte Rimaflut (1:21)',
-        action='store_true'
-    )
-
-    # work
-    exclusive.add_argument(
-        '-w',
-        '--work',
-        help='Fetch the tag fields “work” and “mb_workid” from Musicbrainz \
-        and save this fields into the audio file. The audio file must have \
-        the tag field “mb_trackid”. The give audio file is not renamed.',
+        '-n',
+        '--no_rename',
+        help='Don’t rename, move, copy dry run. Do nothing.',
         action='store_true'
     )
 
@@ -341,12 +356,30 @@ def parse_args(argv):
         action='store_true'
     )
 
+    # debug
+    output.add_argument(
+        '-b',
+        '--debug',
+        help='Print debug informations about the single metadata fields.',
+        action='store_true'
+    )
+
     # job_info
     output.add_argument(
         '-j',
         '--job-info',
         help='Display informations about the current job. This informations \
         are printted out before any actions on the audio files are executed.',
+        action='store_true'
+    )
+
+    # mb_track_listing
+    output.add_argument(
+        '--mb-track-listing',
+        help='Print track listing for Musicbrainz website: Format: track. \
+        title (duration), e. g.: \
+          1. He, Zigeuner (1:31) \
+          2. Hochgetürmte Rimaflut (1:21)',
         action='store_true'
     )
 

@@ -13,82 +13,132 @@ class TestJob(unittest.TestCase):
     def setUp(self):
         self.args = ArgsDefault()
 
-    def test_action(self):
-        job = Job(self.args)
-        self.assertEqual(job.action, u'move')
-
-    def test_action_copy(self):
-        job = Job(self.args)
-        self.args.copy = True
-        self.assertEqual(job.action, u'copy')
-
-    def test_action_dry_run(self):
-        job = Job(self.args)
-        self.args.dry_run = True
-        self.assertEqual(job.action, u'dry_run')
-
-    def test_action_mb_track_listing(self):
-        job = Job(self.args)
-        self.args.mb_track_listing = True
-        self.assertEqual(job.action, u'mb_track_listing')
-
-    def test_action_move(self):
-        job = Job(self.args)
-        self.args.move = True
-        self.assertEqual(job.action, u'move')
-
-    def test_action_work(self):
-        job = Job(self.args)
-        self.args.work = True
-        self.assertEqual(job.action, u'work')
-
+    # delete_existing
     def test_delete_existing(self):
         self.args.delete_existing = True
         job = Job(self.args)
         self.assertEqual(job.delete_existing, True)
 
+    ##
+    # filter
+    ##
+
+    # album_complete
     def test_filter_album_complete(self):
         job = Job(self.args)
         self.args.album_complete = 19
         self.assertEqual(job.filter.album_min, False)
         self.assertEqual(job.filter.album_complete, 19)
 
+    # album_min
     def test_filter_album_min(self):
         job = Job(self.args)
         self.args.album_min = 19
         self.assertEqual(job.filter.album_min, 19)
         self.assertEqual(job.filter.album_complete, False)
 
+    # extension
     def test_filter_extension(self):
         job = Job(self.args)
         self.args.extension = 'lol'
         self.assertEqual(job.filter.extension, 'lol')
 
+    ##
+    # metadata_actions
+    ##
+
+    # enrich_metadata
+    def test_metadata_actions_enrich_metadata(self):
+        job = Job(self.args)
+        self.args.enrich_metadata = True
+        self.assertEqual(job.metadata_actions.enrich_metadata, True)
+
+    # remap_classical
+    def test_metadata_actions_remap_classical(self):
+        job = Job(self.args)
+        self.args.remap_classical = True
+        self.assertEqual(job.metadata_actions.remap_classical, True)
+
+    ##
+    # output
+    ##
+
+    # color
     def test_output_color(self):
         job = Job(self.args)
         self.args.color = True
         self.assertEqual(job.output.color, True)
 
+    # debug
+    def test_output_debug(self):
+        job = Job(self.args)
+        self.args.debug = True
+        self.assertEqual(job.output.debug, True)
+
+    # job_info
     def test_output_job_info(self):
         job = Job(self.args)
         self.args.job_info = True
         self.assertEqual(job.output.job_info, True)
 
+    # mb_track_listing
+    def test_output_mb_track_listing(self):
+        job = Job(self.args)
+        self.args.mb_track_listing = True
+        self.assertEqual(job.output.mb_track_listing, True)
+
+    # one_line
     def test_output_one_line(self):
         job = Job(self.args)
         self.args.one_line = True
         self.assertEqual(job.output.one_line, True)
 
+    # stats
     def test_output_stats(self):
         job = Job(self.args)
         self.args.stats = True
         self.assertEqual(job.output.stats, True)
 
+    # verbose
     def test_output_verbose(self):
         job = Job(self.args)
         self.args.verbose = True
         self.assertEqual(job.output.verbose, True)
 
+    ##
+    # rename_action
+    ##
+
+    # default
+    def test_rename_action_default(self):
+        job = Job(self.args)
+        self.assertEqual(job.rename_action, u'move')
+
+    # copy
+    def test_rename_action_copy(self):
+        job = Job(self.args)
+        self.args.copy = True
+        self.assertEqual(job.rename_action, u'copy')
+
+    # dry_run
+    def test_rename_action_dry_run(self):
+        job = Job(self.args)
+        self.args.dry_run = True
+        self.assertEqual(job.rename_action, u'dry_run')
+
+    # move
+    def test_rename_action_move(self):
+        job = Job(self.args)
+        self.args.move = True
+        self.assertEqual(job.rename_action, u'move')
+
+    # no_rename
+    def test_rename_action_no_rename(self):
+        job = Job(self.args)
+        self.args.no_rename = True
+        self.assertEqual(job.rename_action, u'no_rename')
+
+    # target
     def test_target(self):
         job = Job(self.args)
         self.args.path = u'.'
@@ -98,16 +148,19 @@ class TestJob(unittest.TestCase):
         self.args.source_as_target = True
         self.assertEqual(job.target, os.getcwd())
 
+    # shell_friendly
     def test_shell_friendly(self):
         self.args.shell_friendly = True
         job = Job(self.args)
         self.assertEqual(job.shell_friendly, True)
 
+    # skip_if_empty
     def test_skip_if_empty(self):
         self.args.skip_if_empty = True
         job = Job(self.args)
         self.assertEqual(job.skip_if_empty, True)
 
+    # source
     def test_source(self):
         self.args.path = u'.'
         job = Job(self.args)

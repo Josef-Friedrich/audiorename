@@ -4,11 +4,11 @@ Comande line interface
 .. code-block:: text
 
 
-    usage: audiorenamer [-h] [-D] [-s SKIP_IF_EMPTY] [-v]
-                        [-C | -d | -M | --mb-track-listing | -w] [-F]
-                        [-m ALBUM_MIN] [-e EXTENSION] [-k] [-S] [-c FORMAT_STRING]
-                        [-f FORMAT_STRING] [--soundtrack FORMAT_STRING] [-K] [-j]
-                        [-o] [-V] [-a] [-t TARGET]
+    usage: audiorenamer [-h] [-D] [-s SKIP_IF_EMPTY] [-v] [-E] [-r]
+                        [-C | -d | -M | -n] [-F] [-m ALBUM_MIN] [-e EXTENSION]
+                        [-k] [-S] [-c FORMAT_STRING] [-f FORMAT_STRING]
+                        [--soundtrack FORMAT_STRING] [-K] [-b] [-j]
+                        [--mb-track-listing] [-o] [-T] [-V] [-a] [-t TARGET]
                         source
     
         Rename audio files from metadata tags.
@@ -180,6 +180,17 @@ Comande line interface
     
         $mb_trackid:           MusicBrainz track ID
     
+        $mb_workhierarchy_ids:    All IDs in the work hierarchy.
+                               This field corresponds to the
+                               field `work_hierarchy`. The top
+                               level work ID appears first. As
+                               separator a slash (/) is
+                               used.Example: e208c5f5-5d37-3dfc-
+                               ac0b-999f207c9e46 / 5adc213f-
+                               700a-4435-9e95-831ed720f348 /
+                               eafec51f-
+                               47c5-3c66-8c36-a524246c85f8
+    
         $mb_workid:            MusicBrainz work ID
     
         $media:                media
@@ -205,6 +216,14 @@ Comande line interface
     
         $r128_track_gain:      An optional gain for track
                                normalization
+    
+        $releasegroup_types:    This field collects all items in
+                               the MusicBrainz’ API  related
+                               to type: `type`, `primary-type
+                               and `secondary-type-list`. Main
+                               usage of this field is to
+                               determine in a secure manner if
+                               the release is a soundtrack.
     
         $rg_album_gain:        rg_album_gain
     
@@ -236,6 +255,15 @@ Comande line interface
         $tracktotal:           tracktotal
     
         $work:                 The Musicbrainzs’ work entity.
+    
+        $work_hierarchy:       The hierarchy of works: The top
+                               level work appears first. As
+                               separator is this string used:
+                               -->. Example: Die Zauberflöte,
+                               K. 620 --> Die Zauberflöte, K.
+                               620: Akt I --> Die Zauberflöte,
+                               K. 620: Act I, Scene II. No. 2
+                               Aria "Was hör ...
     
         $year:                 The release year of the specific
                                release
@@ -368,18 +396,20 @@ Comande line interface
                             Skip renaming of field is empty.
       -v, --version         show program's version number and exit
     
-    actions:
+    metadata actions:
+      -E, --enrich-metadata
+                            Fetch the tag fields “work” and “mb_workid”
+                            from Musicbrainz and save this fields into the audio
+                            file. The audio file must have the tag field
+                            “mb_trackid”. The give audio file is not renamed.
+      -r, --remap-classical
+    
+    rename actions:
       -C, --copy            Copy files instead of rename / move.
       -d, --dry-run         Don’t rename or copy the audio files.
       -M, --move            Move / rename a file. This is the default action. The
                             option can be omitted.
-      --mb-track-listing    Print track listing for Musicbrainz website: Format:
-                            track. title (duration), e. g.: 1. He, Zigeuner (1:31)
-                            2. Hochgetürmte Rimaflut (1:21)
-      -w, --work            Fetch the tag fields “work” and “mb_workid”
-                            from Musicbrainz and save this fields into the audio
-                            file. The audio file must have the tag field
-                            “mb_trackid”. The give audio file is not renamed.
+      -n, --no_rename       Don’t rename, move, copy dry run. Do nothing.
     
     filters:
       -F, --album-complete  Rename only complete albums
@@ -412,11 +442,17 @@ Comande line interface
     output:
       -K, --color           Colorize the standard output of the program with ANSI
                             colors.
+      -b, --debug           Print debug informations about the single metadata
+                            fields.
       -j, --job-info        Display informations about the current job. This
                             informations are printted out before any actions on
                             the audio files are executed.
+      --mb-track-listing    Print track listing for Musicbrainz website: Format:
+                            track. title (duration), e. g.: 1. He, Zigeuner (1:31)
+                            2. Hochgetürmte Rimaflut (1:21)
       -o, --one-line        Display the rename / copy action status on one line
                             instead of two.
+      -T, --stats           Show statistics at the end of the execution.
       -V, --verbose         Make the command line output more verbose.
     
     target:

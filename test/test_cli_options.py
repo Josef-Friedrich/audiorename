@@ -280,6 +280,28 @@ class TestDryRun(unittest.TestCase):
         )
 
 
+# --enrich-metadata
+class TestEnrichMetadata(unittest.TestCase):
+
+    def test_pass(self):
+        tmp = helper.copy_to_tmp(['classical', 'without_work.mp3'])
+        from audiorename.meta import Meta
+
+        orig = Meta(tmp)
+        self.assertEqual(orig.work, None)
+
+        with helper.Capturing() as output:
+            audiorename.execute(['--enrich-metadata', tmp])
+
+        self.assertTrue('Get work:' in output[0])
+
+        with_work = Meta(tmp)
+        self.assertEqual(
+            with_work.work,
+            u'Die Meistersinger von N\xfcrnberg, WWV 96: Akt I. Vorspiel'
+        )
+
+
 # --format
 class TestCustomFormats(unittest.TestCase):
 
@@ -573,28 +595,6 @@ class TestVerbose(unittest.TestCase):
         # '            -> /t/the album artist/the album_2001/4-02_full.mp3'
 
         self.assertFalse(target in output[1])
-
-
-# --work
-class TestWork(unittest.TestCase):
-
-    def test_pass(self):
-        tmp = helper.copy_to_tmp(['classical', 'without_work.mp3'])
-        from audiorename.meta import Meta
-
-        orig = Meta(tmp)
-        self.assertEqual(orig.work, None)
-
-        with helper.Capturing() as output:
-            audiorename.execute(['--work', tmp])
-
-        self.assertTrue('Get work:' in output[0])
-
-        with_work = Meta(tmp)
-        self.assertEqual(
-            with_work.work,
-            u'Die Meistersinger von N\xfcrnberg, WWV 96: Akt I. Vorspiel'
-        )
 
 
 if __name__ == '__main__':

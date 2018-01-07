@@ -174,33 +174,6 @@ class Job(object):
         self.shell_friendly = args.shell_friendly
 
     @property
-    def action(self):
-        """
-        :return:
-
-        :rtype: string
-
-        * copy
-        * dry_run
-        * mb_track_listing
-        * move
-        * work
-
-        """
-        if self._args.copy:
-            return u'copy'
-        elif self._args.dry_run:
-            return u'dry_run'
-        elif self._args.mb_track_listing:
-            return u'mb_track_listing'
-        elif self._args.move:
-            return u'move'
-        elif self._args.work:
-            return u'work'
-        else:
-            return u'move'
-
-    @property
     def filter(self):
         Filter = namedtuple('Filter', [
             'album_complete',
@@ -224,10 +197,25 @@ class Job(object):
         return Formats(self._args)
 
     @property
+    def metadata_actions(self):
+        MetadataActions = namedtuple('MetadataAction', [
+            'enrich_metadata',
+            'remap_classical',
+        ])
+
+        return MetadataActions(
+            self._args.enrich_metadata,
+            self._args.remap_classical,
+        )
+        pass
+
+    @property
     def output(self):
         Output = namedtuple('Output', [
             'color',
+            'debug',
             'job_info',
+            'mb_track_listing',
             'one_line',
             'stats',
             'verbose',
@@ -235,11 +223,36 @@ class Job(object):
 
         return Output(
             self._args.color,
+            self._args.debug,
             self._args.job_info,
+            self._args.mb_track_listing,
             self._args.one_line,
             self._args.stats,
             self._args.verbose,
         )
+
+    @property
+    def rename_action(self):
+        """
+        :return:
+
+        :rtype: string
+
+        * copy
+        * dry_run
+        * move
+        * no_rename
+        """
+        if self._args.copy:
+            return u'copy'
+        elif self._args.dry_run:
+            return u'dry_run'
+        elif self._args.move:
+            return u'move'
+        elif self._args.no_rename:
+            return u'no_rename'
+        else:
+            return u'move'
 
     @property
     def source(self):
@@ -273,7 +286,7 @@ def job_info(job):
 
     info = KeyValue(job.output.color)
     info.add('Versions', versions.result_one_line())
-    info.add('Action', job.action)
+    info.add('Action', job.rename_action)
     info.add('Source', job.source)
     info.add('Target', job.target)
 
