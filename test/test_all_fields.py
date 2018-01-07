@@ -110,7 +110,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.album_initial, u'h')
         self.assertEqual(meta.albumartist, u'The Beatles')
         self.assertEqual(meta.albumartist_credit, None)
-        self.assertEqual(meta.albumartist_sort, None)
+        self.assertEqual(meta.albumartist_sort, u'Beatles, The')
         self.assertEqual(meta.albumdisambig, None)
         self.assertEqual(meta.albumstatus, u'official')
         self.assertEqual(meta.albumtype, u'album/soundtrack')
@@ -208,7 +208,8 @@ class TestAllFields(unittest.TestCase):
                          u'Wolfgang Amadeus Mozart; Berliner ' +
                          'Philharmoniker, Herbert von Karajan')
         self.assertEqual(meta.albumartist_credit, None)
-        self.assertEqual(meta.albumartist_sort, None)
+        self.assertEqual(meta.albumartist_sort, u'Mozart, Wolfgang Amadeus; '
+                         'Berliner Philharmoniker, Karajan, Herbert von')
         self.assertEqual(meta.albumdisambig, None)
         self.assertEqual(meta.albumstatus, u'official')
         self.assertEqual(meta.albumtype, u'album')
@@ -221,7 +222,8 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.artistsafe,
                          u'Wolfgang Amadeus Mozart; Berliner ' +
                          'Philharmoniker, Herbert von Karajan')
-        self.assertEqual(meta.artistsafe_sort, u'Mozart, Wolfgang Amadeus')
+        self.assertEqual(meta.artistsafe_sort, u'Mozart, Wolfgang Amadeus; '
+                         'Berliner Philharmoniker, Karajan, Herbert von')
         self.assertEqual(meta.asin, u'B0007DHPQ2')
         self.assertEqual(meta.bitdepth, 0)
         self.assertEqual(meta.bitrate, 8000)

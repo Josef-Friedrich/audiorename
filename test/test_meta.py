@@ -690,7 +690,11 @@ class TestAllPropertiesWagner(unittest.TestCase):
 
     def test_artistsafe_sort(self):
         self.assertEqual(
-            self.meta.artistsafe_sort, u'Wagner, Richard')
+            self.meta.artistsafe_sort,
+            u'Wagner, Richard; Kollo, René, Donath, Helen, Adam, Theo, Evans, '
+            'Geraint, Schreier, Peter, Hesse, Ruth, Ridderbusch, Karl, Chor '
+            'der Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle '
+            'Dresden, Karajan, Herbert von')
 
     def test_composer_initial(self):
         self.assertEqual(self.meta.composer_initial, u'w')
