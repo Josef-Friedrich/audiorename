@@ -123,6 +123,46 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertEqual(finished.work, u'Die Meistersinger von Nürnberg, ' +
                          'WWV 96: Akt I. Vorspiel')
 
+
+class TestRemapClassical(unittest.TestCase):
+
+    def setUp(self):
+        test_file = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), 'classical',
+            'Mozart_Horn-concertos', '06.mp3'
+        )
+        self.tmp_file = tempfile.mktemp()
+        shutil.copy2(test_file, self.tmp_file)
+        self.meta = Meta(self.tmp_file)
+
+    def test_remap_classical(self):
+        self.assertEqual(self.meta.title, 'Horn Concerto No. 3 in E-flat '
+                         'major, K. 447: I. Allegro')
+        self.assertEqual(self.meta.track, 6)
+        self.assertEqual(self.meta.artist, 'Wolfgang Amadeus Mozart')
+        self.assertEqual(self.meta.album, '4 Hornkonzerte (Concertos for Horn '
+                                          'and Orchestra)')
+        self.assertEqual(self.meta.comments, 'Orpheus Chamber Orchestra, '
+                                             'David Jolley, William Purvis')
+
+        self.meta.remap_classical()
+        self.meta.save()
+
+        finished = Meta(self.tmp_file)
+
+        self.assertEqual(finished.title, 'I. Allegro')
+        self.assertEqual(finished.track, 1)
+        self.assertEqual(finished.artist, 'Wolfgang Amadeus Mozart')
+        self.assertEqual(finished.album, 'Concerto for Horn no. 3 in E-flat '
+                                         'major, K. 447: I. Allegro')
+        self.assertEqual(
+            finished.comments,
+            u'Original metadata: title: Horn Concerto No. 3 in E-flat major, '
+            'K. 447: I. Allegro; track: 6; artist: Wolfgang Amadeus Mozart; '
+            'album: 4 Hornkonzerte (Concertos for Horn and Orchestra); '
+        )
+
+
 ###############################################################################
 # Properties
 ###############################################################################

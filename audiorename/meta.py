@@ -347,7 +347,40 @@ class Meta(MediaFile):
                 print("received bad response from the MB server")
 
     def remap_classical(self):
-        pass
+        """Remap some fields to fit better for classical music. For example
+        ``composer`` becomes ``artist`` and ``work`` becomes ``album``.
+        All overwritten fields are safed in the ``comments`` field. No
+        combined properties (like ``composer_safe``) are used and therefore
+        some code duplications are done on purpose to avoid circular endless
+        loops.
+        """
+        safe = []
+
+        if self.title:
+            safe.append(['title', self.title])
+            self.title = re.sub(r'^[^:]*: ?', '', self.title)
+
+            roman = re.findall(r'^([IVXLCDM]*)\.', self.title)
+            if roman:
+                safe.append(['track', self.track])
+                self.track = str(self._roman_to_int(roman[0])).zfill(2)
+
+        if self.composer:
+            safe.append(['artist', self.artist])
+            self.artist = self.composer
+
+        if self.work:
+            safe.append(['album', self.album])
+            self.album = self.work
+
+        if safe:
+            comments = u'Original metadata: '
+            for safed in safe:
+                comments = comments + \
+                    str(safed[0]) + u': ' + \
+                    str(safed[1]) + u'; '
+
+        self.comments = comments
 
 ###############################################################################
 # Static methods
