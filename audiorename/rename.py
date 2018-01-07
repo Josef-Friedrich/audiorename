@@ -223,10 +223,11 @@ class Rename(object):
 
         if self.job.metadata_actions.enrich_metadata:
             print('Enrich metadata')
-            self.meta.fetch_work()
+            self.meta.enrich_metadata()
 
         if self.job.metadata_actions.remap_classical:
             print('Remap classical')
+            self.meta.remap_classical()
 
         if self.job.metadata_actions.remap_classical or \
                 self.job.metadata_actions.enrich_metadata:

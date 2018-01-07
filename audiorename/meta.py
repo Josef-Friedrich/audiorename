@@ -294,7 +294,7 @@ class Meta(MediaFile):
 
         return out
 
-    def fetch_work(self):
+    def enrich_metadata(self):
         """Get the work title and the work id of a track.
 
         Internal used dictionary:
@@ -345,6 +345,9 @@ class Meta(MediaFile):
                 print("Work not found")
             else:
                 print("received bad response from the MB server")
+
+    def remap_classical(self):
+        pass
 
 ###############################################################################
 # Static methods

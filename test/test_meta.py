@@ -92,7 +92,7 @@ class TestExportDict(unittest.TestCase):
 #
 # work:
 #  Die Meistersinger von Nürnberg, WWV 96: Akt I. Vorspiel
-class TestFetchWork(unittest.TestCase):
+class TestEnrichMetadata(unittest.TestCase):
 
     def setUp(self):
         test_file = os.path.join(
@@ -104,12 +104,12 @@ class TestFetchWork(unittest.TestCase):
         shutil.copy2(test_file, self.tmp_file)
         self.meta = Meta(self.tmp_file)
 
-    def test_fetch_work(self):
+    def test_enrich_metadata(self):
         self.assertEqual(self.meta.mb_trackid,
                          '00ba1660-4e35-4985-86b2-8b7a3e99b1e5')
         self.assertEqual(self.meta.mb_workid, None)
         self.assertEqual(self.meta.work, None)
-        self.meta.fetch_work()
+        self.meta.enrich_metadata()
         self.assertEqual(self.meta.mb_trackid,
                          '00ba1660-4e35-4985-86b2-8b7a3e99b1e5')
         self.assertEqual(self.meta.work, u'Die Meistersinger von Nürnberg, ' +
