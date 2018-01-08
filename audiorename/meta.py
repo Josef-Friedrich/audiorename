@@ -81,6 +81,38 @@ classical/Mozart_Horn-concertos/01.mp3
       }
     }
 
+
+.. code-block:: JSON
+
+    {
+      "work": {
+        "work-relation-list": [
+          {
+            "type-id": "c1dca2cd-194c-36dd-93f8-6a359167e992",
+            "direction": "backward",
+            "work": {
+              "id": "70e53569-258c-463d-9505-5b69dcbf374a",
+              "title": "Can\u2019t Stop the Classics, Part 2"
+            },
+            "type": "medley",
+            "target": "70e53569-258c-463d-9505-5b69dcbf374a"
+          },
+          {
+            "type-id": "ca8d3642-ce5f-49f8-91f2-125d72524e6a",
+            "direction": "backward",
+            "target": "73663bd3-392f-45a7-b4ff-e75c01f5926a",
+            "ordering-key": "1",
+            "work": {
+              "id": "73663bd3-392f-45a7-b4ff-e75c01f5926a",
+              "language": "deu",
+              "title": "Die Meistersinger von N\u00fcrnberg, WWV 96: Akt I"
+            },
+            "type": "parts"
+          }
+        ]
+      }
+    }
+
 ``get_release_by_id`` with ``release-groups``
 
 soundtrack/Pulp-Fiction/01.mp3
@@ -238,7 +270,8 @@ def work_recursion(work_id, works=[]):
     if work['work-relation-list']:
         for relation in work['work-relation-list']:
             if 'direction' in relation and \
-                    relation['direction'] == 'backward':
+                    relation['direction'] == 'backward' and \
+                    relation['type'] != 'medley':
                 parent_work = relation
                 break
 
@@ -246,31 +279,6 @@ def work_recursion(work_id, works=[]):
         work_recursion(parent_work['work']['id'], works)
 
     return works
-
-#
-# def enrich_metadata(meta):
-#
-#     set_useragent()
-#
-#     if meta.mb_trackid:
-#         recording = query_mbrainz('recording', meta.mb_trackid)
-#
-#     if meta.mb_albumid:
-#         release = query_mbrainz('release', meta.mb_albumid)
-#
-#     work_id = ''
-#     if meta.mb_workid:
-#         work_id = meta.mb_workid
-#     else:
-#         try:
-#             work_id = recording['work-relation-list'][0]['work']['id']
-#         except KeyError:
-#             pass
-#
-#     if work_id:
-#         work_hierarchy = work_recursion(work_id)
-#
-#     return
 
 
 class Meta(MediaFile):
@@ -296,56 +304,31 @@ class Meta(MediaFile):
         return out
 
     def enrich_metadata(self):
-        """Get the work title and the work id of a track.
+        set_useragent()
 
-        Internal used dictionary:
+        if self.mb_trackid:
+            recording = query_mbrainz('recording', self.mb_trackid)
 
-        .. code-block:: Python
+        # if self.mb_albumid:
+        #     release = query_mbrainz('release', self.mb_albumid)
 
-            {
-                'recording': {
-                    'length': '566933',
-                    'work-relation-list': [
-                        {
-                            'type-id': 'a3005666-a872-32c3-ad06-98af558e99b0',
-                            'work': {
-                                'id': '6b198406-4fbf-3d61-82db-0b7ef195a7fe',
-                                'language': 'zxx',
-                                'title': u'Die Meistersinger von ....'
-                            },
-                            'type': 'performance',
-                            'target': '6b198406-4fbf-3d61-82db-0b7ef195a7fe'
-                        }
-                    ],
-                    'id': '00ba1660-4e35-4985-86b2-8b7a3e99b1e5',
-                    'title': u'Die Meistersinger von N\xfcrnberg: Vorspiel'
-                }
-            }
-        """
+        work_id = ''
+        if self.mb_workid:
+            work_id = self.mb_workid
+        else:
+            try:
+                work_id = recording['work-relation-list'][0]['work']['id']
+            except KeyError:
+                pass
 
-        mbrainz.set_useragent(
-            "audiorename",
-            "1.0.8",
-            "https://github.com/Josef-Friedrich/audiorename",
-        )
+        if work_id:
+            work_hierarchy = work_recursion(work_id, [])
 
-        try:
-            result = mbrainz.get_recording_by_id(self.mb_trackid,
-                                                 includes=['work-rels'])
-            if 'recording' in result and \
-                    'work-relation-list' in result['recording'] and \
-                    len(result['recording']['work-relation-list']) > 0:
-                work = result['recording']['work-relation-list'][0]
-                self.mb_workid = work['work']['id']
-                self.work = work['work']['title']
-            else:
-                print("Work relation doesn’t exist.")
+        if work_hierarchy:
+            work_hierarchy.reverse()
 
-        except mbrainz.ResponseError as err:
-            if err.cause.code == 404:
-                print("Work not found")
-            else:
-                print("received bad response from the MB server")
+            self.mb_workid = work_hierarchy[-1]['id']
+            self.work = work_hierarchy[-1]['title']
 
     def remap_classical(self):
         """Remap some fields to fit better for classical music. For example
