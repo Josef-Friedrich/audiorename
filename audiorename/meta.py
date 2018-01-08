@@ -1,6 +1,188 @@
 # -*- coding: utf-8 -*-
 
-"""Extend the class ``MediaFile`` of the package ``phrydy``."""
+"""Extend the class ``MediaFile`` of the package ``phrydy``.
+
+``get_recording_by_id`` with ``work-rels``
+
+soundtrack/Pulp-Fiction/01.mp3
+
+.. code-block:: JSON
+
+    {
+      "recording": {
+        "length": "149000",
+        "id": "0480672d-4d88-4824-a06b-917ff408eabe",
+        "title": "Pumpkin and Honey Bunny ..."
+      }
+    }
+
+classical/Mozart_Horn-concertos/01.mp3
+
+.. code-block:: JSON
+
+    {
+      "recording": {
+        "length": "286826",
+        "work-relation-list": [
+          {
+            "type-id": "a3005666-a872-32c3-ad06-98af558e99b0",
+            "begin": "1987-03",
+            "end": "1987-03",
+            "target": "21fe0bf0-a040-387c-a39d-369d53c251fe",
+            "ended": "true",
+            "work": {
+              "id": "21fe0bf0-a040-387c-a39d-369d53c251fe",
+              "language": "zxx",
+              "title": "Concerto [...] KV 412: I. Allegro"
+            },
+            "type": "performance"
+          }
+        ],
+        "id": "7886ad6c-11af-435b-8ec3-bca5711f7728",
+        "title": "Konzert f\u00fcr [...] K. 386b/514: I. Allegro"
+      }
+    }
+
+``get_work_by_id`` with ``work-rels``
+
+.. code-block:: JSON
+
+    {
+      "work": {
+        "work-relation-list": [
+          {
+            "type-id": "ca8d3642-ce5f-49f8-91f2-125d72524e6a",
+            "direction": "backward",
+            "target": "5adc213f-700a-4435-9e95-831ed720f348",
+            "ordering-key": "3",
+            "work": {
+              "id": "5adc213f-700a-4435-9e95-831ed720f348",
+              "language": "deu",
+              "title": "Die Zauberfl\u00f6te, K. 620: Akt I"
+            },
+            "type": "parts"
+          },
+          {
+            "type-id": "51975ed8-bbfa-486b-9f28-5947f4370299",
+            "work": {
+              "disambiguation": "for piano, arr. Matthias",
+              "id": "798f4c25-0ab3-44ba-81b6-3d856aedf82a",
+              "language": "zxx",
+              "title": "Die Zauberfl\u00f6te, K. 620: Aria ..."
+            },
+            "type": "arrangement",
+            "target": "798f4c25-0ab3-44ba-81b6-3d856aedf82a"
+          }
+        ],
+        "type": "Aria",
+        "id": "eafec51f-47c5-3c66-8c36-a524246c85f8",
+        "language": "deu",
+        "title": "Die Zauberfl\u00f6te: Act I, Scene II. No. 2 Aria .."
+      }
+    }
+
+``get_release_by_id`` with ``release-groups``
+
+soundtrack/Pulp-Fiction/01.mp3
+
+.. code-block:: JSON
+
+    {
+      "release": {
+        "status": "Bootleg",
+        "release-event-count": 1,
+        "title": "Pulp Fiction",
+        "country": "US",
+        "cover-art-archive": {
+          "count": "1",
+          "front": "true",
+          "back": "false",
+          "artwork": "true"
+        },
+        "release-event-list": [
+          {
+            "date": "2005-12-01",
+            "area": {
+              "sort-name": "United States",
+              "iso-3166-1-code-list": [
+                "US"
+              ],
+              "id": "489ce91b-6658-3307-9877-795b68554c98",
+              "name": "United States"
+            }
+          }
+        ],
+        "release-group": {
+          "first-release-date": "1994-09-27",
+          "secondary-type-list": [
+            "Compilation",
+            "Soundtrack"
+          ],
+          "primary-type": "Album",
+          "title": "Pulp Fiction: Music From the Motion Picture",
+          "type": "Soundtrack",
+          "id": "1703cd63-9401-33c0-87c6-50c4ba2e0ba8"
+        },
+        "text-representation": {
+          "language": "eng",
+          "script": "Latn"
+        },
+        "date": "2005-12-01",
+        "quality": "normal",
+        "id": "ab81edcb-9525-47cd-8247-db4fa969f525",
+        "asin": "B000002OTL"
+      }
+    }
+
+classical/Mozart_Horn-concertos/01.mp3
+
+.. code-block:: JSON
+
+    {
+      "release": {
+        "status": "Official",
+        "release-event-count": 1,
+        "title": "4 Hornkonzerte (Concertos for Horn and Orchestra)",
+        "country": "DE",
+        "barcode": "028942781429",
+        "cover-art-archive": {
+          "count": "0",
+          "front": "false",
+          "back": "false",
+          "artwork": "false"
+        },
+        "release-event-list": [
+          {
+            "date": "1988",
+            "area": {
+              "sort-name": "Germany",
+              "iso-3166-1-code-list": [
+                "DE"
+              ],
+              "id": "85752fda-13c4-31a3-bee5-0e5cb1f51dad",
+              "name": "Germany"
+            }
+          }
+        ],
+        "release-group": {
+          "first-release-date": "1988",
+          "title": "4 Hornkonzerte (Concertos for Horn and Orchestra)",
+          "type": "Album",
+          "id": "e1fa28f0-e56e-395b-82d3-a8de54e8c627",
+          "primary-type": "Album"
+        },
+        "text-representation": {
+          "language": "deu",
+          "script": "Latn"
+        },
+        "date": "1988",
+        "quality": "normal",
+        "id": "5ed650c5-0f72-4b79-80a7-c458c869f53e",
+        "asin": "B00000E4FA"
+      }
+    }
+
+"""
 
 import phrydy
 from .args import fields as module_fields
@@ -9,281 +191,86 @@ from phrydy import MediaFile
 from tmep import Functions
 import six
 import musicbrainzngs as mbrainz
+from ._version import get_versions
 
 
-class Enrich(object):
+def set_useragent():
+    mbrainz.set_useragent(
+        'audiorename',
+        get_versions()['version'],
+        'https://github.com/Josef-Friedrich/audiorename',
+    )
 
-    def __init__(self, meta):
-        self.meta = meta
 
-        self.set_useragent()
+def query_mbrainz(mb_type, mb_id):
+    method = 'get_' + mb_type + '_by_id'
+    query = getattr(mbrainz, method)
 
-        if meta.mb_trackid:
-            self.recording = self.get_recording(meta.mb_trackid)
+    if mb_type == 'recording' or mb_type == 'work':
+        mb_includes = ['work-rels']
+    elif mb_type == 'release':
+        mb_includes = ['release-groups']
+    else:
+        mb_includes = []
 
-        if meta.mb_albumid:
-            self.release = self.get_release(meta.mb_albumid)
+    try:
+        result = query(mb_id, includes=mb_includes)
+        return result[mb_type]
 
-        work_id = ''
-        if meta.mb_workid:
-            work_id = meta.mb_workid
+    except mbrainz.ResponseError as err:
+        if err.cause.code == 404:
+            print('Item of type “' + mb_type + '” with the ID “' +
+                  mb_id + '” not found.')
         else:
-            try:
-                work_id = self.recording['work-relation-list'][0]['work']['id']
-            except KeyError:
-                pass
+            print("Received bad response from the MusicBrainz server.")
 
-        if work_id:
-            self.work = self.get_work(work_id)
 
-    @staticmethod
-    def set_useragent():
-        mbrainz.set_useragent(
-            "audiorename",
-            "1.2.5",
-            "https://github.com/Josef-Friedrich/audiorename",
-        )
+def work_recursion(work_id, works=[]):
 
-    @staticmethod
-    def work_recursion(work_id, works=[]):
-        """
-        .. code-block:: JSON
+    work = query_mbrainz('work', work_id)
 
-            {
-              "work": {
-                "work-relation-list": [
-                  {
-                    "type-id": "ca8d3642-ce5f-49f8-91f2-125d72524e6a",
-                    "direction": "backward",
-                    "target": "5adc213f-700a-4435-9e95-831ed720f348",
-                    "ordering-key": "3",
-                    "work": {
-                      "id": "5adc213f-700a-4435-9e95-831ed720f348",
-                      "language": "deu",
-                      "title": "Die Zauberfl\u00f6te, K. 620: Akt I"
-                    },
-                    "type": "parts"
-                  },
-                  {
-                    "type-id": "51975ed8-bbfa-486b-9f28-5947f4370299",
-                    "work": {
-                      "disambiguation": "for piano, arr. Matthias",
-                      "id": "798f4c25-0ab3-44ba-81b6-3d856aedf82a",
-                      "language": "zxx",
-                      "title": "Die Zauberfl\u00f6te, K. 620: Aria ..."
-                    },
-                    "type": "arrangement",
-                    "target": "798f4c25-0ab3-44ba-81b6-3d856aedf82a"
-                  }
-                ],
-                "type": "Aria",
-                "id": "eafec51f-47c5-3c66-8c36-a524246c85f8",
-                "language": "deu",
-                "title": "Die Zauberfl\u00f6te: Act I, Scene II. No. 2 Aria .."
-              }
-            }
-        """
-
-        try:
-            result = mbrainz.get_work_by_id(work_id,
-                                            includes=['work-rels'])
-            work = result['work']
-            works.append({'id': work['id'], 'title': work['title']})
-
-            parent_work = False
-            if work['work-relation-list']:
-                for relation in work['work-relation-list']:
-                    if 'direction' in relation and \
-                            relation['direction'] == 'backward':
-                        parent_work = relation
-                        break
-
-            if parent_work:
-                Enrich.work_recursion(parent_work['work']['id'], works)
-
-        except mbrainz.ResponseError as err:
-            if err.cause.code == 404:
-                print("Item not found")
-            else:
-                print("Received bad response from the MB server")
-
+    if not work:
         return works
 
-    @staticmethod
-    def get_recording(track_id):
-        """
+    works.append({'id': work['id'], 'title': work['title']})
 
-        soundtrack/Pulp-Fiction/01.mp3
+    parent_work = False
+    if work['work-relation-list']:
+        for relation in work['work-relation-list']:
+            if 'direction' in relation and \
+                    relation['direction'] == 'backward':
+                parent_work = relation
+                break
 
-        .. code-block:: JSON
+    if parent_work:
+        work_recursion(parent_work['work']['id'], works)
 
-            {
-              "recording": {
-                "length": "149000",
-                "id": "0480672d-4d88-4824-a06b-917ff408eabe",
-                "title": "Pumpkin and Honey Bunny ..."
-              }
-            }
+    return works
 
-        classical/Mozart_Horn-concertos/01.mp3
-
-        .. code-block:: JSON
-
-            {
-              "recording": {
-                "length": "286826",
-                "work-relation-list": [
-                  {
-                    "type-id": "a3005666-a872-32c3-ad06-98af558e99b0",
-                    "begin": "1987-03",
-                    "end": "1987-03",
-                    "target": "21fe0bf0-a040-387c-a39d-369d53c251fe",
-                    "ended": "true",
-                    "work": {
-                      "id": "21fe0bf0-a040-387c-a39d-369d53c251fe",
-                      "language": "zxx",
-                      "title": "Concerto [...] KV 412: I. Allegro"
-                    },
-                    "type": "performance"
-                  }
-                ],
-                "id": "7886ad6c-11af-435b-8ec3-bca5711f7728",
-                "title": "Konzert f\u00fcr [...] K. 386b/514: I. Allegro"
-              }
-            }
-
-        """
-
-        try:
-            result = mbrainz.get_recording_by_id(track_id,
-                                                 includes=['work-rels'])
-            return result['recording']
-
-        except mbrainz.ResponseError as err:
-            if err.cause.code == 404:
-                print("Item not found")
-            else:
-                print("received bad response from the MB server")
-
-    @staticmethod
-    def get_release(album_id):
-        """
-
-        soundtrack/Pulp-Fiction/01.mp3
-
-        .. code-block:: JSON
-
-            {
-              "release": {
-                "status": "Bootleg",
-                "release-event-count": 1,
-                "title": "Pulp Fiction",
-                "country": "US",
-                "cover-art-archive": {
-                  "count": "1",
-                  "front": "true",
-                  "back": "false",
-                  "artwork": "true"
-                },
-                "release-event-list": [
-                  {
-                    "date": "2005-12-01",
-                    "area": {
-                      "sort-name": "United States",
-                      "iso-3166-1-code-list": [
-                        "US"
-                      ],
-                      "id": "489ce91b-6658-3307-9877-795b68554c98",
-                      "name": "United States"
-                    }
-                  }
-                ],
-                "release-group": {
-                  "first-release-date": "1994-09-27",
-                  "secondary-type-list": [
-                    "Compilation",
-                    "Soundtrack"
-                  ],
-                  "primary-type": "Album",
-                  "title": "Pulp Fiction: Music From the Motion Picture",
-                  "type": "Soundtrack",
-                  "id": "1703cd63-9401-33c0-87c6-50c4ba2e0ba8"
-                },
-                "text-representation": {
-                  "language": "eng",
-                  "script": "Latn"
-                },
-                "date": "2005-12-01",
-                "quality": "normal",
-                "id": "ab81edcb-9525-47cd-8247-db4fa969f525",
-                "asin": "B000002OTL"
-              }
-            }
-
-        classical/Mozart_Horn-concertos/01.mp3
-
-        .. code-block:: JSON
-
-            {
-              "release": {
-                "status": "Official",
-                "release-event-count": 1,
-                "title": "4 Hornkonzerte (Concertos for Horn and Orchestra)",
-                "country": "DE",
-                "barcode": "028942781429",
-                "cover-art-archive": {
-                  "count": "0",
-                  "front": "false",
-                  "back": "false",
-                  "artwork": "false"
-                },
-                "release-event-list": [
-                  {
-                    "date": "1988",
-                    "area": {
-                      "sort-name": "Germany",
-                      "iso-3166-1-code-list": [
-                        "DE"
-                      ],
-                      "id": "85752fda-13c4-31a3-bee5-0e5cb1f51dad",
-                      "name": "Germany"
-                    }
-                  }
-                ],
-                "release-group": {
-                  "first-release-date": "1988",
-                  "title": "4 Hornkonzerte (Concertos for Horn and Orchestra)",
-                  "type": "Album",
-                  "id": "e1fa28f0-e56e-395b-82d3-a8de54e8c627",
-                  "primary-type": "Album"
-                },
-                "text-representation": {
-                  "language": "deu",
-                  "script": "Latn"
-                },
-                "date": "1988",
-                "quality": "normal",
-                "id": "5ed650c5-0f72-4b79-80a7-c458c869f53e",
-                "asin": "B00000E4FA"
-              }
-            }
-
-            """
-
-        try:
-            result = mbrainz.get_release_by_id(album_id,
-                                               includes=['release-groups'])
-            return result['release']
-
-        except mbrainz.ResponseError as err:
-            if err.cause.code == 404:
-                print("Item not found")
-            else:
-                print("received bad response from the MB server")
-
-    @staticmethod
-    def get_work(work_id):
-        return Enrich.work_recursion(work_id)
+#
+# def enrich_metadata(meta):
+#
+#     set_useragent()
+#
+#     if meta.mb_trackid:
+#         recording = query_mbrainz('recording', meta.mb_trackid)
+#
+#     if meta.mb_albumid:
+#         release = query_mbrainz('release', meta.mb_albumid)
+#
+#     work_id = ''
+#     if meta.mb_workid:
+#         work_id = meta.mb_workid
+#     else:
+#         try:
+#             work_id = recording['work-relation-list'][0]['work']['id']
+#         except KeyError:
+#             pass
+#
+#     if work_id:
+#         work_hierarchy = work_recursion(work_id)
+#
+#     return
 
 
 class Meta(MediaFile):
