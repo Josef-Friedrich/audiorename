@@ -9,6 +9,7 @@ import unittest
 import os
 import tempfile
 import shutil
+import helper
 
 
 def get_meta(path_list):
@@ -100,30 +101,22 @@ class TestExportDict(unittest.TestCase):
 #  Die Meistersinger von Nürnberg, WWV 96: Akt I. Vorspiel
 class TestEnrichMetadata(unittest.TestCase):
 
-    def setUp(self):
-        test_file = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            'classical',
-            'without_work.mp3'
-        )
-        self.tmp_file = tempfile.mktemp()
-        shutil.copy2(test_file, self.tmp_file)
-        self.meta = Meta(self.tmp_file)
-
-    def test_enrich_metadata(self):
-        self.assertEqual(self.meta.mb_trackid,
+    def test_enrich_metadata_meistersinger(self):
+        tmp = helper.copy_to_tmp(['classical', 'without_work.mp3'])
+        meta = Meta(tmp)
+        self.assertEqual(meta.mb_trackid,
                          '00ba1660-4e35-4985-86b2-8b7a3e99b1e5')
-        self.assertEqual(self.meta.mb_workid, None)
-        self.assertEqual(self.meta.work, None)
-        self.meta.enrich_metadata()
-        self.assertEqual(self.meta.mb_workid,
+        self.assertEqual(meta.mb_workid, None)
+        self.assertEqual(meta.work, None)
+
+        meta.enrich_metadata()
+        self.assertEqual(meta.mb_workid,
                          '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
-        self.assertEqual(self.meta.work, u'Die Meistersinger von Nürnberg, ' +
+        self.assertEqual(meta.work, u'Die Meistersinger von Nürnberg, ' +
                          'WWV 96: Akt I. Vorspiel')
+        meta.save()
 
-        self.meta.save()
-
-        finished = Meta(self.tmp_file)
+        finished = Meta(tmp)
         self.assertEqual(finished.mb_workid,
                          '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
         self.assertEqual(finished.work, u'Die Meistersinger von Nürnberg, ' +
@@ -139,6 +132,28 @@ class TestEnrichMetadata(unittest.TestCase):
             u'Die Meistersinger von Nürnberg, WWV 96: Akt I -> '
             u'Die Meistersinger von Nürnberg, WWV 96: Akt I. Vorspiel'
         )
+        self.assertEqual(finished.releasegroup_types, u'Album')
+
+    def test_enrich_metadata_pulp(self):
+        tmp = helper.copy_to_tmp(['soundtrack', 'Pulp-Fiction', '01.mp3'])
+        meta = Meta(tmp)
+        self.assertEqual(meta.mb_trackid,
+                         '0480672d-4d88-4824-a06b-917ff408eabe')
+        self.assertEqual(meta.mb_workid, None)
+        self.assertEqual(meta.work, None)
+
+        meta.enrich_metadata()
+        self.assertEqual(meta.mb_workid, None)
+        self.assertEqual(meta.work, None)
+        meta.save()
+
+        finished = Meta(tmp)
+        self.assertEqual(finished.mb_workid, None)
+        self.assertEqual(finished.work, None)
+        self.assertEqual(finished.mb_workhierarchy_ids, None)
+        self.assertEqual(finished.work_hierarchy, None)
+        self.assertEqual(finished.releasegroup_types,
+                         u'Soundtrack/Album/Compilation')
 
 
 class TestRemapClassical(unittest.TestCase):

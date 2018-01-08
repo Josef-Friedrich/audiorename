@@ -309,8 +309,19 @@ class Meta(MediaFile):
         if self.mb_trackid:
             recording = query_mbrainz('recording', self.mb_trackid)
 
-        # if self.mb_albumid:
-        #     release = query_mbrainz('release', self.mb_albumid)
+        if self.mb_albumid:
+            release = query_mbrainz('release', self.mb_albumid)
+        if 'release-group' in release:
+            release_group = release['release-group']
+            types = []
+            if 'type' in release_group:
+                types.append(release_group['type'])
+            if 'primary-type' in release_group:
+                types.append(release_group['primary-type'])
+            if 'secondary-type-list' in release_group:
+                types = types + release_group['secondary-type-list']
+            types = self._unify_list(types)
+            self.releasegroup_types = '/'.join(types)
 
         work_id = ''
         if self.mb_workid:
@@ -320,24 +331,19 @@ class Meta(MediaFile):
                 work_id = recording['work-relation-list'][0]['work']['id']
             except KeyError:
                 pass
-
         if work_id:
             work_hierarchy = work_recursion(work_id, [])
-
-        if work_hierarchy:
-            work_hierarchy.reverse()
-
-            self.mb_workid = work_hierarchy[-1]['id']
-            self.work = work_hierarchy[-1]['title']
-
-            wh_titles = []
-            wh_ids = []
-            for work in work_hierarchy:
-                wh_titles.append(work['title'])
-                wh_ids.append(work['id'])
-
-            self.work_hierarchy = ' -> '.join(wh_titles)
-            self.mb_workhierarchy_ids = '/'.join(wh_ids)
+            if work_hierarchy:
+                work_hierarchy.reverse()
+                self.mb_workid = work_hierarchy[-1]['id']
+                self.work = work_hierarchy[-1]['title']
+                wh_titles = []
+                wh_ids = []
+                for work in work_hierarchy:
+                    wh_titles.append(work['title'])
+                    wh_ids.append(work['id'])
+                self.work_hierarchy = ' -> '.join(wh_titles)
+                self.mb_workhierarchy_ids = '/'.join(wh_ids)
 
     def remap_classical(self):
         """Remap some fields to fit better for classical music. For example
