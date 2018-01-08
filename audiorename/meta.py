@@ -330,6 +330,15 @@ class Meta(MediaFile):
             self.mb_workid = work_hierarchy[-1]['id']
             self.work = work_hierarchy[-1]['title']
 
+            wh_titles = []
+            wh_ids = []
+            for work in work_hierarchy:
+                wh_titles.append(work['title'])
+                wh_ids.append(work['id'])
+
+            self.work_hierarchy = ' -> '.join(wh_titles)
+            self.mb_workhierarchy_ids = '/'.join(wh_ids)
+
     def remap_classical(self):
         """Remap some fields to fit better for classical music. For example
         ``composer`` becomes ``artist`` and ``work`` becomes ``album``.

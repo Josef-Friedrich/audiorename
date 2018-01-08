@@ -116,18 +116,29 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertEqual(self.meta.mb_workid, None)
         self.assertEqual(self.meta.work, None)
         self.meta.enrich_metadata()
-        self.assertEqual(self.meta.mb_trackid,
-                         '00ba1660-4e35-4985-86b2-8b7a3e99b1e5')
+        self.assertEqual(self.meta.mb_workid,
+                         '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
         self.assertEqual(self.meta.work, u'Die Meistersinger von Nürnberg, ' +
                          'WWV 96: Akt I. Vorspiel')
 
         self.meta.save()
 
         finished = Meta(self.tmp_file)
-        self.assertEqual(finished.mb_trackid,
-                         '00ba1660-4e35-4985-86b2-8b7a3e99b1e5')
+        self.assertEqual(finished.mb_workid,
+                         '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
         self.assertEqual(finished.work, u'Die Meistersinger von Nürnberg, ' +
                          'WWV 96: Akt I. Vorspiel')
+        self.assertEqual(
+            finished.mb_workhierarchy_ids,
+            u'4d644732-9876-4b0d-9c2c-b6a738d6530e/'
+            '73663bd3-392f-45a7-b4ff-e75c01f5926a/'
+            '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
+        self.assertEqual(
+            finished.work_hierarchy,
+            u'Die Meistersinger von Nürnberg, WWV 96 -> '
+            u'Die Meistersinger von Nürnberg, WWV 96: Akt I -> '
+            u'Die Meistersinger von Nürnberg, WWV 96: Akt I. Vorspiel'
+        )
 
 
 class TestRemapClassical(unittest.TestCase):
