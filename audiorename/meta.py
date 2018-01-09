@@ -381,6 +381,22 @@ class Meta(MediaFile):
 
         self.comments = comments
 
+    @classmethod
+    def fields(cls):
+        """Get the names of all writable properties that reflect
+        metadata tags (i.e., those that are instances of
+        :class:`MediaField`).
+        """
+        for prop, descriptor in cls.__dict__.items():
+            if isinstance(getattr(cls, prop), property):
+                if isinstance(prop, bytes):
+                    # On Python 2, class field names are bytes. This method
+                    # produces text strings.
+                    yield prop.decode('utf8', 'ignore')
+                else:
+                    yield prop
+
+
 ###############################################################################
 # Static methods
 ###############################################################################
