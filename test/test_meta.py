@@ -132,7 +132,7 @@ class TestEnrichMetadata(unittest.TestCase):
             u'Die Meistersinger von Nürnberg, WWV 96: Akt I -> '
             u'Die Meistersinger von Nürnberg, WWV 96: Akt I. Vorspiel'
         )
-        self.assertEqual(finished.releasegroup_types, u'Album')
+        self.assertEqual(finished.releasegroup_types, u'album')
 
     def test_enrich_metadata_pulp(self):
         tmp = helper.copy_to_tmp(['soundtrack', 'Pulp-Fiction', '01.mp3'])
@@ -153,7 +153,7 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertEqual(finished.mb_workhierarchy_ids, None)
         self.assertEqual(finished.work_hierarchy, None)
         self.assertEqual(finished.releasegroup_types,
-                         u'Soundtrack/Album/Compilation')
+                         u'soundtrack/album/compilation')
 
 
 class TestRemapClassical(unittest.TestCase):

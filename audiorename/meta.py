@@ -321,7 +321,7 @@ class Meta(MediaFile):
             if 'secondary-type-list' in release_group:
                 types = types + release_group['secondary-type-list']
             types = self._unify_list(types)
-            self.releasegroup_types = '/'.join(types)
+            self.releasegroup_types = '/'.join(types).lower()
 
         work_id = ''
         if self.mb_workid:
