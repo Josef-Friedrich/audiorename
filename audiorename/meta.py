@@ -381,13 +381,18 @@ class Meta(MediaFile):
 
         self.comments = comments
 
+###############################################################################
+# Class methods
+###############################################################################
+
     @classmethod
-    def fields(cls):
-        """Get the names of all writable properties that reflect
-        metadata tags (i.e., those that are instances of
-        :class:`MediaField`).
-        """
-        for prop, descriptor in cls.__dict__.items():
+    def fields_phrydy(cls):
+        for field in sorted(MediaFile.readable_fields()):
+            yield field
+
+    @classmethod
+    def fields_audiorename(cls):
+        for prop, descriptor in sorted(cls.__dict__.items()):
             if isinstance(getattr(cls, prop), property):
                 if isinstance(prop, bytes):
                     # On Python 2, class field names are bytes. This method
@@ -396,6 +401,17 @@ class Meta(MediaFile):
                 else:
                     yield prop
 
+    @classmethod
+    def fields(cls):
+        for field in cls.fields_phrydy():
+            yield field
+        for field in cls.fields_audiorename():
+            yield field
+
+    @classmethod
+    def fields_sorted(cls):
+        for field in sorted(cls.fields()):
+            yield field
 
 ###############################################################################
 # Static methods

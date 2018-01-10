@@ -102,6 +102,9 @@ class TestAllFields(unittest.TestCase):
     def test_Yesterday(self):
         meta = helper.get_meta(['show-case', 'Beatles_Yesterday.mp3'])
 
+        for field in meta.fields_sorted():
+            print(field)
+
         self.assertEqual(meta.acoustid_fingerprint, None)
         self.assertEqual(meta.acoustid_id, None)
         self.assertEqual(meta.album, u'Help!')

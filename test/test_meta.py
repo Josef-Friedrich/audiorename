@@ -634,6 +634,122 @@ class TestStaticMethodUnifyList(unittest.TestCase):
 
 
 ###############################################################################
+# Class methods
+###############################################################################
+
+all_fields = [
+    'acoustid_fingerprint',
+    'acoustid_id',
+    'album',
+    'albumartist',
+    'albumartist_credit',
+    'albumartist_sort',
+    'albumdisambig',
+    'albumstatus',
+    'albumtype',
+    'arranger',
+    'art',
+    'artist',
+    'artist_credit',
+    'artist_sort',
+    'asin',
+    'bitdepth',
+    'bitrate',
+    'bpm',
+    'catalognum',
+    'channels',
+    'comments',
+    'comp',
+    'composer',
+    'composer_sort',
+    'country',
+    'date',
+    'day',
+    'disc',
+    'disctitle',
+    'disctotal',
+    'encoder',
+    'format',
+    'genre',
+    'genres',
+    'grouping',
+    'images',
+    'initial_key',
+    'label',
+    'language',
+    'length',
+    'lyricist',
+    'lyrics',
+    'mb_albumartistid',
+    'mb_albumid',
+    'mb_artistid',
+    'mb_releasegroupid',
+    'mb_trackid',
+    'mb_workhierarchy_ids',
+    'mb_workid',
+    'media',
+    'month',
+    'original_date',
+    'original_day',
+    'original_month',
+    'original_year',
+    'r128_album_gain',
+    'r128_track_gain',
+    'releasegroup_types',
+    'rg_album_gain',
+    'rg_album_peak',
+    'rg_track_gain',
+    'rg_track_peak',
+    'samplerate',
+    'script',
+    'title',
+    'track',
+    'tracktotal',
+    'work',
+    'work_hierarchy',
+    'year',
+    'album_classical',
+    'album_clean',
+    'album_initial',
+    'artist_initial',
+    'artistsafe',
+    'artistsafe_sort',
+    'composer_initial',
+    'composer_safe',
+    'disctrack',
+    'performer',
+    'performer_classical',
+    'performer_raw',
+    'performer_short',
+    'soundtrack',
+    'title_classical',
+    'track_classical',
+    'year_safe',
+]
+
+
+class TestFields(unittest.TestCase):
+
+    def test_fields_phrydy(self):
+        fields = Meta.fields()
+        for field in Meta.fields_phrydy():
+            self.assertIn(field, fields)
+
+    def test_fields_audiorename(self):
+        fields = Meta.fields()
+        for field in Meta.fields_audiorename():
+            self.assertIn(field, fields)
+
+    def test_fields(self):
+        for field in Meta.fields():
+            self.assertIn(field, all_fields)
+
+    def test_fields_sorted(self):
+        for field in Meta.fields_sorted():
+            self.assertIn(field, all_fields)
+
+
+###############################################################################
 # All properties
 ###############################################################################
 
