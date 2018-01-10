@@ -216,8 +216,6 @@ classical/Mozart_Horn-concertos/01.mp3
 
 """
 
-import phrydy
-from .args import fields as module_fields
 import re
 from phrydy import MediaFile
 from tmep import Functions
@@ -292,9 +290,8 @@ class Meta(MediaFile):
 ###############################################################################
 
     def export_dict(self):
-        fields = phrydy.doc.merge_fields(phrydy.doc.fields, module_fields)
         out = {}
-        for field, description in sorted(fields.items()):
+        for field in self.fields_sorted():
             value = getattr(self, field)
             if value:
                 out[field] = self._sanitize(value)
