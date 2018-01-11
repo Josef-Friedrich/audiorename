@@ -841,6 +841,19 @@ class Meta(MediaFile):
         return out
 
     @property
+    def work_top(self):
+        """Uses:
+
+        * ``phrydy.mediafile.MediaFile.work_hierarchy``
+        * ``phrydy.mediafile.MediaFile.work``
+
+        """
+        if self.work_hierarchy:
+            return self.work_hierarchy.split(' -> ')[0]
+        elif self.album_classical:
+            return self.album_classical
+
+    @property
     def year_safe(self):
         """Uses:
 

@@ -491,6 +491,32 @@ class TestPropertyWork(unittest.TestCase):
         self.assertEqual(meta.composer_sort, u'Mozart, Wolfgang Amadeus')
 
 
+# work_top
+class TestPropertyWorkTop(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = get_meta(['files', 'album.mp3'])
+
+    def test_none(self):
+        self.assertEqual(self.meta.work_top, None)
+
+    def test_mutliple(self):
+        self.meta.work_hierarchy = 'top -> work'
+        self.assertEqual(self.meta.work_top, u'top')
+
+    def test_single(self):
+        self.meta.work_hierarchy = 'top'
+        self.assertEqual(self.meta.work_top, u'top')
+
+    def test_work_colon(self):
+        self.meta.work = 'work: test'
+        self.assertEqual(self.meta.work_top, u'work')
+
+    def test_work(self):
+        self.meta.work = 'work'
+        self.assertEqual(self.meta.work_top, u'work')
+
+
 # title_classical
 class TestPropertyTitleClassical(unittest.TestCase):
 
@@ -640,18 +666,24 @@ class TestStaticMethodUnifyList(unittest.TestCase):
 all_fields = [
     'acoustid_fingerprint',
     'acoustid_id',
+    'album_classical',
+    'album_clean',
+    'album_initial',
     'album',
-    'albumartist',
     'albumartist_credit',
     'albumartist_sort',
+    'albumartist',
     'albumdisambig',
     'albumstatus',
     'albumtype',
     'arranger',
     'art',
-    'artist',
     'artist_credit',
+    'artist_initial',
     'artist_sort',
+    'artist',
+    'artistsafe_sort',
+    'artistsafe',
     'asin',
     'bitdepth',
     'bitrate',
@@ -660,14 +692,17 @@ all_fields = [
     'channels',
     'comments',
     'comp',
-    'composer',
+    'composer_initial',
+    'composer_safe',
     'composer_sort',
+    'composer',
     'country',
     'date',
     'day',
     'disc',
     'disctitle',
     'disctotal',
+    'disctrack',
     'encoder',
     'format',
     'genre',
@@ -693,6 +728,10 @@ all_fields = [
     'original_day',
     'original_month',
     'original_year',
+    'performer_classical',
+    'performer_raw',
+    'performer_short',
+    'performer',
     'r128_album_gain',
     'r128_track_gain',
     'releasegroup_types',
@@ -702,29 +741,17 @@ all_fields = [
     'rg_track_peak',
     'samplerate',
     'script',
-    'title',
-    'track',
-    'tracktotal',
-    'work',
-    'work_hierarchy',
-    'year',
-    'album_classical',
-    'album_clean',
-    'album_initial',
-    'artist_initial',
-    'artistsafe',
-    'artistsafe_sort',
-    'composer_initial',
-    'composer_safe',
-    'disctrack',
-    'performer',
-    'performer_classical',
-    'performer_raw',
-    'performer_short',
     'soundtrack',
     'title_classical',
+    'title',
     'track_classical',
+    'track',
+    'tracktotal',
+    'work_hierarchy',
+    'work_top',
+    'work',
     'year_safe',
+    'year',
 ]
 
 

@@ -74,6 +74,10 @@ fields = {
         'description': 'First “original_year” then “year”.',
         'category': 'ordinary',
     },
+    'work_top': {
+        'description': 'The work on the top level of a work hierarchy.',
+        'category': 'ordinary',
+    },
 }
 """Documentation of the extra fields."""
 
@@ -175,7 +179,7 @@ def parse_args(argv):
     parser.add_argument(
         '-s',
         '--field-skip',
-        help='Skip renaming of field is empty.',
+        help='Skip renaming if field is empty.',
         default=False
     )
 
