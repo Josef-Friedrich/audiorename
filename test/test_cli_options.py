@@ -203,6 +203,21 @@ class TestBasicCopy(unittest.TestCase):
         shutil.rmtree(helper.dir_cwd + '/t/')
 
 
+# --debug
+class TestDebug(unittest.TestCase):
+
+    def test_debug(self):
+        tmp = helper.path(['files', 'album.mp3'])
+
+        with helper.Capturing() as output:
+            audiorename.execute([
+                '--debug',
+                tmp
+            ])
+
+        self.assertEqual(output[-1], u'          year_safe: 2001')
+
+
 # --delete-existing
 class TestDeleteExisting(unittest.TestCase):
 

@@ -217,6 +217,15 @@ class Rename(object):
             self.mb_track_listing()
             return
 
+        if self.job.output.debug:
+            phrydy.doc.Debug(
+                self.source,
+                Meta,
+                Meta.fields,
+                self.job.output.color,
+            ).output()
+            return
+
         ##
         # Metadata actions
         ##
