@@ -187,9 +187,11 @@ class Rename(object):
             self.message.process(u'Broken file')
             return
 
-        skip = self.job.skip_if_empty
-        if skip and (not hasattr(self.meta, skip) or not
-                     getattr(self.meta, skip)):
+        if self.job.field_skip and  \
+           (
+                not hasattr(self.meta, self.job.field_skip) or
+                not getattr(self.meta, self.job.field_skip)
+           ):
             self.message.process(u'No field')
             self.count('no_field')
             return

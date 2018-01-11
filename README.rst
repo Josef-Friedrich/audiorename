@@ -423,7 +423,7 @@ Usage
       -h, --help            show this help message and exit
       -D, --delete-existing
                             Delete source file if the target file already exists.
-      -s SKIP_IF_EMPTY, --skip-if-empty SKIP_IF_EMPTY
+      -s SKIP_IF_EMPTY, --field-skip SKIP_IF_EMPTY
                             Skip renaming of field is empty.
       -v, --version         show program's version number and exit
     

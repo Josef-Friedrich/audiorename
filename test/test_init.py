@@ -154,11 +154,11 @@ class TestJob(unittest.TestCase):
         job = Job(self.args)
         self.assertEqual(job.shell_friendly, True)
 
-    # skip_if_empty
-    def test_skip_if_empty(self):
-        self.args.skip_if_empty = True
+    # field_skip
+    def test_field_skip(self):
+        self.args.field_skip = True
         job = Job(self.args)
-        self.assertEqual(job.skip_if_empty, True)
+        self.assertEqual(job.field_skip, True)
 
     # source
     def test_source(self):

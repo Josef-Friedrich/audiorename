@@ -317,6 +317,33 @@ class TestEnrichMetadata(unittest.TestCase):
         )
 
 
+# --field-skip
+class TestSkipIfEmpty(unittest.TestCase):
+
+    def setUp(self):
+        with helper.Capturing() as self.album:
+            audiorename.execute([
+                '--field-skip',
+                'lol',
+                helper.copy_to_tmp(['files', 'album.mp3'])
+            ])
+        with helper.Capturing() as self.compilation:
+            audiorename.execute([
+                '--field-skip',
+                'album',
+                '-d',
+                '-c',
+                '/tmp/c',
+                helper.copy_to_tmp(['files', 'compilation.mp3'])
+            ])
+
+    def test_album(self):
+        self.assertTrue(helper.has(self.album, 'No field'))
+
+    def test_compilation(self):
+        self.assertTrue(helper.has(self.compilation, 'Dry run'))
+
+
 # --format
 class TestCustomFormats(unittest.TestCase):
 
@@ -507,33 +534,6 @@ class TestStats(unittest.TestCase):
         self.assertTrue('Execution time:' in str(output))
         self.assertTrue('Counter: dry_run=3 exists=0 no_field=0 rename=0 ' +
                         'renamed=0' in output)
-
-
-# --skip-if-empty
-class TestSkipIfEmpty(unittest.TestCase):
-
-    def setUp(self):
-        with helper.Capturing() as self.album:
-            audiorename.execute([
-                '--skip-if-empty',
-                'lol',
-                helper.copy_to_tmp(['files', 'album.mp3'])
-            ])
-        with helper.Capturing() as self.compilation:
-            audiorename.execute([
-                '--skip-if-empty',
-                'album',
-                '-d',
-                '-c',
-                '/tmp/c',
-                helper.copy_to_tmp(['files', 'compilation.mp3'])
-            ])
-
-    def test_album(self):
-        self.assertTrue(helper.has(self.album, 'No field'))
-
-    def test_compilation(self):
-        self.assertTrue(helper.has(self.compilation, 'Dry run'))
 
 
 # --target

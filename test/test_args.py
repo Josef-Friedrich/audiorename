@@ -181,6 +181,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.extension, 'mp3,m4a,flac,wma')
         self.assertEqual(self.args.extension, self.default.extension)
 
+    def test_field_skip(self):
+        self.assertEqual(self.args.field_skip, False)
+        self.assertEqual(self.args.field_skip, self.default.field_skip)
+
     def test_format(self):
         self.assertEqual(self.args.format, False)
         self.assertEqual(self.args.format, self.default.format)
@@ -214,10 +218,6 @@ class TestArgsDefault(unittest.TestCase):
     def test_shell_friendly(self):
         self.assertEqual(self.args.shell_friendly, False)
         self.assertEqual(self.args.shell_friendly, self.default.shell_friendly)
-
-    def test_skip_if_empty(self):
-        self.assertEqual(self.args.skip_if_empty, False)
-        self.assertEqual(self.args.skip_if_empty, self.default.skip_if_empty)
 
     def test_soundtrack(self):
         self.assertEqual(self.args.soundtrack, False)

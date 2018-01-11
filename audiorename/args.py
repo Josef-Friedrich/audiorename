@@ -98,15 +98,15 @@ class ArgsDefault():
     dry_run = False
     enrich_metadata = False
     extension = 'mp3,m4a,flac,wma'
+    field_skip = False
     format = False
     job_info = False
-    no_rename = False
     mb_track_listing = False
     move = False
+    no_rename = False
     one_line = False
     remap_classical = False
     shell_friendly = False
-    skip_if_empty = False
     soundtrack = False
     source = u'.'
     source_as_target = False
@@ -171,10 +171,10 @@ def parse_args(argv):
         action='store_true'
     )
 
-    # skip_if_empty
+    # field_skip
     parser.add_argument(
         '-s',
-        '--skip-if-empty',
+        '--field-skip',
         help='Skip renaming of field is empty.',
         default=False
     )

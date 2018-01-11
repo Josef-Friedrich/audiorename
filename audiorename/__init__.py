@@ -170,7 +170,7 @@ class Job(object):
         self._args = args
 
         self.delete_existing = args.delete_existing
-        self.skip_if_empty = args.skip_if_empty
+        self.field_skip = args.field_skip
         self.shell_friendly = args.shell_friendly
 
     @property
