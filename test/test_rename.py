@@ -27,6 +27,20 @@ class TestCheckTarget(unittest.TestCase):
         self.assertEqual(self.target, result)
 
 
+class TestBestFormat(unittest.TestCase):
+
+    @staticmethod
+    def source_target(source, target):
+        return rename.best_format(
+            helper.get_meta(['quality', source]),
+            helper.get_meta(['quality', target]),
+        )
+
+    def test_same_quality(self):
+        result = self.source_target('flac.flac', 'flac.flac')
+        self.assertEqual(result, 'target')
+
+
 class TestBasicRename(unittest.TestCase):
 
     def setUp(self):

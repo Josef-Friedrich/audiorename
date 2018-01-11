@@ -115,8 +115,42 @@ def check_target(target, extensions):
             return audio_file
 
 
-def best_format(meta1, meta2):
-    pass
+def best_format(source, target):
+    """
+    :param source: The metadata object of the source file.
+    :type source: audiorename.meta.Meta
+    :param target: The metadata object of the target file.
+    :type target: audiorename.meta.Meta
+    :return: Either the string `source` or the string `target`
+    :rtype: string
+    """
+
+    return 'target'
+
+    if source.format == target.format:
+
+        bitrates = {}
+        bitrates[source.bitrate] = 'source'
+        bitrates[target.bitrate] = 'target'
+        for key, value in sorted(bitrates.items()):
+            print(key)
+            print(value)
+            out = value
+
+        return out
+
+    else:
+
+        ranking = {
+            'FLAC': 10,
+            'M4A': 9,
+            'MP3': 8,
+            'WMA': 1,
+        }
+
+        formats = {}
+        formats[ranking[source.format]] = 'source'
+        formats[ranking[target.format]] = 'target'
 
 
 class Rename(object):
