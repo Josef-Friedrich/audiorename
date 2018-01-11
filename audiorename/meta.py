@@ -256,7 +256,6 @@ def query_mbrainz(mb_type, mb_id):
 
 
 def work_recursion(work_id, works=[]):
-
     work = query_mbrainz('work', work_id)
 
     if not work:
@@ -265,7 +264,7 @@ def work_recursion(work_id, works=[]):
     works.append({'id': work['id'], 'title': work['title']})
 
     parent_work = False
-    if work['work-relation-list']:
+    if 'work-relation-list' in work:
         for relation in work['work-relation-list']:
             if 'direction' in relation and \
                     relation['direction'] == 'backward' and \
@@ -802,8 +801,9 @@ class Meta(MediaFile):
 
     @property
     def soundtrack(self):
-        if (self.albumtype and u'soundtrack' in self.albumtype.lower()) or \
-                (self.genre and u'soundtrack' in self.genre.lower()):
+        if (self.releasegroup_types and
+            u'soundtrack' in self.releasegroup_types.lower()) or \
+           (self.albumtype and u'soundtrack' in self.albumtype.lower()):
             return True
         else:
             return False
