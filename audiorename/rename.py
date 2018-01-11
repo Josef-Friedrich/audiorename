@@ -107,21 +107,6 @@ class MessageFile(object):
 class Rename(object):
     """Rename one file"""
 
-    source = ''
-    """The absolute path of the old file."""
-
-    target = ''
-    """The absolute path of the new file."""
-
-    extension = ''
-    """The extension"""
-
-    meta = ''
-    """The meta object :class:`audiorename.meta.Meta`"""
-
-    target = ''
-    """The target directory"""
-
     def __init__(self, source, job):
         self.skip = False
         self.job = job
@@ -198,7 +183,7 @@ class Rename(object):
         # Skips
         ##
 
-        if not self.meta:
+        if self.skip:
             self.message.process(u'Broken file')
             return
 
