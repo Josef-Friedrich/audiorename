@@ -294,7 +294,7 @@ class Meta(MediaFile):
         for field in self.fields_sorted():
             value = getattr(self, field)
             if value:
-                out[field] = self._sanitize(value)
+                out[field] = self._sanitize(str(value))
             else:
                 out[field] = u''
 
@@ -848,9 +848,6 @@ class Meta(MediaFile):
         * ``phrydy.mediafile.MediaFile.year``
         """
         if self.original_year:
-            out = self.original_year
+            return self.original_year
         elif self.year:
-            out = self.year
-        else:
-            out = ''
-        return str(out)
+            return self.year

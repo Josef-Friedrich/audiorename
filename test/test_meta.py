@@ -519,20 +519,20 @@ class TestPropertyYearSafe(unittest.TestCase):
         self.meta.original_year = None
 
     def test_empty(self):
-        self.assertEqual(self.meta.year_safe, '')
+        self.assertEqual(self.meta.year_safe, None)
 
     def test_year(self):
         self.meta.year = 1978
-        self.assertEqual(self.meta.year_safe, '1978')
+        self.assertEqual(self.meta.year_safe, 1978)
 
     def test_original_year(self):
         self.meta.original_year = 1978
-        self.assertEqual(self.meta.year_safe, '1978')
+        self.assertEqual(self.meta.year_safe, 1978)
 
     def test_year__original_year(self):
         self.meta.year = 2016
         self.meta.original_year = 1978
-        self.assertEqual(self.meta.year_safe, '1978')
+        self.assertEqual(self.meta.year_safe, 1978)
 
 
 ###############################################################################
@@ -806,7 +806,7 @@ class TestAllPropertiesHines(unittest.TestCase):
         self.assertEqual(self.meta.track_classical, u'06')
 
     def test_year_safe(self):
-        self.assertEqual(self.meta.year_safe, '1989')
+        self.assertEqual(self.meta.year_safe, 1989)
 
 
 class TestAllPropertiesWagner(unittest.TestCase):
@@ -879,7 +879,7 @@ class TestAllPropertiesWagner(unittest.TestCase):
         self.assertEqual(self.meta.track_classical, '1-01')
 
     def test_year_safe(self):
-        self.assertEqual(self.meta.year_safe, '1971')
+        self.assertEqual(self.meta.year_safe, 1971)
 
 
 class TestClassical(unittest.TestCase):

@@ -195,7 +195,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.work, None)
         self.assertEqual(meta.year, 1987)
         # int
-        self.assertEqual(meta.year_safe, '1965')
+        self.assertEqual(meta.year_safe, 1965)
 
     # Classical
     def test_Nachtmusik(self):
@@ -299,7 +299,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.tracktotal, 16)
         self.assertEqual(meta.work, None)
         self.assertEqual(meta.year, 2005)
-        self.assertEqual(meta.year_safe, u'2005')
+        self.assertEqual(meta.year_safe, 2005)
 
     # Jazz
     def test_Wonderful(self):
