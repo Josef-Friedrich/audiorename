@@ -184,7 +184,7 @@ class Job(object):
         return Filter(
             self._args.album_complete,
             self._args.album_min,
-            self._args.extension
+            self._args.extension.split(',')
         )
 
     @property

@@ -41,7 +41,7 @@ class TestJob(unittest.TestCase):
     def test_filter_extension(self):
         job = Job(self.args)
         self.args.extension = 'lol'
-        self.assertEqual(job.filter.extension, 'lol')
+        self.assertEqual(job.filter.extension, ['lol'])
 
     ##
     # metadata_actions

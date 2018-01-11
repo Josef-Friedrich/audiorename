@@ -30,7 +30,7 @@ class Batch(object):
 
         :params str path: The path of the tracks.
         """
-        extension = self.job.filter.extension.split(',')
+        extension = self.job.filter.extension
         extension = ['.' + e for e in extension]
         if path.lower().endswith(tuple(extension)):
             return True
