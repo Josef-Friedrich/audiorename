@@ -5,6 +5,7 @@
 import unittest
 import helper
 import datetime
+import phrydy
 
 # from audiorename import args
 # from phrydy import doc as pdoc
@@ -102,9 +103,6 @@ class TestAllFields(unittest.TestCase):
     def test_Yesterday(self):
         meta = helper.get_meta(['show-case', 'Beatles_Yesterday.mp3'])
 
-        for field in meta.fields_sorted():
-            print(field)
-
         self.assertEqual(meta.acoustid_fingerprint, None)
         self.assertEqual(meta.acoustid_id, None)
         self.assertEqual(meta.album, u'Help!')
@@ -151,8 +149,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.genre, None)
         self.assertEqual(meta.genres, [])
         self.assertEqual(meta.grouping, None)
-        # [<phrydy.mediafile.Image object at 0x7f93fa63d510>]
-        # self.assertEqual(meta.images, u'')
+        self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
         self.assertEqual(meta.initial_key, None)
         self.assertEqual(meta.label, u'Parlophone')
         self.assertEqual(meta.language, None)
@@ -253,7 +250,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.genre, None)
         self.assertEqual(meta.genres, [])
         self.assertEqual(meta.grouping, None)
-        # self.assertEqual(meta.images, u'')
+        self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
         self.assertEqual(meta.initial_key, None)
         self.assertEqual(meta.label, u'Deutsche Grammophon')
         self.assertEqual(meta.language, None)
@@ -337,18 +334,18 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.composer_safe, u'Louis Armstrong')
         self.assertEqual(meta.composer_sort, None)
         self.assertEqual(meta.country, u'US')
-        # self.assertEqual(meta.date, u'')
-        # self.assertEqual(meta.day, u'')
-        # self.assertEqual(meta.disc, u'')
-        # self.assertEqual(meta.disctitle, u'')
-        # self.assertEqual(meta.disctotal, u'')
-        # self.assertEqual(meta.disctrack, u'')
-        # self.assertEqual(meta.encoder, u'')
-        # self.assertEqual(meta.format, u'')
-        # self.assertEqual(meta.genre, u'')
-        # self.assertEqual(meta.genres, u'')
+        self.assertEqual(meta.date, datetime.date(1996, 1, 1))
+        self.assertEqual(meta.day, None)
+        self.assertEqual(meta.disc, 1)
+        self.assertEqual(meta.disctitle, None)
+        self.assertEqual(meta.disctotal, 1)
+        self.assertEqual(meta.disctrack, u'13')
+        self.assertEqual(meta.encoder, None)
+        self.assertEqual(meta.format, u'MP3')
+        self.assertEqual(meta.genre, None)
+        self.assertEqual(meta.genres, [])
         self.assertEqual(meta.grouping, None)
-        # self.assertEqual(meta.images, u'')
+        self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
         self.assertEqual(meta.initial_key, None)
         # self.assertEqual(meta.label, u'')
         # self.assertEqual(meta.language, u'')
@@ -362,11 +359,11 @@ class TestAllFields(unittest.TestCase):
         # self.assertEqual(meta.mb_trackid, u'')
         # self.assertEqual(meta.mb_workid, u'')
         # self.assertEqual(meta.media, u'')
-        # self.assertEqual(meta.month, u'')
-        # self.assertEqual(meta.original_date, u'')
-        # self.assertEqual(meta.original_day, u'')
-        # self.assertEqual(meta.original_month, u'')
-        # self.assertEqual(meta.original_year, u'')
+        self.assertEqual(meta.month, None)
+        self.assertEqual(meta.original_date, datetime.date(1996, 1, 1))
+        self.assertEqual(meta.original_day, None)
+        self.assertEqual(meta.original_month, None)
+        self.assertEqual(meta.original_year, 1996)
         self.assertEqual(meta.performer_classical, u'Louis Armstrong')
         self.assertEqual(meta.r128_album_gain, None)
         self.assertEqual(meta.r128_track_gain, None)
@@ -377,14 +374,14 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.samplerate, 24000)
         self.assertEqual(meta.script, u'Latn')
         self.assertEqual(meta.soundtrack, False)
-        # self.assertEqual(meta.title, u'')
-        # self.assertEqual(meta.title_classical, u'')
-        # self.assertEqual(meta.track, u'')
-        # self.assertEqual(meta.track_classical, u'')
-        # self.assertEqual(meta.tracktotal, u'')
-        # self.assertEqual(meta.work, u'')
-        # self.assertEqual(meta.year, u'')
-        # self.assertEqual(meta.year_safe, u'')
+        self.assertEqual(meta.title, u'What a Wonderful World')
+        self.assertEqual(meta.title_classical, u'What a Wonderful World')
+        self.assertEqual(meta.track, 13)
+        self.assertEqual(meta.track_classical, '13')
+        self.assertEqual(meta.tracktotal, 13)
+        self.assertEqual(meta.work, None)
+        self.assertEqual(meta.year, 1996)
+        self.assertEqual(meta.year_safe, 1996)
 
 
 if __name__ == '__main__':
