@@ -35,7 +35,7 @@ Usage
 
 .. code-block:: text
 
-    usage: audiorenamer [-h] [-D] [-s SKIP_IF_EMPTY] [-v] [-E] [-r]
+    usage: audiorenamer [-h] [-D] [-s FIELD_SKIP] [-v] [-E] [-r]
                         [-C | -d | -M | -n] [-F] [-m ALBUM_MIN] [-e EXTENSION]
                         [-k] [-S] [-c FORMAT_STRING] [-f FORMAT_STRING]
                         [--soundtrack FORMAT_STRING] [-K] [-b] [-j]
@@ -296,6 +296,9 @@ Usage
                                K. 620: Act I, Scene II. No. 2
                                Aria "Was hör ...
     
+        $work_top:             The work on the top level of a
+                               work hierarchy.
+    
         $year:                 The release year of the specific
                                release
     
@@ -423,8 +426,8 @@ Usage
       -h, --help            show this help message and exit
       -D, --delete-existing
                             Delete source file if the target file already exists.
-      -s SKIP_IF_EMPTY, --field-skip SKIP_IF_EMPTY
-                            Skip renaming of field is empty.
+      -s FIELD_SKIP, --field-skip FIELD_SKIP
+                            Skip renaming if field is empty.
       -v, --version         show program's version number and exit
     
     metadata actions:
@@ -440,7 +443,7 @@ Usage
       -d, --dry-run         Don’t rename or copy the audio files.
       -M, --move            Move / rename a file. This is the default action. The
                             option can be omitted.
-      -n, --no_rename       Don’t rename, move, copy dry run. Do nothing.
+      -n, --no-rename       Don’t rename, move, copy dry run. Do nothing.
     
     filters:
       -F, --album-complete  Rename only complete albums
