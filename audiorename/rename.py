@@ -104,6 +104,21 @@ class MessageFile(object):
         print(line1 + line2)
 
 
+def check_target(target, extensions):
+    """Get the path of a existing audio file target. Search for audio files
+    with different extensions.
+    """
+    target = os.path.splitext(target)[0]
+    for extension in extensions:
+        audio_file = target + '.' + extension
+        if os.path.exists(audio_file):
+            return audio_file
+
+
+def best_format(meta1, meta2):
+    pass
+
+
 class Rename(object):
     """Rename one file"""
 
@@ -236,11 +251,14 @@ class Rename(object):
         if self.job.rename_action != 'no_rename':
             self.generate_filename()
 
+            existing_target = check_target(self.target,
+                                           self.job.filter.extension)
+
             if self.job.rename_action == u'dry_run':
                 self.message.process(u'Dry run')
                 self.count('dry_run')
 
-            elif not os.path.exists(self.target):
+            elif not existing_target:
                 self.create_dir(self.target)
                 if self.job.rename_action == u'copy':
                     self.message.process(u'Copy')
@@ -256,6 +274,8 @@ class Rename(object):
                 self.message.process(u'Exists')
                 self.count('exists')
                 if self.job.delete_existing:
+                    meta_target = Meta(existing_target)
+                    best_format(self.meta, meta_target)
                     os.remove(self.source)
                     print('Delete existing file: ' + self.source)
 
