@@ -124,33 +124,48 @@ def best_format(source, target):
     :return: Either the string `source` or the string `target`
     :rtype: string
     """
-
-    return 'target'
+    def get_highest(dictionary):
+        for key, value in sorted(dictionary.items()):
+            out = value
+        return out
 
     if source.format == target.format:
 
         bitrates = {}
         bitrates[source.bitrate] = 'source'
         bitrates[target.bitrate] = 'target'
-        for key, value in sorted(bitrates.items()):
-            print(key)
-            print(value)
-            out = value
-
-        return out
+        return get_highest(bitrates)
 
     else:
 
+        # All types:
+        #
+        # 'aac'
+        # 'aiff'
+        # 'alac': Apple Lossless Audio Codec (losless)
+        # 'ape'
+        # 'asf'
+        # 'dsf'
+        # 'flac'
+        # 'mp3'
+        # 'mpc'
+        # 'ogg'
+        # 'opus'
+        # 'wv': WavPack (losless)
+
         ranking = {
-            'FLAC': 10,
-            'M4A': 9,
-            'MP3': 8,
-            'WMA': 1,
+            'flac': 10,
+            'alac': 9,
+            'aac': 8,
+            'mp3': 5,
+            'ogg': 2,
+            'wma': 1,
         }
 
-        formats = {}
-        formats[ranking[source.format]] = 'source'
-        formats[ranking[target.format]] = 'target'
+        types = {}
+        types[ranking[source.type]] = 'source'
+        types[ranking[target.type]] = 'target'
+        return get_highest(types)
 
 
 class Rename(object):

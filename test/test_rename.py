@@ -28,6 +28,16 @@ class TestCheckTarget(unittest.TestCase):
 
 
 class TestBestFormat(unittest.TestCase):
+    """
+    Bitrates
+
+    * flac.flac 301213
+    * m4a_100.m4a 198551
+    * m4a_250.m4a 235243
+    * mp3_128.mp3 191995
+    * mp3_144.mp3 86884
+    * mp3_320.mp3 319999
+    """
 
     @staticmethod
     def source_target(source, target):
@@ -39,6 +49,34 @@ class TestBestFormat(unittest.TestCase):
     def test_same_quality(self):
         result = self.source_target('flac.flac', 'flac.flac')
         self.assertEqual(result, 'target')
+
+    def test_target_better(self):
+        result = self.source_target('mp3_128.mp3', 'flac.flac')
+        self.assertEqual(result, 'target')
+
+    def test_source_better(self):
+        result = self.source_target('flac.flac', 'mp3_128.mp3')
+        self.assertEqual(result, 'source')
+
+    def test_mp3_source_better(self):
+        result = self.source_target('mp3_320.mp3', 'mp3_128.mp3')
+        self.assertEqual(result, 'source')
+
+    def test_mp3_target_better_2(self):
+        result = self.source_target('mp3_144.mp3', 'mp3_320.mp3')
+        self.assertEqual(result, 'target')
+
+    def test_mp3_source_better_2(self):
+        result = self.source_target('mp3_320.mp3', 'mp3_144.mp3')
+        self.assertEqual(result, 'source')
+
+    def test_mp3_target_better(self):
+        result = self.source_target('m4a_100.m4a', 'm4a_250.m4a')
+        self.assertEqual(result, 'target')
+
+    def test_m4a_target_better(self):
+        result = self.source_target('m4a_250.m4a', 'm4a_100.m4a')
+        self.assertEqual(result, 'source')
 
 
 class TestBasicRename(unittest.TestCase):
