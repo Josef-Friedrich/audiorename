@@ -168,6 +168,27 @@ def best_format(source, target):
         return get_highest(types)
 
 
+def calculate_rename_action(source, target, delete=False, copy=False):
+    """
+
+    .. code:: Python
+
+        action = {
+            'destructive' = {
+                'side': 'target/source',
+                'path': 'path',
+            },
+            'constructive' = {
+                'action': 'move/copy',
+                'source': '/path/to/source.mp3',
+                'target': '/path/to/target.mp3',
+            }
+        }
+
+
+    """
+
+
 class Rename(object):
     """Rename one file"""
 
