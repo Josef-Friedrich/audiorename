@@ -168,7 +168,8 @@ def best_format(source, target):
         return get_highest(types)
 
 
-def determine_rename_actions(source, target, delete=False, copy=False):
+def determine_rename_actions(source_path, target_path, delete=False,
+                             copy=False):
     """Determine the todo actions without performing them. The main reason for
     not exectuting this actions immediately is the --dry-run option.
 
@@ -193,7 +194,14 @@ def determine_rename_actions(source, target, delete=False, copy=False):
         ]
 
     """
-    print(copy)
+    pass
+    # source = Meta(source_path)
+    # print(copy)
+    #
+    # target_path = check_target(target_path, self.job.filter.extension)
+    #
+    # meta_target = Meta(existing_target)
+    # best_format(self.meta, meta_target)
 
 
 class Rename(object):
