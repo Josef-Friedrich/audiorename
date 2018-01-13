@@ -38,10 +38,10 @@ audiorename.meta module
     :special-members:
     :private-members:
 
-audiorename.rename module
-^^^^^^^^^^^^^^^^^^^^^^^^^
+audiorename.audiofile module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: audiorename.rename
+.. automodule:: audiorename.audiofile
     :members:
     :undoc-members:
     :show-inheritance:

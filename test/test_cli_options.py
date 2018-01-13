@@ -405,7 +405,7 @@ class Testmb_track_listing(unittest.TestCase):
         return output[0]
 
     def test_debussy(self):
-        audiorename.rename.counter = 0
+        audiorename.audiofile.counter = 0
         self.assertEqual(self.mb_track_listing('Debussy_Estampes-etc',
                          '01.mp3'),
                          '1. Estampes/Images/Pour le Piano: Estampes: ' +

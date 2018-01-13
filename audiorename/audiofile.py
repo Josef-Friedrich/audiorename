@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-"""Rename a single audio file."""
+"""This module contains all functionality on the level of a single audio file.
+"""
 
 import os
 

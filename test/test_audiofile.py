@@ -4,7 +4,7 @@
 
 import unittest
 import audiorename
-from audiorename import rename
+from audiorename import audiofile
 import os
 import shutil
 import tempfile
@@ -19,7 +19,7 @@ class TestDetermineRenameActions(unittest.TestCase):
 
     @staticmethod
     def determine(target, source, delete, copy):
-        return rename.determine_rename_actions(target, source, delete, copy)
+        return audiofile.determine_rename_actions(target, source, delete, copy)
 
     def test_delete_source(self):
         target = self.to_tmp('flac.flac')
@@ -43,12 +43,12 @@ class TestCheckTarget(unittest.TestCase):
         self.target = helper.path(['quality', 'flac.flac'])
 
     def test_same(self):
-        result = rename.check_target(self.target, self.extensions)
+        result = audiofile.check_target(self.target, self.extensions)
         self.assertEqual(self.target, result)
 
     def test_different(self):
         target = self.target.replace('.flac', '.mp3')
-        result = rename.check_target(target, self.extensions)
+        result = audiofile.check_target(target, self.extensions)
         self.assertEqual(self.target, result)
 
 
@@ -66,7 +66,7 @@ class TestBestFormat(unittest.TestCase):
 
     @staticmethod
     def source_target(source, target):
-        return rename.best_format(
+        return audiofile.best_format(
             helper.get_meta(['quality', source]),
             helper.get_meta(['quality', target]),
         )
@@ -175,7 +175,7 @@ class TestOverwriteProtection(unittest.TestCase):
 class TestMessageFile(unittest.TestCase):
 
     def setUp(self):
-        from audiorename.rename import MessageFile
+        from audiorename.audiofile import MessageFile
         self.MessageFile = MessageFile
         self.job = helper.get_job(source='/tmp', source_as_target=True)
 
@@ -266,7 +266,8 @@ class TestProcessTargetPath(unittest.TestCase):
 
     @staticmethod
     def process(meta, format_string, shell_friendly=True):
-        return rename.process_target_path(meta, format_string, shell_friendly)
+        return audiofile.process_target_path(meta, format_string,
+                                             shell_friendly)
 
     def assertTargetPath(self, expected, format_string='$title', **fields):
         if fields:

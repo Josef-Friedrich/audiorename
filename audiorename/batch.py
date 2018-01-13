@@ -2,7 +2,7 @@
 
 """Batch processing of the audio files."""
 
-from .rename import do_rename
+from .audiofile import do_rename
 import phrydy
 from phrydy import MediaFile
 import os
