@@ -186,40 +186,74 @@ def process_target_path(meta, format_string, shell_friendly=True):
     return re.sub('\.$', '', target)
 
 
-def determine_rename_actions(source_path, target_path, delete=False,
-                             copy=False):
-    """Determine the todo actions without performing them. The main reason for
-    not exectuting this actions immediately is the --dry-run option.
-
-    .. code:: Python
-
-        [
-            {
-                'action': 'delete',
-                'path': '/path/to/file.mp3',
-            },
-            {
-                'action': 'copy',
-                'source': '/path/to/file.mp3',
-                'target': '/path/to/file.mp3',
-            },
-            {
-                'action': 'move',
-                'source': '/path/to/file.mp3',
-                'target': '/path/to/file.mp3',
-
-            },
-        ]
-
-    """
-    pass
-    # source = Meta(source_path)
-    # print(copy)
-    #
-    # target_path = check_target(target_path, self.job.filter.extension)
-    #
-    # meta_target = Meta(existing_target)
-    # best_format(self.meta, meta_target)
+# class Action(object):
+#
+#     def delete(path):
+#         os.remove(path)
+#
+#     def move(source, target):
+#         shutil.move(source, target)
+#
+#     def copy(source, target):
+#         shutil.copy2(source, target)
+#
+#
+# class ActionDummy(object):
+#
+#     def delete(path):
+#         pass
+#
+#     def move(source, target):
+#         pass
+#
+#     def copy(source, target):
+#         pass
+#
+#
+# def determine_rename_actions(source_path, desired_target_path, job):
+#     """
+#
+#     """
+#
+#     if job.dry_run:
+#         action = ActionDummy()
+#     else:
+#         action = Action()
+#
+#     source = Meta(source_path)
+#
+#     target_path = check_target(desired_target_path, job.filter.extension)
+#
+#     if target_path:
+#         target = Meta(target_path)
+#         best = best_format(target, source)
+#
+#     # Actions
+#
+#     # do nothing
+#     if source_path == desired_target_path:
+#         return []
+#
+#     # delete source
+#     if job.rename.delete_existing and desired_target_path == target_path:
+#         action.delete(source_path)
+#
+#     # delete target
+#     if job.rename.best_format and best == 'source' and target_path:
+#         # backup
+#         if job.rename.backup:
+#             action.move(target_path, backup_path)
+#         else:
+#             action.delete(target_path)
+#         target_path = None
+#
+#     # copy
+#     if job.rename.action == 'copy' and not target_path:
+#         action.copy(self.source, self.target)
+#
+#     # move
+#     if job.rename.action == 'move' and not target_path:
+#         action.move(self.source, self.target)
 
 
 class Rename(object):

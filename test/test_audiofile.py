@@ -10,30 +10,30 @@ import shutil
 import tempfile
 import helper
 
-
-class TestDetermineRenameActions(unittest.TestCase):
-
-    @staticmethod
-    def to_tmp(audio_file):
-        return helper.copy_to_tmp(['quality', audio_file])
-
-    @staticmethod
-    def determine(target, source, delete, copy):
-        return audiofile.determine_rename_actions(target, source, delete, copy)
-
-    def test_delete_source(self):
-        target = self.to_tmp('flac.flac')
-        source = self.to_tmp('flac.flac')
-        self.determine(target, source, delete=True, copy=False)
-
-    def test_move_source(self):
-        pass
-
-    def test_rename_source(self):
-        pass
-
-    def test_delete_target(self):
-        pass
+#
+# class TestDetermineRenameActions(unittest.TestCase):
+#
+#     @staticmethod
+#     def to_tmp(audio_file):
+#         return helper.copy_to_tmp(['quality', audio_file])
+#
+#     @staticmethod
+#     def determine(target, source, job):
+#         return audiofile.determine_rename_actions(target, source, job)
+#
+#     def test_delete_source(self):
+#         target = self.to_tmp('flac.flac')
+#         source = self.to_tmp('flac.flac')
+#         self.determine(target, source, delete=True, copy=False)
+#
+#     def test_move_source(self):
+#         pass
+#
+#     def test_rename_source(self):
+#         pass
+#
+#     def test_delete_target(self):
+#         pass
 
 
 class TestCheckTarget(unittest.TestCase):
