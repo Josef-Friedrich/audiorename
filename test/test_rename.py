@@ -11,6 +11,20 @@ import tempfile
 import helper
 
 
+class TestDetermineRenameActions(unittest.TestCase):
+
+    @staticmethod
+    def path(file):
+        return helper.path('quality', file)
+
+    @staticmethod
+    def determine(*args):
+        return rename.determine_rename_actions(*args)
+
+    def test_delete_source(self):
+        self.determine('lol', 'troll', True)
+
+
 class TestCheckTarget(unittest.TestCase):
 
     def setUp(self):

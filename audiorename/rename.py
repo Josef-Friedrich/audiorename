@@ -168,25 +168,32 @@ def best_format(source, target):
         return get_highest(types)
 
 
-def calculate_rename_action(source, target, delete=False, copy=False):
-    """
+def determine_rename_actions(source, target, delete=False, copy=False):
+    """Determine the todo actions without performing them. The main reason for
+    not exectuting this actions immediately is the --dry-run option.
 
     .. code:: Python
 
-        action = {
-            'destructive' = {
-                'side': 'target/source',
-                'path': 'path',
+        [
+            {
+                'action': 'delete',
+                'path': '/path/to/file.mp3',
             },
-            'constructive' = {
-                'action': 'move/copy',
-                'source': '/path/to/source.mp3',
-                'target': '/path/to/target.mp3',
-            }
-        }
+            {
+                'action': 'copy',
+                'source': '/path/to/file.mp3',
+                'target': '/path/to/file.mp3',
+            },
+            {
+                'action': 'move',
+                'source': '/path/to/file.mp3',
+                'target': '/path/to/file.mp3',
 
+            },
+        ]
 
     """
+    print(copy)
 
 
 class Rename(object):
