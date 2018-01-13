@@ -14,6 +14,7 @@ from tmep import Template
 
 from .meta import Meta
 import six
+import re
 
 if six.PY2:
     import sys
@@ -166,6 +167,22 @@ def best_format(source, target):
         types[ranking[source.type]] = 'source'
         types[ranking[target.type]] = 'target'
         return get_highest(types)
+
+
+def process_target_path(meta, format_string, shell_friendly=True):
+    template = Template(as_string(format_string))
+    functions = Functions(meta)
+    target = template.substitute(meta, functions.functions())
+
+    if isinstance(target, str) or isinstance(target, unicode):
+        if shell_friendly:
+            target = Functions.tmpl_asciify(target)
+            target = Functions.tmpl_delchars(target, '().,!"\'’')
+            target = Functions.tmpl_replchars(target, '-', ' ')
+        # asciify generates new characters which must be sanitzed, e. g.:
+        # ¿ -> ?
+        target = Functions.tmpl_delchars(target, ':*?"<>|\~&{}')
+    return re.sub('\.$', '', target)
 
 
 def determine_rename_actions(source_path, target_path, delete=False,

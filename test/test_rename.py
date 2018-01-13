@@ -251,5 +251,43 @@ class TestUnicodeUnittest(unittest.TestCase):
         shutil.rmtree(helper.dir_cwd + '/►/')
 
 
+class TestProcessTargetPath(unittest.TestCase):
+
+    def setUp(self):
+        meta = helper.get_meta(['files', 'album.mp3'])
+        self.meta = meta.export_dict()
+
+    @staticmethod
+    def get_meta(**args):
+        meta = helper.get_meta(['files', 'album.mp3'])
+        for key in args:
+            setattr(meta, key, args[key])
+        return meta.export_dict()
+
+    @staticmethod
+    def process(meta, format_string, shell_friendly=True):
+        return rename.process_target_path(meta, format_string, shell_friendly)
+
+    def assertTargetPath(self, expected, format_string='$title', **fields):
+        if fields:
+            meta = self.get_meta(**fields)
+        else:
+            meta = self.meta
+        self.assertEqual(self.process(meta, format_string), expected)
+
+    def test_simple(self):
+        result = self.process(self.meta, '$title')
+        self.assertEqual(result, 'full')
+
+    def test_unicode(self):
+        self.assertTargetPath('aeoeue', title='äöü')
+
+    def test_enddot(self):
+        self.assertTargetPath('a', title='a.')
+
+    def test_turned_quotation(self):
+        self.assertTargetPath('aa', title='a¿a')
+
+
 if __name__ == '__main__':
     unittest.main()
