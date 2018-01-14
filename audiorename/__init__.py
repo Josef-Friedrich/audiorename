@@ -154,6 +154,35 @@ class Formats(object):
             self.soundtrack = defaults.soundtrack
 
 
+class RenameAction(object):
+
+    def __init__(self, args):
+        self._args = args
+
+    @property
+    def action(self):
+        """
+        :return:
+
+        :rtype: string
+
+        * copy
+        * dry_run
+        * move
+        * no_rename
+        """
+        if self._args.copy:
+            return u'copy'
+        elif self._args.dry_run:
+            return u'dry_run'
+        elif self._args.move:
+            return u'move'
+        elif self._args.no_rename:
+            return u'no_rename'
+        else:
+            return u'move'
+
+
 class Job(object):
     """Holds informations of one job which can handle multiple files.
 
@@ -172,6 +201,7 @@ class Job(object):
         self.delete_existing = args.delete_existing
         self.field_skip = args.field_skip
         self.shell_friendly = args.shell_friendly
+        self.rename = RenameAction(args)
 
     @property
     def filter(self):
@@ -232,29 +262,6 @@ class Job(object):
         )
 
     @property
-    def rename_action(self):
-        """
-        :return:
-
-        :rtype: string
-
-        * copy
-        * dry_run
-        * move
-        * no_rename
-        """
-        if self._args.copy:
-            return u'copy'
-        elif self._args.dry_run:
-            return u'dry_run'
-        elif self._args.move:
-            return u'move'
-        elif self._args.no_rename:
-            return u'no_rename'
-        else:
-            return u'move'
-
-    @property
     def source(self):
         """The source path as a absolute path. Maybe a directory or a file."""
         return os.path.abspath(self._args.source)
@@ -286,7 +293,7 @@ def job_info(job):
 
     info = KeyValue(job.output.color)
     info.add('Versions', versions.result_one_line())
-    info.add('Action', job.rename_action)
+    info.add('Action', job.rename.action)
     info.add('Source', job.source)
     info.add('Target', job.target)
 

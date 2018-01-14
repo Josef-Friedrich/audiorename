@@ -385,19 +385,19 @@ class Rename(object):
         # Rename action
         ##
 
-        if self.job.rename_action != 'no_rename':
+        if self.job.rename.action != 'no_rename':
             self.generate_filename()
 
             existing_target = check_target(self.target,
                                            self.job.filter.extension)
 
-            if self.job.rename_action == u'dry_run':
+            if self.job.rename.action == u'dry_run':
                 self.message.process(u'Dry run')
                 self.count('dry_run')
 
             elif not existing_target:
                 self.create_dir(self.target)
-                if self.job.rename_action == u'copy':
+                if self.job.rename.action == u'copy':
                     self.message.process(u'Copy')
                     shutil.copy2(self.source, self.target)
                 else:

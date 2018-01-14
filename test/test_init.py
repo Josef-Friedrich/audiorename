@@ -112,31 +112,31 @@ class TestJob(unittest.TestCase):
     # default
     def test_rename_action_default(self):
         job = Job(self.args)
-        self.assertEqual(job.rename_action, u'move')
+        self.assertEqual(job.rename.action, u'move')
 
     # copy
     def test_rename_action_copy(self):
         job = Job(self.args)
         self.args.copy = True
-        self.assertEqual(job.rename_action, u'copy')
+        self.assertEqual(job.rename.action, u'copy')
 
     # dry_run
     def test_rename_action_dry_run(self):
         job = Job(self.args)
         self.args.dry_run = True
-        self.assertEqual(job.rename_action, u'dry_run')
+        self.assertEqual(job.rename.action, u'dry_run')
 
     # move
     def test_rename_action_move(self):
         job = Job(self.args)
         self.args.move = True
-        self.assertEqual(job.rename_action, u'move')
+        self.assertEqual(job.rename.action, u'move')
 
     # no_rename
     def test_rename_action_no_rename(self):
         job = Job(self.args)
         self.args.no_rename = True
-        self.assertEqual(job.rename_action, u'no_rename')
+        self.assertEqual(job.rename.action, u'no_rename')
 
     # target
     def test_target(self):
