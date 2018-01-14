@@ -168,11 +168,11 @@ def parse_args(argv):
     # Options (sorted alphabetically)
     ##
 
-    # delete_existing
+    # dry_run
     parser.add_argument(
-        '-D',
-        '--delete-existing',
-        help='Delete source file if the target file already exists.',
+        '-d',
+        '--dry-run',
+        help='Don’t rename or copy the audio files.',
         action='store_true'
     )
 
@@ -234,6 +234,14 @@ def parse_args(argv):
         action='store_true'
     )
 
+    # delete_existing
+    rename.add_argument(
+        '-D',
+        '--delete-existing',
+        help='Delete source file if the target file already exists.',
+        action='store_true'
+    )
+
 ###############################################################################
 # Rename actions
 ###############################################################################
@@ -246,14 +254,6 @@ def parse_args(argv):
         '-C',
         '--copy',
         help='Copy files instead of rename / move.',
-        action='store_true'
-    )
-
-    # dry_run
-    exclusive.add_argument(
-        '-d',
-        '--dry-run',
-        help='Don’t rename or copy the audio files.',
         action='store_true'
     )
 
