@@ -52,9 +52,8 @@ def gen_file_list(files, path, extension='mp3'):
 
 def get_job(**arguments):
     args = ArgsDefault()
-    params = locals()
-    for argument, value in params['arguments'].items():
-        setattr(args, argument, value)
+    for key in arguments:
+        setattr(args, key, arguments[key])
     return Job(args)
 
 
