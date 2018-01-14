@@ -410,7 +410,7 @@ class Rename(object):
             else:
                 self.message.process(u'Exists')
                 self.count('exists')
-                if self.job.rename.delete_existing:
+                if self.job.rename.cleanup == 'delete':
                     meta_target = Meta(existing_target)
                     best_format(self.meta, meta_target)
                     os.remove(self.source)

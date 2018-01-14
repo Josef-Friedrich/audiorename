@@ -235,13 +235,7 @@ def parse_args(argv):
         action='store_true'
     )
 
-    # delete_existing
-    rename.add_argument(
-        '-D',
-        '--delete-existing',
-        help='Delete source file if the target file already exists.',
-        action='store_true'
-    )
+
 
 ##
 # Rename move actions
@@ -287,6 +281,14 @@ def parse_args(argv):
         '-A',
         '--backup',
         help='Backup audio files instead of delete files',
+        action='store_true'
+    )
+
+    # delete_existing
+    rename.add_argument(
+        '-D',
+        '--delete-existing',
+        help='Delete files.',
         action='store_true'
     )
 
