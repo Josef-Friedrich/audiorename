@@ -206,6 +206,7 @@ def process_target_path(meta, format_string, shell_friendly=True):
         # asciify generates new characters which must be sanitzed, e. g.:
         # ¿ -> ?
         target = Functions.tmpl_delchars(target, ':*?"<>|\~&{}')
+        target = Functions.tmpl_deldupchars(target)
     return re.sub('\.$', '', target)
 
 
@@ -295,36 +296,6 @@ class Rename(object):
     def count(self, key):
         self.job.stats.counter.count(key)
 
-    def generate_filename(self):
-        if self.meta.soundtrack:
-            format_string = self.job.format.soundtrack
-        elif self.meta.comp:
-            format_string = self.job.format.compilation
-        else:
-            format_string = self.job.format.default
-
-        meta_dict = self.meta.export_dict()
-
-        t = Template(as_string(format_string))
-        f = Functions(meta_dict)
-        new = t.substitute(meta_dict, f.functions())
-        new = self.post_template(new)
-        new = f.tmpl_deldupchars(new + '.' + self.extension.lower())
-        self.new_file = new
-        self.target = os.path.join(self.job.target, new)
-        self.message.target = self.target
-
-    def post_template(self, text):
-        if isinstance(text, str) or isinstance(text, unicode):
-            if self.job.shell_friendly:
-                text = Functions.tmpl_asciify(text)
-                text = Functions.tmpl_delchars(text, '().,!"\'’')
-                text = Functions.tmpl_replchars(text, '-', ' ')
-            # asciify generates new characters which must be sanitzed, e. g.:
-            # ¿ -> ?
-            text = Functions.tmpl_delchars(text, ':*?"<>|\~&{}')
-        return text
-
     def execute(self):
 
         ##
@@ -383,8 +354,21 @@ class Rename(object):
         ##
 
         if self.job.rename.move != 'no_rename':
-            self.generate_filename()
 
+            if self.meta.soundtrack:
+                format_string = self.job.format.soundtrack
+            elif self.meta.comp:
+                format_string = self.job.format.compilation
+            else:
+                format_string = self.job.format.default
+
+            meta_dict = self.meta.export_dict()
+
+            target = process_target_path(meta_dict, format_string,
+                                         self.job.shell_friendly)
+            self.target = os.path.join(self.job.target,
+                                       target + '.' + self.extension.lower())
+            self.message.target = self.target
             existing_target = get_target(self.target,
                                          self.job.filter.extension)
 
