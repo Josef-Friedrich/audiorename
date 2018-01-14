@@ -25,8 +25,20 @@ path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
 test_files = os.path.join(dir_test, 'files')
 
 
-def path(*path_list):
+def get_testfile(*path_list):
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), *path_list)
+
+
+def get_meta(*path_list):
+    return audiorename.meta.Meta(get_testfile(*path_list), False)
+
+
+def copy_to_tmp(*path_list):
+    orig = get_testfile(*path_list)
+
+    tmp = os.path.join(tempfile.mkdtemp(), os.path.basename(orig))
+    shutil.copyfile(orig, tmp)
+    return tmp
 
 
 def gen_file_list(files, path, extension='mp3'):
@@ -36,16 +48,6 @@ def gen_file_list(files, path, extension='mp3'):
             f = f + '.' + extension
         output.append(os.path.join(path, f))
     return output
-
-
-def get_meta(*path_list):
-    return audiorename.meta.Meta(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            *path_list
-        ),
-        False
-    )
 
 
 def get_job(**arguments):
@@ -71,17 +73,6 @@ def is_file(path):
     :param list path: Path of the file as a list
     """
     return os.path.isfile(path)
-
-
-def copy_to_tmp(path_list):
-    """
-    :param list path_list: A list of path segments.
-    """
-    orig = os.path.join(os.path.dirname(os.path.abspath(__file__)), *path_list)
-
-    tmp = os.path.join(tempfile.mkdtemp(), os.path.basename(orig))
-    shutil.copyfile(orig, tmp)
-    return tmp
 
 
 class Capturing(list):

@@ -98,7 +98,7 @@ class TestExportDict(unittest.TestCase):
 class TestEnrichMetadata(unittest.TestCase):
 
     def test_enrich_metadata_meistersinger(self):
-        tmp = helper.copy_to_tmp(['classical', 'without_work.mp3'])
+        tmp = helper.copy_to_tmp('classical', 'without_work.mp3')
         meta = Meta(tmp)
         self.assertEqual(meta.mb_trackid,
                          '00ba1660-4e35-4985-86b2-8b7a3e99b1e5')
@@ -131,7 +131,7 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertEqual(finished.releasegroup_types, u'album')
 
     def test_enrich_metadata_pulp(self):
-        tmp = helper.copy_to_tmp(['soundtrack', 'Pulp-Fiction', '01.mp3'])
+        tmp = helper.copy_to_tmp('soundtrack', 'Pulp-Fiction', '01.mp3')
         meta = Meta(tmp)
         self.assertEqual(meta.mb_trackid,
                          '0480672d-4d88-4824-a06b-917ff408eabe')

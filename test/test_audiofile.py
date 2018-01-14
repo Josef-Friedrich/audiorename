@@ -42,7 +42,7 @@ class TestMbTrackListing(unittest.TestCase):
 #
 #     @staticmethod
 #     def to_tmp(audio_file):
-#         return helper.copy_to_tmp(['quality', audio_file])
+#         return helper.copy_to_tmp('quality', audio_file)
 #
 #     @staticmethod
 #     def determine(target, source, job):
@@ -67,7 +67,7 @@ class TestGetTarget(unittest.TestCase):
 
     def setUp(self):
         self.extensions = ['flac', 'mp3', 'm4a']
-        self.target = helper.path('quality', 'flac.flac')
+        self.target = helper.get_testfile('quality', 'flac.flac')
 
     def test_same(self):
         result = audiofile.get_target(self.target, self.extensions)
@@ -134,10 +134,10 @@ class TestBestFormat(unittest.TestCase):
 class TestBasicRename(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = helper.copy_to_tmp(['files', 'album.mp3'])
+        self.tmp_album = helper.copy_to_tmp('files', 'album.mp3')
         with helper.Capturing():
             audiorename.execute([self.tmp_album])
-        self.tmp_compilation = helper.copy_to_tmp(['files', 'compilation.mp3'])
+        self.tmp_compilation = helper.copy_to_tmp('files', 'compilation.mp3')
         with helper.Capturing():
             audiorename.execute([self.tmp_compilation])
 
@@ -161,10 +161,10 @@ class TestBasicRename(unittest.TestCase):
 class TestOverwriteProtection(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_album = helper.copy_to_tmp(['files', 'album.mp3'])
+        self.tmp_album = helper.copy_to_tmp('files', 'album.mp3')
         with helper.Capturing():
             audiorename.execute(['--copy', self.tmp_album])
-        self.tmp_compilation = helper.copy_to_tmp(['files', 'compilation.mp3'])
+        self.tmp_compilation = helper.copy_to_tmp('files', 'compilation.mp3')
         with helper.Capturing():
             audiorename.execute(['--copy', self.tmp_compilation])
 
