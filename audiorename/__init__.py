@@ -167,7 +167,6 @@ class RenameAction(object):
         :rtype: string
 
         * copy
-        * dry_run
         * move
         * no_rename
         """
