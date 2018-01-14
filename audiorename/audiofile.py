@@ -16,6 +16,7 @@ from tmep import Template
 from .meta import Meta
 import six
 import re
+import errno
 
 if six.PY2:
     import sys
@@ -23,6 +24,16 @@ if six.PY2:
     sys.setdefaultencoding('utf8')
 
 counter = 0
+
+
+def create_dir(path):
+    path = os.path.dirname(path)
+
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
 
 
 class MessageFile(object):
@@ -302,15 +313,6 @@ class Rename(object):
             text = Functions.tmpl_delchars(text, ':*?"<>|\~&{}')
         return text
 
-    def create_dir(self, path):
-        path = os.path.dirname(path)
-        import errno
-        try:
-            os.makedirs(path)
-        except OSError as exception:
-            if exception.errno != errno.EEXIST:
-                raise
-
     def mb_track_listing(self):
         m, s = divmod(self.meta.length, 60)
         mmss = '{:d}:{:02d}'.format(int(m), int(s))
@@ -392,7 +394,7 @@ class Rename(object):
                 self.count('dry_run')
 
             elif not existing_target:
-                self.create_dir(self.target)
+                create_dir(self.target)
                 if self.job.rename.move == u'copy':
                     self.message.process(u'Copy')
                     shutil.copy2(self.source, self.target)
