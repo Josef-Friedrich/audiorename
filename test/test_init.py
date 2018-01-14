@@ -109,25 +109,25 @@ class TestJob(unittest.TestCase):
     # rename
     ##
 
-    # action default
-    def test_rename_action_default(self):
+    # move default
+    def test_rename_move_default(self):
         job = Job(self.args)
         self.assertEqual(job.rename.move, u'move')
 
-    # action copy
-    def test_rename_action_copy(self):
+    # move copy
+    def test_rename_move_copy(self):
         job = Job(self.args)
         self.args.copy = True
         self.assertEqual(job.rename.move, u'copy')
 
-    # action move
-    def test_rename_action_move(self):
+    # move move
+    def test_rename_move_move(self):
         job = Job(self.args)
         self.args.move = True
         self.assertEqual(job.rename.move, u'move')
 
-    # action no_rename
-    def test_rename_action_no_rename(self):
+    # move no_rename
+    def test_rename_move_no_rename(self):
         job = Job(self.args)
         self.args.no_rename = True
         self.assertEqual(job.rename.move, u'no_rename')
@@ -139,7 +139,7 @@ class TestJob(unittest.TestCase):
         self.assertEqual(job.rename.best_format, True)
 
     # backup
-    def test_rename_clean_backup(self):
+    def test_rename_cleanup_backup(self):
         job = Job(self.args)
         self.args.backup = True
         self.assertEqual(job.rename.cleanup, u'backup')
