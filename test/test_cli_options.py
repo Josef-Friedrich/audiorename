@@ -207,7 +207,7 @@ class TestBasicCopy(unittest.TestCase):
 class TestDebug(unittest.TestCase):
 
     def test_debug(self):
-        tmp = helper.path(['files', 'album.mp3'])
+        tmp = helper.path('files', 'album.mp3')
 
         with helper.Capturing() as output:
             audiorename.execute([
@@ -381,7 +381,7 @@ class TestJobInfo(unittest.TestCase):
     def test_dry_run(self):
         with helper.Capturing() as output:
             audiorename.execute(['--dry-run', '--job-info',
-                                helper.path(['mixed_formats'])])
+                                helper.path('mixed_formats')])
 
         output = str(output)
         self.assertTrue('Versions: ' in output)
@@ -420,7 +420,7 @@ class TestMbTrackListing(unittest.TestCase):
         with helper.Capturing() as output:
             audiorename.execute([
                 '--mb-track-listing',
-                helper.path(['classical', 'Schubert_Winterreise'])
+                helper.path('classical', 'Schubert_Winterreise')
             ])
 
         self.assertEqual(
@@ -545,7 +545,7 @@ class TestStats(unittest.TestCase):
     def test_dry_run(self):
         with helper.Capturing() as output:
             audiorename.execute(['--dry-run', '--stats',
-                                helper.path(['mixed_formats'])])
+                                helper.path('mixed_formats')])
 
         self.assertTrue('Execution time:' in str(output))
         self.assertTrue('Counter: dry_run=3 exists=0 no_field=0 rename=0 ' +

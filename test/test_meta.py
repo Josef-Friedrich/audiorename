@@ -10,11 +10,7 @@ import os
 import tempfile
 import shutil
 import helper
-
-
-def get_meta(path_list):
-    return Meta(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                *path_list))
+from helper import get_meta
 
 
 class TestEnrich(unittest.TestCase):
@@ -79,7 +75,7 @@ class TestEnrich(unittest.TestCase):
 class TestExportDict(unittest.TestCase):
 
     def test_export_dict(self):
-        meta = get_meta(['files', 'album.mp3'])
+        meta = get_meta('files', 'album.mp3')
 
         result = meta.export_dict()
         self.assertEqual(result['title'], u'full')
@@ -204,7 +200,7 @@ class TestRemapClassical(unittest.TestCase):
 class TestPropertyAlbumClean(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
 
     def assertAlbumClean(self, album, compare=u'Lorem ipsum'):
         self.meta.album = album
@@ -221,9 +217,9 @@ class TestPropertyAlbumClean(unittest.TestCase):
         self.assertAlbumClean('', '')
 
     def test_real_world(self):
-        meta = get_meta(['real-world', '_compilations', 't',
-                         'The-Greatest-No1s-of-the-80s_1994',
-                         '2-09_Respectable.mp3'])
+        meta = get_meta('real-world', '_compilations', 't',
+                        'The-Greatest-No1s-of-the-80s_1994',
+                        '2-09_Respectable.mp3')
         self.assertEqual(meta.album_clean, u'The Greatest No.1s of the 80s')
 
 
@@ -231,15 +227,15 @@ class TestPropertyAlbumClean(unittest.TestCase):
 class TestPropertyArtistSafe(unittest.TestCase):
 
     def test_artist(self):
-        meta = get_meta(['meta', 'artist.mp3'])
+        meta = get_meta('meta', 'artist.mp3')
         self.assertEqual(meta.artistsafe, u'artist')
 
     def test_artist_sort(self):
-        meta = get_meta(['meta', 'artist_sort.mp3'])
+        meta = get_meta('meta', 'artist_sort.mp3')
         self.assertEqual(meta.artistsafe_sort, u'artist_sort')
 
     def test_albumartist(self):
-        meta = get_meta(['meta', 'albumartist.mp3'])
+        meta = get_meta('meta', 'albumartist.mp3')
         self.assertEqual(meta.artistsafe, u'albumartist')
 
 
@@ -247,7 +243,7 @@ class TestPropertyArtistSafe(unittest.TestCase):
 class TestPropertyArtistSafeUnit(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
         self.meta.albumartist_credit = u''
         self.meta.albumartist_sort = u''
         self.meta.albumartist = u''
@@ -317,14 +313,14 @@ class TestPropertyArtistSafeUnit(unittest.TestCase):
 class TestPropertyDiskTrack(unittest.TestCase):
 
     def test_single_disc(self):
-        meta = get_meta(['real-world', 'e', 'Everlast', 'Eat-At-Whiteys_2000',
-                         '02_Black-Jesus.mp3'])
+        meta = get_meta('real-world', 'e', 'Everlast', 'Eat-At-Whiteys_2000',
+                        '02_Black-Jesus.mp3')
         self.assertEqual(meta.disctrack, u'02')
 
     def test_double_disk(self):
-        meta = get_meta(['real-world', '_compilations', 't',
-                         'The-Greatest-No1s-of-the-80s_1994',
-                         '2-09_Respectable.mp3'])
+        meta = get_meta('real-world', '_compilations', 't',
+                        'The-Greatest-No1s-of-the-80s_1994',
+                        '2-09_Respectable.mp3')
         self.assertEqual(meta.disctrack, u'2-09')
 
 
@@ -332,7 +328,7 @@ class TestPropertyDiskTrack(unittest.TestCase):
 class TestPropertyDiskTrackUnit(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
         self.meta.track = u''
         self.meta.tracktotal = u''
         self.meta.disc = u''
@@ -392,7 +388,7 @@ class TestPropertyDiskTrackUnit(unittest.TestCase):
 class TestPropertyPerformerDifferentFormats(unittest.TestCase):
 
     def getMeta(self, extension):
-        return get_meta(['performers', 'blank.' + extension])
+        return get_meta('performers', 'blank.' + extension)
 
     def assertPerformer(self, meta):
         raw = meta.performer_raw
@@ -431,11 +427,11 @@ class TestPropertySoundtrack(unittest.TestCase):
     def test_soundtrack(self):
         # albumtype -> bootleg
         # meta = get_meta(['soundtrack', 'Pulp-Fiction', '01.mp3'])
-        meta = get_meta(['show-case', 'Beatles_Yesterday.mp3'])
+        meta = get_meta('show-case', 'Beatles_Yesterday.mp3')
         self.assertEqual(meta.soundtrack, True)
 
     def test_no_soundtrack(self):
-        meta = get_meta(['classical', 'Schubert_Winterreise', '01.mp3'])
+        meta = get_meta('classical', 'Schubert_Winterreise', '01.mp3')
         self.assertEqual(meta.soundtrack, False)
 
 
@@ -443,7 +439,7 @@ class TestPropertySoundtrack(unittest.TestCase):
 class TestPropertyTrackClassical(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
 
     def assertRoman(self, roman, arabic):
         self.assertEqual(self.meta._roman_to_int(roman), arabic)
@@ -478,7 +474,7 @@ class TestPropertyTrackClassical(unittest.TestCase):
 class TestPropertyWork(unittest.TestCase):
 
     def test_work(self):
-        meta = get_meta(['classical', 'Mozart_Horn-concertos', '01.mp3'])
+        meta = get_meta('classical', 'Mozart_Horn-concertos', '01.mp3')
         self.assertEqual(
             meta.work,
             u'Concerto for French Horn no. 1 in D major, ' +
@@ -495,7 +491,7 @@ class TestPropertyWork(unittest.TestCase):
 class TestPropertyWorkTop(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
 
     def test_none(self):
         self.assertEqual(self.meta.work_top, None)
@@ -521,7 +517,7 @@ class TestPropertyWorkTop(unittest.TestCase):
 class TestPropertyTitleClassical(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
 
     def test_work_title(self):
         self.meta.title = 'work: title'
@@ -540,7 +536,7 @@ class TestPropertyTitleClassical(unittest.TestCase):
 class TestPropertyYearSafe(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
         self.meta.year = None
         self.meta.original_year = None
 
@@ -569,7 +565,7 @@ class TestPropertyYearSafe(unittest.TestCase):
 class TestStaticMethodInitials(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
 
     def test_lowercase(self):
         self.assertEqual(self.meta._initials(u'beethoven'), u'b')
@@ -581,7 +577,7 @@ class TestStaticMethodInitials(unittest.TestCase):
 class TestStaticMethodNormalizePerformer(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
 
     def test_unit_normalize_performer(self):
         out = self.meta._normalize_performer([u'John Lennon (vocals)',
@@ -599,7 +595,7 @@ class TestStaticMethodNormalizePerformer(unittest.TestCase):
 class TestStaticMethodSanitize(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
 
     def test_slash(self):
         self.assertEqual(self.meta._sanitize(u'lol/lol'), u'lollol')
@@ -614,7 +610,7 @@ class TestStaticMethodSanitize(unittest.TestCase):
 class TestStaticMethodShortenPerformer(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
 
     def test_performer_shorten(self):
         s = self.meta._shorten_performer(u'Ludwig van Beethoven')
@@ -640,7 +636,7 @@ class TestStaticMethodShortenPerformer(unittest.TestCase):
 class TestStaticMethodUnifyList(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['files', 'album.mp3'])
+        self.meta = get_meta('files', 'album.mp3')
 
     def test_unify_numbers(self):
         seq = self.meta._unify_list([1, 1, 2, 2, 1, 1, 3])
@@ -784,8 +780,8 @@ class TestFields(unittest.TestCase):
 class TestAllPropertiesHines(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['real-world', 'h', 'Hines_Earl',
-                              'Just-Friends_1989', '06_Indian-Summer.mp3'])
+        self.meta = get_meta('real-world', 'h', 'Hines_Earl',
+                             'Just-Friends_1989', '06_Indian-Summer.mp3')
 
     def test_album_classical(self):
         self.assertEqual(self.meta.album_classical, u'')
@@ -839,7 +835,7 @@ class TestAllPropertiesHines(unittest.TestCase):
 class TestAllPropertiesWagner(unittest.TestCase):
 
     def setUp(self):
-        self.meta = get_meta(['classical', 'Wagner_Meistersinger', '01.mp3'])
+        self.meta = get_meta('classical', 'Wagner_Meistersinger', '01.mp3')
 
     def test_album_classical(self):
         self.assertEqual(self.meta.album_classical,
@@ -912,15 +908,15 @@ class TestAllPropertiesWagner(unittest.TestCase):
 class TestClassical(unittest.TestCase):
 
     def setUp(self):
-        self.mozart = get_meta(['classical', 'Mozart_Horn-concertos',
-                               '01.mp3'])
-        self.mozart2 = get_meta(['classical', 'Mozart_Horn-concertos',
-                                '02.mp3'])
-        self.schubert = get_meta(['classical', 'Schubert_Winterreise',
-                                 '01.mp3'])
-        self.tschaikowski = get_meta(['classical', 'Tschaikowski_Swan-Lake',
-                                     '1-01.mp3'])
-        self.wagner = get_meta(['classical', 'Wagner_Meistersinger', '01.mp3'])
+        self.mozart = get_meta('classical', 'Mozart_Horn-concertos',
+                               '01.mp3')
+        self.mozart2 = get_meta('classical', 'Mozart_Horn-concertos',
+                                '02.mp3')
+        self.schubert = get_meta('classical', 'Schubert_Winterreise',
+                                 '01.mp3')
+        self.tschaikowski = get_meta('classical', 'Tschaikowski_Swan-Lake',
+                                     '1-01.mp3')
+        self.wagner = get_meta('classical', 'Wagner_Meistersinger', '01.mp3')
 
     # album_classical
     def test_album_classical_mozart(self):

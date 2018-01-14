@@ -101,7 +101,7 @@ class TestAllFields(unittest.TestCase):
 
     # Pop-Rock
     def test_Yesterday(self):
-        meta = helper.get_meta(['show-case', 'Beatles_Yesterday.mp3'])
+        meta = helper.get_meta('show-case', 'Beatles_Yesterday.mp3')
 
         self.assertEqual(meta.acoustid_fingerprint, None)
         self.assertEqual(meta.acoustid_id, None)
@@ -196,7 +196,7 @@ class TestAllFields(unittest.TestCase):
 
     # Classical
     def test_Nachtmusik(self):
-        meta = helper.get_meta(['show-case', 'Mozart_Nachtmusik.mp3'])
+        meta = helper.get_meta('show-case', 'Mozart_Nachtmusik.mp3')
 
         self.assertEqual(meta.acoustid_fingerprint, None)
         self.assertEqual(meta.acoustid_id, None)
@@ -300,7 +300,7 @@ class TestAllFields(unittest.TestCase):
 
     # Jazz
     def test_Wonderful(self):
-        meta = helper.get_meta(['show-case', 'Armstrong_Wonderful-World.mp3'])
+        meta = helper.get_meta('show-case', 'Armstrong_Wonderful-World.mp3')
         self.assertEqual(meta.acoustid_fingerprint, None)
         self.assertEqual(meta.acoustid_id, None)
         self.assertEqual(meta.album, u'Greatest Hits')

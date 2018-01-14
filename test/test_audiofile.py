@@ -67,7 +67,7 @@ class TestGetTarget(unittest.TestCase):
 
     def setUp(self):
         self.extensions = ['flac', 'mp3', 'm4a']
-        self.target = helper.path(['quality', 'flac.flac'])
+        self.target = helper.path('quality', 'flac.flac')
 
     def test_same(self):
         result = audiofile.get_target(self.target, self.extensions)
@@ -94,8 +94,8 @@ class TestBestFormat(unittest.TestCase):
     @staticmethod
     def source_target(source, target):
         return audiofile.best_format(
-            helper.get_meta(['quality', source]),
-            helper.get_meta(['quality', target]),
+            helper.get_meta('quality', source),
+            helper.get_meta('quality', target),
         )
 
     def test_same_quality(self):
@@ -281,12 +281,12 @@ class TestUnicodeUnittest(unittest.TestCase):
 class TestProcessTargetPath(unittest.TestCase):
 
     def setUp(self):
-        meta = helper.get_meta(['files', 'album.mp3'])
+        meta = helper.get_meta('files', 'album.mp3')
         self.meta = meta.export_dict()
 
     @staticmethod
     def get_meta(**args):
-        meta = helper.get_meta(['files', 'album.mp3'])
+        meta = helper.get_meta('files', 'album.mp3')
         for key in args:
             setattr(meta, key, args[key])
         return meta.export_dict()
