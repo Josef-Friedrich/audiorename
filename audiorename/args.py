@@ -235,10 +235,8 @@ def parse_args(argv):
         action='store_true'
     )
 
-
-
 ##
-# Rename move actions
+# Move actions
 ##
 
     rename_move = parser.add_argument_group('rename move actions')

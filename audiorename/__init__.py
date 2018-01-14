@@ -170,7 +170,7 @@ class RenameAction(object):
             return False
 
     @property
-    def action(self):
+    def move(self):
         """
         :return:
 
@@ -300,7 +300,7 @@ def job_info(job):
 
     info = KeyValue(job.output.color)
     info.add('Versions', versions.result_one_line())
-    info.add('Action', job.rename.action)
+    info.add('Action', job.rename.move)
     info.add('Source', job.source)
     info.add('Target', job.target)
 

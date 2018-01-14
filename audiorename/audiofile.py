@@ -248,11 +248,11 @@ def process_target_path(meta, format_string, shell_friendly=True):
 #         target_path = None
 #
 #     # copy
-#     if job.rename.action == 'copy' and not target_path:
+#     if job.rename.move == 'copy' and not target_path:
 #         action.copy(self.source, self.target)
 #
 #     # move
-#     if job.rename.action == 'move' and not target_path:
+#     if job.rename.move == 'move' and not target_path:
 #         action.move(self.source, self.target)
 
 
@@ -385,7 +385,7 @@ class Rename(object):
         # Rename action
         ##
 
-        if self.job.rename.action != 'no_rename':
+        if self.job.rename.move != 'no_rename':
             self.generate_filename()
 
             existing_target = check_target(self.target,
@@ -397,7 +397,7 @@ class Rename(object):
 
             elif not existing_target:
                 self.create_dir(self.target)
-                if self.job.rename.action == u'copy':
+                if self.job.rename.move == u'copy':
                     self.message.process(u'Copy')
                     shutil.copy2(self.source, self.target)
                 else:
