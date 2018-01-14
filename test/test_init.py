@@ -17,7 +17,7 @@ class TestJob(unittest.TestCase):
     def test_delete_existing(self):
         self.args.delete_existing = True
         job = Job(self.args)
-        self.assertEqual(job.delete_existing, True)
+        self.assertEqual(job.rename.delete_existing, True)
 
     ##
     # filter

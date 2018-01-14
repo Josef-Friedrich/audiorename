@@ -158,6 +158,7 @@ class RenameAction(object):
 
     def __init__(self, args):
         self._args = args
+        self.delete_existing = args.delete_existing
 
     @property
     def action(self):
@@ -195,7 +196,6 @@ class Job(object):
     def __init__(self, args):
         self._args = args
 
-        self.delete_existing = args.delete_existing
         self.field_skip = args.field_skip
         self.shell_friendly = args.shell_friendly
         self.rename = RenameAction(args)
