@@ -393,7 +393,7 @@ class TestJobInfo(unittest.TestCase):
 
 
 # --mb-track-listing
-class Testmb_track_listing(unittest.TestCase):
+class TestMbTrackListing(unittest.TestCase):
 
     def mb_track_listing(self, folder, track):
         with helper.Capturing() as output:
@@ -413,8 +413,25 @@ class Testmb_track_listing(unittest.TestCase):
     def test_schubert(self):
         self.assertEqual(self.mb_track_listing('Schubert_Winterreise',
                          '01.mp3'),
-                         '2. Winterreise: Winterreise, D. 911: Gute Nacht ' +
+                         '1. Winterreise: Winterreise, D. 911: Gute Nacht ' +
                          '(0:00)')
+
+    def test_folder(self):
+        with helper.Capturing() as output:
+            audiorename.execute([
+                '--mb-track-listing',
+                helper.path(['classical', 'Schubert_Winterreise'])
+            ])
+
+        self.assertEqual(
+            output[0],
+            '1. Winterreise: Winterreise, D. 911: Gute Nacht (0:00)'
+        )
+
+        self.assertEqual(
+            output[23],
+            '24. Winterreise: Winterreise, D. 911: Der Leiermann (0:00)'
+        )
 
 
 # --soundtrack

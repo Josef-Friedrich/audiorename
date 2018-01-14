@@ -10,6 +10,33 @@ import shutil
 import tempfile
 import helper
 
+
+class TestMbTrackListing(unittest.TestCase):
+
+    def setUp(self):
+        self.mb = audiofile.MBTrackListing()
+
+    def listing(self, album, title, length=123):
+        return self.mb.format_audiofile(album, title, length)
+
+    def test_one_call(self):
+        result = self.listing('album', 'title')
+        self.assertEqual(result, '1. album: title (2:03)')
+
+    def test_two_calls(self):
+        self.listing('album', 'title')
+        result = self.listing('album', 'title')
+        self.assertEqual(result, '2. album: title (2:03)')
+
+    def test_opus(self):
+        result = self.listing('album Op.', 'title')
+        self.assertEqual(result, '1. album op.: title (2:03)')
+
+    def test_dash(self):
+        result = self.listing('album - act', 'title')
+        self.assertEqual(result, '1. album act: title (2:03)')
+
+
 #
 # class TestDetermineRenameActions(unittest.TestCase):
 #

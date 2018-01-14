@@ -3,6 +3,7 @@
 """Batch processing of the audio files."""
 
 from .audiofile import do_job_on_audiofile
+from .audiofile import mb_track_listing
 import phrydy
 from phrydy import MediaFile
 import os
@@ -97,6 +98,8 @@ class Batch(object):
 
     def execute(self):
         """Process all files of a given path or process a single file."""
+
+        mb_track_listing.counter = 0
         if os.path.isdir(self.job.source):
             for path, dirs, files in os.walk(self.job.source):
                 dirs.sort()

@@ -34,18 +34,23 @@ def create_dir(path):
             raise
 
 
-def mb_track_listing(album, title, length):
-    if hasattr(mb_track_listing, 'counter'):
-        mb_track_listing.counter += 1
-    else:
-        mb_track_listing.counter = 1
-    m, s = divmod(length, 60)
-    mmss = '{:d}:{:02d}'.format(int(m), int(s))
-    output = '{:d}. {:s}: {:s} ({:s})'.format(mb_track_listing.counter, album,
-                                              title, mmss)
-    output = output.replace('Op.', 'op.')
-    output = output.replace('- ', '')
-    print(output)
+class MBTrackListing(object):
+
+    def __init__(self):
+        self.counter = 0
+
+    def format_audiofile(self, album, title, length):
+        self.counter += 1
+
+        m, s = divmod(length, 60)
+        mmss = '{:d}:{:02d}'.format(int(m), int(s))
+        output = '{:d}. {:s}: {:s} ({:s})'.format(self.counter, album,
+                                                  title, mmss)
+        output = output.replace('Op.', 'op.')
+        return output.replace('- ', '')
+
+
+mb_track_listing = MBTrackListing()
 
 
 class MessageFile(object):
@@ -277,6 +282,7 @@ def rename_actions(source_path, desired_target_path, job):
 
 
 def do_job_on_audiofile(source, job=None):
+
     def count(key):
         job.stats.counter.count(key)
     skip = False
@@ -313,8 +319,8 @@ def do_job_on_audiofile(source, job=None):
     ##
 
     if job.output.mb_track_listing:
-        mb_track_listing(meta.album, meta.title,
-                         meta.length)
+        print(mb_track_listing.format_audiofile(meta.album, meta.title,
+                                                meta.length))
         return
 
     if job.output.debug:
