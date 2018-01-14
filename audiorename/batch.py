@@ -2,7 +2,7 @@
 
 """Batch processing of the audio files."""
 
-from .audiofile import do_rename
+from .audiofile import do_job_on_audiofile
 import phrydy
 from phrydy import MediaFile
 import os
@@ -69,7 +69,7 @@ class Batch(object):
 
         if quantity and completeness:
             for p in self.virtual_album:
-                do_rename(p['path'], job=self.job)
+                do_job_on_audiofile(p['path'], job=self.job)
 
         self.virtual_album = []
 
@@ -107,7 +107,7 @@ class Batch(object):
                         if self.bundle_filter:
                             self.make_bundles(p)
                         else:
-                            do_rename(p, job=self.job)
+                            do_job_on_audiofile(p, job=self.job)
 
             # Process the last bundle left over
             if self.bundle_filter:
@@ -116,4 +116,4 @@ class Batch(object):
         else:
             p = self.job.source
             if self.check_extension(p):
-                do_rename(p, job=self.job)
+                do_job_on_audiofile(p, job=self.job)

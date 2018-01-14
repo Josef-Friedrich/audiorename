@@ -276,128 +276,114 @@ def rename_actions(source_path, desired_target_path, job):
         action.move(source_path, desired_target_path)
 
 
-class Rename(object):
-    """Rename one file"""
+def do_job_on_audiofile(source, job=None):
+    def count(key):
+        job.stats.counter.count(key)
+    skip = False
 
-    def __init__(self, source, job):
-        self.skip = False
-        self.job = job
+    source = os.path.realpath(source)
+    extension = source.split('.')[-1]
+    try:
+        meta = Meta(source, job.shell_friendly)
 
-        self.source = os.path.realpath(source)
-        self.extension = self.source.split('.')[-1]
-        try:
-            self.meta = Meta(self.source, self.job.shell_friendly)
+    except phrydy.mediafile.UnreadableFileError:
+        skip = True
 
-        except phrydy.mediafile.UnreadableFileError:
-            self.skip = True
+    message = MessageFile(job, source)
 
-        self.message = MessageFile(job, self.source)
+    ##
+    # Skips
+    ##
 
-    def count(self, key):
-        self.job.stats.counter.count(key)
+    if skip:
+        message.process(u'Broken file')
+        return
 
-    def execute(self):
+    if job.field_skip and  \
+       (
+            not hasattr(meta, job.field_skip) or
+            not getattr(meta, job.field_skip)
+       ):
+        message.process(u'No field')
+        count('no_field')
+        return
 
-        ##
-        # Skips
-        ##
+    ##
+    # Output only
+    ##
 
-        if self.skip:
-            self.message.process(u'Broken file')
-            return
+    if job.output.mb_track_listing:
+        mb_track_listing(meta.album, meta.title,
+                         meta.length)
+        return
 
-        if self.job.field_skip and  \
-           (
-                not hasattr(self.meta, self.job.field_skip) or
-                not getattr(self.meta, self.job.field_skip)
-           ):
-            self.message.process(u'No field')
-            self.count('no_field')
-            return
+    if job.output.debug:
+        phrydy.doc.Debug(
+            source,
+            Meta,
+            Meta.fields,
+            job.output.color,
+        ).output()
+        return
 
-        ##
-        # Output only
-        ##
+    ##
+    # Metadata actions
+    ##
 
-        if self.job.output.mb_track_listing:
-            mb_track_listing(self.meta.album, self.meta.title,
-                             self.meta.length)
-            return
+    if job.metadata_actions.enrich_metadata:
+        print('Enrich metadata')
+        meta.enrich_metadata()
 
-        if self.job.output.debug:
-            phrydy.doc.Debug(
-                self.source,
-                Meta,
-                Meta.fields,
-                self.job.output.color,
-            ).output()
-            return
+    if job.metadata_actions.remap_classical:
+        print('Remap classical')
+        meta.remap_classical()
 
-        ##
-        # Metadata actions
-        ##
+    if job.metadata_actions.remap_classical or \
+            job.metadata_actions.enrich_metadata:
+        meta.save()
 
-        if self.job.metadata_actions.enrich_metadata:
-            print('Enrich metadata')
-            self.meta.enrich_metadata()
+    ##
+    # Rename action
+    ##
 
-        if self.job.metadata_actions.remap_classical:
-            print('Remap classical')
-            self.meta.remap_classical()
+    if job.rename.move != 'no_rename':
 
-        if self.job.metadata_actions.remap_classical or \
-                self.job.metadata_actions.enrich_metadata:
-            self.meta.save()
+        if meta.soundtrack:
+            format_string = job.format.soundtrack
+        elif meta.comp:
+            format_string = job.format.compilation
+        else:
+            format_string = job.format.default
 
-        ##
-        # Rename action
-        ##
+        meta_dict = meta.export_dict()
 
-        if self.job.rename.move != 'no_rename':
+        target = process_target_path(meta_dict, format_string,
+                                     job.shell_friendly)
+        target = os.path.join(job.target, target + '.' + extension.lower())
+        message.target = target
+        existing_target = get_target(target, job.filter.extension)
 
-            if self.meta.soundtrack:
-                format_string = self.job.format.soundtrack
-            elif self.meta.comp:
-                format_string = self.job.format.compilation
+        if job.dry_run:
+            message.process(u'Dry run')
+            count('dry_run')
+
+        elif not existing_target:
+            create_dir(target)
+            if job.rename.move == u'copy':
+                message.process(u'Copy')
+                shutil.copy2(source, target)
             else:
-                format_string = self.job.format.default
-
-            meta_dict = self.meta.export_dict()
-
-            target = process_target_path(meta_dict, format_string,
-                                         self.job.shell_friendly)
-            self.target = os.path.join(self.job.target,
-                                       target + '.' + self.extension.lower())
-            self.message.target = self.target
-            existing_target = get_target(self.target,
-                                         self.job.filter.extension)
-
-            if self.job.dry_run:
-                self.message.process(u'Dry run')
-                self.count('dry_run')
-
-            elif not existing_target:
-                create_dir(self.target)
-                if self.job.rename.move == u'copy':
-                    self.message.process(u'Copy')
-                    shutil.copy2(self.source, self.target)
-                else:
-                    self.message.process(u'Rename')
-                    shutil.move(self.source, self.target)
-                    self.count('rename')
-            elif self.target == self.source:
-                self.message.process(u'Renamed')
-                self.count('renamed')
-            else:
-                self.message.process(u'Exists')
-                self.count('exists')
-                if self.job.rename.cleanup == 'delete':
-                    meta_target = Meta(existing_target)
-                    best_format(self.meta, meta_target)
-                    os.remove(self.source)
-                    print('Delete existing file: ' + self.source)
-
-
-def do_rename(path, job=None):
-    audio = Rename(path, job)
-    audio.execute()
+                message.process(u'Rename')
+                shutil.move(source, target)
+                count('rename')
+        elif target == source:
+            message.process(u'Renamed')
+            count('renamed')
+        else:
+            message.process(u'Exists')
+            count('exists')
+            if job.rename.cleanup == 'delete':
+                meta_target = Meta(existing_target)
+                best_format(meta, meta_target)
+                os.remove(source)
+                print('Delete existing file: ' + source)
