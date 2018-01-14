@@ -106,7 +106,7 @@ class MessageFile(object):
         print(line1 + line2)
 
 
-def check_target(target, extensions):
+def get_target(target, extensions):
     """Get the path of a existing audio file target. Search for audio files
     with different extensions.
     """
@@ -216,7 +216,7 @@ def rename_actions(source_path, desired_target_path, job):
 
     source = Meta(source_path)
 
-    target_path = check_target(desired_target_path, job.filter.extension)
+    target_path = get_target(desired_target_path, job.filter.extension)
 
     if target_path:
         target = Meta(target_path)
@@ -384,8 +384,8 @@ class Rename(object):
         if self.job.rename.move != 'no_rename':
             self.generate_filename()
 
-            existing_target = check_target(self.target,
-                                           self.job.filter.extension)
+            existing_target = get_target(self.target,
+                                         self.job.filter.extension)
 
             if self.job.dry_run:
                 self.message.process(u'Dry run')

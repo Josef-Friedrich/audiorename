@@ -36,19 +36,19 @@ import helper
 #         pass
 
 
-class TestCheckTarget(unittest.TestCase):
+class TestGetTarget(unittest.TestCase):
 
     def setUp(self):
         self.extensions = ['flac', 'mp3', 'm4a']
         self.target = helper.path(['quality', 'flac.flac'])
 
     def test_same(self):
-        result = audiofile.check_target(self.target, self.extensions)
+        result = audiofile.get_target(self.target, self.extensions)
         self.assertEqual(self.target, result)
 
     def test_different(self):
         target = self.target.replace('.flac', '.mp3')
-        result = audiofile.check_target(target, self.extensions)
+        result = audiofile.get_target(target, self.extensions)
         self.assertEqual(self.target, result)
 
 
