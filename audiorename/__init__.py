@@ -158,6 +158,7 @@ class RenameAction(object):
 
     def __init__(self, args):
         self._args = args
+        self.best_format = args.best_format
         self.delete_existing = args.delete_existing
 
     @property

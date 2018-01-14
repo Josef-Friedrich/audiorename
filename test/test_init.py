@@ -13,11 +13,11 @@ class TestJob(unittest.TestCase):
     def setUp(self):
         self.args = ArgsDefault()
 
-    # delete_existing
-    def test_delete_existing(self):
-        self.args.delete_existing = True
+    # dry_run
+    def test_rename_action_dry_run(self):
+        self.args.dry_run = True
         job = Job(self.args)
-        self.assertEqual(job.rename.delete_existing, True)
+        self.assertEqual(job.dry_run, True)
 
     ##
     # filter
@@ -106,37 +106,47 @@ class TestJob(unittest.TestCase):
         self.assertEqual(job.output.verbose, True)
 
     ##
-    # rename_action
+    # rename
     ##
 
-    # default
+    # action default
     def test_rename_action_default(self):
         job = Job(self.args)
         self.assertEqual(job.rename.action, u'move')
 
-    # copy
+    # action copy
     def test_rename_action_copy(self):
         job = Job(self.args)
         self.args.copy = True
         self.assertEqual(job.rename.action, u'copy')
 
-    # dry_run
-    def test_rename_action_dry_run(self):
-        self.args.dry_run = True
-        job = Job(self.args)
-        self.assertEqual(job.dry_run, True)
-
-    # move
+    # action move
     def test_rename_action_move(self):
         job = Job(self.args)
         self.args.move = True
         self.assertEqual(job.rename.action, u'move')
 
-    # no_rename
+    # action no_rename
     def test_rename_action_no_rename(self):
         job = Job(self.args)
         self.args.no_rename = True
         self.assertEqual(job.rename.action, u'no_rename')
+
+    # best_format
+    def test_rename_best_format(self):
+        self.args.best_format = True
+        job = Job(self.args)
+        self.assertEqual(job.rename.best_format, True)
+
+    # delete_existing
+    def test_delete_existing(self):
+        self.args.delete_existing = True
+        job = Job(self.args)
+        self.assertEqual(job.rename.delete_existing, True)
+
+    ##
+    # end rename
+    ##
 
     # target
     def test_target(self):

@@ -93,6 +93,7 @@ class ArgsDefault():
 
     album_complete = False
     album_min = False
+    best_format = False
     classical = False
     color = False
     compilation = False
@@ -212,6 +213,24 @@ def parse_args(argv):
         '-r',
         '--remap-classical',
         help='',
+        action='store_true'
+    )
+
+###############################################################################
+# Rename
+###############################################################################
+
+    rename = parser.add_argument_group('rename')
+
+    # best_format
+    rename.add_argument(
+        '-B',
+        '--best-format',
+        help='Use the best format. This option only takes effect if the \
+        target file already exists. `audiorename` now checks the qualtity of \
+        the two audio files (source and target). The tool first examines the \
+        format. For example a flac file wins over a mp3 file. `audiorename`\
+        then checks the bitrate.',
         action='store_true'
     )
 
