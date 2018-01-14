@@ -173,8 +173,6 @@ class RenameAction(object):
         """
         if self._args.copy:
             return u'copy'
-        elif self._args.dry_run:
-            return u'dry_run'
         elif self._args.move:
             return u'move'
         elif self._args.no_rename:
@@ -202,6 +200,7 @@ class Job(object):
         self.field_skip = args.field_skip
         self.shell_friendly = args.shell_friendly
         self.rename = RenameAction(args)
+        self.dry_run = args.dry_run
 
     @property
     def filter(self):

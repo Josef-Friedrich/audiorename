@@ -391,7 +391,7 @@ class Rename(object):
             existing_target = check_target(self.target,
                                            self.job.filter.extension)
 
-            if self.job.rename.action == u'dry_run':
+            if self.job.dry_run:
                 self.message.process(u'Dry run')
                 self.count('dry_run')
 

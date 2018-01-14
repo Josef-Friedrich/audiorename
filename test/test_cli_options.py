@@ -388,7 +388,6 @@ class TestJobInfo(unittest.TestCase):
         self.assertTrue('audiorename=' in output)
         self.assertTrue('phrydy=' in output)
         self.assertTrue('tmep=' in output)
-        self.assertTrue('Action: dry_run' in output)
         self.assertTrue('Source: ' in output)
         self.assertTrue('Target: ' in output)
 

@@ -122,9 +122,9 @@ class TestJob(unittest.TestCase):
 
     # dry_run
     def test_rename_action_dry_run(self):
-        job = Job(self.args)
         self.args.dry_run = True
-        self.assertEqual(job.rename.action, u'dry_run')
+        job = Job(self.args)
+        self.assertEqual(job.dry_run, True)
 
     # move
     def test_rename_action_move(self):
