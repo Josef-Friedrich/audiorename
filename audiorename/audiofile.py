@@ -23,8 +23,6 @@ if six.PY2:
     reload(sys)
     sys.setdefaultencoding('utf8')
 
-counter = 0
-
 
 def create_dir(path):
     path = os.path.dirname(path)
@@ -34,6 +32,20 @@ def create_dir(path):
     except OSError as exception:
         if exception.errno != errno.EEXIST:
             raise
+
+
+def mb_track_listing(album, title, length):
+    if hasattr(mb_track_listing, 'counter'):
+        mb_track_listing.counter += 1
+    else:
+        mb_track_listing.counter = 1
+    m, s = divmod(length, 60)
+    mmss = '{:d}:{:02d}'.format(int(m), int(s))
+    output = '{:d}. {:s}: {:s} ({:s})'.format(mb_track_listing.counter, album,
+                                              title, mmss)
+    output = output.replace('Op.', 'op.')
+    output = output.replace('- ', '')
+    print(output)
 
 
 class MessageFile(object):
@@ -313,21 +325,7 @@ class Rename(object):
             text = Functions.tmpl_delchars(text, ':*?"<>|\~&{}')
         return text
 
-    def mb_track_listing(self):
-        m, s = divmod(self.meta.length, 60)
-        mmss = '{:d}:{:02d}'.format(int(m), int(s))
-        output = '{:d}. {:s}: {:s} ({:s})'.format(counter, self.meta.album,
-                                                  self.meta.title, mmss)
-        output = output.replace('Op.', 'op.')
-        output = output.replace('- ', '')
-        print(output)
-
     def execute(self):
-        """
-        .. todo:: Rethink `fetch work`
-        """
-        global counter
-        counter += 1
 
         ##
         # Skips
@@ -351,7 +349,8 @@ class Rename(object):
         ##
 
         if self.job.output.mb_track_listing:
-            self.mb_track_listing()
+            mb_track_listing(self.meta.album, self.meta.title,
+                             self.meta.length)
             return
 
         if self.job.output.debug:
