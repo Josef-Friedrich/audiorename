@@ -138,6 +138,12 @@ class TestJob(unittest.TestCase):
         job = Job(self.args)
         self.assertEqual(job.rename.best_format, True)
 
+    # backup
+    def test_rename_clean_backup(self):
+        job = Job(self.args)
+        self.args.backup = True
+        self.assertEqual(job.rename.cleanup, u'backup')
+
     # delete_existing
     def test_delete_existing(self):
         self.args.delete_existing = True

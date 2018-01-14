@@ -93,6 +93,7 @@ class ArgsDefault():
 
     album_complete = False
     album_min = False
+    backup = False
     best_format = False
     classical = False
     color = False
@@ -242,15 +243,15 @@ def parse_args(argv):
         action='store_true'
     )
 
-###############################################################################
-# Rename actions
-###############################################################################
+##
+# Rename move actions
+##
 
-    rename_actions = parser.add_argument_group('rename actions')
-    exclusive = rename_actions.add_mutually_exclusive_group()
+    rename_move = parser.add_argument_group('rename move actions')
+    exclusive_rename_move = rename_move.add_mutually_exclusive_group()
 
     # copy
-    exclusive.add_argument(
+    exclusive_rename_move.add_argument(
         '-C',
         '--copy',
         help='Copy files instead of rename / move.',
@@ -258,7 +259,7 @@ def parse_args(argv):
     )
 
     # move
-    exclusive.add_argument(
+    exclusive_rename_move.add_argument(
         '-M',
         '--move',
         help='Move / rename a file. This is the default action. The option \
@@ -267,10 +268,25 @@ def parse_args(argv):
     )
 
     # no_rename
-    exclusive.add_argument(
+    exclusive_rename_move.add_argument(
         '-n',
         '--no-rename',
         help='Don’t rename, move, copy dry run. Do nothing.',
+        action='store_true'
+    )
+
+##
+# Cleanup actions
+##
+
+    rename_cleanup = parser.add_argument_group('rename cleanup actions')
+    exclusive_rename_cleanup = rename_cleanup.add_mutually_exclusive_group()
+
+    # --backup
+    exclusive_rename_cleanup.add_argument(
+        '-A',
+        '--backup',
+        help='Backup audio files instead of delete files',
         action='store_true'
     )
 

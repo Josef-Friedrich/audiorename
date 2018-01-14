@@ -143,6 +143,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.album_min, False)
         self.assertEqual(self.args.album_min, self.default.album_min)
 
+    def test_backup(self):
+        self.assertEqual(self.args.backup, False)
+        self.assertEqual(self.args.backup, self.default.backup)
+
     def test_best_format(self):
         self.assertEqual(self.args.best_format, False)
         self.assertEqual(self.args.best_format, self.default.best_format)

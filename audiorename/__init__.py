@@ -162,6 +162,15 @@ class RenameAction(object):
         self.delete_existing = args.delete_existing
 
     @property
+    def cleanup(self):
+        if self._args.backup:
+            return u'backup'
+        elif self._args.delete_existing:
+            return u'delete'
+        else:
+            return False
+
+    @property
     def action(self):
         """
         :return:
