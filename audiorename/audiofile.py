@@ -186,74 +186,70 @@ def process_target_path(meta, format_string, shell_friendly=True):
     return re.sub('\.$', '', target)
 
 
-# class Action(object):
-#
-#     def delete(path):
-#         os.remove(path)
-#
-#     def move(source, target):
-#         shutil.move(source, target)
-#
-#     def copy(source, target):
-#         shutil.copy2(source, target)
-#
-#
-# class ActionDummy(object):
-#
-#     def delete(path):
-#         pass
-#
-#     def move(source, target):
-#         pass
-#
-#     def copy(source, target):
-#         pass
-#
-#
-# def determine_rename_actions(source_path, desired_target_path, job):
-#     """
-#
-#     """
-#
-#     if job.dry_run:
-#         action = ActionDummy()
-#     else:
-#         action = Action()
-#
-#     source = Meta(source_path)
-#
-#     target_path = check_target(desired_target_path, job.filter.extension)
-#
-#     if target_path:
-#         target = Meta(target_path)
-#         best = best_format(target, source)
-#
-#     # Actions
-#
-#     # do nothing
-#     if source_path == desired_target_path:
-#         return []
-#
-#     # delete source
-#     if job.rename.delete_existing and desired_target_path == target_path:
-#         action.delete(source_path)
-#
-#     # delete target
-#     if job.rename.best_format and best == 'source' and target_path:
-#         # backup
-#         if job.rename.backup:
-#             action.move(target_path, backup_path)
-#         else:
-#             action.delete(target_path)
-#         target_path = None
-#
-#     # copy
-#     if job.rename.move == 'copy' and not target_path:
-#         action.copy(self.source, self.target)
-#
-#     # move
-#     if job.rename.move == 'move' and not target_path:
-#         action.move(self.source, self.target)
+class Action(object):
+
+    def __init__(self, job):
+        self.job = job
+        self.dry_run = job.dry_run
+
+    def backup(self, path):
+        if not self.dry_run:
+            shutil.move(path, path + '.bak')
+
+    def copy(self, source, target):
+        if not self.dry_run:
+            shutil.copy2(source, target)
+
+    def delete(self, path):
+        if not self.dry_run:
+            os.remove(path)
+
+    def move(self, source, target):
+        if not self.dry_run:
+            shutil.move(source, target)
+
+
+def rename_actions(source_path, desired_target_path, job):
+    """"""
+
+    action = Action(job)
+
+    source = Meta(source_path)
+
+    target_path = check_target(desired_target_path, job.filter.extension)
+
+    if target_path:
+        target = Meta(target_path)
+        best = best_format(target, source)
+
+    # Actions
+
+    # do nothing
+    if source_path == desired_target_path:
+        return []
+
+    # delete source
+    if job.rename.delete_existing and desired_target_path == target_path:
+        action.delete(source_path)
+
+    # delete target
+    if job.rename.best_format and best == 'source' and target_path:
+        # backup
+        if job.rename.cleanup == 'backup':
+            action.backup(target_path)
+        elif job.rename.cleanup == 'delete':
+            action.delete(target_path)
+
+        if job.rename.cleanup:
+            target_path = None
+
+    # copy
+    if job.rename.move == 'copy' and not target_path:
+        action.copy(source_path, desired_target_path)
+
+    # move
+    if job.rename.move == 'move' and not target_path:
+        action.move(source_path, desired_target_path)
 
 
 class Rename(object):
