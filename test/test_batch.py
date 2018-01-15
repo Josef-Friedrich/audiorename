@@ -3,7 +3,6 @@
 """Test the submodule “batchelper.py”."""
 
 import unittest
-import os
 import audiorename
 import helper
 
@@ -48,7 +47,7 @@ class TestBatch(unittest.TestCase):
             self.album_small
 
     def test_single(self):
-        single = os.path.join(helper.test_files, 'album.mp3')
+        single = helper.get_testfile('files', 'album.mp3')
         with helper.Capturing() as output:
             audiorename.execute(['--dry-run', '--verbose', single])
         self.assertEqual([single], helper.filter_source(output))
@@ -56,14 +55,14 @@ class TestBatch(unittest.TestCase):
     def test_folder_complete(self):
         with helper.Capturing() as output:
             audiorename.execute(['--dry-run', '--verbose', '--one-line',
-                                helper.test_files])
+                                helper.get_testfile('files')])
         self.assertEqual(self.all, helper.filter_source_one_line(output))
 
     def test_folder_sub(self):
         with helper.Capturing() as output:
             audiorename.execute([
                 '--dry-run', '--verbose',
-                os.path.join(helper.test_files, 'album_complete')
+                helper.get_testfile('files', 'album_complete')
             ])
         self.assertEqual(self.album_complete, helper.filter_source(output))
 
@@ -73,7 +72,7 @@ class TestBatch(unittest.TestCase):
                 '--dry-run', '--verbose',
                 '--album-min',
                 '7',
-                helper.test_files
+                helper.get_testfile('files')
             ])
         self.assertEqual(self.album_complete + self.album_incomplete,
                          helper.filter_source(output))
@@ -84,7 +83,7 @@ class TestBatch(unittest.TestCase):
                 '--dry-run', '--verbose',
                 '--album-min',
                 '23',
-                helper.test_files
+                helper.get_testfile('files')
             ])
         self.assertEqual([], helper.filter_source(output))
 
@@ -93,7 +92,7 @@ class TestBatch(unittest.TestCase):
             audiorename.execute([
                 '--dry-run', '--verbose',
                 '--album-complete',
-                helper.test_files
+                helper.get_testfile('files')
             ])
         self.assertEqual(
             self.singles +
@@ -109,7 +108,7 @@ class TestBatch(unittest.TestCase):
                 '--album-min',
                 '7',
                 '--album-complete',
-                helper.test_files
+                helper.get_testfile('files')
             ])
         self.assertEqual(self.album_complete, helper.filter_source(output))
 
@@ -123,7 +122,7 @@ class TestExtension(unittest.TestCase):
         with helper.Capturing() as output:
             audiorename.execute([
                 '--dry-run', '--verbose',
-                self.test_files
+                self.test_files,
             ])
         self.assertEqual(
             helper.filter_source(output),
@@ -161,7 +160,8 @@ class TestExtension(unittest.TestCase):
             ])
         self.assertEqual(
             helper.filter_source(output),
-            helper.gen_file_list(['03.mp3'], self.test_files, extension=False)
+            helper.gen_file_list(['03.mp3'], self.test_files,
+                                 extension=False)
         )
 
 
