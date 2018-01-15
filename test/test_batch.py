@@ -13,32 +13,32 @@ class TestBatch(unittest.TestCase):
     def setUp(self):
         self.singles = helper.gen_file_list(
             ['album', 'compilation'],
-            os.path.join(helper.test_files),
+            helper.get_testfile('files'),
         )
 
         self.album_broken = helper.gen_file_list(
             ['01', '03', '05', '07', '09', '11'],
-            os.path.join(helper.test_files, 'album_broken'),
+            helper.get_testfile('files', 'album_broken'),
         )
 
         self.album_broken_all = helper.gen_file_list(
             ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
-            os.path.join(helper.test_files, 'album_broken'),
+            helper.get_testfile('files', 'album_broken'),
         )
 
         self.album_complete = helper.gen_file_list(
             ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
-            os.path.join(helper.test_files, 'album_complete'),
+            helper.get_testfile('files', 'album_complete'),
         )
 
         self.album_incomplete = helper.gen_file_list(
             ['01', '02', '04', '05', '06', '07', '09', '10', '11'],
-            os.path.join(helper.test_files, 'album_incomplete'),
+            helper.get_testfile('files', 'album_incomplete'),
         )
 
         self.album_small = helper.gen_file_list(
             ['01', '02', '03', '04', '05'],
-            os.path.join(helper.test_files, 'album_small'),
+            helper.get_testfile('files', 'album_small'),
         )
 
         self.all = self.singles + \
@@ -117,7 +117,7 @@ class TestBatch(unittest.TestCase):
 class TestExtension(unittest.TestCase):
 
     def setUp(self):
-        self.test_files = os.path.join(helper.dir_test, 'mixed_formats')
+        self.test_files = helper.get_testfile('mixed_formats')
 
     def test_default(self):
         with helper.Capturing() as output:
@@ -168,7 +168,7 @@ class TestExtension(unittest.TestCase):
 class TestSkip(unittest.TestCase):
 
     def setUp(self):
-        self.file = os.path.join(helper.dir_test, 'broken', 'binary.mp3')
+        self.file = helper.get_testfile('broken', 'binary.mp3')
         with helper.Capturing() as output:
             audiorename.execute([
                 '-d',
@@ -185,7 +185,7 @@ class TestSkip(unittest.TestCase):
         self.assertTrue(self.file in self.output[0])
 
     def test_continuation(self):
-        path = os.path.join(helper.dir_test, 'broken')
+        path = helper.get_testfile('broken')
         with helper.Capturing() as output:
             audiorename.execute([
                 '--dry-run', '--verbose',

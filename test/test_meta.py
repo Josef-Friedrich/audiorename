@@ -6,7 +6,6 @@ from audiorename.meta import Meta
 import audiorename.meta as meta
 
 import unittest
-import os
 import tempfile
 import shutil
 import helper
@@ -155,10 +154,8 @@ class TestEnrichMetadata(unittest.TestCase):
 class TestRemapClassical(unittest.TestCase):
 
     def setUp(self):
-        test_file = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), 'classical',
-            'Mozart_Horn-concertos', '06.mp3'
-        )
+        test_file = helper.get_testfile('classical', 'Mozart_Horn-concertos',
+                                        '06.mp3')
         self.tmp_file = tempfile.mktemp()
         shutil.copy2(test_file, self.tmp_file)
         self.meta = Meta(self.tmp_file)

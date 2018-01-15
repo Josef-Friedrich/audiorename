@@ -16,7 +16,7 @@ class TestClassical(unittest.TestCase):
     def assertDryRun(self, folder, track, test):
         self.assertEqual(helper.dry_run([
             '--classical',
-            os.path.join(helper.dir_test, 'classical', folder, track)
+            helper.get_testfile('classical', folder, track)
         ]), test)
 
     d = '/d/Debussy_Claude/'
@@ -399,7 +399,7 @@ class TestMbTrackListing(unittest.TestCase):
         with helper.Capturing() as output:
             audiorename.execute([
                 '--mb-track-listing',
-                os.path.join(helper.dir_test, 'classical', folder, track)
+                helper.get_testfile('classical', folder, track)
             ])
         return output[0]
 
@@ -444,7 +444,7 @@ class TestSoundtrack(unittest.TestCase):
             '%shorten{$album_clean}' +
             '%ifdef{year_safe,_${year_safe}}/' +
             '${disctrack}_${artist}_%shorten{$title}',
-            os.path.join(helper.dir_test, 'soundtrack', folder, track)
+            helper.get_testfile('soundtrack', folder, track)
         ]), test)
 
     def test_pulp_01(self):

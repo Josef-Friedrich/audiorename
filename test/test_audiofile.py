@@ -253,7 +253,7 @@ class TestMessageFile(unittest.TestCase):
 class TestUnicodeUnittest(unittest.TestCase):
 
     def setUp(self):
-        self.uni = os.path.join(helper.dir_test, 'äöü', 'ÅåÆæØø.mp3')
+        self.uni = helper.get_testfile('äöü', 'ÅåÆæØø.mp3')
         self.renamed = os.path.join('/►', '►', '_',
                                     '_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3')
         self.indent = '            -> '
