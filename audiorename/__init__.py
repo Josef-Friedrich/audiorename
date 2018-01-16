@@ -61,35 +61,42 @@ class Timer(object):
 
 class Counter(object):
 
-    exists = 0
-    no_field = 0
-    rename = 0
-    renamed = 0
-    dry_run = 0
+    def __init__(self):
+        self._counters = {}
 
     def reset(self):
-        self.exists = 0
-        self.no_field = 0
-        self.rename = 0
-        self.renamed = 0
-        self.dry_run = 0
+        self._counters = {}
 
     def count(self, counter):
-        setattr(self, counter, getattr(self, counter) + 1)
+        """Add one to number identified by a string.
 
-    def get_counters(self):
-        counters = []
-        for attr, value in self.__class__.__dict__.items():
-            if value == 0:
-                counters.append(attr)
-        counters.sort()
-        return counters
+        :param str counter: A string to identify the counter
+
+        :return: None
+        """
+        if counter in self._counters:
+            self._counters[counter] += 1
+        else:
+            self._counters[counter] = 1
+
+    def get(self, counter):
+        """Get the counter identify by a string.
+
+        :param str counter: A string to identify the counter
+
+        :return: The counter as a number
+        :rtype: int
+        """
+
+        if counter in self._counters:
+            return self._counters[counter]
+        else:
+            return 0
 
     def result(self):
-        counters = self.get_counters()
         out = []
-        for counter in counters:
-            out.append(counter + '=' + str(getattr(self, counter)))
+        for counter, value in sorted(self._counters.items()):
+            out.append(counter + '=' + str(value))
 
         return ' '.join(out)
 

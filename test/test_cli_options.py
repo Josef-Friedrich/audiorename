@@ -548,8 +548,7 @@ class TestStats(unittest.TestCase):
                                 helper.get_testfile('mixed_formats')])
 
         self.assertTrue('Execution time:' in str(output))
-        self.assertTrue('Counter: dry_run=3 exists=0 no_field=0 rename=0 ' +
-                        'renamed=0' in output)
+        self.assertTrue('Counter: dry_run=3' in output)
 
 
 # --target
