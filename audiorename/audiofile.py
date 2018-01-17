@@ -34,6 +34,16 @@ def create_dir(path):
             raise
 
 
+class AudioFile(object):
+
+    def __init__(self, abspath=None, type='source', basepath=None,
+                 relpath=None, extension='mp3'):
+
+        self._basepath = ''
+        self._relpath = ''
+        self._extension = ''
+
+
 class MBTrackListing(object):
 
     def __init__(self):
