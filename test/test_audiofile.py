@@ -5,6 +5,7 @@
 import unittest
 import audiorename
 from audiorename import audiofile
+from audiorename.meta import Meta
 import os
 import shutil
 import tempfile
@@ -17,13 +18,35 @@ class TestClassAction(unittest.TestCase):
         self.action = audiofile.Action(helper.get_job())
 
     def test_method_delete(self):
-        tmp = helper.copy_to_tmp('files', 'album.mp3')
-        tmp = audiofile.AudioFile(tmp)
+        tmp = helper.get_tmp_file_object('files', 'album.mp3')
         self.assertTrue(os.path.exists(tmp.abspath))
         with helper.Capturing() as output:
             self.action.delete(tmp)
         self.assertFalse(os.path.exists(tmp.abspath))
         self.assertEqual(output[0], 'delete')
+
+    def test_method_metadata_enrich(self):
+        tmp = helper.get_tmp_file_object('classical', 'without_work.mp3')
+
+        self.assertEqual(tmp.meta.mb_workid, None)
+        with helper.Capturing():
+            self.action.metadata(tmp, ['enrich_metadata'])
+
+        meta = Meta(tmp.abspath)
+        self.assertEqual(meta.mb_workid,
+                         '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
+
+    def test_method_metadata_remap_classical(self):
+        tmp = helper.get_tmp_file_object('classical', 'Schubert_Winterreise',
+                                         '01.mp3')
+
+        self.assertEqual(tmp.meta.album, 'Winterreise')
+        with helper.Capturing():
+            self.action.metadata(tmp, ['remap_classical'])
+
+        meta = Meta(tmp.abspath)
+        self.assertEqual(meta.album,
+                         'Die Winterreise, op. 89, D. 911: I. Gute Nacht')
 
 
 class TestClassMessage(unittest.TestCase):

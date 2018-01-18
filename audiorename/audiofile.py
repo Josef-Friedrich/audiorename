@@ -13,7 +13,7 @@ from phrydy.utils import as_string
 from tmep import Functions
 from tmep import Template
 
-from .meta import Meta
+from .meta import Meta, dict_diff
 import six
 import re
 import errno
@@ -307,6 +307,19 @@ class Action(object):
     def move(self, source, target):
         if not self.dry_run:
             shutil.move(source.abspath, target.abspath)
+
+    def metadata(self, audio_file, actions):
+        pre = audio_file.meta.export_dict()
+        for action in actions:
+            method = getattr(audio_file.meta, action)
+            method()
+        post = audio_file.meta.export_dict()
+        diff = dict_diff(pre, post)
+
+        print(diff)
+
+        if not self.dry_run and len(diff) > 0:
+            audio_file.meta.save()
 
 
 def rename_actions(source_path, desired_target_path, job):
