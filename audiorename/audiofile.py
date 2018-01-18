@@ -417,24 +417,28 @@ def do_job_on_audiofile(source, job=None):
 
         target = process_target_path(meta_dict, format_string,
                                      job.shell_friendly)
-        target = os.path.join(job.target, target + '.' + extension.lower())
-        message.target = target
-        existing_target = get_target(target, job.filter.extension)
+
+        target = AudioFile(os.path.join(job.target,
+                           target + '.' + extension.lower()),
+                           prefix=job.target, file_type='target')
+
+        message.target = target.abspath
+        existing_target = get_target(target.abspath, job.filter.extension)
 
         if job.dry_run:
             message.process(u'Dry run')
             count('dry_run')
 
         elif not existing_target:
-            create_dir(target)
+            create_dir(target.abspath)
             if job.rename.move == u'copy':
                 message.process(u'Copy')
-                shutil.copy2(source, target)
+                shutil.copy2(source, target.abspath)
             else:
                 message.process(u'Rename')
-                shutil.move(source, target)
+                shutil.move(source, target.abspath)
                 count('rename')
-        elif target == source:
+        elif target.abspath == source:
             message.process(u'Renamed')
             count('renamed')
         else:
