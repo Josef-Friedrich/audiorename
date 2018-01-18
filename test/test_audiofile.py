@@ -11,6 +11,25 @@ import tempfile
 import helper
 
 
+class TestMessage(unittest.TestCase):
+
+    def setUp(self):
+        self.job = helper.get_job()
+        self.prefix = helper.dir_cwd
+        self.source = audiofile.AudioFile(
+            helper.get_testfile('files', 'album.mp3'),
+            job=self.job,
+            prefix=self.prefix
+        )
+        self.message = audiofile.Message(self.job)
+
+    def test_message(self):
+        with helper.Capturing() as output:
+            self.message.message('Move')
+
+        self.assertEqual(output[0], 'Move')
+
+
 class TestAudioFile(unittest.TestCase):
 
     def test_existing(self):

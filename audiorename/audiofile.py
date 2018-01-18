@@ -184,6 +184,22 @@ class MessageFile(object):
         print(line1 + line2)
 
 
+class Message(object):
+    """Print messages on the command line interface.
+
+    :param job: The `job` object
+    :type job: audiorename.Job
+    """
+
+    def __init__(self, job):
+        self.color = job.output.color
+        self.verbose = job.output.verbose
+        self.indent = 4
+
+    def message(self, format_string, *args):
+        print(format_string)
+
+
 def get_target(target, extensions):
     """Get the path of a existing audio file target. Search for audio files
     with different extensions.
