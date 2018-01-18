@@ -286,22 +286,27 @@ class Action(object):
     def __init__(self, job):
         self.job = job
         self.dry_run = job.dry_run
+        self.__message = Message(job)
 
-    def backup(self, path):
+    def message(self, *args):
+        self.__message.message(*args)
+
+    def backup(self, audio_file):
         if not self.dry_run:
-            shutil.move(path, path + '.bak')
+            shutil.move(audio_file.abspath, audio_file.abspath + '.bak')
 
     def copy(self, source, target):
         if not self.dry_run:
-            shutil.copy2(source, target)
+            shutil.copy2(source.abspath, target.abspath)
 
-    def delete(self, path):
+    def delete(self, audio_file):
         if not self.dry_run:
-            os.remove(path)
+            os.remove(audio_file.abspath)
+        self.message('delete')
 
     def move(self, source, target):
         if not self.dry_run:
-            shutil.move(source, target)
+            shutil.move(source.abspath, target.abspath)
 
 
 def rename_actions(source_path, desired_target_path, job):

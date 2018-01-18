@@ -11,7 +11,22 @@ import tempfile
 import helper
 
 
-class TestMessage(unittest.TestCase):
+class TestClassAction(unittest.TestCase):
+
+    def setUp(self):
+        self.action = audiofile.Action(helper.get_job())
+
+    def test_method_delete(self):
+        tmp = helper.copy_to_tmp('files', 'album.mp3')
+        tmp = audiofile.AudioFile(tmp)
+        self.assertTrue(os.path.exists(tmp.abspath))
+        with helper.Capturing() as output:
+            self.action.delete(tmp)
+        self.assertFalse(os.path.exists(tmp.abspath))
+        self.assertEqual(output[0], 'delete')
+
+
+class TestClassMessage(unittest.TestCase):
 
     def setUp(self):
         self.job = helper.get_job()
@@ -30,7 +45,7 @@ class TestMessage(unittest.TestCase):
         self.assertEqual(output[0], 'Move')
 
 
-class TestAudioFile(unittest.TestCase):
+class TestClassAudioFile(unittest.TestCase):
 
     def test_existing(self):
         abspath = helper.get_testfile('files', 'album.mp3')
@@ -46,7 +61,7 @@ class TestAudioFile(unittest.TestCase):
         self.assertEqual(result.prefix, prefix + os.path.sep)
 
 
-class TestMbTrackListing(unittest.TestCase):
+class TestClassMbTrackListing(unittest.TestCase):
 
     def setUp(self):
         self.mb = audiofile.MBTrackListing()
@@ -98,7 +113,7 @@ class TestMbTrackListing(unittest.TestCase):
 #         pass
 
 
-class TestGetTarget(unittest.TestCase):
+class TestFunctionGetTarget(unittest.TestCase):
 
     def setUp(self):
         self.extensions = ['flac', 'mp3', 'm4a']
@@ -114,7 +129,7 @@ class TestGetTarget(unittest.TestCase):
         self.assertEqual(self.target, result)
 
 
-class TestBestFormat(unittest.TestCase):
+class TestFunctionBestFormat(unittest.TestCase):
     """
     Bitrates
 
@@ -234,7 +249,7 @@ class TestOverwriteProtection(unittest.TestCase):
         shutil.rmtree(helper.dir_cwd + '/t/')
 
 
-class TestMessageFile(unittest.TestCase):
+class TestClassMessageFile(unittest.TestCase):
 
     def setUp(self):
         from audiorename.audiofile import MessageFile
