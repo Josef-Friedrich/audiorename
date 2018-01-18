@@ -337,15 +337,12 @@ def do_job_on_audiofile(source, job=None):
         job.stats.counter.count(key)
     skip = False
 
-    source = os.path.realpath(source)
-    extension = source.split('.')[-1]
-    try:
-        meta = Meta(source, job.shell_friendly)
+    source = AudioFile(source, prefix=os.getcwd(), file_type='source', job=job)
 
-    except phrydy.mediafile.UnreadableFileError:
+    if not source.meta:
         skip = True
 
-    message = MessageFile(job, source)
+    message = MessageFile(job, source.abspath)
 
     ##
     # Skips
@@ -357,8 +354,8 @@ def do_job_on_audiofile(source, job=None):
 
     if job.field_skip and  \
        (
-            not hasattr(meta, job.field_skip) or
-            not getattr(meta, job.field_skip)
+            not hasattr(source.meta, job.field_skip) or
+            not getattr(source.meta, job.field_skip)
        ):
         message.process(u'No field')
         count('no_field')
@@ -369,13 +366,14 @@ def do_job_on_audiofile(source, job=None):
     ##
 
     if job.output.mb_track_listing:
-        print(mb_track_listing.format_audiofile(meta.album, meta.title,
-                                                meta.length))
+        print(mb_track_listing.format_audiofile(source.meta.album,
+                                                source.meta.title,
+                                                source.meta.length))
         return
 
     if job.output.debug:
         phrydy.doc.Debug(
-            source,
+            source.abspath,
             Meta,
             Meta.fields,
             job.output.color,
@@ -388,15 +386,15 @@ def do_job_on_audiofile(source, job=None):
 
     if job.metadata_actions.enrich_metadata:
         print('Enrich metadata')
-        meta.enrich_metadata()
+        source.meta.enrich_metadata()
 
     if job.metadata_actions.remap_classical:
         print('Remap classical')
-        meta.remap_classical()
+        source.meta.remap_classical()
 
     if job.metadata_actions.remap_classical or \
             job.metadata_actions.enrich_metadata:
-        meta.save()
+        source.meta.save()
 
     ##
     # Rename action
@@ -404,21 +402,21 @@ def do_job_on_audiofile(source, job=None):
 
     if job.rename.move != 'no_rename':
 
-        if meta.soundtrack:
+        if source.meta.soundtrack:
             format_string = job.format.soundtrack
-        elif meta.comp:
+        elif source.meta.comp:
             format_string = job.format.compilation
         else:
             format_string = job.format.default
 
-        meta_dict = meta.export_dict()
+        meta_dict = source.meta.export_dict()
 
         target = process_target_path(meta_dict, format_string,
                                      job.shell_friendly)
 
         target = AudioFile(os.path.join(job.target,
-                           target + '.' + extension.lower()),
-                           prefix=job.target, file_type='target')
+                           target + '.' + source.extension),
+                           prefix=job.target, file_type='target', job=job)
 
         message.target = target.abspath
         existing_target = get_target(target.abspath, job.filter.extension)
@@ -431,12 +429,12 @@ def do_job_on_audiofile(source, job=None):
             create_dir(target.abspath)
             if job.rename.move == u'copy':
                 message.process(u'Copy')
-                shutil.copy2(source, target.abspath)
+                shutil.copy2(source.abspath, target.abspath)
             else:
                 message.process(u'Rename')
-                shutil.move(source, target.abspath)
+                shutil.move(source.abspath, target.abspath)
                 count('rename')
-        elif target.abspath == source:
+        elif target.abspath == source.abspath:
             message.process(u'Renamed')
             count('renamed')
         else:
@@ -444,6 +442,6 @@ def do_job_on_audiofile(source, job=None):
             count('exists')
             if job.rename.cleanup == 'delete':
                 meta_target = Meta(existing_target)
-                best_format(meta, meta_target)
-                os.remove(source)
-                print('Delete existing file: ' + source)
+                best_format(source.meta, meta_target)
+                os.remove(source.abspath)
+                print('Delete existing file: ' + source.abspath)
