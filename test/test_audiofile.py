@@ -11,6 +11,22 @@ import tempfile
 import helper
 
 
+class TestAudioFile(unittest.TestCase):
+
+    def test_existing(self):
+        abspath = helper.get_testfile('files', 'album.mp3')
+        prefix = helper.dir_cwd
+        result = audiofile.AudioFile(abspath, job=helper.get_job(),
+                                     prefix=prefix)
+        self.assertEqual(result.abspath, abspath)
+        self.assertEqual(result.type, 'source')
+        self.assertEqual(result.exists, True)
+        self.assertEqual(result.extension, 'mp3')
+        self.assertEqual(result.meta.path, abspath)
+        self.assertEqual(result.short, '[…]test/files/files/album.mp3')
+        self.assertEqual(result.prefix, prefix + os.path.sep)
+
+
 class TestMbTrackListing(unittest.TestCase):
 
     def setUp(self):

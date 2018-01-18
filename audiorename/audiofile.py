@@ -36,12 +36,54 @@ def create_dir(path):
 
 class AudioFile(object):
 
-    def __init__(self, abspath=None, type='source', basepath=None,
-                 relpath=None, extension='mp3'):
+    def __init__(self, path=None, file_type='source', prefix=None, job=None):
+        self.__path = path
+        self.type = file_type
+        self.job = job
+        self.__prefix = prefix
+        self.shorten_symbol = '[…]'
 
-        self._basepath = ''
-        self._relpath = ''
-        self._extension = ''
+    @property
+    def abspath(self):
+        return os.path.abspath(self.__path)
+
+    @property
+    def prefix(self):
+        if self.__prefix and len(self.__prefix) > 1:
+            if self.__prefix[-1] != os.path.sep:
+                return self.__prefix + os.path.sep
+            else:
+                return self.__prefix
+
+    @property
+    def meta(self):
+        if not self.job:
+            shell_friendly = True
+        else:
+            shell_friendly = self.job.shell_friendly
+        if self.exists:
+            try:
+                return Meta(self.abspath, shell_friendly)
+
+            except phrydy.mediafile.UnreadableFileError:
+                return False
+
+    @property
+    def exists(self):
+        return os.path.exists(self.abspath)
+
+    @property
+    def extension(self):
+        return self.abspath.split('.')[-1].lower()
+
+    @property
+    def short(self):
+        if self.prefix:
+            short = self.abspath.replace(self.prefix, '')
+        else:
+            short = os.path.basename(self.abspath)
+
+        return self.shorten_symbol + short
 
 
 class MBTrackListing(object):
