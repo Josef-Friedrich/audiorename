@@ -278,6 +278,20 @@ def work_recursion(work_id, works=[]):
     return works
 
 
+def dict_diff(first, second):
+        """Compare two dicts for differenes.
+
+        :param first: Fist dictionary to diff.
+        :param second: Second dicationary to diff.
+        :return diff: As list of key entries which values differ.
+        """
+        diff = []
+        for key, value in sorted(first.items()):
+            if first[key] != second[key]:
+                diff.append((key, first[key], second[key]))
+        return diff
+
+
 class Meta(MediaFile):
 
     def __init__(self, path, shell_friendly=False):

@@ -12,6 +12,59 @@ import helper
 from helper import get_meta
 
 
+class TestDictDiff(unittest.TestCase):
+
+    def test_identical(self):
+        tmp = helper.get_meta('files', 'album.mp3')
+        result = meta.dict_diff(tmp.export_dict(), tmp.export_dict())
+        self.assertEqual(result, [])
+
+    def test_one_diff(self):
+        tmp = helper.get_meta('files', 'album.mp3')
+        dict1 = tmp.export_dict()
+        tmp.title = 'diff'
+        dict2 = tmp.export_dict()
+        result = meta.dict_diff(dict1, dict2)
+        self.assertEqual(
+            result,
+            [
+                (u'title', 'full', 'diff'),
+                (u'title_classical', 'full', 'diff'),
+            ]
+        )
+
+    def test_multiple_diffs(self):
+        tmp = helper.get_meta('files', 'album.mp3')
+        dict1 = tmp.export_dict()
+        tmp.artist = 'diff'
+        tmp.track = 99
+        dict2 = tmp.export_dict()
+        result = meta.dict_diff(dict1, dict2)
+        self.assertEqual(
+            result,
+            [
+                (u'artist', 'the artist', 'diff'),
+                (u'disctrack', '4-02', '4-99'),
+                (u'track', '2', '99'),
+                (u'track_classical', '4-02', '4-99'),
+            ]
+        )
+
+    def test_del_attr(self):
+        tmp = helper.get_meta('files', 'album.mp3')
+        dict1 = tmp.export_dict()
+        delattr(tmp, 'title')
+        dict2 = tmp.export_dict()
+        result = meta.dict_diff(dict1, dict2)
+        self.assertEqual(
+            result,
+            [
+                (u'title', 'full', u''),
+                (u'title_classical', 'full', u''),
+            ]
+        )
+
+
 class TestEnrich(unittest.TestCase):
 
     def setUp(self):
