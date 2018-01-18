@@ -43,6 +43,17 @@ class AudioFile(object):
         self.__prefix = prefix
         self.shorten_symbol = '[…]'
 
+        if not self.job:
+            shell_friendly = True
+        else:
+            shell_friendly = self.job.shell_friendly
+        if self.exists:
+            try:
+                self.meta = Meta(self.abspath, shell_friendly)
+
+            except phrydy.mediafile.UnreadableFileError:
+                self.meta = False
+
     @property
     def abspath(self):
         return os.path.abspath(self.__path)
@@ -54,19 +65,6 @@ class AudioFile(object):
                 return self.__prefix + os.path.sep
             else:
                 return self.__prefix
-
-    @property
-    def meta(self):
-        if not self.job:
-            shell_friendly = True
-        else:
-            shell_friendly = self.job.shell_friendly
-        if self.exists:
-            try:
-                return Meta(self.abspath, shell_friendly)
-
-            except phrydy.mediafile.UnreadableFileError:
-                return False
 
     @property
     def exists(self):
