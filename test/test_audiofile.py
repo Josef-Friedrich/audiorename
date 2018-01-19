@@ -61,6 +61,21 @@ class TestClassMessage(unittest.TestCase):
         )
         self.message = audiofile.Message(self.job)
 
+    def test_attributes(self):
+        message = self.message
+        self.assertEqual(message.color, False)
+        self.assertEqual(message.verbose, False)
+        self.assertEqual(message.one_line, False)
+        self.assertEqual(message.indent, 4)
+        self.assertEqual(message.max_field, 20)
+
+    def test_diff(self):
+        with helper.Capturing() as output:
+            self.message.diff('title', '', 'full')
+
+        self.assertEqual(output[0], '    title:                “”')
+        self.assertEqual(output[1], '                          “full”')
+
     def test_message(self):
         with helper.Capturing() as output:
             self.message.message('Move')

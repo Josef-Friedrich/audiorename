@@ -13,6 +13,7 @@ from phrydy.utils import as_string
 from tmep import Functions
 from tmep import Template
 
+from .args import all_fields
 from .meta import Meta, dict_diff
 import six
 import re
@@ -194,10 +195,30 @@ class Message(object):
     def __init__(self, job):
         self.color = job.output.color
         self.verbose = job.output.verbose
+        self.one_line = job.output.one_line
         self.indent = 4
+        self.max_field = self.max_fields_length()
+
+    @staticmethod
+    def max_fields_length():
+        return phrydy.doc.get_max_field_length(all_fields)
 
     def message(self, format_string, *args):
         print(format_string)
+
+    def diff(self, key, value1, value2):
+        key_width = self.max_field + 2
+        value2_indent = self.indent + key_width
+        out = []
+        key += ':'
+
+        def quote(value):
+            return '“' + value + '”'
+        value1 = quote(value1)
+        value2 = quote(value2)
+        out.append(' ' * self.indent + key.ljust(self.max_field + 2) + value1)
+        out.append(' ' * value2_indent + value2)
+        print('\n'.join(out))
 
 
 def get_target(target, extensions):
