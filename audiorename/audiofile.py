@@ -308,6 +308,7 @@ class Action(object):
         self.job = job
         self.dry_run = job.dry_run
         self.__message = Message(job)
+        self.msg = Message(job)
 
     def message(self, *args):
         self.__message.message(*args)
@@ -329,15 +330,20 @@ class Action(object):
         if not self.dry_run:
             shutil.move(source.abspath, target.abspath)
 
-    def metadata(self, audio_file, actions):
+    def metadata(self, audio_file, enrich=False, remap=False):
         pre = audio_file.meta.export_dict()
-        for action in actions:
-            method = getattr(audio_file.meta, action)
-            method()
+
+        if enrich:
+            audio_file.meta.enrich_metadata()
+            print('Enrich metadata')
+        if remap:
+            audio_file.meta.remap_classical()
+
         post = audio_file.meta.export_dict()
         diff = dict_diff(pre, post)
 
-        print(diff)
+        for change in diff:
+            self.msg.diff(change[0], change[1], change[2])
 
         if not self.dry_run and len(diff) > 0:
             audio_file.meta.save()
@@ -392,6 +398,8 @@ def do_job_on_audiofile(source, job=None):
         job.stats.counter.count(key)
     skip = False
 
+    action = Action(job)
+
     source = AudioFile(source, prefix=os.getcwd(), file_type='source', job=job)
 
     if not source.meta:
@@ -439,17 +447,13 @@ def do_job_on_audiofile(source, job=None):
     # Metadata actions
     ##
 
-    if job.metadata_actions.enrich_metadata:
-        print('Enrich metadata')
-        source.meta.enrich_metadata()
-
-    if job.metadata_actions.remap_classical:
-        print('Remap classical')
-        source.meta.remap_classical()
-
     if job.metadata_actions.remap_classical or \
             job.metadata_actions.enrich_metadata:
-        source.meta.save()
+        action.metadata(
+            source,
+            job.metadata_actions.enrich_metadata,
+            job.metadata_actions.remap_classical
+        )
 
     ##
     # Rename action
