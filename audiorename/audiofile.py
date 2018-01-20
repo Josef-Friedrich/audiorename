@@ -214,16 +214,16 @@ class Message(object):
     def diff(self, key, value1, value2):
         key_width = self.max_field + 2
         value2_indent = self.indent + key_width
-        out = []
         key += ':'
 
         def quote(value):
             return '“' + value + '”'
+
         value1 = quote(value1)
         value2 = quote(value2)
-        out.append(' ' * self.indent + key.ljust(self.max_field + 2) + value1)
-        out.append(' ' * value2_indent + value2)
-        self.output('\n'.join(out))
+        self.output(' ' * self.indent + key.ljust(self.max_field + 2) \
+                    + value1)
+        self.output(' ' * value2_indent + value2)
 
 
 def get_target(target, extensions):
