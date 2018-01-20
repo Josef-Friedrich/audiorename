@@ -3,6 +3,8 @@
 """This module contains all functionality on the level of a single audio file.
 """
 
+from __future__ import print_function
+
 import os
 
 import ansicolor
@@ -205,6 +207,12 @@ class Message(object):
 
     def message(self, format_string, *args):
         print(format_string)
+
+    def output(self, text):
+        if self.one_line:
+            print(text.strip(), end=' ')
+        else:
+            print(text)
 
     def diff(self, key, value1, value2):
         key_width = self.max_field + 2
