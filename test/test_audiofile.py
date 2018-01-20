@@ -73,7 +73,6 @@ class TestClassMessage(unittest.TestCase):
         self.assertEqual(msg.color, False)
         self.assertEqual(msg.verbose, False)
         self.assertEqual(msg.one_line, False)
-        self.assertEqual(msg.indent, 4)
         self.assertEqual(msg.max_field, 20)
 
     def test_diff(self):

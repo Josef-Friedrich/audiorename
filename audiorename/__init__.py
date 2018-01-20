@@ -4,6 +4,7 @@
 
 import os
 import ansicolor
+from .audiofile import Message
 from audiorename.args import parse_args
 from .batch import Batch
 from ._version import get_versions
@@ -332,10 +333,13 @@ def execute(argv=None):
     try:
         args = parse_args(argv)
         job = Job(args)
+        msg = Message(job)
         job.stats.counter.reset()
         job.stats.timer.start()
         if job.output.job_info:
             job_info(job)
+        if job.dry_run:
+            msg.output('Dry run')
         batch = Batch(job)
         batch.execute()
         job.stats.timer.stop()

@@ -198,18 +198,48 @@ class Message(object):
         self.color = job.output.color
         self.verbose = job.output.verbose
         self.one_line = job.output.one_line
-        self.indent = 4
         self.max_field = self.max_fields_length()
 
     @staticmethod
     def max_fields_length():
         return phrydy.doc.get_max_field_length(all_fields)
 
-    def output(self, text):
+    def output(self, text=''):
         if self.one_line:
             print(text.strip(), end=' ')
         else:
             print(text)
+
+    def template_indent(self, level=1):
+        return (' ' * 4) * level
+
+    def template_path(self, audio_file):
+        if self.verbose:
+            path = audio_file.abspath
+        else:
+            path = audio_file.short
+
+        if self.color:
+            if audio_file.type == 'source':
+                path = ansicolor.magenta(path)
+            else:
+                path = ansicolor.yellow(path)
+
+        return path
+
+    def next_file(self, audio_file):
+        print()
+        path = audio_file.abspath
+        if self.color:
+            path = ansicolor.blue(path, reverse=True)
+        self.output(path)
+
+    def action_two_path(self, message, source, target):
+        self.output(self.template_indent(1) + message)
+        self.output(self.template_indent(2) + self.template_path(source))
+        self.output(self.template_indent(1) + 'to')
+        self.output(self.template_indent(2) + self.template_path(target))
+        self.output()
 
     def diff(self, key, value1, value2):
         key_width = self.max_field + 2
@@ -221,7 +251,7 @@ class Message(object):
 
         value1 = quote(value1)
         value2 = quote(value2)
-        self.output(' ' * self.indent + key.ljust(self.max_field + 2) \
+        self.output(' ' * self.indent + key.ljust(self.max_field + 2)
                     + value1)
         self.output(' ' * value2_indent + value2)
 
@@ -312,7 +342,6 @@ class Action(object):
     def __init__(self, job):
         self.job = job
         self.dry_run = job.dry_run
-        self.__message = Message(job)
         self.msg = Message(job)
 
     def backup(self, audio_file):
@@ -329,6 +358,7 @@ class Action(object):
         self.msg.output('delete')
 
     def move(self, source, target):
+        self.msg.action_two_path('Move', source, target)
         if not self.dry_run:
             shutil.move(source.abspath, target.abspath)
 
@@ -407,20 +437,20 @@ def do_job_on_audiofile(source, job=None):
     skip = False
 
     action = Action(job)
+    msg = Message(job)
 
     source = AudioFile(source, prefix=os.getcwd(), file_type='source', job=job)
+    msg.next_file(source)
 
     if not source.meta:
         skip = True
-
-    message = MessageFile(job, source.abspath)
 
     ##
     # Skips
     ##
 
     if skip:
-        message.process(u'Broken file')
+        msg.output(u'Broken file')
         return
 
     if job.field_skip and  \
@@ -428,7 +458,7 @@ def do_job_on_audiofile(source, job=None):
             not hasattr(source.meta, job.field_skip) or
             not getattr(source.meta, job.field_skip)
        ):
-        message.process(u'No field')
+        msg.output(u'No field')
         count('no_field')
         return
 
@@ -485,30 +515,21 @@ def do_job_on_audiofile(source, job=None):
                            target + '.' + source.extension),
                            prefix=job.target, file_type='target', job=job)
 
-        message.target = target.abspath
         existing_target = get_target(target.abspath, job.filter.extension)
 
-        if job.dry_run:
-            message.process(u'Dry run')
-            count('dry_run')
-
-        elif not existing_target:
+        if not existing_target:
             create_dir(target.abspath)
             if job.rename.move == u'copy':
-                message.process(u'Copy')
-                shutil.copy2(source.abspath, target.abspath)
+                action.copy(source, target)
             else:
-                message.process(u'Rename')
-                shutil.move(source.abspath, target.abspath)
-                count('rename')
+                action.move(source, target)
         elif target.abspath == source.abspath:
-            message.process(u'Renamed')
+            msg.output(u'Renamed')
             count('renamed')
         else:
-            message.process(u'Exists')
+            msg.output(u'Exists')
             count('exists')
             if job.rename.cleanup == 'delete':
                 meta_target = Meta(existing_target)
                 best_format(source.meta, meta_target)
-                os.remove(source.abspath)
-                print('Delete existing file: ' + source.abspath)
+                action.delete(source)
