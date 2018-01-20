@@ -333,17 +333,23 @@ class Action(object):
     def metadata(self, audio_file, enrich=False, remap=False):
         pre = audio_file.meta.export_dict()
 
+        def single_action(audio_file, method_name, message):
+            pre = audio_file.meta.export_dict()
+            method = getattr(audio_file.meta, method_name)
+            method()
+            post = audio_file.meta.export_dict()
+            diff = dict_diff(pre, post)
+            print(message)
+            for change in diff:
+                self.msg.diff(change[0], change[1], change[2])
+
         if enrich:
-            audio_file.meta.enrich_metadata()
-            print('Enrich metadata')
+            single_action(audio_file, 'enrich_metadata', 'Enrich metadata')
         if remap:
-            audio_file.meta.remap_classical()
+            single_action(audio_file, 'remap_classical', 'Remap classical')
 
         post = audio_file.meta.export_dict()
         diff = dict_diff(pre, post)
-
-        for change in diff:
-            self.msg.diff(change[0], change[1], change[2])
 
         if not self.dry_run and len(diff) > 0:
             audio_file.meta.save()
