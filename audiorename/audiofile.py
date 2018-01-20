@@ -205,9 +205,6 @@ class Message(object):
     def max_fields_length():
         return phrydy.doc.get_max_field_length(all_fields)
 
-    def message(self, format_string, *args):
-        print(format_string)
-
     def output(self, text):
         if self.one_line:
             print(text.strip(), end=' ')
@@ -226,7 +223,7 @@ class Message(object):
         value2 = quote(value2)
         out.append(' ' * self.indent + key.ljust(self.max_field + 2) + value1)
         out.append(' ' * value2_indent + value2)
-        print('\n'.join(out))
+        self.output('\n'.join(out))
 
 
 def get_target(target, extensions):
@@ -318,9 +315,6 @@ class Action(object):
         self.__message = Message(job)
         self.msg = Message(job)
 
-    def message(self, *args):
-        self.__message.message(*args)
-
     def backup(self, audio_file):
         if not self.dry_run:
             shutil.move(audio_file.abspath, audio_file.abspath + '.bak')
@@ -332,7 +326,7 @@ class Action(object):
     def delete(self, audio_file):
         if not self.dry_run:
             os.remove(audio_file.abspath)
-        self.message('delete')
+        self.msg.output('delete')
 
     def move(self, source, target):
         if not self.dry_run:
@@ -347,7 +341,7 @@ class Action(object):
             method()
             post = audio_file.meta.export_dict()
             diff = dict_diff(pre, post)
-            print(message)
+            self.msg.output(message)
             for change in diff:
                 self.msg.diff(change[0], change[1], change[2])
 

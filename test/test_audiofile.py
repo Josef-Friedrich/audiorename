@@ -83,12 +83,6 @@ class TestClassMessage(unittest.TestCase):
         self.assertEqual(output[0], '    title:                “”')
         self.assertEqual(output[1], '                          “full”')
 
-    def test_message(self):
-        msg = self.get_message()
-        with helper.Capturing() as output:
-            msg.message('Move')
-        self.assertEqual(output[0], 'Move')
-
     def test_output_one_line(self):
         msg = self.get_message(one_line=True)
         with helper.Capturing() as output:
