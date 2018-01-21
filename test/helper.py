@@ -116,11 +116,12 @@ def dry_run(options):
         audiorename.execute([
             '--target', '/',
             '--dry-run',
+            '--one-line',
+            '--verbose',
             '--shell-friendly'
         ] + options)
 
-    output = re.sub(r'.*-> ', '', output[1])
-    return re.sub(r'\x1b\[[\d;]*m', '', output)
+    return re.sub(r'.* to: ', '', join(output)).strip()
 
 
 def filter_source(output):

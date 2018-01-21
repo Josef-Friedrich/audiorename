@@ -27,16 +27,6 @@ if six.PY2:
     sys.setdefaultencoding('utf8')
 
 
-def create_dir(path):
-    path = os.path.dirname(path)
-
-    try:
-        os.makedirs(path)
-    except OSError as exception:
-        if exception.errno != errno.EEXIST:
-            raise
-
-
 class AudioFile(object):
 
     def __init__(self, path=None, file_type='source', prefix=None, job=None):
@@ -174,7 +164,7 @@ class Message(object):
     def action_two_path(self, message, source, target):
         self.output(self.template_indent(1) + message)
         self.output(self.template_indent(2) + self.template_path(source))
-        self.output(self.template_indent(2) + 'to')
+        self.output(self.template_indent(2) + 'to:')
         self.output(self.template_indent(2) + self.template_path(target))
         self.output()
 
@@ -292,6 +282,16 @@ class Action(object):
         if not self.dry_run:
             shutil.copy2(source.abspath, target.abspath)
 
+    def create_dir(self, audio_file):
+        if not self.dry_run:
+            path = os.path.dirname(audio_file.abspath)
+
+            try:
+                os.makedirs(path)
+            except OSError as exception:
+                if exception.errno != errno.EEXIST:
+                    raise
+
     def delete(self, audio_file):
         self.msg.action_one_path('Delete', audio_file)
         if not self.dry_run:
@@ -380,7 +380,8 @@ def do_job_on_audiofile(source, job=None):
     msg = Message(job)
 
     source = AudioFile(source, prefix=os.getcwd(), file_type='source', job=job)
-    msg.next_file(source)
+    if not job.output.mb_track_listing:
+        msg.next_file(source)
 
     if not source.meta:
         skip = True
@@ -458,7 +459,7 @@ def do_job_on_audiofile(source, job=None):
         existing_target = get_target(target.abspath, job.filter.extension)
 
         if not existing_target:
-            create_dir(target.abspath)
+            action.create_dir(target)
             if job.rename.move == u'copy':
                 action.copy(source, target)
             else:

@@ -29,7 +29,7 @@ class TestClassAction(unittest.TestCase):
         tmp = helper.get_tmp_file_object('classical', 'without_work.mp3')
 
         self.assertEqual(tmp.meta.mb_workid, None)
-        with helper.Capturing() as output:
+        with helper.Capturing():
             self.action.metadata(tmp, enrich=True)
 
         meta = Meta(tmp.abspath)
@@ -41,7 +41,7 @@ class TestClassAction(unittest.TestCase):
                                          '01.mp3')
 
         self.assertEqual(tmp.meta.album, 'Winterreise')
-        with helper.Capturing() as output:
+        with helper.Capturing():
             self.action.metadata(tmp, remap=True)
 
         meta = Meta(tmp.abspath)
