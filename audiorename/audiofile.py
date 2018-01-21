@@ -86,6 +86,15 @@ class AudioFile(object):
 
         return self.shorten_symbol + short
 
+    @property
+    def filename(self):
+        return os.path.basename(self.abspath)
+
+    @property
+    def dir_and_file(self):
+        path_segments = self.abspath.split(os.path.sep)
+        return os.path.sep.join(path_segments[-2:])
+
 
 class MBTrackListing(object):
 
@@ -106,87 +115,6 @@ class MBTrackListing(object):
 mb_track_listing = MBTrackListing()
 
 
-class MessageFile(object):
-    """Print out message on file level, foreach file to rename or to copy.
-
-    :param string job: A instance of the class
-        :class:`audiorename.Job`
-    :param string source: The source file
-    :param string target: The target file
-    """
-
-    def __init__(self, job, source, target=None):
-        self.job = job
-        self._source = source
-        if target:
-            self._target = target
-        self.verbose = job.output.verbose
-
-    @property
-    def source(self):
-        cwd = os.getcwd()
-        if not self.verbose and len(cwd) > 1:
-            return self._source.replace(cwd, '')
-        else:
-            return self._source
-
-    @property
-    def target(self):
-        if not hasattr(self, '_target'):
-            return ''
-        if not self.verbose and len(self.job.target) > 1:
-            return self._target.replace(self.job.target, '')
-        else:
-            return self._target
-
-    @target.setter
-    def target(self, value):
-        self._target = value
-
-    @staticmethod
-    def color(message):
-        if message == u'Rename' or message == u'Copy':
-            return u'yellow'
-        elif message == u'Renamed':
-            return u'green'
-        elif message == u'Dry run':
-            return u'white'
-        elif message == u'Exists' or \
-                message == 'No field' or \
-                message == u'Broken file':
-            return u'red'
-        else:
-            return u'white'
-
-    def process(self, message):
-        indent = 12
-        message_processed = message + u':'
-        message_processed = message_processed.ljust(indent)
-        message_processed = u'[' + message_processed + u']'
-
-        if self.job.output.color:
-            color = self.color(message)
-            colorize = getattr(ansicolor, color)
-            message_processed = colorize(message_processed, reverse=True)
-
-        if self.job.output.one_line:
-            connection = u' -> '
-        else:
-            connection = u'\n' + u'-> '.rjust(indent + 3)
-
-        line1 = message_processed + u' ' + self.source
-        if self.target:
-            if self.job.output.color:
-                target = ansicolor.yellow(self.target)
-            else:
-                target = self.target
-            line2 = connection + target
-        else:
-            line2 = u''
-
-        print(line1 + line2)
-
-
 class Message(object):
     """Print messages on the command line interface.
 
@@ -199,6 +127,7 @@ class Message(object):
         self.verbose = job.output.verbose
         self.one_line = job.output.one_line
         self.max_field = self.max_fields_length()
+        self.indent_width = 4
 
     @staticmethod
     def max_fields_length():
@@ -211,7 +140,7 @@ class Message(object):
             print(text)
 
     def template_indent(self, level=1):
-        return (' ' * 4) * level
+        return (' ' * self.indent_width) * level
 
     def template_path(self, audio_file):
         if self.verbose:
@@ -229,21 +158,29 @@ class Message(object):
 
     def next_file(self, audio_file):
         print()
-        path = audio_file.abspath
+        if self.verbose:
+            path = audio_file.abspath
+        else:
+            path = audio_file.dir_and_file
         if self.color:
             path = ansicolor.blue(path, reverse=True)
         self.output(path)
 
+    def action_one_path(self, message, audio_file):
+        self.output(self.template_indent(1) + message)
+        self.output(self.template_indent(2) + self.template_path(audio_file))
+        self.output()
+
     def action_two_path(self, message, source, target):
         self.output(self.template_indent(1) + message)
         self.output(self.template_indent(2) + self.template_path(source))
-        self.output(self.template_indent(1) + 'to')
+        self.output(self.template_indent(2) + 'to')
         self.output(self.template_indent(2) + self.template_path(target))
         self.output()
 
     def diff(self, key, value1, value2):
         key_width = self.max_field + 2
-        value2_indent = self.indent + key_width
+        value2_indent = self.indent_width + key_width
         key += ':'
 
         def quote(value):
@@ -251,7 +188,7 @@ class Message(object):
 
         value1 = quote(value1)
         value2 = quote(value2)
-        self.output(' ' * self.indent + key.ljust(self.max_field + 2)
+        self.output(' ' * self.indent_width + key.ljust(self.max_field + 2)
                     + value1)
         self.output(' ' * value2_indent + value2)
 
@@ -345,17 +282,20 @@ class Action(object):
         self.msg = Message(job)
 
     def backup(self, audio_file):
+        backup_file = AudioFile(audio_file.abspath + '.bak', type='target')
+        self.msg.action_two_path('Backup', audio_file, backup_file)
         if not self.dry_run:
-            shutil.move(audio_file.abspath, audio_file.abspath + '.bak')
+            shutil.move(audio_file.abspath, backup_file.abspath)
 
     def copy(self, source, target):
+        self.msg.action_two_path('Copy', source, target)
         if not self.dry_run:
             shutil.copy2(source.abspath, target.abspath)
 
     def delete(self, audio_file):
+        self.msg.action_one_path('Delete', audio_file)
         if not self.dry_run:
             os.remove(audio_file.abspath)
-        self.msg.output('delete')
 
     def move(self, source, target):
         self.msg.action_two_path('Move', source, target)

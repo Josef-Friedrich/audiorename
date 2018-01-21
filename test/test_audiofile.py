@@ -303,83 +303,39 @@ class TestOverwriteProtection(unittest.TestCase):
         shutil.rmtree(helper.dir_cwd + '/t/')
 
 
-class TestClassMessageFile(unittest.TestCase):
-
-    def setUp(self):
-        from audiorename.audiofile import MessageFile
-        self.MessageFile = MessageFile
-        self.job = helper.get_job(source='/tmp', source_as_target=True)
-
-    def message(self, **arguments):
-        job = helper.get_job(**arguments)
-        return self.MessageFile(job, 'source.mp3', 'target.mp3')
-
-    def test_without_target(self):
-        message = self.MessageFile(self.job, 'lol.mp3')
-        with helper.Capturing() as output:
-            message.process(u'lol')
-        self.assertTrue('[lol:        ]' in output[0])
-
-    def test_with_target(self):
-        message = self.MessageFile(self.job, 'source.mp3', 'target.mp3')
-        with helper.Capturing() as output:
-            message.process(u'lol')
-        self.assertTrue('target.mp3' in output[1])
-
-    def test_one_line(self):
-        message = self.message(source='/tmp', one_line=True)
-        with helper.Capturing() as output:
-            message.process(u'lol')
-        self.assertTrue('source.mp3' in output[0])
-        self.assertTrue('target.mp3' in output[0])
-
-    def test_two_lines(self):
-        message = self.message(source='/tmp', one_line=False)
-        with helper.Capturing() as output:
-            message.process(u'lol')
-        self.assertTrue('source.mp3' in output[0])
-        self.assertTrue('target.mp3' in output[1])
-
-    def test_no_color(self):
-        message = self.message(source='/tmp', color=False)
-        with helper.Capturing() as output:
-            message.process(u'lol')
-        self.assertTrue('] source.mp3' in output[0])
-
-    @unittest.skip('not working with tox')
-    def test_color(self):
-        message = self.message(source='/tmp', color=True)
-        with helper.Capturing() as output:
-            message.process(u'lol')
-        self.assertTrue(u']\x1b[0;0m source.mp3' in output[0])
-
-
 class TestUnicodeUnittest(unittest.TestCase):
 
     def setUp(self):
         self.uni = helper.get_testfile('äöü', 'ÅåÆæØø.mp3')
         self.renamed = os.path.join('/►', '►', '_',
                                     '_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3')
-        self.indent = '            -> '
 
     def test_dry_run(self):
         with helper.Capturing() as output:
-            audiorename.execute(['--dry-run', self.uni])
-        self.assertTrue(self.renamed in output[1])
+            audiorename.execute(['--one-line', '--dry-run', '--verbose',
+                                self.uni])
+        self.assertTrue(self.renamed in ' '.join(output))
 
     def test_rename(self):
         tmp_dir = tempfile.mkdtemp()
         tmp = os.path.join(tmp_dir, 'äöü.mp3')
         shutil.copyfile(self.uni, tmp)
         with helper.Capturing() as output:
-            audiorename.execute(['--target', tmp_dir, tmp])
-        self.assertTrue(self.renamed in output[1])
+            audiorename.execute(['--one-line', '--verbose', '--target',
+                                tmp_dir, tmp])
+        self.assertTrue(self.renamed in ' '.join(output))
 
     def test_copy(self):
         with helper.Capturing() as output:
-            audiorename.execute(['--copy', self.uni])
-        self.assertTrue(self.renamed in output[1])
-        shutil.rmtree(helper.dir_cwd + '/►/')
+            audiorename.execute(['--one-line', '--verbose', '--copy',
+                                self.uni])
+        self.assertTrue(self.renamed in ' '.join(output))
+
+    def tearDown(self):
+        try:
+            shutil.rmtree(helper.dir_cwd + '/►/')
+        except OSError:
+            pass
 
 
 class TestProcessTargetPath(unittest.TestCase):
