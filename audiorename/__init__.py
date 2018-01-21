@@ -2,10 +2,12 @@
 
 """Rename audio files from metadata tags."""
 
+from __future__ import print_function
+
 import os
 import ansicolor
-from .audiofile import Message
-from audiorename.args import parse_args
+import phrydy
+from .args import parse_args, all_fields
 from .batch import Batch
 from ._version import get_versions
 from collections import namedtuple, OrderedDict
@@ -198,6 +200,85 @@ class RenameAction(object):
             return u'move'
 
 
+class Message(object):
+    """Print messages on the command line interface.
+
+    :param job: The `job` object
+    :type job: audiorename.Job
+    """
+
+    def __init__(self, job):
+        self.color = job.output.color
+        self.verbose = job.output.verbose
+        self.one_line = job.output.one_line
+        self.max_field = self.max_fields_length()
+        self.indent_width = 4
+
+    @staticmethod
+    def max_fields_length():
+        return phrydy.doc.get_max_field_length(all_fields)
+
+    def output(self, text=''):
+        if self.one_line:
+            print(text.strip(), end=' ')
+        else:
+            print(text)
+
+    def template_indent(self, level=1):
+        return (' ' * self.indent_width) * level
+
+    def template_path(self, audio_file):
+        if self.verbose:
+            path = audio_file.abspath
+        else:
+            path = audio_file.short
+
+        if self.color:
+            if audio_file.type == 'source':
+                path = ansicolor.magenta(path)
+            else:
+                path = ansicolor.yellow(path)
+
+        return path
+
+    def next_file(self, audio_file):
+        print()
+        if self.verbose:
+            path = audio_file.abspath
+        else:
+            path = audio_file.dir_and_file
+        if self.color:
+            path = ansicolor.blue(path, reverse=True)
+        self.output(path)
+
+    def action_one_path(self, message, audio_file):
+        self.output(self.template_indent(1) + message)
+        self.output(self.template_indent(2) + self.template_path(audio_file))
+        self.output()
+
+    def action_two_path(self, message, source, target):
+        self.output(self.template_indent(1) + message)
+        self.output(self.template_indent(2) + self.template_path(source))
+        self.output(self.template_indent(2) + 'to:')
+        self.output(self.template_indent(2) + self.template_path(target))
+        self.output()
+
+    def diff(self, key, value1, value2):
+        key_width = self.max_field + 2
+        value2_indent = self.indent_width + key_width
+        key += ':'
+
+        def quote(value):
+            return '“' + value + '”'
+
+        value1 = quote(value1)
+        value2 = quote(value2)
+        self.output(' ' * self.indent_width +
+                    key.ljust(self.max_field + 2) +
+                    value1)
+        self.output(' ' * value2_indent + value2)
+
+
 class Job(object):
     """Holds informations of one job which can handle multiple files.
 
@@ -217,6 +298,7 @@ class Job(object):
         self.shell_friendly = args.shell_friendly
         self.rename = RenameAction(args)
         self.dry_run = args.dry_run
+        self.msg = Message(self)
 
     @property
     def filter(self):
@@ -333,13 +415,12 @@ def execute(*argv):
     try:
         args = parse_args(argv)
         job = Job(args)
-        msg = Message(job)
         job.stats.counter.reset()
         job.stats.timer.start()
         if job.output.job_info:
             job_info(job)
         if job.dry_run:
-            msg.output('Dry run')
+            job.msg.output('Dry run')
         batch = Batch(job)
         batch.execute()
         job.stats.timer.stop()

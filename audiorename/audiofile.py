@@ -7,7 +7,6 @@ from __future__ import print_function
 
 import os
 
-import ansicolor
 import shutil
 
 import phrydy
@@ -15,7 +14,6 @@ from phrydy.utils import as_string
 from tmep import Functions
 from tmep import Template
 
-from .args import all_fields
 from .meta import Meta, dict_diff
 import six
 import re
@@ -105,85 +103,6 @@ class MBTrackListing(object):
 mb_track_listing = MBTrackListing()
 
 
-class Message(object):
-    """Print messages on the command line interface.
-
-    :param job: The `job` object
-    :type job: audiorename.Job
-    """
-
-    def __init__(self, job):
-        self.color = job.output.color
-        self.verbose = job.output.verbose
-        self.one_line = job.output.one_line
-        self.max_field = self.max_fields_length()
-        self.indent_width = 4
-
-    @staticmethod
-    def max_fields_length():
-        return phrydy.doc.get_max_field_length(all_fields)
-
-    def output(self, text=''):
-        if self.one_line:
-            print(text.strip(), end=' ')
-        else:
-            print(text)
-
-    def template_indent(self, level=1):
-        return (' ' * self.indent_width) * level
-
-    def template_path(self, audio_file):
-        if self.verbose:
-            path = audio_file.abspath
-        else:
-            path = audio_file.short
-
-        if self.color:
-            if audio_file.type == 'source':
-                path = ansicolor.magenta(path)
-            else:
-                path = ansicolor.yellow(path)
-
-        return path
-
-    def next_file(self, audio_file):
-        print()
-        if self.verbose:
-            path = audio_file.abspath
-        else:
-            path = audio_file.dir_and_file
-        if self.color:
-            path = ansicolor.blue(path, reverse=True)
-        self.output(path)
-
-    def action_one_path(self, message, audio_file):
-        self.output(self.template_indent(1) + message)
-        self.output(self.template_indent(2) + self.template_path(audio_file))
-        self.output()
-
-    def action_two_path(self, message, source, target):
-        self.output(self.template_indent(1) + message)
-        self.output(self.template_indent(2) + self.template_path(source))
-        self.output(self.template_indent(2) + 'to:')
-        self.output(self.template_indent(2) + self.template_path(target))
-        self.output()
-
-    def diff(self, key, value1, value2):
-        key_width = self.max_field + 2
-        value2_indent = self.indent_width + key_width
-        key += ':'
-
-        def quote(value):
-            return '“' + value + '”'
-
-        value1 = quote(value1)
-        value2 = quote(value2)
-        self.output(' ' * self.indent_width +
-                    key.ljust(self.max_field + 2) +
-                    value1)
-        self.output(' ' * value2_indent + value2)
-
-
 def get_target(target, extensions):
     """Get the path of a existing audio file target. Search for audio files
     with different extensions.
@@ -270,16 +189,15 @@ class Action(object):
     def __init__(self, job):
         self.job = job
         self.dry_run = job.dry_run
-        self.msg = Message(job)
 
     def backup(self, audio_file):
         backup_file = AudioFile(audio_file.abspath + '.bak', type='target')
-        self.msg.action_two_path('Backup', audio_file, backup_file)
+        self.job.msg.action_two_path('Backup', audio_file, backup_file)
         if not self.dry_run:
             shutil.move(audio_file.abspath, backup_file.abspath)
 
     def copy(self, source, target):
-        self.msg.action_two_path('Copy', source, target)
+        self.job.msg.action_two_path('Copy', source, target)
         if not self.dry_run:
             shutil.copy2(source.abspath, target.abspath)
 
@@ -294,12 +212,12 @@ class Action(object):
                     raise
 
     def delete(self, audio_file):
-        self.msg.action_one_path('Delete', audio_file)
+        self.job.msg.action_one_path('Delete', audio_file)
         if not self.dry_run:
             os.remove(audio_file.abspath)
 
     def move(self, source, target):
-        self.msg.action_two_path('Move', source, target)
+        self.job.msg.action_two_path('Move', source, target)
         if not self.dry_run:
             shutil.move(source.abspath, target.abspath)
 
@@ -312,9 +230,9 @@ class Action(object):
             method()
             post = audio_file.meta.export_dict()
             diff = dict_diff(pre, post)
-            self.msg.output(message)
+            self.job.msg.output(message)
             for change in diff:
-                self.msg.diff(change[0], change[1], change[2])
+                self.job.msg.diff(change[0], change[1], change[2])
 
         if enrich:
             single_action(audio_file, 'enrich_metadata', 'Enrich metadata')
@@ -378,11 +296,10 @@ def do_job_on_audiofile(source, job=None):
     skip = False
 
     action = Action(job)
-    msg = Message(job)
 
     source = AudioFile(source, prefix=os.getcwd(), file_type='source', job=job)
     if not job.output.mb_track_listing:
-        msg.next_file(source)
+        job.msg.next_file(source)
 
     if not source.meta:
         skip = True
@@ -392,7 +309,7 @@ def do_job_on_audiofile(source, job=None):
     ##
 
     if skip:
-        msg.output(u'Broken file')
+        job.msg.output(u'Broken file')
         return
 
     if job.field_skip and  \
@@ -400,7 +317,7 @@ def do_job_on_audiofile(source, job=None):
             not hasattr(source.meta, job.field_skip) or
             not getattr(source.meta, job.field_skip)
        ):
-        msg.output(u'No field')
+        job.msg.output(u'No field')
         count('no_field')
         return
 
@@ -466,10 +383,10 @@ def do_job_on_audiofile(source, job=None):
             else:
                 action.move(source, target)
         elif target.abspath == source.abspath:
-            msg.output(u'Renamed')
+            job.msg.output(u'Renamed')
             count('renamed')
         else:
-            msg.output(u'Exists')
+            job.msg.output(u'Exists')
             count('exists')
             if job.rename.cleanup == 'delete':
                 meta_target = Meta(existing_target)
