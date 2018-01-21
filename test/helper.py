@@ -124,50 +124,8 @@ def dry_run(options):
 
 
 def filter_source(output):
-    """
-    :param list output: Output captured from the standard output of the
-        command line interface.
-
-    .. code:: Python
-
-        [
-            '\x1b[0;7;37m[Dry run:    ]\x1b[0;0m /tmp/album.mp3',
-            '            -> \x1b[0;0;33m/tmp/4-02_full.mp3\x1b[0;0m'
-        ]
-
-    :return: A filtered output list.
-
-    .. code:: Python
-
-        ['/tmp/album.mp3']
-
-    """
-    del output[1::2]
-    for i in range(len(output)):
-        output[i] = re.sub(r'.*\[.*:.*\].* ', '', output[i])
-    return output
-
-
-def filter_source_one_line(output):
-    """
-    :param list output: Output captured from the standard output of the
-        command line interface.
-
-    .. code:: Python
-
-        [
-            '\x1b[0;7;37m[Dry run:    ]\x1b[0;0m /tmp/album.mp3',
-            '            -> \x1b[0;0;33m/tmp/4-02_full.mp3\x1b[0;0m'
-        ]
-
-    :return: A filtered output list.
-
-    .. code:: Python
-
-        ['/tmp/album.mp3']
-
-    """
-    for i in range(len(output)):
-        output[i] = re.sub(r' -> .*', '', output[i])
-        output[i] = re.sub(r'.*\[.*:.*\].* ', '', output[i])
-    return output
+    filtered = []
+    for line in output:
+        if line and line[0] == os.path.sep:
+            filtered.append(line)
+    return filtered

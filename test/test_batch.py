@@ -54,9 +54,9 @@ class TestBatch(unittest.TestCase):
 
     def test_folder_complete(self):
         with helper.Capturing() as output:
-            audiorename.execute(['--dry-run', '--verbose', '--one-line',
+            audiorename.execute(['--dry-run', '--verbose',
                                 helper.get_testfile('files')])
-        self.assertEqual(self.all, helper.filter_source_one_line(output))
+        self.assertEqual(self.all, helper.filter_source(output))
 
     def test_folder_sub(self):
         with helper.Capturing() as output:
@@ -175,14 +175,14 @@ class TestSkip(unittest.TestCase):
                 '--verbose',
                 self.file
             ])
-        self.output = output
+        self.output = helper.join(output)
 
     def test_message(self):
-        self.assertTrue('Broken file' in self.output[0])
+        self.assertTrue('Broken file' in self.output)
 
     def test_file_in_message(self):
-        self.assertTrue('Broken file' in self.output[0])
-        self.assertTrue(self.file in self.output[0])
+        self.assertTrue('Broken file' in self.output)
+        self.assertTrue(self.file in self.output)
 
     def test_continuation(self):
         path = helper.get_testfile('broken')
