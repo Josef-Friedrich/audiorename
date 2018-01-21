@@ -113,13 +113,12 @@ def dry_run(options):
     :rtype string:
     """
     with Capturing() as output:
-        audiorename.execute([
+        audiorename.execute(
             '--target', '/',
             '--dry-run',
             '--one-line',
             '--verbose',
-            '--shell-friendly'
-        ] + options)
+            '--shell-friendly', *options)
 
     return re.sub(r'.* to: ', '', join(output)).strip()
 

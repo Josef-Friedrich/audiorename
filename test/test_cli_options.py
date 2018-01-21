@@ -176,10 +176,10 @@ class TestBasicCopy(unittest.TestCase):
     def setUp(self):
         self.tmp_album = helper.copy_to_tmp('files', 'album.mp3')
         with helper.Capturing():
-            audiorename.execute(['--copy', self.tmp_album])
+            audiorename.execute('--copy', self.tmp_album)
         self.tmp_compilation = helper.copy_to_tmp('files', 'compilation.mp3')
         with helper.Capturing():
-            audiorename.execute(['--copy', self.tmp_compilation])
+            audiorename.execute('--copy', self.tmp_compilation)
 
     def test_album(self):
         self.assertTrue(helper.is_file(self.tmp_album))
@@ -210,10 +210,10 @@ class TestDebug(unittest.TestCase):
         tmp = helper.get_testfile('files', 'album.mp3')
 
         with helper.Capturing() as output:
-            audiorename.execute([
+            audiorename.execute(
                 '--debug',
                 tmp
-            ])
+            )
 
         self.assertEqual(output[-1], u'          year_safe: 2001')
 
@@ -231,24 +231,24 @@ class TestDeleteExisting(unittest.TestCase):
         self.assertTrue(os.path.isfile(tmp2))
 
         with helper.Capturing() as output1:
-            audiorename.execute([
+            audiorename.execute(
                 '--delete-existing',
                 '--target',
                 target,
                 tmp1
-            ])
+            )
 
         self.assertTrue('Move' in helper.join(output1))
         self.assertFalse(os.path.isfile(tmp1))
         self.assertTrue(os.path.isfile(tmp2))
 
         with helper.Capturing() as output2:
-            audiorename.execute([
+            audiorename.execute(
                 '--delete-existing',
                 '--target',
                 target,
                 tmp2
-            ])
+            )
 
         self.assertTrue('Delete' in helper.join(output2))
         self.assertFalse(os.path.isfile(tmp1))
@@ -261,11 +261,11 @@ class TestDryRun(unittest.TestCase):
     def setUp(self):
         self.tmp_album = helper.copy_to_tmp('files', 'album.mp3')
         with helper.Capturing() as self.output_album:
-            audiorename.execute(['--dry-run', self.tmp_album])
+            audiorename.execute('--dry-run', self.tmp_album)
 
         self.tmp_compilation = helper.copy_to_tmp('files', 'compilation.mp3')
         with helper.Capturing() as self.output_compilation:
-            audiorename.execute(['--dry-run', self.tmp_compilation])
+            audiorename.execute('--dry-run', self.tmp_compilation)
 
     def test_output_album(self):
         self.assertTrue(helper.has(self.output_album, 'Dry run'))
@@ -306,7 +306,7 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertEqual(orig.work, None)
 
         with helper.Capturing() as output:
-            audiorename.execute(['--enrich-metadata', '--no-rename', tmp])
+            audiorename.execute('--enrich-metadata', '--no-rename', tmp)
 
         self.assertTrue('Enrich metadata' in helper.join(output))
 
@@ -322,20 +322,20 @@ class TestSkipIfEmpty(unittest.TestCase):
 
     def setUp(self):
         with helper.Capturing() as self.album:
-            audiorename.execute([
+            audiorename.execute(
                 '--field-skip',
                 'lol',
                 helper.copy_to_tmp('files', 'album.mp3')
-            ])
+            )
         with helper.Capturing() as self.compilation:
-            audiorename.execute([
+            audiorename.execute(
                 '--field-skip',
                 'album',
                 '-d',
                 '-c',
                 '/tmp/c',
                 helper.copy_to_tmp('files', 'compilation.mp3')
-            ])
+            )
 
     def test_album(self):
         self.assertTrue(helper.has(self.album, 'No field'))
@@ -349,17 +349,17 @@ class TestCustomFormats(unittest.TestCase):
 
     def setUp(self):
         with helper.Capturing():
-            audiorename.execute([
+            audiorename.execute(
                 '--format',
                 'tmp/$title - $artist',
                 helper.copy_to_tmp('files', 'album.mp3')
-            ])
+            )
         with helper.Capturing():
-            audiorename.execute([
+            audiorename.execute(
                 '--compilation',
                 'tmp/comp_$title - $artist',
                 helper.copy_to_tmp('files', 'compilation.mp3')
-            ])
+            )
 
     def test_format(self):
         self.assertTrue(os.path.isfile(
@@ -380,8 +380,8 @@ class TestJobInfo(unittest.TestCase):
 
     def test_dry_run(self):
         with helper.Capturing() as output:
-            audiorename.execute(['--dry-run', '--job-info',
-                                helper.get_testfile('mixed_formats')])
+            audiorename.execute('--dry-run', '--job-info',
+                                helper.get_testfile('mixed_formats'))
 
         output = str(output)
         self.assertTrue('Versions: ' in output)
@@ -397,16 +397,16 @@ class TestMbTrackListing(unittest.TestCase):
 
     def mb_track_listing(self, folder, track):
         with helper.Capturing() as output:
-            audiorename.execute([
+            audiorename.execute(
                 '--mb-track-listing',
                 helper.get_testfile('classical', folder, track)
-            ])
+            )
         return output[0]
 
     def test_debussy(self):
         audiorename.audiofile.counter = 0
-        self.assertEqual(self.mb_track_listing('Debussy_Estampes-etc',
-                         '01.mp3'),
+        result = self.mb_track_listing('Debussy_Estampes-etc', '01.mp3')
+        self.assertEqual(result,
                          '1. Estampes/Images/Pour le Piano: Estampes: ' +
                          'Pagodes (0:00)')
 
@@ -418,10 +418,10 @@ class TestMbTrackListing(unittest.TestCase):
 
     def test_folder(self):
         with helper.Capturing() as output:
-            audiorename.execute([
+            audiorename.execute(
                 '--mb-track-listing',
                 helper.get_testfile('classical', 'Schubert_Winterreise')
-            ])
+            )
 
         self.assertEqual(
             output[0],
@@ -519,21 +519,21 @@ class TestSourceAsTarget(unittest.TestCase):
         self.tmp_album = helper.copy_to_tmp('files', 'album.mp3')
         self.dir_album = os.path.dirname(self.tmp_album)
         with helper.Capturing():
-            audiorename.execute([
+            audiorename.execute(
                 '--source-as-target',
                 '-f',
                 'a',
                 self.tmp_album
-            ])
+            )
 
         self.tmp_compilation = helper.copy_to_tmp('files', 'compilation.mp3')
         with helper.Capturing():
-            audiorename.execute([
+            audiorename.execute(
                 '--source-as-target',
                 '-c',
                 'c',
                 self.tmp_compilation
-            ])
+            )
 
     def test_album(self):
         self.assertTrue(helper.is_file(self.dir_album + '/a.mp3'))
@@ -544,8 +544,8 @@ class TestStats(unittest.TestCase):
 
     def test_dry_run(self):
         with helper.Capturing() as output:
-            audiorename.execute(['--dry-run', '--stats',
-                                helper.get_testfile('mixed_formats')])
+            audiorename.execute('--dry-run', '--stats',
+                                helper.get_testfile('mixed_formats'))
 
         self.assertTrue('Execution time:' in helper.join(output))
         self.assertTrue('Counter:' in helper.join(output))
@@ -558,23 +558,23 @@ class TestTarget(unittest.TestCase):
         self.tmp_dir = tempfile.mkdtemp()
         self.tmp_album = helper.copy_to_tmp('files', 'album.mp3')
         with helper.Capturing():
-            audiorename.execute([
+            audiorename.execute(
                 '--target',
                 self.tmp_dir,
                 '-f',
                 'album',
                 self.tmp_album
-            ])
+            )
 
         self.tmp_compilation = helper.copy_to_tmp('files', 'compilation.mp3')
         with helper.Capturing():
-            audiorename.execute([
+            audiorename.execute(
                 '--target',
                 self.tmp_dir,
                 '-c',
                 'compilation',
                 self.tmp_compilation
-            ])
+            )
 
     def test_album(self):
         self.assertTrue(helper.is_file(self.tmp_dir + '/album.mp3'))
@@ -595,13 +595,13 @@ class TestVerbose(unittest.TestCase):
         target = tempfile.mkdtemp()
 
         with helper.Capturing() as output:
-            audiorename.execute([
+            audiorename.execute(
                 '--copy',
                 '--verbose',
                 '--target',
                 target,
                 tmp
-            ])
+            )
 
         # '[Copy:       ] /tmp/tmpisugl3hp/album.mp3'
         # '            -> /tmp/tmpcwqxsfgx/t/the album artist/the
@@ -615,12 +615,12 @@ class TestVerbose(unittest.TestCase):
         target = tempfile.mkdtemp()
 
         with helper.Capturing() as output:
-            audiorename.execute([
+            audiorename.execute(
                 '--copy',
                 '--target',
                 target,
                 tmp
-            ])
+            )
         # '[Copy:       ] /tmp/tmpycwB06/album.mp3'
         # '            -> /t/the album artist/the album_2001/4-02_full.mp3'
 

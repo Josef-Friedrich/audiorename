@@ -236,10 +236,10 @@ class TestBasicRename(unittest.TestCase):
     def setUp(self):
         self.tmp_album = helper.copy_to_tmp('files', 'album.mp3')
         with helper.Capturing():
-            audiorename.execute([self.tmp_album])
+            audiorename.execute(self.tmp_album)
         self.tmp_compilation = helper.copy_to_tmp('files', 'compilation.mp3')
         with helper.Capturing():
-            audiorename.execute([self.tmp_compilation])
+            audiorename.execute(self.tmp_compilation)
 
     def test_album(self):
         self.assertFalse(os.path.isfile(self.tmp_album))
@@ -263,34 +263,34 @@ class TestOverwriteProtection(unittest.TestCase):
     def setUp(self):
         self.tmp_album = helper.copy_to_tmp('files', 'album.mp3')
         with helper.Capturing():
-            audiorename.execute(['--copy', self.tmp_album])
+            audiorename.execute('--copy', self.tmp_album)
         self.tmp_compilation = helper.copy_to_tmp('files', 'compilation.mp3')
         with helper.Capturing():
-            audiorename.execute(['--copy', self.tmp_compilation])
+            audiorename.execute('--copy', self.tmp_compilation)
 
     def test_album(self):
         with helper.Capturing() as output:
-            audiorename.execute([self.tmp_album])
+            audiorename.execute(self.tmp_album)
         self.assertTrue('Exists' in helper.join(output))
 
     def test_compilation(self):
         with helper.Capturing() as output:
-            audiorename.execute([self.tmp_compilation])
+            audiorename.execute(self.tmp_compilation)
         self.assertTrue('Exists' in helper.join(output))
 
     def test_album_already_renamed(self):
         with helper.Capturing():
-            audiorename.execute([self.tmp_album])
+            audiorename.execute(self.tmp_album)
         with helper.Capturing() as output:
-            audiorename.execute([helper.dir_cwd + helper.path_album])
+            audiorename.execute(helper.dir_cwd + helper.path_album)
 
         self.assertTrue('Renamed' in helper.join(output))
 
     def test_compilation_already_renamed(self):
         with helper.Capturing():
-            audiorename.execute([self.tmp_compilation])
+            audiorename.execute(self.tmp_compilation)
         with helper.Capturing() as output:
-            audiorename.execute([helper.dir_cwd + helper.path_compilation])
+            audiorename.execute(helper.dir_cwd + helper.path_compilation)
 
         self.assertTrue('Renamed' in helper.join(output))
 
@@ -308,8 +308,8 @@ class TestUnicodeUnittest(unittest.TestCase):
 
     def test_dry_run(self):
         with helper.Capturing() as output:
-            audiorename.execute(['--one-line', '--dry-run', '--verbose',
-                                self.uni])
+            audiorename.execute('--one-line', '--dry-run', '--verbose',
+                                self.uni)
         self.assertTrue(self.renamed in ' '.join(output))
 
     def test_rename(self):
@@ -317,14 +317,14 @@ class TestUnicodeUnittest(unittest.TestCase):
         tmp = os.path.join(tmp_dir, 'äöü.mp3')
         shutil.copyfile(self.uni, tmp)
         with helper.Capturing() as output:
-            audiorename.execute(['--one-line', '--verbose', '--target',
-                                tmp_dir, tmp])
+            audiorename.execute('--one-line', '--verbose', '--target',
+                                tmp_dir, tmp)
         self.assertTrue(self.renamed in ' '.join(output))
 
     def test_copy(self):
         with helper.Capturing() as output:
-            audiorename.execute(['--one-line', '--verbose', '--copy',
-                                self.uni])
+            audiorename.execute('--one-line', '--verbose', '--copy',
+                                self.uni)
         self.assertTrue(self.renamed in ' '.join(output))
 
     def tearDown(self):

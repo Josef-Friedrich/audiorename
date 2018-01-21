@@ -323,7 +323,7 @@ def stats(job):
     print(kv.result())
 
 
-def execute(argv=None):
+def execute(*argv):
     """Main function
 
     :param list argv: The command line arguments specified as a list: e. g
