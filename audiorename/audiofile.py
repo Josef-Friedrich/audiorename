@@ -190,14 +190,19 @@ class Action(object):
         self.job = job
         self.dry_run = job.dry_run
 
+    def count(self, counter_name):
+        self.job.stats.counter.count(counter_name)
+
     def backup(self, audio_file):
         backup_file = AudioFile(audio_file.abspath + '.bak', type='target')
         self.job.msg.action_two_path('Backup', audio_file, backup_file)
+        self.count('backup')
         if not self.dry_run:
             shutil.move(audio_file.abspath, backup_file.abspath)
 
     def copy(self, source, target):
         self.job.msg.action_two_path('Copy', source, target)
+        self.count('copy')
         if not self.dry_run:
             shutil.copy2(source.abspath, target.abspath)
 
@@ -213,11 +218,13 @@ class Action(object):
 
     def delete(self, audio_file):
         self.job.msg.action_one_path('Delete', audio_file)
+        self.count('delete')
         if not self.dry_run:
             os.remove(audio_file.abspath)
 
     def move(self, source, target):
         self.job.msg.action_two_path('Move', source, target)
+        self.count('move')
         if not self.dry_run:
             shutil.move(source.abspath, target.abspath)
 
@@ -230,6 +237,8 @@ class Action(object):
             method()
             post = audio_file.meta.export_dict()
             diff = dict_diff(pre, post)
+            if diff:
+                self.count(method_name)
             self.job.msg.output(message)
             for change in diff:
                 self.job.msg.diff(change[0], change[1], change[2])
@@ -242,7 +251,7 @@ class Action(object):
         post = audio_file.meta.export_dict()
         diff = dict_diff(pre, post)
 
-        if not self.dry_run and len(diff) > 0:
+        if not self.dry_run and diff:
             audio_file.meta.save()
 
 
