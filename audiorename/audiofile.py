@@ -178,8 +178,9 @@ class Message(object):
 
         value1 = quote(value1)
         value2 = quote(value2)
-        self.output(' ' * self.indent_width + key.ljust(self.max_field + 2)
-                    + value1)
+        self.output(' ' * self.indent_width +
+                    key.ljust(self.max_field + 2) +
+                    value1)
         self.output(' ' * value2_indent + value2)
 
 
