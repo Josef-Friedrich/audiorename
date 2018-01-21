@@ -77,6 +77,10 @@ def is_file(path):
     return os.path.isfile(path)
 
 
+def join(output_list):
+    return ' '.join(output_list)
+
+
 class Capturing(list):
 
     def __init__(self, channel='out'):

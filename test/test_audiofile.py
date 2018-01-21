@@ -23,7 +23,7 @@ class TestClassAction(unittest.TestCase):
         with helper.Capturing() as output:
             self.action.delete(tmp)
         self.assertFalse(os.path.exists(tmp.abspath))
-        self.assertEqual(output[0], 'delete')
+        self.assertTrue('Delete' in helper.join(output))
 
     def test_method_metadata_enrich(self):
         tmp = helper.get_tmp_file_object('classical', 'without_work.mp3')
@@ -31,8 +31,6 @@ class TestClassAction(unittest.TestCase):
         self.assertEqual(tmp.meta.mb_workid, None)
         with helper.Capturing() as output:
             self.action.metadata(tmp, enrich=True)
-
-        print(output)
 
         meta = Meta(tmp.abspath)
         self.assertEqual(meta.mb_workid,
@@ -45,8 +43,6 @@ class TestClassAction(unittest.TestCase):
         self.assertEqual(tmp.meta.album, 'Winterreise')
         with helper.Capturing() as output:
             self.action.metadata(tmp, remap=True)
-
-        print(output)
 
         meta = Meta(tmp.abspath)
         self.assertEqual(meta.album,
@@ -275,12 +271,12 @@ class TestOverwriteProtection(unittest.TestCase):
     def test_album(self):
         with helper.Capturing() as output:
             audiorename.execute([self.tmp_album])
-        self.assertTrue('Exists' in output[0])
+        self.assertTrue('Exists' in helper.join(output))
 
     def test_compilation(self):
         with helper.Capturing() as output:
             audiorename.execute([self.tmp_compilation])
-        self.assertTrue('Exists' in output[0])
+        self.assertTrue('Exists' in helper.join(output))
 
     def test_album_already_renamed(self):
         with helper.Capturing():
@@ -288,7 +284,7 @@ class TestOverwriteProtection(unittest.TestCase):
         with helper.Capturing() as output:
             audiorename.execute([helper.dir_cwd + helper.path_album])
 
-        self.assertTrue('Renamed' in output[0])
+        self.assertTrue('Renamed' in helper.join(output))
 
     def test_compilation_already_renamed(self):
         with helper.Capturing():
@@ -296,7 +292,7 @@ class TestOverwriteProtection(unittest.TestCase):
         with helper.Capturing() as output:
             audiorename.execute([helper.dir_cwd + helper.path_compilation])
 
-        self.assertTrue('Renamed' in output[0])
+        self.assertTrue('Renamed' in helper.join(output))
 
     def tearDown(self):
         shutil.rmtree(helper.dir_cwd + '/_compilations/')
