@@ -155,6 +155,9 @@ def parse_args(argv):
     :return: Dictionary see :class:`audiorename.args.ArgsDefault`
     """
 
+    if not argv:
+        argv = None
+
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=description()
