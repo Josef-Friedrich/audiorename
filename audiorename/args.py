@@ -414,6 +414,7 @@ def parse_args(argv):
 
     # mb_track_listing
     output.add_argument(
+        '-l',
         '--mb-track-listing',
         help='Print track listing for Musicbrainz website: Format: track. \
         title (duration), e. g.: \
