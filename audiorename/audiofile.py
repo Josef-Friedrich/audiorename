@@ -203,6 +203,7 @@ class Action(object):
     def copy(self, source, target):
         self.job.msg.action_two_path('Copy', source, target)
         self.count('copy')
+        self.create_dir(target)
         if not self.dry_run:
             shutil.copy2(source.abspath, target.abspath)
 
@@ -225,6 +226,7 @@ class Action(object):
     def move(self, source, target):
         self.job.msg.action_two_path('Move', source, target)
         self.count('move')
+        self.create_dir(target)
         if not self.dry_run:
             shutil.move(source.abspath, target.abspath)
 
@@ -253,49 +255,6 @@ class Action(object):
 
         if not self.dry_run and diff:
             audio_file.meta.save()
-
-
-def rename_actions(source_path, desired_target_path, job):
-    """"""
-
-    action = Action(job)
-
-    source = Meta(source_path)
-
-    target_path = get_target(desired_target_path, job.filter.extension)
-
-    if target_path:
-        target = Meta(target_path)
-        best = best_format(target, source)
-
-    # Actions
-
-    # do nothing
-    if source_path == desired_target_path:
-        return []
-
-    # delete source
-    if job.rename.delete and desired_target_path == target_path:
-        action.delete(source_path)
-
-    # delete target
-    if job.rename.best_format and best == 'source' and target_path:
-        # backup
-        if job.rename.cleanup == 'backup':
-            action.backup(target_path)
-        elif job.rename.cleanup == 'delete':
-            action.delete(target_path)
-
-        if job.rename.cleanup:
-            target_path = None
-
-    # copy
-    if job.rename.move == 'copy' and not target_path:
-        action.copy(source_path, desired_target_path)
-
-    # move
-    if job.rename.move == 'move' and not target_path:
-        action.move(source_path, desired_target_path)
 
 
 def do_job_on_audiofile(source, job=None):
@@ -376,28 +335,63 @@ def do_job_on_audiofile(source, job=None):
 
         meta_dict = source.meta.export_dict()
 
-        target = process_target_path(meta_dict, format_string,
-                                     job.shell_friendly)
+        desired_target_path = process_target_path(meta_dict, format_string,
+                                                  job.shell_friendly)
+        desired_target_path = os.path.join(
+            job.target,
+            desired_target_path + '.' + source.extension
+        )
 
-        target = AudioFile(os.path.join(job.target,
-                           target + '.' + source.extension),
-                           prefix=job.target, file_type='target', job=job)
+        desired_target = AudioFile(desired_target_path, prefix=job.target,
+                                   file_type='target', job=job)
 
-        existing_target = get_target(target.abspath, job.filter.extension)
+        # Do nothing
+        if source.abspath == desired_target.abspath:
+            job.msg.output('Renamed')
+            return
 
-        if not existing_target:
-            action.create_dir(target)
-            if job.rename.move == u'copy':
-                action.copy(source, target)
-            else:
-                action.move(source, target)
-        elif target.abspath == source.abspath:
-            job.msg.output(u'Renamed')
-            count('renamed')
-        else:
-            job.msg.output(u'Exists')
-            count('exists')
-            if job.rename.cleanup == 'delete':
-                meta_target = Meta(existing_target)
-                best_format(source.meta, meta_target)
-                action.delete(source)
+        # Search existing target
+        target = False
+        target_path = get_target(desired_target.abspath, job.filter.extension)
+        if target_path:
+            target = AudioFile(target_path, prefix=job.target,
+                               file_type='target', job=job)
+
+        # Both file exist
+        if target:
+            best = best_format(source.meta, target.meta)
+
+            if job.rename.cleanup:
+
+                # delete source
+                if not job.rename.best_format or \
+                   (job.rename.best_format and best == 'target'):
+                    # backup
+                    if job.rename.cleanup == 'backup':
+                        action.backup(source)
+                    # delete
+                    elif job.rename.cleanup == 'delete':
+                        action.delete(source)
+
+                # delete target
+                if job.rename.best_format and best == 'source':
+                    # backup
+                    if job.rename.cleanup == 'backup':
+                        action.backup(target)
+                    # delete
+                    elif job.rename.cleanup == 'delete':
+                        action.delete(target)
+
+                    # Unset target object to trigger copy or move actions.
+                    target = None
+
+        if target:
+            job.msg.output('Exists')
+
+        # copys
+        elif job.rename.move == 'copy':
+            action.copy(source, desired_target)
+
+        # move
+        elif job.rename.move == 'move':
+            action.move(source, desired_target)
