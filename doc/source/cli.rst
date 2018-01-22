@@ -393,7 +393,7 @@ Comande line interface
     
     optional arguments:
       -h, --help            show this help message and exit
-      -D, --delete-existing
+      -D, --delete
                             Delete source file if the target file already exists.
       -s FIELD_SKIP, --field-skip FIELD_SKIP
                             Skip renaming if field is empty.

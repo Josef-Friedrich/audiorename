@@ -171,10 +171,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.debug, False)
         self.assertEqual(self.args.debug, self.default.debug)
 
-    def test_delete_existing(self):
-        self.assertEqual(self.args.delete_existing, False)
-        self.assertEqual(self.args.delete_existing,
-                         self.default.delete_existing)
+    def test_delete(self):
+        self.assertEqual(self.args.delete, False)
+        self.assertEqual(self.args.delete,
+                         self.default.delete)
 
     def test_dry_run(self):
         self.assertEqual(self.args.dry_run, False)

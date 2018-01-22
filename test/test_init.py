@@ -193,9 +193,9 @@ class TestJob(unittest.TestCase):
         self.args.backup = True
         self.assertEqual(job.rename.cleanup, u'backup')
 
-    # delete_existing
+    # delete
     def test_rename_cleanup_delete(self):
-        self.args.delete_existing = True
+        self.args.delete = True
         job = Job(self.args)
         self.assertEqual(job.rename.cleanup, u'delete')
 

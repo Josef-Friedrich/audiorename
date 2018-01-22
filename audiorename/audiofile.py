@@ -266,7 +266,7 @@ def rename_actions(source_path, desired_target_path, job):
         return []
 
     # delete source
-    if job.rename.delete_existing and desired_target_path == target_path:
+    if job.rename.delete and desired_target_path == target_path:
         action.delete(source_path)
 
     # delete target

@@ -100,7 +100,7 @@ class ArgsDefault():
     compilation = False
     copy = False
     debug = False
-    delete_existing = False
+    delete = False
     dry_run = False
     enrich_metadata = False
     extension = 'mp3,m4a,flac,wma'
@@ -282,10 +282,10 @@ def parse_args(argv):
         action='store_true'
     )
 
-    # delete_existing
+    # delete
     rename.add_argument(
         '-D',
-        '--delete-existing',
+        '--delete',
         help='Delete files.',
         action='store_true'
     )

@@ -174,7 +174,7 @@ class RenameAction(object):
     def cleanup(self):
         if self._args.backup:
             return u'backup'
-        elif self._args.delete_existing:
+        elif self._args.delete:
             return u'delete'
         else:
             return False

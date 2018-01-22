@@ -218,10 +218,10 @@ class TestDebug(unittest.TestCase):
         self.assertEqual(output[-1], u'          year_safe: 2001')
 
 
-# --delete-existing
+# --delete
 class TestDeleteExisting(unittest.TestCase):
 
-    def test_delete_existing(self):
+    def test_delete(self):
         tmp1 = helper.copy_to_tmp('files', 'album.mp3')
         tmp2 = helper.copy_to_tmp('files', 'album.mp3')
 
@@ -232,7 +232,7 @@ class TestDeleteExisting(unittest.TestCase):
 
         with helper.Capturing() as output1:
             audiorename.execute(
-                '--delete-existing',
+                '--delete',
                 '--target',
                 target,
                 tmp1
@@ -244,7 +244,7 @@ class TestDeleteExisting(unittest.TestCase):
 
         with helper.Capturing() as output2:
             audiorename.execute(
-                '--delete-existing',
+                '--delete',
                 '--target',
                 target,
                 tmp2
