@@ -193,6 +193,12 @@ class Action(object):
     def count(self, counter_name):
         self.job.stats.counter.count(counter_name)
 
+    def cleanup(self, audio_file):
+        if self.job.rename.cleanup == 'backup':
+            self.backup(audio_file)
+        elif self.job.rename.cleanup == 'delete':
+            self.delete(audio_file)
+
     def backup(self, audio_file):
         backup_file = AudioFile(audio_file.abspath + '.bak', type='target')
         self.job.msg.action_two_path('Backup', audio_file, backup_file)
@@ -365,21 +371,11 @@ def do_job_on_audiofile(source, job=None):
                 # delete source
                 if not job.rename.best_format or \
                    (job.rename.best_format and best == 'target'):
-                    # backup
-                    if job.rename.cleanup == 'backup':
-                        action.backup(source)
-                    # delete
-                    elif job.rename.cleanup == 'delete':
-                        action.delete(source)
+                    action.cleanup(source)
 
                 # delete target
                 if job.rename.best_format and best == 'source':
-                    # backup
-                    if job.rename.cleanup == 'backup':
-                        action.backup(target)
-                    # delete
-                    elif job.rename.cleanup == 'delete':
-                        action.delete(target)
+                    action.cleanup(target)
 
                     # Unset target object to trigger copy or move actions.
                     target = None
