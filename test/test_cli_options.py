@@ -10,6 +10,41 @@ import tempfile
 import helper
 
 
+# --best-format
+class TestBestFormat(unittest.TestCase):
+
+    def setUp(self):
+        self.target = tempfile.mkdtemp()
+        self.high_quality = self.get_quality('flac.flac')
+        self.low_quality = self.get_quality('mp3_320.mp3')
+
+    def move(self, source):
+        audiorename.execute('--best-format', '--delete', '--one-line',
+                            '--target', self.target, '--format', 'test-file',
+                            source)
+
+    def get_quality(self, filename):
+        return helper.copy_to_tmp('quality', filename)
+
+    def test_delete_source(self):
+        self.move(self.high_quality)
+        with helper.Capturing() as output:
+            self.move(self.low_quality)
+        self.assertTrue(u'Delete […]' + self.low_quality in
+                        helper.join(output))
+        self.assertFalse(os.path.exists(self.high_quality))
+        self.assertFalse(os.path.exists(self.low_quality))
+
+    def test_delete_target(self):
+        self.move(self.low_quality)
+        with helper.Capturing() as output:
+            self.move(self.high_quality)
+        self.assertTrue(u'Delete […]test-file.mp3' in
+                        helper.join(output))
+        self.assertFalse(os.path.exists(self.high_quality))
+        self.assertFalse(os.path.exists(self.low_quality))
+
+
 # --classical
 class TestClassical(unittest.TestCase):
 
