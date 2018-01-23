@@ -203,19 +203,18 @@ class Action(object):
     def copy(self, source, target):
         self.job.msg.action_two_path('Copy', source, target)
         self.count('copy')
-        self.create_dir(target)
         if not self.dry_run:
+            self.create_dir(target)
             shutil.copy2(source.abspath, target.abspath)
 
     def create_dir(self, audio_file):
-        if not self.dry_run:
-            path = os.path.dirname(audio_file.abspath)
+        path = os.path.dirname(audio_file.abspath)
 
-            try:
-                os.makedirs(path)
-            except OSError as exception:
-                if exception.errno != errno.EEXIST:
-                    raise
+        try:
+            os.makedirs(path)
+        except OSError as exception:
+            if exception.errno != errno.EEXIST:
+                raise
 
     def delete(self, audio_file):
         self.job.msg.action_one_path('Delete', audio_file)
@@ -226,8 +225,8 @@ class Action(object):
     def move(self, source, target):
         self.job.msg.action_two_path('Move', source, target)
         self.count('move')
-        self.create_dir(target)
         if not self.dry_run:
+            self.create_dir(target)
             shutil.move(source.abspath, target.abspath)
 
     def metadata(self, audio_file, enrich=False, remap=False):
