@@ -200,10 +200,17 @@ class Action(object):
             self.delete(audio_file)
 
     def backup(self, audio_file):
-        backup_file = AudioFile(audio_file.abspath + '.bak', type='target')
+        backup_file = AudioFile(
+            os.path.join(
+                os.getcwd(),
+                '_audiorename_backups',
+                os.path.basename(audio_file.abspath)
+            ), type='target'
+        )
         self.job.msg.action_two_path('Backup', audio_file, backup_file)
         self.count('backup')
         if not self.dry_run:
+            self.create_dir(backup_file)
             shutil.move(audio_file.abspath, backup_file.abspath)
 
     def copy(self, source, target):
