@@ -11,6 +11,9 @@ import helper
 
 
 # --best-format
+# --delete
+# --backup
+# --backup-folder
 class TestBestFormat(unittest.TestCase):
 
     def setUp(self):

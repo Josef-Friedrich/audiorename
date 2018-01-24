@@ -200,13 +200,18 @@ class Action(object):
             self.delete(audio_file)
 
     def backup(self, audio_file):
+        if self.job.rename.backup_folder:
+            backup_folder = self.job.rename.backup_folder
+        else:
+            backup_folder = os.path.join(os.getcwd(), '_audiorename_backups')
+
         backup_file = AudioFile(
             os.path.join(
-                os.getcwd(),
-                '_audiorename_backups',
+                backup_folder,
                 os.path.basename(audio_file.abspath)
             ), type='target'
         )
+
         self.job.msg.action_two_path('Backup', audio_file, backup_file)
         self.count('backup')
         if not self.dry_run:
