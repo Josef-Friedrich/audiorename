@@ -187,6 +187,12 @@ class TestJob(unittest.TestCase):
         job = Job(self.args)
         self.assertEqual(job.rename.best_format, True)
 
+    # backup_folder
+    def test_rename_backup_folder(self):
+        self.args.backup_folder = u'/tmp'
+        job = Job(self.args)
+        self.assertEqual(job.rename.backup_folder, u'/tmp')
+
     # backup
     def test_rename_cleanup_backup(self):
         job = Job(self.args)

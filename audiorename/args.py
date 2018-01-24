@@ -94,6 +94,7 @@ class ArgsDefault():
     album_complete = False
     album_min = False
     backup = False
+    backup_folder = False
     best_format = False
     classical = False
     color = False
@@ -225,6 +226,14 @@ def parse_args(argv):
 ###############################################################################
 
     rename = parser.add_argument_group('rename')
+
+    # backup_folder
+    rename.add_argument(
+        '-p',
+        '--backup-folder',
+        help='Folder to store the backup files in.',
+        default=False
+    )
 
     # best_format
     rename.add_argument(

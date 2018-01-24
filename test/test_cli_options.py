@@ -333,6 +333,7 @@ class TestDryRun(unittest.TestCase):
 # --enrich-metadata
 class TestEnrichMetadata(unittest.TestCase):
 
+    @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
     def test_pass(self):
         tmp = helper.copy_to_tmp('classical', 'without_work.mp3')
         from audiorename.meta import Meta

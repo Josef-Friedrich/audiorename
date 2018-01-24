@@ -147,6 +147,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.backup, False)
         self.assertEqual(self.args.backup, self.default.backup)
 
+    def test_backup_folder(self):
+        self.assertEqual(self.args.backup_folder, False)
+        self.assertEqual(self.args.backup_folder, self.default.backup_folder)
+
     def test_best_format(self):
         self.assertEqual(self.args.best_format, False)
         self.assertEqual(self.args.best_format, self.default.best_format)

@@ -17,7 +17,7 @@ if six.PY2:
 else:
     from io import StringIO
 
-
+SKIP_API_CALLS = True
 dir_cwd = os.getcwd()
 path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
 path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'

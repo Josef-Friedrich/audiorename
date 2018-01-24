@@ -169,6 +169,7 @@ class RenameAction(object):
     def __init__(self, args):
         self._args = args
         self.best_format = args.best_format
+        self.backup_folder = args.backup_folder
 
     @property
     def cleanup(self):
