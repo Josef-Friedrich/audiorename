@@ -21,28 +21,46 @@ class TestBestFormat(unittest.TestCase):
         self.high_quality = self.get_quality('flac.flac')
         self.low_quality = self.get_quality('mp3_320.mp3')
 
-    def move(self, source):
-        audiorename.execute('--best-format', '--delete', '--one-line',
-                            '--target', self.target, '--format', 'test-file',
-                            source)
+    def move(self, source, *args):
+        audiorename.execute('--best-format', '--one-line', '--target',
+                            self.target, '--format', 'test-file',
+                            source, *args)
 
     def get_quality(self, filename):
         return helper.copy_to_tmp('quality', filename)
 
     def test_delete_source(self):
-        self.move(self.high_quality)
         with helper.Capturing() as output:
-            self.move(self.low_quality)
+            self.move(self.high_quality, '--delete')
+            self.move(self.low_quality, '--delete')
         self.assertTrue(u'Delete […]' + self.low_quality in
                         helper.join(output))
         self.assertFalse(os.path.exists(self.high_quality))
         self.assertFalse(os.path.exists(self.low_quality))
 
     def test_delete_target(self):
-        self.move(self.low_quality)
         with helper.Capturing() as output:
-            self.move(self.high_quality)
+            self.move(self.low_quality, '--delete')
+            self.move(self.high_quality, '--delete')
         self.assertTrue(u'Delete […]test-file.mp3' in
+                        helper.join(output))
+        self.assertFalse(os.path.exists(self.high_quality))
+        self.assertFalse(os.path.exists(self.low_quality))
+
+    def test_backup_source(self):
+        with helper.Capturing() as output:
+            self.move(self.high_quality, '--backup')
+            self.move(self.low_quality, '--backup')
+        self.assertTrue(u'Backup […]' + self.low_quality in
+                        helper.join(output))
+        self.assertFalse(os.path.exists(self.high_quality))
+        self.assertFalse(os.path.exists(self.low_quality))
+
+    def test_backup_target(self):
+        with helper.Capturing() as output:
+            self.move(self.low_quality, '--backup')
+            self.move(self.high_quality, '--backup')
+        self.assertTrue(u'Backup […]test-file.mp3' in
                         helper.join(output))
         self.assertFalse(os.path.exists(self.high_quality))
         self.assertFalse(os.path.exists(self.low_quality))

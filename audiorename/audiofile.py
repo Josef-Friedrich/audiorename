@@ -209,7 +209,7 @@ class Action(object):
             os.path.join(
                 backup_folder,
                 os.path.basename(audio_file.abspath)
-            ), type='target'
+            ), file_type='target'
         )
 
         self.job.msg.action_two_path('Backup', audio_file, backup_file)
