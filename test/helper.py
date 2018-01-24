@@ -11,13 +11,22 @@ import re
 import audiorename
 from audiorename import Job
 from audiorename.args import ArgsDefault
+from audiorename.meta import set_useragent, query_mbrainz
+import musicbrainzngs
+
 
 if six.PY2:
     from cStringIO import StringIO
 else:
     from io import StringIO
 
-SKIP_API_CALLS = True
+SKIP_API_CALLS = False
+try:
+    set_useragent()
+    query_mbrainz('recording', '0480672d-4d88-4824-a06b-917ff408eabe')
+except musicbrainzngs.musicbrainz.NetworkError:
+    SKIP_API_CALLS = True
+
 dir_cwd = os.getcwd()
 path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
 path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
