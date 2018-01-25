@@ -20,11 +20,21 @@ class TestBestFormat(unittest.TestCase):
         self.target = tempfile.mkdtemp()
         self.high_quality = self.get_quality('flac.flac')
         self.low_quality = self.get_quality('mp3_320.mp3')
+        self.backup_cwd = os.path.join(os.getcwd(), '_audiorename_backups')
+
+    def tearDown(self):
+        try:
+            shutil.rmtree(self.backup_cwd)
+        except OSError:
+            pass
 
     def move(self, source, *args):
         audiorename.execute('--best-format', '--one-line', '--target',
                             self.target, '--format', 'test-file',
                             source, *args)
+
+    def backup_path(self, file_name):
+        return os.path.join(self.backup_cwd, file_name)
 
     def get_quality(self, filename):
         return helper.copy_to_tmp('quality', filename)
@@ -55,6 +65,9 @@ class TestBestFormat(unittest.TestCase):
                         helper.join(output))
         self.assertFalse(os.path.exists(self.high_quality))
         self.assertFalse(os.path.exists(self.low_quality))
+        backup_path = self.backup_path(os.path.basename(self.low_quality))
+        self.assertTrue(os.path.exists(backup_path))
+        os.remove(backup_path)
 
     def test_backup_target(self):
         with helper.Capturing() as output:
@@ -64,6 +77,9 @@ class TestBestFormat(unittest.TestCase):
                         helper.join(output))
         self.assertFalse(os.path.exists(self.high_quality))
         self.assertFalse(os.path.exists(self.low_quality))
+        backup_path = self.backup_path('test-file.mp3')
+        self.assertTrue(os.path.exists(backup_path))
+        os.remove(backup_path)
 
 
 # --classical
