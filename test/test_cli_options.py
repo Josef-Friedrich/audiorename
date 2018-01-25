@@ -21,6 +21,9 @@ class TestBestFormat(unittest.TestCase):
         self.high_quality = self.get_quality('flac.flac')
         self.low_quality = self.get_quality('mp3_320.mp3')
         self.backup_cwd = os.path.join(os.getcwd(), '_audiorename_backups')
+        self.backup_folder = tempfile.mkdtemp()
+        self.backup_args = ('--backup', '--backup-folder',
+                            self.backup_folder)
 
     def tearDown(self):
         try:
@@ -80,6 +83,32 @@ class TestBestFormat(unittest.TestCase):
         backup_path = self.backup_path('test-file.mp3')
         self.assertTrue(os.path.exists(backup_path))
         os.remove(backup_path)
+
+    def test_backup_folder_source(self):
+        with helper.Capturing() as output:
+            self.move(self.high_quality, *self.backup_args)
+            self.move(self.low_quality, *self.backup_args)
+        self.assertTrue(u'Backup […]' + self.low_quality in
+                        helper.join(output))
+        self.assertFalse(os.path.exists(self.high_quality))
+        self.assertFalse(os.path.exists(self.low_quality))
+        backup_file = os.path.join(self.backup_folder,
+                                   os.path.basename(self.low_quality))
+        self.assertTrue(os.path.exists(backup_file))
+        os.remove(backup_file)
+
+    def test_backup_folder_target(self):
+        with helper.Capturing() as output:
+            self.move(self.low_quality, *self.backup_args)
+            self.move(self.high_quality, *self.backup_args)
+        self.assertTrue(u'Backup […]test-file.mp3' in
+                        helper.join(output))
+        self.assertFalse(os.path.exists(self.high_quality))
+        self.assertFalse(os.path.exists(self.low_quality))
+        backup_file = os.path.join(self.backup_folder,
+                                   os.path.basename('test-file.mp3'))
+        self.assertTrue(os.path.exists(backup_file))
+        os.remove(backup_file)
 
 
 # --classical
