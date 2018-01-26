@@ -101,7 +101,10 @@ class Counter(object):
         for counter, value in sorted(self._counters.items()):
             out.append(counter + '=' + str(value))
 
-        return ' '.join(out)
+        if out:
+            return ' '.join(out)
+        else:
+            return 'Nothing to count!'
 
 
 class Stats(object):

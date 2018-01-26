@@ -650,7 +650,14 @@ class TestStats(unittest.TestCase):
                                 helper.get_testfile('mixed_formats'))
 
         self.assertTrue('Execution time:' in helper.join(output))
-        self.assertTrue('Counter:' in helper.join(output))
+        self.assertTrue('Counter: move=3' in helper.join(output))
+
+    def test_no_counts(self):
+        tmp = tempfile.mkdtemp()
+        with helper.Capturing() as output:
+            audiorename.execute('--dry-run', '--stats', tmp)
+        self.assertTrue('Counter: Nothing to count!' in helper.join(output))
+        shutil.rmtree(tmp)
 
 
 # --target
