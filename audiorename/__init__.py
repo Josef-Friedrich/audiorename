@@ -398,6 +398,11 @@ def job_info(job):
     info.add('Source', job.source)
     info.add('Target', job.target)
 
+    if job.output.verbose:
+        info.add('Default', job.format.default)
+        info.add('Compilation', job.format.compilation)
+        info.add('Soundtrack', job.format.soundtrack)
+
     print(info.result())
 
 

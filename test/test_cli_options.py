@@ -493,6 +493,16 @@ class TestJobInfo(unittest.TestCase):
         self.assertTrue('Source: ' in output)
         self.assertTrue('Target: ' in output)
 
+    def test_verbose(self):
+        with helper.Capturing() as output:
+            audiorename.execute('--dry-run', '--job-info', '--verbose',
+                                helper.get_testfile('mixed_formats'))
+
+        output = str(output)
+        self.assertTrue('Default: ' in output)
+        self.assertTrue('Compilation: ' in output)
+        self.assertTrue('Soundtrack: ' in output)
+
 
 # --mb-track-listing
 class TestMbTrackListing(unittest.TestCase):
