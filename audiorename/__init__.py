@@ -271,15 +271,18 @@ class Message(object):
         key_width = self.max_field + 2
         value2_indent = self.indent_width + key_width
         key += ':'
+        key = key.ljust(self.max_field + 2)
 
         def quote(value):
             return '“' + value + '”'
 
         value1 = quote(value1)
         value2 = quote(value2)
-        self.output(' ' * self.indent_width +
-                    key.ljust(self.max_field + 2) +
-                    value1)
+        if self.color:
+            value1 = ansicolor.red(value1)
+            value2 = ansicolor.green(value2)
+            key = ansicolor.yellow(key)
+        self.output(self.template_indent(1) + key + value1)
         self.output(' ' * value2_indent + value2)
 
 
