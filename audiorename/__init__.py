@@ -256,12 +256,12 @@ class Message(object):
         self.output(path)
 
     def action_one_path(self, message, audio_file):
-        self.output(self.template_indent(1) + message)
+        self.status(message, status='progress')
         self.output(self.template_indent(2) + self.template_path(audio_file))
         self.output()
 
     def action_two_path(self, message, source, target):
-        self.output(self.template_indent(1) + message)
+        self.status(message, status='progress')
         self.output(self.template_indent(2) + self.template_path(source))
         self.output(self.template_indent(2) + 'to:')
         self.output(self.template_indent(2) + self.template_path(target))
@@ -297,7 +297,7 @@ class Message(object):
         if self.color:
             color = getattr(ansicolor, self.status_color(status))
             text = color(text, reverse=True)
-        self.output(text)
+        self.output(self.template_indent(1) + text)
 
 
 class Job(object):
