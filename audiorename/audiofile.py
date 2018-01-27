@@ -294,7 +294,7 @@ def do_job_on_audiofile(source, job=None):
     ##
 
     if skip:
-        job.msg.output(u'Broken file')
+        job.msg.status(u'Broken file', status='error')
         count('broken_file')
         return
 
@@ -303,7 +303,7 @@ def do_job_on_audiofile(source, job=None):
             not hasattr(source.meta, job.field_skip) or
             not getattr(source.meta, job.field_skip)
        ):
-        job.msg.output(u'No field')
+        job.msg.status(u'No field', status='error')
         count('no_field')
         return
 
@@ -365,7 +365,7 @@ def do_job_on_audiofile(source, job=None):
 
         # Do nothing
         if source.abspath == desired_target.abspath:
-            job.msg.output('Renamed')
+            job.msg.status('Renamed', status='ok')
             count('renamed')
             return
 
@@ -395,7 +395,7 @@ def do_job_on_audiofile(source, job=None):
                     target = None
 
         if target:
-            job.msg.output('Exists')
+            job.msg.status('Exists', status='error')
 
         # copy
         elif job.rename.move == 'copy':

@@ -285,6 +285,20 @@ class Message(object):
         self.output(self.template_indent(1) + key + value1)
         self.output(' ' * value2_indent + value2)
 
+    def status_color(self, status):
+        if status == 'progress':
+            return 'yellow'
+        elif status == 'error':
+            return 'red'
+        else:
+            return 'green'
+
+    def status(self, text, status):
+        if self.color:
+            color = getattr(ansicolor, self.status_color(status))
+            text = color(text, reverse=True)
+        self.output(text)
+
 
 class Job(object):
     """Holds informations of one job which can handle multiple files.
