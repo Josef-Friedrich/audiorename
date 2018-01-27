@@ -397,7 +397,7 @@ def do_job_on_audiofile(source, job=None):
         if target:
             job.msg.output('Exists')
 
-        # copys
+        # copy
         elif job.rename.move == 'copy':
             action.copy(source, desired_target)
 
