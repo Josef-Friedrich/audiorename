@@ -295,6 +295,7 @@ def do_job_on_audiofile(source, job=None):
 
     if skip:
         job.msg.output(u'Broken file')
+        count('broken_file')
         return
 
     if job.field_skip and  \
@@ -365,6 +366,7 @@ def do_job_on_audiofile(source, job=None):
         # Do nothing
         if source.abspath == desired_target.abspath:
             job.msg.output('Renamed')
+            count('renamed')
             return
 
         # Search existing target
