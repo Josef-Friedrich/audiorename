@@ -248,13 +248,13 @@ class Action(object):
             shutil.move(source.abspath, target.abspath)
 
     def metadata(self, audio_file, enrich=False, remap=False):
-        pre = audio_file.meta.export_dict()
+        pre = audio_file.meta.export_dict(sanitize=False)
 
         def single_action(audio_file, method_name, message):
-            pre = audio_file.meta.export_dict()
+            pre = audio_file.meta.export_dict(sanitize=False)
             method = getattr(audio_file.meta, method_name)
             method()
-            post = audio_file.meta.export_dict()
+            post = audio_file.meta.export_dict(sanitize=False)
             diff = dict_diff(pre, post)
             if diff:
                 self.count(method_name)
@@ -267,7 +267,7 @@ class Action(object):
         if remap:
             single_action(audio_file, 'remap_classical', 'Remap classical')
 
-        post = audio_file.meta.export_dict()
+        post = audio_file.meta.export_dict(sanitize=False)
         diff = dict_diff(pre, post)
 
         if not self.dry_run and diff:

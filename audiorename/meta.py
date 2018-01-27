@@ -302,12 +302,18 @@ class Meta(MediaFile):
 # Public methods
 ###############################################################################
 
-    def export_dict(self):
+    def export_dict(self, sanitize=True):
+        """
+        :param bool sanitize: Boolean value to trigger the sanitize function.
+        """
         out = {}
         for field in self.fields_sorted():
             value = getattr(self, field)
             if value:
-                out[field] = self._sanitize(str(value))
+                if sanitize:
+                    out[field] = self._sanitize(str(value))
+                else:
+                    out[field] = value
             else:
                 out[field] = u''
 
