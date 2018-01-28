@@ -13,6 +13,7 @@ from audiorename import Job
 from audiorename.args import ArgsDefault
 from audiorename.meta import set_useragent, query_mbrainz
 import musicbrainzngs
+import subprocess
 
 
 if six.PY2:
@@ -138,3 +139,16 @@ def filter_source(output):
         if line and line[0] == os.path.sep:
             filtered.append(line)
     return filtered
+
+
+def call_bin(*args):
+    args = ('audiorenamer',) + args
+    command = ' '.join(args)
+    audiorename = subprocess.Popen(command, shell=True,
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.STDOUT)
+    audiorename.wait()
+    out = []
+    for line in audiorename.stdout.readlines():
+        out.append(line.decode('utf-8'))
+    return out
