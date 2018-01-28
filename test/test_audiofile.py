@@ -232,7 +232,7 @@ class TestUnicodeUnittest(unittest.TestCase):
 
     def setUp(self):
         self.uni = helper.get_testfile('äöü', 'ÅåÆæØø.mp3')
-        self.renamed = os.path.join('/►', '►', '_',
+        self.renamed = os.path.join('/►', '►',
                                     '_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3')
 
     def test_dry_run(self):
