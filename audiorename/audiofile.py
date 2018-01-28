@@ -318,12 +318,12 @@ def do_job_on_audiofile(source, job=None):
         return
 
     if job.output.debug:
-        phrydy.doc.Debug(
+        phrydy.doc.print_debug(
             source.abspath,
             Meta,
             Meta.fields,
             job.output.color,
-        ).output()
+        )
         return
 
     ##
