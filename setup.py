@@ -20,7 +20,7 @@ setup(
     url='https://github.com/Josef-Friedrich/audiorename',
     install_requires=[
         'phrydy>=1.1.8',
-        'tmep>=1.0.6',
+        'tmep>=1.0.7',
         'ansicolor',
         'six',
         'musicbrainzngs',
