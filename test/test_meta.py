@@ -28,8 +28,8 @@ class TestDictDiff(unittest.TestCase):
         self.assertEqual(
             result,
             [
+                (u'ar_classical_title', 'full', 'diff'),
                 (u'title', 'full', 'diff'),
-                (u'title_classical', 'full', 'diff'),
             ]
         )
 
@@ -59,8 +59,8 @@ class TestDictDiff(unittest.TestCase):
         self.assertEqual(
             result,
             [
+                (u'ar_classical_title', 'full', u''),
                 (u'title', 'full', u''),
-                (u'title_classical', 'full', u''),
             ]
         )
 
@@ -464,7 +464,7 @@ class TestPropertyPerformerDifferentFormats(unittest.TestCase):
                          u'Volksoper')
         self.assertEqual(meta.performer_short, u'Luisi, WieSym')
 
-        self.assertEqual(meta.performer_classical, u'Luisi, WieSym')
+        self.assertEqual(meta.ar_classical_performer, u'Luisi, WieSym')
 
     def test_flac(self):
         meta = self.getMeta('flac')
@@ -571,7 +571,7 @@ class TestPropertyWorkTop(unittest.TestCase):
         self.assertEqual(self.meta.work_top, u'work')
 
 
-# title_classical
+# ar_classical_title
 class TestPropertyTitleClassical(unittest.TestCase):
 
     def setUp(self):
@@ -579,15 +579,15 @@ class TestPropertyTitleClassical(unittest.TestCase):
 
     def test_work_title(self):
         self.meta.title = 'work: title'
-        self.assertEqual(self.meta.title_classical, 'title')
+        self.assertEqual(self.meta.ar_classical_title, 'title')
 
     def test_work_work_title(self):
         self.meta.title = 'work: work: title'
-        self.assertEqual(self.meta.title_classical, 'work: title')
+        self.assertEqual(self.meta.ar_classical_title, 'work: title')
 
     def test_title(self):
         self.meta.title = 'title'
-        self.assertEqual(self.meta.title_classical, 'title')
+        self.assertEqual(self.meta.ar_classical_title, 'title')
 
 
 # year_safe
@@ -720,7 +720,7 @@ class TestStaticMethodUnifyList(unittest.TestCase):
 all_fields = [
     'acoustid_fingerprint',
     'acoustid_id',
-    'album_classical',
+    'ar_classical_album',
     'album_clean',
     'ar_initial_album',
     'album',
@@ -782,7 +782,7 @@ all_fields = [
     'original_day',
     'original_month',
     'original_year',
-    'performer_classical',
+    'ar_classical_performer',
     'performer_raw',
     'performer_short',
     'performer',
@@ -796,7 +796,7 @@ all_fields = [
     'samplerate',
     'script',
     'soundtrack',
-    'title_classical',
+    'ar_classical_title',
     'title',
     'track_classical',
     'track',
@@ -841,8 +841,8 @@ class TestAllPropertiesHines(unittest.TestCase):
         self.meta = get_meta('real-world', 'h', 'Hines_Earl',
                              'Just-Friends_1989', '06_Indian-Summer.mp3')
 
-    def test_album_classical(self):
-        self.assertEqual(self.meta.album_classical, u'')
+    def test_ar_classical_album(self):
+        self.assertEqual(self.meta.ar_classical_album, u'')
 
     def test_album_clean(self):
         self.assertEqual(self.meta.album_clean, u'Just Friends')
@@ -871,8 +871,8 @@ class TestAllPropertiesHines(unittest.TestCase):
     def test_performer(self):
         self.assertEqual(self.meta.performer, u'')
 
-    def test_performer_classical(self):
-        self.assertEqual(self.meta.performer_classical, u'Earl Hines')
+    def test_ar_classical_performer(self):
+        self.assertEqual(self.meta.ar_classical_performer, u'Earl Hines')
 
     def test_performer_raw(self):
         self.assertEqual(self.meta.performer_raw, [])
@@ -880,8 +880,8 @@ class TestAllPropertiesHines(unittest.TestCase):
     def test_performer_short(self):
         self.assertEqual(self.meta.performer_short, u'')
 
-    def test_title_classical(self):
-        self.assertEqual(self.meta.title_classical, u'Indian Summer')
+    def test_ar_classical_title(self):
+        self.assertEqual(self.meta.ar_classical_title, u'Indian Summer')
 
     def test_track_classical(self):
         self.assertEqual(self.meta.track_classical, u'06')
@@ -895,8 +895,8 @@ class TestAllPropertiesWagner(unittest.TestCase):
     def setUp(self):
         self.meta = get_meta('classical', 'Wagner_Meistersinger', '01.mp3')
 
-    def test_album_classical(self):
-        self.assertEqual(self.meta.album_classical,
+    def test_ar_classical_album(self):
+        self.assertEqual(self.meta.ar_classical_album,
                          u'Die Meistersinger von Nürnberg')
 
     def test_album_clean(self):
@@ -938,8 +938,8 @@ class TestAllPropertiesWagner(unittest.TestCase):
         self.assertEqual(self.meta.performer,
                          u'Herbert von Karajan, Staatskapelle Dresden')
 
-    def test_performer_classical(self):
-        self.assertEqual(self.meta.performer_classical,
+    def test_ar_classical_performer(self):
+        self.assertEqual(self.meta.ar_classical_performer,
                          u'Karajan, StaDre')
 
     def test_performer_raw(self):
@@ -953,8 +953,8 @@ class TestAllPropertiesWagner(unittest.TestCase):
         self.assertEqual(self.meta.performer_short,
                          u'Karajan, StaDre')
 
-    def test_title_classical(self):
-        self.assertEqual(self.meta.title_classical, 'Vorspiel')
+    def test_ar_classical_title(self):
+        self.assertEqual(self.meta.ar_classical_title, 'Vorspiel')
 
     def test_track_classical(self):
         self.assertEqual(self.meta.track_classical, '1-01')
@@ -976,28 +976,28 @@ class TestClassical(unittest.TestCase):
                                      '1-01.mp3')
         self.wagner = get_meta('classical', 'Wagner_Meistersinger', '01.mp3')
 
-    # album_classical
-    def test_album_classical_mozart(self):
+    # ar_classical_album
+    def test_ar_classical_album_mozart(self):
         self.assertEqual(
-            self.mozart.album_classical,
+            self.mozart.ar_classical_album,
             u'Concerto for French Horn no. 1 in D major, K. 386b / KV 412'
         )
 
-    def test_album_classical_schubert(self):
+    def test_ar_classical_album_schubert(self):
         self.assertEqual(
-            self.schubert.album_classical,
+            self.schubert.ar_classical_album,
             u'Die Winterreise, op. 89, D. 911'
         )
 
-    def test_album_classical_tschaikowski(self):
+    def test_ar_classical_album_tschaikowski(self):
         self.assertEqual(
-            self.tschaikowski.album_classical,
+            self.tschaikowski.ar_classical_album,
             u'Swan Lake, op. 20'
         )
 
-    def test_album_classical_wagner(self):
+    def test_ar_classical_album_wagner(self):
         self.assertEqual(
-            self.wagner.album_classical,
+            self.wagner.ar_classical_album,
             u'Die Meistersinger von N\xfcrnberg'
         )
 
@@ -1070,48 +1070,48 @@ class TestClassical(unittest.TestCase):
             u'Wagner, Richard'
         )
 
-    # performer_classical
-    def test_performer_classical_mozart(self):
+    # ar_classical_performer
+    def test_ar_classical_performer_mozart(self):
         self.assertEqual(
-            self.mozart.performer_classical,
+            self.mozart.ar_classical_performer,
             u'OrpChaOrc'
         )
 
-    def test_performer_classical_schubert(self):
+    def test_ar_classical_performer_schubert(self):
         self.assertEqual(
-            self.schubert.performer_classical,
+            self.schubert.ar_classical_performer,
             u'Fischer-Dieskau, Moore'
         )
 
-    def test_performer_classical_tschaikowski(self):
+    def test_ar_classical_performer_tschaikowski(self):
         self.assertEqual(
-            self.tschaikowski.performer_classical,
+            self.tschaikowski.ar_classical_performer,
             u'Svetlanov, StaAcaSym'
         )
 
-    def test_performer_classical_wagner(self):
+    def test_ar_classical_performer_wagner(self):
         self.assertEqual(
-            self.wagner.performer_classical,
+            self.wagner.ar_classical_performer,
             u'Karajan, StaDre'
         )
 
-    # title_classical
-    def test_title_classical_mozart(self):
-        self.assertEqual(self.mozart.title_classical, u'I. Allegro')
+    # ar_classical_title
+    def test_ar_classical_title_mozart(self):
+        self.assertEqual(self.mozart.ar_classical_title, u'I. Allegro')
 
-    def test_title_classical_schubert(self):
+    def test_ar_classical_title_schubert(self):
         self.assertEqual(
-            self.schubert.title_classical, u'Gute Nacht')
+            self.schubert.ar_classical_title, u'Gute Nacht')
 
-    def test_title_classical_tschaikowski(self):
+    def test_ar_classical_title_tschaikowski(self):
         self.assertEqual(
-            self.tschaikowski.title_classical,
+            self.tschaikowski.ar_classical_title,
             u'Introduction. Moderato assai - Allegro, ma non troppo - Tempo I'
         )
 
-    def test_title_classical_wagner(self):
+    def test_ar_classical_title_wagner(self):
         self.assertEqual(
-            self.wagner.title_classical, u'Vorspiel')
+            self.wagner.ar_classical_title, u'Vorspiel')
 
     # track_classical
     def test_track_classical_mozart(self):

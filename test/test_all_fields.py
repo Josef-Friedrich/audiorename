@@ -18,7 +18,7 @@ import phrydy
 # acoustid_fingerprint
 # acoustid_id
 # album
-# album_classical
+# ar_classical_album
 # album_clean
 # ar_initial_album
 # albumartist
@@ -78,7 +78,7 @@ import phrydy
 # original_day
 # original_month
 # original_year
-# performer_classical
+# ar_classical_performer
 # r128_album_gain
 # r128_track_gain
 # rg_album_gain
@@ -88,7 +88,7 @@ import phrydy
 # samplerate
 # script
 # title
-# title_classical
+# ar_classical_title
 # track
 # track_classical
 # tracktotal
@@ -106,7 +106,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.acoustid_fingerprint, None)
         self.assertEqual(meta.acoustid_id, None)
         self.assertEqual(meta.album, u'Help!')
-        self.assertEqual(meta.album_classical, u'')
+        self.assertEqual(meta.ar_classical_album, u'')
         self.assertEqual(meta.album_clean, u'Help!')
         self.assertEqual(meta.ar_initial_album, u'h')
         self.assertEqual(meta.albumartist, u'The Beatles')
@@ -173,7 +173,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.original_day, None)
         self.assertEqual(meta.original_month, None)
         self.assertEqual(meta.original_year, 1965)
-        self.assertEqual(meta.performer_classical, u'The Beatles')
+        self.assertEqual(meta.ar_classical_performer, u'The Beatles')
         self.assertEqual(meta.r128_album_gain, None)
         self.assertEqual(meta.r128_track_gain, None)
         self.assertEqual(meta.rg_album_gain, None)
@@ -184,7 +184,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.soundtrack, True)
         self.assertEqual(meta.script, u'Latn')
         self.assertEqual(meta.title, u'Yesterday')
-        self.assertEqual(meta.title_classical, u'Yesterday')
+        self.assertEqual(meta.ar_classical_title, u'Yesterday')
         self.assertEqual(meta.track, 13)
         #  int
         self.assertEqual(meta.track_classical, '13')
@@ -201,7 +201,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.acoustid_fingerprint, None)
         self.assertEqual(meta.acoustid_id, None)
         self.assertEqual(meta.album, u'Divertimenti')
-        self.assertEqual(meta.album_classical, u'')
+        self.assertEqual(meta.ar_classical_album, u'')
         self.assertEqual(meta.album_clean, u'Divertimenti')
         self.assertEqual(meta.ar_initial_album, u'd')
         self.assertEqual(meta.albumartist,
@@ -277,7 +277,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.original_day, None)
         self.assertEqual(meta.original_month, None)
         self.assertEqual(meta.original_year, 2005)
-        self.assertEqual(meta.performer_classical,
+        self.assertEqual(meta.ar_classical_performer,
                          u'Berliner Philharmoniker, Herbert von Karajan')
         self.assertEqual(meta.r128_album_gain, None)
         self.assertEqual(meta.r128_track_gain, None)
@@ -291,7 +291,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.title,
                          u'Serenade no. 13 for Strings in G major, K. 525 ' +
                          '"Eine kleine Nachtmusik": I. Allegro')
-        self.assertEqual(meta.title_classical, u'I. Allegro')
+        self.assertEqual(meta.ar_classical_title, u'I. Allegro')
         self.assertEqual(meta.track, 1)
         self.assertEqual(meta.track_classical, u'01')
         self.assertEqual(meta.tracktotal, 16)
@@ -305,7 +305,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.acoustid_fingerprint, None)
         self.assertEqual(meta.acoustid_id, None)
         self.assertEqual(meta.album, u'Greatest Hits')
-        self.assertEqual(meta.album_classical, u'')
+        self.assertEqual(meta.ar_classical_album, u'')
         self.assertEqual(meta.album_clean, u'Greatest Hits')
         self.assertEqual(meta.ar_initial_album, u'g')
         self.assertEqual(meta.albumartist, u'Louis Armstrong')
@@ -365,7 +365,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.original_day, None)
         self.assertEqual(meta.original_month, None)
         self.assertEqual(meta.original_year, 1996)
-        self.assertEqual(meta.performer_classical, u'Louis Armstrong')
+        self.assertEqual(meta.ar_classical_performer, u'Louis Armstrong')
         self.assertEqual(meta.r128_album_gain, None)
         self.assertEqual(meta.r128_track_gain, None)
         self.assertEqual(meta.rg_album_gain, None)
@@ -376,7 +376,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.script, u'Latn')
         self.assertEqual(meta.soundtrack, False)
         self.assertEqual(meta.title, u'What a Wonderful World')
-        self.assertEqual(meta.title_classical, u'What a Wonderful World')
+        self.assertEqual(meta.ar_classical_title, u'What a Wonderful World')
         self.assertEqual(meta.track, 13)
         self.assertEqual(meta.track_classical, '13')
         self.assertEqual(meta.tracktotal, 13)

@@ -31,7 +31,7 @@ Comande line interface
     
         $album:                album
     
-        $album_classical:      album_classical
+        $ar_classical_album:      ar_classical_album
     
         $album_clean:          “album” without ” (Disc
                                X)”.
@@ -209,7 +209,7 @@ Comande line interface
         $original_year:        The release year of the original
                                version of the album
     
-        $performer_classical:    performer_classical
+        $ar_classical_performer:    ar_classical_performer
     
         $r128_album_gain:      An optional gain for album
                                normalization
@@ -246,7 +246,7 @@ Comande line interface
     
         $title:                The title of a audio file.
     
-        $title_classical:      title_classical
+        $ar_classical_title:      ar_classical_title
     
         $track:                track
     

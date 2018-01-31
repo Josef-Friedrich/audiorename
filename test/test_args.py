@@ -71,8 +71,8 @@ class TestHelp(unittest.TestCase):
         self.assertTrue('mb_releasegroupid' in self.output)
 
     # album
-    def test_field_album_classical(self):
-        self.assertTrue('album_classical' in self.output)
+    def test_field_ar_classical_album(self):
+        self.assertTrue('ar_classical_album' in self.output)
 
     def test_field_album_clean(self):
         self.assertTrue('album_clean' in self.output)
@@ -106,11 +106,11 @@ class TestHelp(unittest.TestCase):
         self.assertTrue('disctrack' in self.output)
         self.assertTrue('Combination of' in self.output)
 
-    def test_field_performer_classical(self):
-        self.assertTrue('performer_classical' in self.output)
+    def test_field_ar_classical_performer(self):
+        self.assertTrue('ar_classical_performer' in self.output)
 
-    def test_field_title_classical(self):
-        self.assertTrue('title_classical' in self.output)
+    def test_field_ar_classical_title(self):
+        self.assertTrue('ar_classical_title' in self.output)
 
     def test_field_track_classical(self):
         self.assertTrue('track_classical' in self.output)

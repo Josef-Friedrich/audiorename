@@ -11,8 +11,8 @@ td = tdoc.Doc()
 
 fields = {
     # album
-    'album_classical': {
-        'description': 'album_classical',
+    'ar_classical_album': {
+        'description': 'ar_classical_album',
         'category': 'ordinary',
     },
     'album_clean': {
@@ -55,8 +55,8 @@ fields = {
                        'disk-track, e.g. 1-01, 3-099',
         'category': 'ordinary',
     },
-    'performer_classical': {
-        'description': 'performer_classical',
+    'ar_classical_performer': {
+        'description': 'ar_classical_performer',
         'category': 'ordinary',
     },
     'soundtrack': {
@@ -64,8 +64,8 @@ fields = {
         'a soundtrack',
         'category': 'ordinary',
     },
-    'title_classical': {
-        'description': 'title_classical',
+    'ar_classical_title': {
+        'description': 'ar_classical_title',
         'category': 'ordinary',
     },
     'track_classical': {

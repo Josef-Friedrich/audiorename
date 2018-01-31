@@ -522,7 +522,7 @@ class Meta(MediaFile):
 ###############################################################################
 
     @property
-    def album_classical(self):
+    def ar_classical_album(self):
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.work``
@@ -722,7 +722,7 @@ class Meta(MediaFile):
         return out
 
     @property
-    def performer_classical(self):
+    def ar_classical_performer(self):
         """http://musicbrainz.org/doc/Style/Classical/Release/Artist
 
         Uses:
@@ -829,7 +829,7 @@ class Meta(MediaFile):
             return False
 
     @property
-    def title_classical(self):
+    def ar_classical_title(self):
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.title``
@@ -847,10 +847,10 @@ class Meta(MediaFile):
     def track_classical(self):
         """Uses:
 
-        * :class:`audiorename.meta.Meta.title_classical`
+        * :class:`audiorename.meta.Meta.ar_classical_title`
         * :class:`audiorename.meta.Meta.disctrack`
         """
-        roman = re.findall(r'^([IVXLCDM]*)\.', self.title_classical)
+        roman = re.findall(r'^([IVXLCDM]*)\.', self.ar_classical_title)
         if roman:
             out = str(self._roman_to_int(roman[0])).zfill(2)
         elif self.disctrack:
@@ -870,8 +870,8 @@ class Meta(MediaFile):
         """
         if self.work_hierarchy:
             return self.work_hierarchy.split(' -> ')[0]
-        elif self.album_classical:
-            return self.album_classical
+        elif self.ar_classical_album:
+            return self.ar_classical_album
 
     @property
     def year_safe(self):
