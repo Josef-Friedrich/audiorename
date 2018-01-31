@@ -529,7 +529,7 @@ class Meta(MediaFile):
 
         Examples:
 
-        * ``Horn Concerto: I. Allegro`` → ``I. Allegro``
+        * ``Horn Concerto: I. Allegro`` → ``Horn Concerto``
         * ``Die Meistersinger von Nürnberg``
         """
         if self.work:

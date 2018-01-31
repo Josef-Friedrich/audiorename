@@ -134,7 +134,7 @@ class DefaultFormats(object):
                  '${ar_combined_disctrack}_${artist}_%shorten{$title}'
 
     classical = '$ar_initial_composer/$ar_combined_composer/' \
-                '%shorten{$ar_classical_album,48}' \
+                '%shorten{$ar_combined_work_top,48}' \
                 '_[%shorten{$ar_classical_performer,32}]/' \
                 '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_' \
                 '%shorten{$acoustid_id,8}'
