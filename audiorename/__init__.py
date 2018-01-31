@@ -275,7 +275,7 @@ class Message(object):
         key = key.ljust(self.max_field + 2)
 
         def quote(value):
-            return '“' + value + '”'
+            return '“' + str(value) + '”'
 
         value1 = quote(value1)
         value2 = quote(value2)
