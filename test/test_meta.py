@@ -239,7 +239,7 @@ class TestRemapClassical(unittest.TestCase):
         self.assertEqual(finished.track, 1)
         self.assertEqual(finished.artist, 'Wolfgang Amadeus Mozart')
         self.assertEqual(finished.album, 'Concerto for Horn no. 3 in E-flat '
-                                         'major, K. 447: I. Allegro')
+                                         'major, K. 447 (OrpChaOrc)')
         self.assertEqual(
             finished.comments,
             u'Original metadata: title: Horn Concerto No. 3 in E-flat major, '
