@@ -64,11 +64,11 @@ Usage
     
         $ar_classical_album:      ar_classical_album
     
-        $album_clean:          “album” without ” (Disc
+        $ar_combined_album:          “album” without ” (Disc
                                X)”.
     
         $ar_initial_album:        First character in lowercase of
-                               “album_clean”.
+                               “ar_combined_album”.
     
         $albumartist:          The artist for the entire album,
                                which may be different from the
@@ -168,7 +168,7 @@ Usage
     
         $disctotal:            disctotal
     
-        $disctrack:            Combination of disc and track in
+        $ar_combined_disctrack:            Combination of disc and track in
                                the format: disk-track, e.g.
                                1-01, 3-099
     

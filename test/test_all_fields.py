@@ -19,7 +19,7 @@ import phrydy
 # acoustid_id
 # album
 # ar_classical_album
-# album_clean
+# ar_combined_album
 # ar_initial_album
 # albumartist
 # albumartist_credit
@@ -53,7 +53,7 @@ import phrydy
 # disc
 # disctitle
 # disctotal
-# disctrack
+# ar_combined_disctrack
 # encoder
 # format
 # genre
@@ -107,7 +107,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.acoustid_id, None)
         self.assertEqual(meta.album, u'Help!')
         self.assertEqual(meta.ar_classical_album, u'')
-        self.assertEqual(meta.album_clean, u'Help!')
+        self.assertEqual(meta.ar_combined_album, u'Help!')
         self.assertEqual(meta.ar_initial_album, u'h')
         self.assertEqual(meta.albumartist, u'The Beatles')
         self.assertEqual(meta.albumartist_credit, None)
@@ -143,7 +143,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.disctitle, None)
         self.assertEqual(meta.disctotal, 1)
         # int
-        self.assertEqual(meta.disctrack, '13')
+        self.assertEqual(meta.ar_combined_disctrack, '13')
         self.assertEqual(meta.encoder, None)
         self.assertEqual(meta.format, u'MP3')
         self.assertEqual(meta.genre, None)
@@ -202,7 +202,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.acoustid_id, None)
         self.assertEqual(meta.album, u'Divertimenti')
         self.assertEqual(meta.ar_classical_album, u'')
-        self.assertEqual(meta.album_clean, u'Divertimenti')
+        self.assertEqual(meta.ar_combined_album, u'Divertimenti')
         self.assertEqual(meta.ar_initial_album, u'd')
         self.assertEqual(meta.albumartist,
                          u'Wolfgang Amadeus Mozart; Berliner ' +
@@ -245,7 +245,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.disc, 1)
         self.assertEqual(meta.disctitle, None)
         self.assertEqual(meta.disctotal, 2)
-        self.assertEqual(meta.disctrack, u'1-01')
+        self.assertEqual(meta.ar_combined_disctrack, u'1-01')
         self.assertEqual(meta.encoder, None)
         self.assertEqual(meta.format, u'MP3')
         self.assertEqual(meta.genre, None)
@@ -306,7 +306,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.acoustid_id, None)
         self.assertEqual(meta.album, u'Greatest Hits')
         self.assertEqual(meta.ar_classical_album, u'')
-        self.assertEqual(meta.album_clean, u'Greatest Hits')
+        self.assertEqual(meta.ar_combined_album, u'Greatest Hits')
         self.assertEqual(meta.ar_initial_album, u'g')
         self.assertEqual(meta.albumartist, u'Louis Armstrong')
         self.assertEqual(meta.albumartist_credit, None)
@@ -340,7 +340,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.disc, 1)
         self.assertEqual(meta.disctitle, None)
         self.assertEqual(meta.disctotal, 1)
-        self.assertEqual(meta.disctrack, u'13')
+        self.assertEqual(meta.ar_combined_disctrack, u'13')
         self.assertEqual(meta.encoder, None)
         self.assertEqual(meta.format, u'MP3')
         self.assertEqual(meta.genre, None)

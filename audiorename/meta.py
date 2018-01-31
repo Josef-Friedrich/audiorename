@@ -538,7 +538,7 @@ class Meta(MediaFile):
             return u''
 
     @property
-    def album_clean(self):
+    def ar_combined_album(self):
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.album``
@@ -556,14 +556,14 @@ class Meta(MediaFile):
     def ar_initial_album(self):
         """Uses:
 
-        * :class:`audiorename.meta.Meta.album_clean`
+        * :class:`audiorename.meta.Meta.ar_combined_album`
 
         Examples:
 
         * ``Just Friends`` → ``j``
         * ``Die Meistersinger von Nürnberg``  → ``d``
         """
-        return self._initials(self.album_clean)
+        return self._initials(self.ar_combined_album)
 
     @property
     def ar_initial_artist(self):
@@ -670,7 +670,7 @@ class Meta(MediaFile):
         return re.sub(r' ?/.*', '', out)
 
     @property
-    def disctrack(self):
+    def ar_combined_disctrack(self):
         """
         Generate a combination of track and disc number, e. g.: ``1-04``,
         ``3-06``.
@@ -848,13 +848,13 @@ class Meta(MediaFile):
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_classical_title`
-        * :class:`audiorename.meta.Meta.disctrack`
+        * :class:`audiorename.meta.Meta.ar_combined_disctrack`
         """
         roman = re.findall(r'^([IVXLCDM]*)\.', self.ar_classical_title)
         if roman:
             out = str(self._roman_to_int(roman[0])).zfill(2)
-        elif self.disctrack:
-            out = self.disctrack
+        elif self.ar_combined_disctrack:
+            out = self.ar_combined_disctrack
         else:
             out = ''
 

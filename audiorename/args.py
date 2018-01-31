@@ -15,12 +15,12 @@ fields = {
         'description': 'ar_classical_album',
         'category': 'ordinary',
     },
-    'album_clean': {
+    'ar_combined_album': {
         'description': '“album” without ” (Disc X)”.',
         'category': 'ordinary',
     },
     'ar_initial_album': {
-        'description': 'First character in lowercase of “album_clean”.',
+        'description': 'First character in lowercase of “ar_combined_album”.',
         'category': 'ordinary',
     },
     # artist
@@ -50,7 +50,7 @@ fields = {
         'description': 'ar_combined_composer',
         'category': 'ordinary',
     },
-    'disctrack': {
+    'ar_combined_disctrack': {
         'description': 'Combination of disc and track in the format: ' +
                        'disk-track, e.g. 1-01, 3-099',
         'category': 'ordinary',

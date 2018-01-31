@@ -553,9 +553,9 @@ class TestSoundtrack(unittest.TestCase):
         self.assertEqual(helper.dry_run([
             '--soundtrack',
             '$ar_initial_album/' +
-            '%shorten{$album_clean}' +
+            '%shorten{$ar_combined_album}' +
             '%ifdef{ar_combined_year,_${ar_combined_year}}/' +
-            '${disctrack}_${artist}_%shorten{$title}',
+            '${ar_combined_disctrack}_${artist}_%shorten{$title}',
             helper.get_testfile('soundtrack', folder, track)
         ]), test)
 

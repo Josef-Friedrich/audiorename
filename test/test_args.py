@@ -74,8 +74,8 @@ class TestHelp(unittest.TestCase):
     def test_field_ar_classical_album(self):
         self.assertTrue('ar_classical_album' in self.output)
 
-    def test_field_album_clean(self):
-        self.assertTrue('album_clean' in self.output)
+    def test_field_ar_combined_album(self):
+        self.assertTrue('ar_combined_album' in self.output)
         self.assertTrue('“album” without' in self.output)
 
     def test_field_ar_initial_album(self):
@@ -102,8 +102,8 @@ class TestHelp(unittest.TestCase):
     def test_field_ar_combined_composer(self):
         self.assertTrue('ar_combined_composer' in self.output)
 
-    def test_field_disctrack(self):
-        self.assertTrue('disctrack' in self.output)
+    def test_field_ar_combined_disctrack(self):
+        self.assertTrue('ar_combined_disctrack' in self.output)
         self.assertTrue('Combination of' in self.output)
 
     def test_field_ar_classical_performer(self):

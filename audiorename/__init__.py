@@ -115,28 +115,28 @@ class Stats(object):
 
 class DefaultFormats(object):
 
-    default = '$ar_initial_artist/' + \
-              '%shorten{$ar_combined_artist_sort}/' + \
-              '%shorten{$album_clean}' + \
-              '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' + \
-              '${disctrack}_%shorten{$title}'
+    default = '$ar_initial_artist/' \
+              '%shorten{$ar_combined_artist_sort}/' \
+              '%shorten{$ar_combined_album}' \
+              '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
+              '${ar_combined_disctrack}_%shorten{$title}'
 
-    compilation = '_compilations/' + \
-                  '$ar_initial_album/' + \
-                  '%shorten{$album_clean}' + \
-                  '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' + \
-                  '${disctrack}_%shorten{$title}'
+    compilation = '_compilations/' \
+                  '$ar_initial_album/' \
+                  '%shorten{$ar_combined_album}' \
+                  '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
+                  '${ar_combined_disctrack}_%shorten{$title}'
 
-    soundtrack = '_soundtrack/' + \
-                 '$ar_initial_album/' + \
-                 '%shorten{$album_clean}' + \
-                 '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' + \
-                 '${disctrack}_${artist}_%shorten{$title}'
+    soundtrack = '_soundtrack/' \
+                 '$ar_initial_album/' \
+                 '%shorten{$ar_combined_album}' \
+                 '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
+                 '${ar_combined_disctrack}_${artist}_%shorten{$title}'
 
-    classical = '$ar_initial_composer/$ar_combined_composer/' + \
-                '%shorten{$ar_classical_album,48}' + \
-                '_[%shorten{$ar_classical_performer,32}]/' + \
-                '${disctrack}_%shorten{$ar_classical_title,64}_' + \
+    classical = '$ar_initial_composer/$ar_combined_composer/' \
+                '%shorten{$ar_classical_album,48}' \
+                '_[%shorten{$ar_classical_performer,32}]/' \
+                '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_' \
                 '%shorten{$acoustid_id,8}'
 
 

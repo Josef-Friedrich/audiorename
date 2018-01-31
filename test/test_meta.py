@@ -44,8 +44,8 @@ class TestDictDiff(unittest.TestCase):
             result,
             [
                 (u'ar_classical_track', '4-02', '4-99'),
+                (u'ar_combined_disctrack', '4-02', '4-99'),
                 (u'artist', 'the artist', 'diff'),
-                (u'disctrack', '4-02', '4-99'),
                 (u'track', '2', '99'),
             ]
         )
@@ -253,7 +253,7 @@ class TestRemapClassical(unittest.TestCase):
 ###############################################################################
 
 
-# album_clean
+# ar_combined_album
 class TestPropertyAlbumClean(unittest.TestCase):
 
     def setUp(self):
@@ -261,7 +261,7 @@ class TestPropertyAlbumClean(unittest.TestCase):
 
     def assertAlbumClean(self, album, compare=u'Lorem ipsum'):
         self.meta.album = album
-        self.assertEqual(self.meta.album_clean, compare)
+        self.assertEqual(self.meta.ar_combined_album, compare)
 
     def test_disc_removal(self):
         self.assertAlbumClean('Lorem ipsum (Disc 1)')
@@ -277,7 +277,8 @@ class TestPropertyAlbumClean(unittest.TestCase):
         meta = get_meta('real-world', '_compilations', 't',
                         'The-Greatest-No1s-of-the-80s_1994',
                         '2-09_Respectable.mp3')
-        self.assertEqual(meta.album_clean, u'The Greatest No.1s of the 80s')
+        self.assertEqual(meta.ar_combined_album,
+                         u'The Greatest No.1s of the 80s')
 
 
 # ar_combined_artist (integration)
@@ -367,22 +368,22 @@ class TestPropertyArtistSafeUnit(unittest.TestCase):
         self.assertEqual(self.meta.ar_combined_artist_sort, 'Lastname_Prename')
 
 
-# disctrack (integration)
+# ar_combined_disctrack (integration)
 class TestPropertyDiskTrack(unittest.TestCase):
 
     def test_single_disc(self):
         meta = get_meta('real-world', 'e', 'Everlast', 'Eat-At-Whiteys_2000',
                         '02_Black-Jesus.mp3')
-        self.assertEqual(meta.disctrack, u'02')
+        self.assertEqual(meta.ar_combined_disctrack, u'02')
 
     def test_double_disk(self):
         meta = get_meta('real-world', '_compilations', 't',
                         'The-Greatest-No1s-of-the-80s_1994',
                         '2-09_Respectable.mp3')
-        self.assertEqual(meta.disctrack, u'2-09')
+        self.assertEqual(meta.ar_combined_disctrack, u'2-09')
 
 
-# disctrack (unit)
+# ar_combined_disctrack (unit)
 class TestPropertyDiskTrackUnit(unittest.TestCase):
 
     def setUp(self):
@@ -393,53 +394,53 @@ class TestPropertyDiskTrackUnit(unittest.TestCase):
         self.meta.disctotal = u''
 
     def test_empty(self):
-        self.assertEqual(self.meta.disctrack, u'')
+        self.assertEqual(self.meta.ar_combined_disctrack, u'')
 
     def test_no_track(self):
         self.meta.disc = '2'
         self.meta.disctotal = '3'
         self.meta.tracktotal = '36'
-        self.assertEqual(self.meta.disctrack, u'')
+        self.assertEqual(self.meta.ar_combined_disctrack, u'')
 
     def test_disc_track(self):
         self.meta.disc = '2'
         self.meta.track = '4'
-        self.assertEqual(self.meta.disctrack, u'2-04')
+        self.assertEqual(self.meta.ar_combined_disctrack, u'2-04')
 
     def test_disk_total_one(self):
         self.meta.disc = '1'
         self.meta.track = '4'
         self.meta.disctotal = '1'
         self.meta.tracktotal = '36'
-        self.assertEqual(self.meta.disctrack, u'04')
+        self.assertEqual(self.meta.ar_combined_disctrack, u'04')
 
     def test_all_set(self):
         self.meta.disc = '2'
         self.meta.track = '4'
         self.meta.disctotal = '3'
         self.meta.tracktotal = '36'
-        self.assertEqual(self.meta.disctrack, u'2-04')
+        self.assertEqual(self.meta.ar_combined_disctrack, u'2-04')
 
     def test_zfill_track(self):
         self.meta.track = '4'
         self.meta.tracktotal = '100'
-        self.assertEqual(self.meta.disctrack, u'004')
+        self.assertEqual(self.meta.ar_combined_disctrack, u'004')
 
         self.meta.tracktotal = '10'
-        self.assertEqual(self.meta.disctrack, u'04')
+        self.assertEqual(self.meta.ar_combined_disctrack, u'04')
 
         self.meta.tracktotal = '5'
-        self.assertEqual(self.meta.disctrack, u'04')
+        self.assertEqual(self.meta.ar_combined_disctrack, u'04')
 
     def test_zfill_disc(self):
         self.meta.track = '4'
         self.meta.tracktotal = '10'
         self.meta.disc = '2'
         self.meta.disctotal = '10'
-        self.assertEqual(self.meta.disctrack, u'02-04')
+        self.assertEqual(self.meta.ar_combined_disctrack, u'02-04')
 
         self.meta.disctotal = '100'
-        self.assertEqual(self.meta.disctrack, u'002-04')
+        self.assertEqual(self.meta.ar_combined_disctrack, u'002-04')
 
 
 # performer*
@@ -721,7 +722,7 @@ all_fields = [
     'acoustid_fingerprint',
     'acoustid_id',
     'ar_classical_album',
-    'album_clean',
+    'ar_combined_album',
     'ar_initial_album',
     'album',
     'albumartist_credit',
@@ -756,7 +757,7 @@ all_fields = [
     'disc',
     'disctitle',
     'disctotal',
-    'disctrack',
+    'ar_combined_disctrack',
     'encoder',
     'format',
     'genre',
@@ -844,8 +845,8 @@ class TestAllPropertiesHines(unittest.TestCase):
     def test_ar_classical_album(self):
         self.assertEqual(self.meta.ar_classical_album, u'')
 
-    def test_album_clean(self):
-        self.assertEqual(self.meta.album_clean, u'Just Friends')
+    def test_ar_combined_album(self):
+        self.assertEqual(self.meta.ar_combined_album, u'Just Friends')
 
     def test_ar_initial_album(self):
         self.assertEqual(self.meta.ar_initial_album, u'j')
@@ -865,8 +866,8 @@ class TestAllPropertiesHines(unittest.TestCase):
     def test_ar_combined_composer(self):
         self.assertEqual(self.meta.ar_combined_composer, u'Earl Hines')
 
-    def test_disctrack(self):
-        self.assertEqual(self.meta.disctrack, u'06')
+    def test_ar_combined_disctrack(self):
+        self.assertEqual(self.meta.ar_combined_disctrack, u'06')
 
     def test_performer(self):
         self.assertEqual(self.meta.performer, u'')
@@ -899,8 +900,8 @@ class TestAllPropertiesWagner(unittest.TestCase):
         self.assertEqual(self.meta.ar_classical_album,
                          u'Die Meistersinger von Nürnberg')
 
-    def test_album_clean(self):
-        self.assertEqual(self.meta.album_clean,
+    def test_ar_combined_album(self):
+        self.assertEqual(self.meta.ar_combined_album,
                          u'Die Meistersinger von Nürnberg')
 
     def test_ar_initial_album(self):
@@ -931,8 +932,8 @@ class TestAllPropertiesWagner(unittest.TestCase):
     def test_ar_combined_composer(self):
         self.assertEqual(self.meta.ar_combined_composer, u'Wagner, Richard')
 
-    def test_disctrack(self):
-        self.assertEqual(self.meta.disctrack, u'1-01')
+    def test_ar_combined_disctrack(self):
+        self.assertEqual(self.meta.ar_combined_disctrack, u'1-01')
 
     def test_performer(self):
         self.assertEqual(self.meta.performer,
