@@ -44,8 +44,8 @@ fields = {
         'description': 'composer_initial',
         'category': 'ordinary',
     },
-    'composer_safe': {
-        'description': 'composer_safe',
+    'ar_combined_composer': {
+        'description': 'ar_combined_composer',
         'category': 'ordinary',
     },
     'disctrack': {

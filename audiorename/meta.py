@@ -365,9 +365,9 @@ class Meta(MediaFile):
         """Remap some fields to fit better for classical music. For example
         ``composer`` becomes ``artist`` and ``work`` becomes ``album``.
         All overwritten fields are safed in the ``comments`` field. No
-        combined properties (like ``composer_safe``) are used and therefore
-        some code duplications are done on purpose to avoid circular endless
-        loops.
+        combined properties (like ``ar_combined_composer``) are used and
+        therefore some code duplications are done on purpose to avoid circular
+        endless loops.
         """
         safe = []
 
@@ -644,12 +644,12 @@ class Meta(MediaFile):
     def composer_initial(self):
         """Uses:
 
-        * :class:`audiorename.meta.Meta.composer_safe`
+        * :class:`audiorename.meta.Meta.ar_combined_composer`
         """
-        return self._initials(self.composer_safe)
+        return self._initials(self.ar_combined_composer)
 
     @property
-    def composer_safe(self):
+    def ar_combined_composer(self):
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.composer_sort``

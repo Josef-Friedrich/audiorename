@@ -99,8 +99,8 @@ class TestHelp(unittest.TestCase):
     def test_field_composer_initial(self):
         self.assertTrue('composer_initial' in self.output)
 
-    def test_field_composer_safe(self):
-        self.assertTrue('composer_safe' in self.output)
+    def test_field_ar_combined_composer(self):
+        self.assertTrue('ar_combined_composer' in self.output)
 
     def test_field_disctrack(self):
         self.assertTrue('disctrack' in self.output)

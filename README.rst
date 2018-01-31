@@ -150,7 +150,7 @@ Usage
     
         $composer_initial:     composer_initial
     
-        $composer_safe:        composer_safe
+        $ar_combined_composer:        ar_combined_composer
     
         $composer_sort:        Composer name for sorting.
     

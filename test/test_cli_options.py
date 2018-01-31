@@ -316,7 +316,7 @@ class TestDebug(unittest.TestCase):
                 tmp
             )
 
-        self.assertEqual(output[-1], u'          year_safe: 2001')
+        self.assertTrue(u'          year_safe: 2001' in str(output))
 
 
 # --delete

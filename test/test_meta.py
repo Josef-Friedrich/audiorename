@@ -746,7 +746,7 @@ all_fields = [
     'comments',
     'comp',
     'composer_initial',
-    'composer_safe',
+    'ar_combined_composer',
     'composer_sort',
     'composer',
     'country',
@@ -861,8 +861,8 @@ class TestAllPropertiesHines(unittest.TestCase):
     def test_composer_initial(self):
         self.assertEqual(self.meta.composer_initial, u'e')
 
-    def test_composer_safe(self):
-        self.assertEqual(self.meta.composer_safe, u'Earl Hines')
+    def test_ar_combined_composer(self):
+        self.assertEqual(self.meta.ar_combined_composer, u'Earl Hines')
 
     def test_disctrack(self):
         self.assertEqual(self.meta.disctrack, u'06')
@@ -927,8 +927,8 @@ class TestAllPropertiesWagner(unittest.TestCase):
     def test_composer_initial(self):
         self.assertEqual(self.meta.composer_initial, u'w')
 
-    def test_composer_safe(self):
-        self.assertEqual(self.meta.composer_safe, u'Wagner, Richard')
+    def test_ar_combined_composer(self):
+        self.assertEqual(self.meta.ar_combined_composer, u'Wagner, Richard')
 
     def test_disctrack(self):
         self.assertEqual(self.meta.disctrack, u'1-01')
@@ -1013,34 +1013,34 @@ class TestClassical(unittest.TestCase):
     def test_composer_initial_wagner(self):
         self.assertEqual(self.wagner.composer_initial, u'w')
 
-    # composer_safe
-    def test_composer_safe_mozart(self):
+    # ar_combined_composer
+    def test_ar_combined_composer_mozart(self):
         self.assertEqual(
-            self.mozart.composer_safe,
+            self.mozart.ar_combined_composer,
             u'Mozart, Wolfgang Amadeus'
         )
 
-    def test_composer_safe_mozart2(self):
+    def test_ar_combined_composer_mozart2(self):
         self.assertEqual(
-            self.mozart2.composer_safe,
+            self.mozart2.ar_combined_composer,
             u'Mozart, Wolfgang Amadeus'
         )
 
-    def test_composer_safe_schubert(self):
+    def test_ar_combined_composer_schubert(self):
         self.assertEqual(
-            self.schubert.composer_safe,
+            self.schubert.ar_combined_composer,
             u'Schubert, Franz'
         )
 
-    def test_composer_safe_tschaikowski(self):
+    def test_ar_combined_composer_tschaikowski(self):
         self.assertEqual(
-            self.tschaikowski.composer_safe,
+            self.tschaikowski.ar_combined_composer,
             u'Tchaikovsky, Pyotr Ilyich'
         )
 
-    def test_composer_safe_wagner(self):
+    def test_ar_combined_composer_wagner(self):
         self.assertEqual(
-            self.wagner.composer_safe,
+            self.wagner.ar_combined_composer,
             u'Wagner, Richard'
         )
 

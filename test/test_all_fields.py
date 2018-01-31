@@ -45,7 +45,7 @@ import phrydy
 # comp
 # composer
 # composer_initial
-# composer_safe
+# ar_combined_composer
 # composer_sort
 # country
 # date
@@ -134,7 +134,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.composer, None)
         # should b
         self.assertEqual(meta.composer_initial, u't')
-        self.assertEqual(meta.composer_safe, u'The Beatles')
+        self.assertEqual(meta.ar_combined_composer, u'The Beatles')
         self.assertEqual(meta.composer_sort, None)
         self.assertEqual(meta.country, u'GB')
         self.assertEqual(meta.date, datetime.date(1987, 4, 30))
@@ -234,7 +234,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.comp, None)
         self.assertEqual(meta.composer, None)
         self.assertEqual(meta.composer_initial, u'w')
-        self.assertEqual(meta.composer_safe,
+        self.assertEqual(meta.ar_combined_composer,
                          u'Wolfgang Amadeus Mozart; Berliner ' +
                          'Philharmoniker, Herbert von Karajan')
         self.assertEqual(meta.composer_sort, None)
@@ -331,7 +331,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.comp, None)
         self.assertEqual(meta.composer, None)
         self.assertEqual(meta.composer_initial, u'l')
-        self.assertEqual(meta.composer_safe, u'Louis Armstrong')
+        self.assertEqual(meta.ar_combined_composer, u'Louis Armstrong')
         self.assertEqual(meta.composer_sort, None)
         self.assertEqual(meta.country, u'US')
         self.assertEqual(meta.date, datetime.date(1996, 1, 1))

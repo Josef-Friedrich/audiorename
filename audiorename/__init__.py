@@ -133,7 +133,7 @@ class DefaultFormats(object):
                  '%ifdefnotempty{year_safe,_${year_safe}}/' + \
                  '${disctrack}_${artist}_%shorten{$title}'
 
-    classical = '$composer_initial/$composer_safe/' + \
+    classical = '$composer_initial/$ar_combined_composer/' + \
                 '%shorten{$album_classical,48}' + \
                 '_[%shorten{$performer_classical,32}]/' + \
                 '${disctrack}_%shorten{$title_classical,64}_' + \
