@@ -118,19 +118,19 @@ class DefaultFormats(object):
     default = '$ar_initial_artist/' + \
               '%shorten{$ar_combined_artist_sort}/' + \
               '%shorten{$album_clean}' + \
-              '%ifdefnotempty{year_safe,_${year_safe}}/' + \
+              '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' + \
               '${disctrack}_%shorten{$title}'
 
     compilation = '_compilations/' + \
                   '$ar_initial_album/' + \
                   '%shorten{$album_clean}' + \
-                  '%ifdefnotempty{year_safe,_${year_safe}}/' + \
+                  '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' + \
                   '${disctrack}_%shorten{$title}'
 
     soundtrack = '_soundtrack/' + \
                  '$ar_initial_album/' + \
                  '%shorten{$album_clean}' + \
-                 '%ifdefnotempty{year_safe,_${year_safe}}/' + \
+                 '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' + \
                  '${disctrack}_${artist}_%shorten{$title}'
 
     classical = '$ar_initial_composer/$ar_combined_composer/' + \

@@ -316,7 +316,7 @@ class TestDebug(unittest.TestCase):
                 tmp
             )
 
-        self.assertTrue(u'          year_safe: 2001' in str(output))
+        self.assertTrue(u'   ar_combined_year: 2001' in str(output))
 
 
 # --delete
@@ -554,7 +554,7 @@ class TestSoundtrack(unittest.TestCase):
             '--soundtrack',
             '$ar_initial_album/' +
             '%shorten{$album_clean}' +
-            '%ifdef{year_safe,_${year_safe}}/' +
+            '%ifdef{ar_combined_year,_${ar_combined_year}}/' +
             '${disctrack}_${artist}_%shorten{$title}',
             helper.get_testfile('soundtrack', folder, track)
         ]), test)

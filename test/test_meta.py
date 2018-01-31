@@ -43,10 +43,10 @@ class TestDictDiff(unittest.TestCase):
         self.assertEqual(
             result,
             [
+                (u'ar_classical_track', '4-02', '4-99'),
                 (u'artist', 'the artist', 'diff'),
                 (u'disctrack', '4-02', '4-99'),
                 (u'track', '2', '99'),
-                (u'track_classical', '4-02', '4-99'),
             ]
         )
 
@@ -493,7 +493,7 @@ class TestPropertySoundtrack(unittest.TestCase):
         self.assertEqual(meta.soundtrack, False)
 
 
-# track_classical
+# ar_classical_track
 class TestPropertyTrackClassical(unittest.TestCase):
 
     def setUp(self):
@@ -518,14 +518,14 @@ class TestPropertyTrackClassical(unittest.TestCase):
 
     def assertTrack(self, title, compare):
         self.meta.title = title
-        self.assertEqual(self.meta.track_classical, compare)
+        self.assertEqual(self.meta.ar_classical_track, compare)
 
     def test_function(self):
         self.assertTrack('III. Credo', u'03')
         self.assertTrack('III Credo', '4-02')
         self.assertTrack('Credo', '4-02')
         self.meta.track = 123
-        self.assertEqual(self.meta.track_classical, '4-123')
+        self.assertEqual(self.meta.ar_classical_track, '4-123')
 
 
 # work (integration)
@@ -545,30 +545,30 @@ class TestPropertyWork(unittest.TestCase):
         self.assertEqual(meta.composer_sort, u'Mozart, Wolfgang Amadeus')
 
 
-# work_top
+# ar_combined_work_top
 class TestPropertyWorkTop(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta('files', 'album.mp3')
 
     def test_none(self):
-        self.assertEqual(self.meta.work_top, None)
+        self.assertEqual(self.meta.ar_combined_work_top, None)
 
     def test_mutliple(self):
         self.meta.work_hierarchy = 'top -> work'
-        self.assertEqual(self.meta.work_top, u'top')
+        self.assertEqual(self.meta.ar_combined_work_top, u'top')
 
     def test_single(self):
         self.meta.work_hierarchy = 'top'
-        self.assertEqual(self.meta.work_top, u'top')
+        self.assertEqual(self.meta.ar_combined_work_top, u'top')
 
     def test_work_colon(self):
         self.meta.work = 'work: test'
-        self.assertEqual(self.meta.work_top, u'work')
+        self.assertEqual(self.meta.ar_combined_work_top, u'work')
 
     def test_work(self):
         self.meta.work = 'work'
-        self.assertEqual(self.meta.work_top, u'work')
+        self.assertEqual(self.meta.ar_combined_work_top, u'work')
 
 
 # ar_classical_title
@@ -590,7 +590,7 @@ class TestPropertyTitleClassical(unittest.TestCase):
         self.assertEqual(self.meta.ar_classical_title, 'title')
 
 
-# year_safe
+# ar_combined_year
 class TestPropertyYearSafe(unittest.TestCase):
 
     def setUp(self):
@@ -599,20 +599,20 @@ class TestPropertyYearSafe(unittest.TestCase):
         self.meta.original_year = None
 
     def test_empty(self):
-        self.assertEqual(self.meta.year_safe, None)
+        self.assertEqual(self.meta.ar_combined_year, None)
 
     def test_year(self):
         self.meta.year = 1978
-        self.assertEqual(self.meta.year_safe, 1978)
+        self.assertEqual(self.meta.ar_combined_year, 1978)
 
     def test_original_year(self):
         self.meta.original_year = 1978
-        self.assertEqual(self.meta.year_safe, 1978)
+        self.assertEqual(self.meta.ar_combined_year, 1978)
 
     def test_year__original_year(self):
         self.meta.year = 2016
         self.meta.original_year = 1978
-        self.assertEqual(self.meta.year_safe, 1978)
+        self.assertEqual(self.meta.ar_combined_year, 1978)
 
 
 ###############################################################################
@@ -798,13 +798,13 @@ all_fields = [
     'soundtrack',
     'ar_classical_title',
     'title',
-    'track_classical',
+    'ar_classical_track',
     'track',
     'tracktotal',
     'work_hierarchy',
-    'work_top',
+    'ar_combined_work_top',
     'work',
-    'year_safe',
+    'ar_combined_year',
     'year',
 ]
 
@@ -883,11 +883,11 @@ class TestAllPropertiesHines(unittest.TestCase):
     def test_ar_classical_title(self):
         self.assertEqual(self.meta.ar_classical_title, u'Indian Summer')
 
-    def test_track_classical(self):
-        self.assertEqual(self.meta.track_classical, u'06')
+    def test_ar_classical_track(self):
+        self.assertEqual(self.meta.ar_classical_track, u'06')
 
-    def test_year_safe(self):
-        self.assertEqual(self.meta.year_safe, 1989)
+    def test_ar_combined_year(self):
+        self.assertEqual(self.meta.ar_combined_year, 1989)
 
 
 class TestAllPropertiesWagner(unittest.TestCase):
@@ -956,11 +956,11 @@ class TestAllPropertiesWagner(unittest.TestCase):
     def test_ar_classical_title(self):
         self.assertEqual(self.meta.ar_classical_title, 'Vorspiel')
 
-    def test_track_classical(self):
-        self.assertEqual(self.meta.track_classical, '1-01')
+    def test_ar_classical_track(self):
+        self.assertEqual(self.meta.ar_classical_track, '1-01')
 
-    def test_year_safe(self):
-        self.assertEqual(self.meta.year_safe, 1971)
+    def test_ar_combined_year(self):
+        self.assertEqual(self.meta.ar_combined_year, 1971)
 
 
 class TestClassical(unittest.TestCase):
@@ -1113,18 +1113,18 @@ class TestClassical(unittest.TestCase):
         self.assertEqual(
             self.wagner.ar_classical_title, u'Vorspiel')
 
-    # track_classical
-    def test_track_classical_mozart(self):
-        self.assertEqual(self.mozart.track_classical, u'01')
+    # ar_classical_track
+    def test_ar_classical_track_mozart(self):
+        self.assertEqual(self.mozart.ar_classical_track, u'01')
 
-    def test_track_classical_schubert(self):
-        self.assertEqual(self.schubert.track_classical, u'01')
+    def test_ar_classical_track_schubert(self):
+        self.assertEqual(self.schubert.ar_classical_track, u'01')
 
-    def test_track_classical_tschaikowski(self):
-        self.assertEqual(self.tschaikowski.track_classical, u'1-01')
+    def test_ar_classical_track_tschaikowski(self):
+        self.assertEqual(self.tschaikowski.ar_classical_track, u'1-01')
 
-    def test_track_classical_wagner(self):
-        self.assertEqual(self.wagner.track_classical, u'1-01')
+    def test_ar_classical_track_wagner(self):
+        self.assertEqual(self.wagner.ar_classical_track, u'1-01')
 
 
 if __name__ == '__main__':

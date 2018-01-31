@@ -112,11 +112,11 @@ class TestHelp(unittest.TestCase):
     def test_field_ar_classical_title(self):
         self.assertTrue('ar_classical_title' in self.output)
 
-    def test_field_track_classical(self):
-        self.assertTrue('track_classical' in self.output)
+    def test_field_ar_classical_track(self):
+        self.assertTrue('ar_classical_track' in self.output)
 
-    def test_field_year_safe(self):
-        self.assertTrue('year_safe' in self.output)
+    def test_field_ar_combined_year(self):
+        self.assertTrue('ar_combined_year' in self.output)
         self.assertTrue('First “original_year”' in self.output)
 
 

@@ -844,7 +844,7 @@ class Meta(MediaFile):
             return u''
 
     @property
-    def track_classical(self):
+    def ar_classical_track(self):
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_classical_title`
@@ -861,7 +861,7 @@ class Meta(MediaFile):
         return out
 
     @property
-    def work_top(self):
+    def ar_combined_work_top(self):
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.work_hierarchy``
@@ -874,7 +874,7 @@ class Meta(MediaFile):
             return self.ar_classical_album
 
     @property
-    def year_safe(self):
+    def ar_combined_year(self):
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.original_year``

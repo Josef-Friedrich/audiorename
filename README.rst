@@ -281,7 +281,7 @@ Usage
     
         $track:                track
     
-        $track_classical:      track_classical
+        $ar_classical_track:      ar_classical_track
     
         $tracktotal:           tracktotal
     
@@ -296,13 +296,13 @@ Usage
                                K. 620: Act I, Scene II. No. 2
                                Aria "Was hör ...
     
-        $work_top:             The work on the top level of a
+        $ar_combined_work_top:             The work on the top level of a
                                work hierarchy.
     
         $year:                 The release year of the specific
                                release
     
-        $year_safe:            First “original_year” then
+        $ar_combined_year:            First “original_year” then
                                “year”.
     
     Functions

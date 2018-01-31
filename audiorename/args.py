@@ -68,15 +68,15 @@ fields = {
         'description': 'ar_classical_title',
         'category': 'ordinary',
     },
-    'track_classical': {
-        'description': 'track_classical',
+    'ar_classical_track': {
+        'description': 'ar_classical_track',
         'category': 'ordinary',
     },
-    'year_safe': {
+    'ar_combined_year': {
         'description': 'First “original_year” then “year”.',
         'category': 'ordinary',
     },
-    'work_top': {
+    'ar_combined_work_top': {
         'description': 'The work on the top level of a work hierarchy.',
         'category': 'ordinary',
     },

@@ -90,11 +90,11 @@ import phrydy
 # title
 # ar_classical_title
 # track
-# track_classical
+# ar_classical_track
 # tracktotal
 # work
 # year
-# year_safe
+# ar_combined_year
 
 
 class TestAllFields(unittest.TestCase):
@@ -187,12 +187,12 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.ar_classical_title, u'Yesterday')
         self.assertEqual(meta.track, 13)
         #  int
-        self.assertEqual(meta.track_classical, '13')
+        self.assertEqual(meta.ar_classical_track, '13')
         self.assertEqual(meta.tracktotal, 14)
         self.assertEqual(meta.work, None)
         self.assertEqual(meta.year, 1987)
         # int
-        self.assertEqual(meta.year_safe, 1965)
+        self.assertEqual(meta.ar_combined_year, 1965)
 
     # Classical
     def test_Nachtmusik(self):
@@ -293,11 +293,11 @@ class TestAllFields(unittest.TestCase):
                          '"Eine kleine Nachtmusik": I. Allegro')
         self.assertEqual(meta.ar_classical_title, u'I. Allegro')
         self.assertEqual(meta.track, 1)
-        self.assertEqual(meta.track_classical, u'01')
+        self.assertEqual(meta.ar_classical_track, u'01')
         self.assertEqual(meta.tracktotal, 16)
         self.assertEqual(meta.work, None)
         self.assertEqual(meta.year, 2005)
-        self.assertEqual(meta.year_safe, 2005)
+        self.assertEqual(meta.ar_combined_year, 2005)
 
     # Jazz
     def test_Wonderful(self):
@@ -378,11 +378,11 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.title, u'What a Wonderful World')
         self.assertEqual(meta.ar_classical_title, u'What a Wonderful World')
         self.assertEqual(meta.track, 13)
-        self.assertEqual(meta.track_classical, '13')
+        self.assertEqual(meta.ar_classical_track, '13')
         self.assertEqual(meta.tracktotal, 13)
         self.assertEqual(meta.work, None)
         self.assertEqual(meta.year, 1996)
-        self.assertEqual(meta.year_safe, 1996)
+        self.assertEqual(meta.ar_combined_year, 1996)
 
 
 if __name__ == '__main__':
