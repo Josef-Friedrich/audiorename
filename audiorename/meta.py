@@ -441,9 +441,9 @@ class Meta(MediaFile):
         return value[0:1].lower()
 
     @staticmethod
-    def _normalize_performer(performer):
+    def _normalize_performer(ar_performer):
         """
-        :param list performer: A list of raw performer strings like
+        :param list ar_performer: A list of raw ar_performer strings like
 
         .. code-block:: python
 
@@ -459,8 +459,8 @@ class Meta(MediaFile):
             ]
         """
         out = []
-        if isinstance(performer, list):
-            for value in performer:
+        if isinstance(ar_performer, list):
+            for value in ar_performer:
                 value = value[:-1]
                 value = value.split(u' (')
                 if isinstance(value, list) and len(value) == 2:
@@ -495,11 +495,11 @@ class Meta(MediaFile):
         return value
 
     @staticmethod
-    def _shorten_performer(performer, length=3, separator=u' ',
+    def _shorten_performer(ar_performer, length=3, separator=u' ',
                            abbreviation=u'.'):
         out = u''
         count = 0
-        for s in performer.split(' '):
+        for s in ar_performer.split(' '):
             if count < 3:
                 if len(s) > length:
                     part = s[:length] + abbreviation
@@ -708,14 +708,14 @@ class Meta(MediaFile):
         return out
 
     @property
-    def performer(self):
+    def ar_performer(self):
         """Uses:
 
-        * :class:`audiorename.meta.Meta.performer_raw`
+        * :class:`audiorename.meta.Meta.ar_performer_raw`
         """
         out = u''
-        for performer in self.performer_raw:
-            out = out + u', ' + performer[1]
+        for ar_performer in self.ar_performer_raw:
+            out = out + u', ' + ar_performer[1]
 
         out = out[2:]
 
@@ -727,11 +727,11 @@ class Meta(MediaFile):
 
         Uses:
 
-        * :class:`audiorename.meta.Meta.performer_short`
+        * :class:`audiorename.meta.Meta.ar_performer_short`
         * ``phrydy.mediafile.MediaFile.albumartist``
         """
-        if len(self.performer_short) > 0:
-            out = self.performer_short
+        if len(self.ar_performer_short) > 0:
+            out = self.ar_performer_short
         elif self.albumartist:
             out = re.sub(r'^.*; ?', '', self.albumartist)
         else:
@@ -740,10 +740,10 @@ class Meta(MediaFile):
         return out
 
     @property
-    def performer_raw(self):
-        """Generate a unifed performer list.
+    def ar_performer_raw(self):
+        """Generate a unifed ar_performer list.
 
-        Picard doesn’t store performer values in m4a, alac.m4a, wma, wav,
+        Picard doesn’t store ar_performer values in m4a, alac.m4a, wma, wav,
         aiff.
 
         :return: A list
@@ -775,7 +775,7 @@ class Meta(MediaFile):
             elif 'TIPL' in self.mgfile:
                 out = self.mgfile['TIPL'].people
 
-            # 4.2.2 TPE3 Conductor/performer refinement
+            # 4.2.2 TPE3 Conductor/ar_performer refinement
             if len(out) > 0 and 'conductor' not in out[0] \
                     and 'TPE3' in self.mgfile:
                 out.insert(0, [u'conductor', self.mgfile['TPE3'].text[0]])
@@ -786,23 +786,23 @@ class Meta(MediaFile):
         return self._unify_list(out)
 
     @property
-    def performer_short(self):
+    def ar_performer_short(self):
         """Uses:
 
-        * ``phrydy.mediafile.MediaFile.performer_raw``
+        * ``phrydy.mediafile.MediaFile.ar_performer_raw``
         """
         out = u''
 
-        performer = self.performer_raw
+        ar_performer = self.ar_performer_raw
         picked = []
-        for p in performer:
+        for p in ar_performer:
             if p[0] == u'conductor' or p[0] == u'orchestra':
                 picked.append(p)
 
         if len(picked) > 0:
-            performer = picked
+            ar_performer = picked
 
-        for p in performer:
+        for p in ar_performer:
 
             if p[0] == u'producer' or p[0] == u'executive producer' or \
                     p[0] == 'balance engineer':
