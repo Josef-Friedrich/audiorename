@@ -344,7 +344,7 @@ def do_job_on_audiofile(source, job=None):
 
     if job.rename.move != 'no_rename':
 
-        if source.meta.soundtrack:
+        if source.meta.ar_combined_soundtrack:
             format_string = job.format.soundtrack
         elif source.meta.comp:
             format_string = job.format.compilation

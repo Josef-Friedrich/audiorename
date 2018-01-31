@@ -59,7 +59,7 @@ fields = {
         'description': 'ar_classical_performer',
         'category': 'ordinary',
     },
-    'soundtrack': {
+    'ar_combined_soundtrack': {
         'description': 'Boolean flag which indicates if the audio file is ' +
         'a soundtrack',
         'category': 'ordinary',

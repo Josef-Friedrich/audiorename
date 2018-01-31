@@ -820,7 +820,7 @@ class Meta(MediaFile):
         return out
 
     @property
-    def soundtrack(self):
+    def ar_combined_soundtrack(self):
         if (self.releasegroup_types and
             u'soundtrack' in self.releasegroup_types.lower()) or \
            (self.albumtype and u'soundtrack' in self.albumtype.lower()):

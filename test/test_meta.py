@@ -487,11 +487,11 @@ class TestPropertySoundtrack(unittest.TestCase):
         # albumtype -> bootleg
         # meta = get_meta(['soundtrack', 'Pulp-Fiction', '01.mp3'])
         meta = get_meta('show-case', 'Beatles_Yesterday.mp3')
-        self.assertEqual(meta.soundtrack, True)
+        self.assertEqual(meta.ar_combined_soundtrack, True)
 
     def test_no_soundtrack(self):
         meta = get_meta('classical', 'Schubert_Winterreise', '01.mp3')
-        self.assertEqual(meta.soundtrack, False)
+        self.assertEqual(meta.ar_combined_soundtrack, False)
 
 
 # ar_classical_track
@@ -721,9 +721,6 @@ class TestStaticMethodUnifyList(unittest.TestCase):
 all_fields = [
     'acoustid_fingerprint',
     'acoustid_id',
-    'ar_classical_album',
-    'ar_combined_album',
-    'ar_initial_album',
     'album',
     'albumartist_credit',
     'albumartist_sort',
@@ -731,14 +728,26 @@ all_fields = [
     'albumdisambig',
     'albumstatus',
     'albumtype',
+    'ar_classical_album',
+    'ar_classical_performer',
+    'ar_classical_title',
+    'ar_classical_track',
+    'ar_combined_album',
+    'ar_combined_artist_sort',
+    'ar_combined_artist',
+    'ar_combined_composer',
+    'ar_combined_disctrack',
+    'ar_combined_soundtrack',
+    'ar_combined_work_top',
+    'ar_combined_year',
+    'ar_initial_album',
+    'ar_initial_artist',
+    'ar_initial_composer',
     'arranger',
     'art',
     'artist_credit',
-    'ar_initial_artist',
     'artist_sort',
     'artist',
-    'ar_combined_artist_sort',
-    'ar_combined_artist',
     'asin',
     'bitdepth',
     'bitrate',
@@ -747,8 +756,6 @@ all_fields = [
     'channels',
     'comments',
     'comp',
-    'ar_initial_composer',
-    'ar_combined_composer',
     'composer_sort',
     'composer',
     'country',
@@ -757,7 +764,6 @@ all_fields = [
     'disc',
     'disctitle',
     'disctotal',
-    'ar_combined_disctrack',
     'encoder',
     'format',
     'genre',
@@ -783,7 +789,6 @@ all_fields = [
     'original_day',
     'original_month',
     'original_year',
-    'ar_classical_performer',
     'performer_raw',
     'performer_short',
     'performer',
@@ -796,16 +801,11 @@ all_fields = [
     'rg_track_peak',
     'samplerate',
     'script',
-    'soundtrack',
-    'ar_classical_title',
     'title',
-    'ar_classical_track',
     'track',
     'tracktotal',
     'work_hierarchy',
-    'ar_combined_work_top',
     'work',
-    'ar_combined_year',
     'year',
 ]
 

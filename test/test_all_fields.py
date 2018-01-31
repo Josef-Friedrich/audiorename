@@ -181,7 +181,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.rg_track_gain, None)
         self.assertEqual(meta.rg_track_peak, None)
         self.assertEqual(meta.samplerate, 24000)
-        self.assertEqual(meta.soundtrack, True)
+        self.assertEqual(meta.ar_combined_soundtrack, True)
         self.assertEqual(meta.script, u'Latn')
         self.assertEqual(meta.title, u'Yesterday')
         self.assertEqual(meta.ar_classical_title, u'Yesterday')
@@ -287,7 +287,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.rg_track_peak, None)
         self.assertEqual(meta.samplerate, 24000)
         self.assertEqual(meta.script, u'Latn')
-        self.assertEqual(meta.soundtrack, False)
+        self.assertEqual(meta.ar_combined_soundtrack, False)
         self.assertEqual(meta.title,
                          u'Serenade no. 13 for Strings in G major, K. 525 ' +
                          '"Eine kleine Nachtmusik": I. Allegro')
@@ -374,7 +374,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.rg_track_peak, None)
         self.assertEqual(meta.samplerate, 24000)
         self.assertEqual(meta.script, u'Latn')
-        self.assertEqual(meta.soundtrack, False)
+        self.assertEqual(meta.ar_combined_soundtrack, False)
         self.assertEqual(meta.title, u'What a Wonderful World')
         self.assertEqual(meta.ar_classical_title, u'What a Wonderful World')
         self.assertEqual(meta.track, 13)
