@@ -36,7 +36,7 @@ Comande line interface
         $album_clean:          “album” without ” (Disc
                                X)”.
     
-        $album_initial:        First character in lowercase of
+        $ar_initial_album:        First character in lowercase of
                                “album_clean”.
     
         $albumartist:          The artist for the entire album,
@@ -70,7 +70,7 @@ Comande line interface
                                the artist’s “canonical”
                                name
     
-        $artist_initial:       First character in lowercase of
+        $ar_initial_artist:       First character in lowercase of
                                “ar_combined_artist_sort”
     
         $artist_sort:          The “sort name” of the track
@@ -117,7 +117,7 @@ Comande line interface
     
         $composer:             composer
     
-        $composer_initial:     composer_initial
+        $ar_initial_composer:     ar_initial_composer
     
         $ar_combined_composer:        ar_combined_composer
     

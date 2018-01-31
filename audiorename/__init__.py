@@ -115,25 +115,25 @@ class Stats(object):
 
 class DefaultFormats(object):
 
-    default = '$artist_initial/' + \
+    default = '$ar_initial_artist/' + \
               '%shorten{$ar_combined_artist_sort}/' + \
               '%shorten{$album_clean}' + \
               '%ifdefnotempty{year_safe,_${year_safe}}/' + \
               '${disctrack}_%shorten{$title}'
 
     compilation = '_compilations/' + \
-                  '$album_initial/' + \
+                  '$ar_initial_album/' + \
                   '%shorten{$album_clean}' + \
                   '%ifdefnotempty{year_safe,_${year_safe}}/' + \
                   '${disctrack}_%shorten{$title}'
 
     soundtrack = '_soundtrack/' + \
-                 '$album_initial/' + \
+                 '$ar_initial_album/' + \
                  '%shorten{$album_clean}' + \
                  '%ifdefnotempty{year_safe,_${year_safe}}/' + \
                  '${disctrack}_${artist}_%shorten{$title}'
 
-    classical = '$composer_initial/$ar_combined_composer/' + \
+    classical = '$ar_initial_composer/$ar_combined_composer/' + \
                 '%shorten{$album_classical,48}' + \
                 '_[%shorten{$performer_classical,32}]/' + \
                 '${disctrack}_%shorten{$title_classical,64}_' + \

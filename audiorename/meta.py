@@ -553,7 +553,7 @@ class Meta(MediaFile):
             return u''
 
     @property
-    def album_initial(self):
+    def ar_initial_album(self):
         """Uses:
 
         * :class:`audiorename.meta.Meta.album_clean`
@@ -566,7 +566,7 @@ class Meta(MediaFile):
         return self._initials(self.album_clean)
 
     @property
-    def artist_initial(self):
+    def ar_initial_artist(self):
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_combined_artist_sort`
@@ -641,7 +641,7 @@ class Meta(MediaFile):
         return out
 
     @property
-    def composer_initial(self):
+    def ar_initial_composer(self):
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_combined_composer`

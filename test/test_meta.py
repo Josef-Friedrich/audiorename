@@ -722,7 +722,7 @@ all_fields = [
     'acoustid_id',
     'album_classical',
     'album_clean',
-    'album_initial',
+    'ar_initial_album',
     'album',
     'albumartist_credit',
     'albumartist_sort',
@@ -733,7 +733,7 @@ all_fields = [
     'arranger',
     'art',
     'artist_credit',
-    'artist_initial',
+    'ar_initial_artist',
     'artist_sort',
     'artist',
     'ar_combined_artist_sort',
@@ -746,7 +746,7 @@ all_fields = [
     'channels',
     'comments',
     'comp',
-    'composer_initial',
+    'ar_initial_composer',
     'ar_combined_composer',
     'composer_sort',
     'composer',
@@ -847,11 +847,11 @@ class TestAllPropertiesHines(unittest.TestCase):
     def test_album_clean(self):
         self.assertEqual(self.meta.album_clean, u'Just Friends')
 
-    def test_album_initial(self):
-        self.assertEqual(self.meta.album_initial, u'j')
+    def test_ar_initial_album(self):
+        self.assertEqual(self.meta.ar_initial_album, u'j')
 
-    def test_artist_initial(self):
-        self.assertEqual(self.meta.artist_initial, u'h')
+    def test_ar_initial_artist(self):
+        self.assertEqual(self.meta.ar_initial_artist, u'h')
 
     def test_ar_combined_artist(self):
         self.assertEqual(self.meta.ar_combined_artist, u'Earl Hines')
@@ -859,8 +859,8 @@ class TestAllPropertiesHines(unittest.TestCase):
     def test_ar_combined_artist_sort(self):
         self.assertEqual(self.meta.ar_combined_artist_sort, u'Hines, Earl')
 
-    def test_composer_initial(self):
-        self.assertEqual(self.meta.composer_initial, u'e')
+    def test_ar_initial_composer(self):
+        self.assertEqual(self.meta.ar_initial_composer, u'e')
 
     def test_ar_combined_composer(self):
         self.assertEqual(self.meta.ar_combined_composer, u'Earl Hines')
@@ -903,11 +903,11 @@ class TestAllPropertiesWagner(unittest.TestCase):
         self.assertEqual(self.meta.album_clean,
                          u'Die Meistersinger von Nürnberg')
 
-    def test_album_initial(self):
-        self.assertEqual(self.meta.album_initial, u'd')
+    def test_ar_initial_album(self):
+        self.assertEqual(self.meta.ar_initial_album, u'd')
 
-    def test_artist_initial(self):
-        self.assertEqual(self.meta.artist_initial, u'w')
+    def test_ar_initial_artist(self):
+        self.assertEqual(self.meta.ar_initial_artist, u'w')
 
     def test_ar_combined_artist(self):
         self.assertEqual(
@@ -925,8 +925,8 @@ class TestAllPropertiesWagner(unittest.TestCase):
             'der Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle '
             'Dresden, Karajan, Herbert von')
 
-    def test_composer_initial(self):
-        self.assertEqual(self.meta.composer_initial, u'w')
+    def test_ar_initial_composer(self):
+        self.assertEqual(self.meta.ar_initial_composer, u'w')
 
     def test_ar_combined_composer(self):
         self.assertEqual(self.meta.ar_combined_composer, u'Wagner, Richard')
@@ -1001,18 +1001,18 @@ class TestClassical(unittest.TestCase):
             u'Die Meistersinger von N\xfcrnberg'
         )
 
-    # composer_initial
-    def test_composer_initial_mozart(self):
-        self.assertEqual(self.mozart.composer_initial, u'm')
+    # ar_initial_composer
+    def test_ar_initial_composer_mozart(self):
+        self.assertEqual(self.mozart.ar_initial_composer, u'm')
 
-    def test_composer_initial_schubert(self):
-        self.assertEqual(self.schubert.composer_initial, u's')
+    def test_ar_initial_composer_schubert(self):
+        self.assertEqual(self.schubert.ar_initial_composer, u's')
 
-    def test_composer_initial_tschaikowski(self):
-        self.assertEqual(self.tschaikowski.composer_initial, u't')
+    def test_ar_initial_composer_tschaikowski(self):
+        self.assertEqual(self.tschaikowski.ar_initial_composer, u't')
 
-    def test_composer_initial_wagner(self):
-        self.assertEqual(self.wagner.composer_initial, u'w')
+    def test_ar_initial_composer_wagner(self):
+        self.assertEqual(self.wagner.ar_initial_composer, u'w')
 
     # ar_combined_composer
     def test_ar_combined_composer_mozart(self):

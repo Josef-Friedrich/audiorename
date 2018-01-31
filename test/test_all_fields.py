@@ -20,7 +20,7 @@ import phrydy
 # album
 # album_classical
 # album_clean
-# album_initial
+# ar_initial_album
 # albumartist
 # albumartist_credit
 # albumartist_sort
@@ -31,7 +31,7 @@ import phrydy
 # art
 # artist
 # artist_credit
-# artist_initial
+# ar_initial_artist
 # artist_sort
 # ar_combined_artist
 # ar_combined_artist_sort
@@ -44,7 +44,7 @@ import phrydy
 # comments
 # comp
 # composer
-# composer_initial
+# ar_initial_composer
 # ar_combined_composer
 # composer_sort
 # country
@@ -108,7 +108,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.album, u'Help!')
         self.assertEqual(meta.album_classical, u'')
         self.assertEqual(meta.album_clean, u'Help!')
-        self.assertEqual(meta.album_initial, u'h')
+        self.assertEqual(meta.ar_initial_album, u'h')
         self.assertEqual(meta.albumartist, u'The Beatles')
         self.assertEqual(meta.albumartist_credit, None)
         self.assertEqual(meta.albumartist_sort, u'Beatles, The')
@@ -119,7 +119,7 @@ class TestAllFields(unittest.TestCase):
         # self.assertEqual(meta.art, u'')
         self.assertEqual(meta.artist, u'The Beatles')
         self.assertEqual(meta.artist_credit, None)
-        self.assertEqual(meta.artist_initial, u'b')
+        self.assertEqual(meta.ar_initial_artist, u'b')
         self.assertEqual(meta.artist_sort, u'Beatles, The')
         self.assertEqual(meta.ar_combined_artist, u'The Beatles')
         self.assertEqual(meta.ar_combined_artist_sort, u'Beatles, The')
@@ -133,7 +133,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.comp, None)
         self.assertEqual(meta.composer, None)
         # should b
-        self.assertEqual(meta.composer_initial, u't')
+        self.assertEqual(meta.ar_initial_composer, u't')
         self.assertEqual(meta.ar_combined_composer, u'The Beatles')
         self.assertEqual(meta.composer_sort, None)
         self.assertEqual(meta.country, u'GB')
@@ -203,7 +203,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.album, u'Divertimenti')
         self.assertEqual(meta.album_classical, u'')
         self.assertEqual(meta.album_clean, u'Divertimenti')
-        self.assertEqual(meta.album_initial, u'd')
+        self.assertEqual(meta.ar_initial_album, u'd')
         self.assertEqual(meta.albumartist,
                          u'Wolfgang Amadeus Mozart; Berliner ' +
                          'Philharmoniker, Herbert von Karajan')
@@ -217,7 +217,7 @@ class TestAllFields(unittest.TestCase):
         # self.assertEqual(meta.art, u'')
         self.assertEqual(meta.artist, u'Wolfgang Amadeus Mozart')
         self.assertEqual(meta.artist_credit, None)
-        self.assertEqual(meta.artist_initial, u'm')
+        self.assertEqual(meta.ar_initial_artist, u'm')
         self.assertEqual(meta.artist_sort, u'Mozart, Wolfgang Amadeus')
         self.assertEqual(meta.ar_combined_artist,
                          u'Wolfgang Amadeus Mozart; Berliner ' +
@@ -234,7 +234,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.comments, None)
         self.assertEqual(meta.comp, None)
         self.assertEqual(meta.composer, None)
-        self.assertEqual(meta.composer_initial, u'w')
+        self.assertEqual(meta.ar_initial_composer, u'w')
         self.assertEqual(meta.ar_combined_composer,
                          u'Wolfgang Amadeus Mozart; Berliner ' +
                          'Philharmoniker, Herbert von Karajan')
@@ -307,7 +307,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.album, u'Greatest Hits')
         self.assertEqual(meta.album_classical, u'')
         self.assertEqual(meta.album_clean, u'Greatest Hits')
-        self.assertEqual(meta.album_initial, u'g')
+        self.assertEqual(meta.ar_initial_album, u'g')
         self.assertEqual(meta.albumartist, u'Louis Armstrong')
         self.assertEqual(meta.albumartist_credit, None)
         self.assertEqual(meta.albumartist_sort, u'Armstrong, Louis')
@@ -318,7 +318,7 @@ class TestAllFields(unittest.TestCase):
         # self.assertEqual(meta.art, u'')
         self.assertEqual(meta.artist, u'Louis Armstrong')
         self.assertEqual(meta.artist_credit, None)
-        self.assertEqual(meta.artist_initial, u'a')
+        self.assertEqual(meta.ar_initial_artist, u'a')
         self.assertEqual(meta.artist_sort, u'Armstrong, Louis')
         self.assertEqual(meta.ar_combined_artist, u'Louis Armstrong')
         self.assertEqual(meta.ar_combined_artist_sort, u'Armstrong, Louis')
@@ -331,7 +331,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.comments, None)
         self.assertEqual(meta.comp, None)
         self.assertEqual(meta.composer, None)
-        self.assertEqual(meta.composer_initial, u'l')
+        self.assertEqual(meta.ar_initial_composer, u'l')
         self.assertEqual(meta.ar_combined_composer, u'Louis Armstrong')
         self.assertEqual(meta.composer_sort, None)
         self.assertEqual(meta.country, u'US')

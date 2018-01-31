@@ -78,13 +78,13 @@ class TestHelp(unittest.TestCase):
         self.assertTrue('album_clean' in self.output)
         self.assertTrue('“album” without' in self.output)
 
-    def test_field_album_initial(self):
-        self.assertTrue('album_initial' in self.output)
+    def test_field_ar_initial_album(self):
+        self.assertTrue('ar_initial_album' in self.output)
         self.assertTrue('First character' in self.output)
 
     # artist
-    def test_field_artist_initial(self):
-        self.assertTrue('artist_initial' in self.output)
+    def test_field_ar_initial_artist(self):
+        self.assertTrue('ar_initial_artist' in self.output)
         self.assertTrue('First character' in self.output)
 
     def test_field_ar_combined_artist(self):
@@ -96,8 +96,8 @@ class TestHelp(unittest.TestCase):
         self.assertTrue('The first available' in self.output)
 
     # composer
-    def test_field_composer_initial(self):
-        self.assertTrue('composer_initial' in self.output)
+    def test_field_ar_initial_composer(self):
+        self.assertTrue('ar_initial_composer' in self.output)
 
     def test_field_ar_combined_composer(self):
         self.assertTrue('ar_combined_composer' in self.output)

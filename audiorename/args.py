@@ -19,12 +19,12 @@ fields = {
         'description': '“album” without ” (Disc X)”.',
         'category': 'ordinary',
     },
-    'album_initial': {
+    'ar_initial_album': {
         'description': 'First character in lowercase of “album_clean”.',
         'category': 'ordinary',
     },
     # artist
-    'artist_initial': {
+    'ar_initial_artist': {
         'description': 'First character in lowercase of '
                        '“ar_combined_artist_sort”',
         'category': 'ordinary',
@@ -42,8 +42,8 @@ fields = {
         'category': 'ordinary',
     },
     # composer
-    'composer_initial': {
-        'description': 'composer_initial',
+    'ar_initial_composer': {
+        'description': 'ar_initial_composer',
         'category': 'ordinary',
     },
     'ar_combined_composer': {
