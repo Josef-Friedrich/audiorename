@@ -31,14 +31,14 @@ class TestClassMessage(unittest.TestCase):
         self.assertEqual(msg.color, False)
         self.assertEqual(msg.verbose, False)
         self.assertEqual(msg.one_line, False)
-        self.assertEqual(msg.max_field, 20)
+        self.assertEqual(msg.max_field, 23)
 
     def test_diff(self):
         msg = self.get_message()
         with helper.Capturing() as output:
             msg.diff('title', '', 'full')
-        self.assertEqual(output[0], '    title:                “”')
-        self.assertEqual(output[1], '                          “full”')
+        self.assertEqual(output[0], '    title:                   “”')
+        self.assertEqual(output[1], '                             “full”')
 
     def test_output_one_line(self):
         msg = self.get_message(one_line=True)

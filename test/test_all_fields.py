@@ -33,8 +33,8 @@ import phrydy
 # artist_credit
 # artist_initial
 # artist_sort
-# artistsafe
-# artistsafe_sort
+# ar_combined_artist
+# ar_combined_artist_sort
 # asin
 # bitdepth
 # bitrate
@@ -121,8 +121,8 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.artist_credit, None)
         self.assertEqual(meta.artist_initial, u'b')
         self.assertEqual(meta.artist_sort, u'Beatles, The')
-        self.assertEqual(meta.artistsafe, u'The Beatles')
-        self.assertEqual(meta.artistsafe_sort, u'Beatles, The')
+        self.assertEqual(meta.ar_combined_artist, u'The Beatles')
+        self.assertEqual(meta.ar_combined_artist_sort, u'Beatles, The')
         self.assertEqual(meta.asin, u'B000002UAL')
         self.assertEqual(meta.bitdepth, 0)
         self.assertEqual(meta.bitrate, 8000)
@@ -219,10 +219,11 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.artist_credit, None)
         self.assertEqual(meta.artist_initial, u'm')
         self.assertEqual(meta.artist_sort, u'Mozart, Wolfgang Amadeus')
-        self.assertEqual(meta.artistsafe,
+        self.assertEqual(meta.ar_combined_artist,
                          u'Wolfgang Amadeus Mozart; Berliner ' +
                          'Philharmoniker, Herbert von Karajan')
-        self.assertEqual(meta.artistsafe_sort, u'Mozart, Wolfgang Amadeus; '
+        self.assertEqual(meta.ar_combined_artist_sort,
+                         u'Mozart, Wolfgang Amadeus; '
                          'Berliner Philharmoniker, Karajan, Herbert von')
         self.assertEqual(meta.asin, u'B0007DHPQ2')
         self.assertEqual(meta.bitdepth, 0)
@@ -319,8 +320,8 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.artist_credit, None)
         self.assertEqual(meta.artist_initial, u'a')
         self.assertEqual(meta.artist_sort, u'Armstrong, Louis')
-        self.assertEqual(meta.artistsafe, u'Louis Armstrong')
-        self.assertEqual(meta.artistsafe_sort, u'Armstrong, Louis')
+        self.assertEqual(meta.ar_combined_artist, u'Louis Armstrong')
+        self.assertEqual(meta.ar_combined_artist_sort, u'Armstrong, Louis')
         self.assertEqual(meta.asin, u'B000003G2C')
         self.assertEqual(meta.bitdepth, 0)
         self.assertEqual(meta.bitrate, 8000)

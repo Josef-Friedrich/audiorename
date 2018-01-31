@@ -569,17 +569,17 @@ class Meta(MediaFile):
     def artist_initial(self):
         """Uses:
 
-        * :class:`audiorename.meta.Meta.artistsafe_sort`
+        * :class:`audiorename.meta.Meta.ar_combined_artist_sort`
 
         Examples:
 
         * ``Just Friends`` → ``j``
         * ``Die Meistersinger von Nürnberg``  → ``d``
         """
-        return self._initials(self.artistsafe_sort)
+        return self._initials(self.ar_combined_artist_sort)
 
     @property
-    def artistsafe(self):
+    def ar_combined_artist(self):
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.albumartist``
@@ -608,7 +608,7 @@ class Meta(MediaFile):
         return out
 
     @property
-    def artistsafe_sort(self):
+    def ar_combined_artist_sort(self):
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.albumartist_sort``
@@ -623,7 +623,7 @@ class Meta(MediaFile):
             out = self.albumartist_sort
         elif self.artist_sort:
             out = self.artist_sort
-        # Same as artistsafe
+        # Same as ar_combined_artist
         elif self.albumartist:
             out = self.albumartist
         elif self.artist:
@@ -654,14 +654,14 @@ class Meta(MediaFile):
 
         * ``phrydy.mediafile.MediaFile.composer_sort``
         * ``phrydy.mediafile.MediaFile.composer``
-        * :class:`audiorename.meta.Meta.artistsafe`
+        * :class:`audiorename.meta.Meta.ar_combined_artist`
         """
         if self.composer_sort:
             out = self.composer_sort
         elif self.composer:
             out = self.composer
         else:
-            out = self.artistsafe
+            out = self.ar_combined_artist
 
         if self.shell_friendly:
             out = out.replace(', ', '_')

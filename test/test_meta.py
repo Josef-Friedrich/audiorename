@@ -280,23 +280,23 @@ class TestPropertyAlbumClean(unittest.TestCase):
         self.assertEqual(meta.album_clean, u'The Greatest No.1s of the 80s')
 
 
-# artistsafe (integration)
+# ar_combined_artist (integration)
 class TestPropertyArtistSafe(unittest.TestCase):
 
     def test_artist(self):
         meta = get_meta('meta', 'artist.mp3')
-        self.assertEqual(meta.artistsafe, u'artist')
+        self.assertEqual(meta.ar_combined_artist, u'artist')
 
     def test_artist_sort(self):
         meta = get_meta('meta', 'artist_sort.mp3')
-        self.assertEqual(meta.artistsafe_sort, u'artist_sort')
+        self.assertEqual(meta.ar_combined_artist_sort, u'artist_sort')
 
     def test_albumartist(self):
         meta = get_meta('meta', 'albumartist.mp3')
-        self.assertEqual(meta.artistsafe, u'albumartist')
+        self.assertEqual(meta.ar_combined_artist, u'albumartist')
 
 
-# artistsafe (unit)
+# ar_combined_artist (unit)
 class TestPropertyArtistSafeUnit(unittest.TestCase):
 
     def setUp(self):
@@ -310,12 +310,12 @@ class TestPropertyArtistSafeUnit(unittest.TestCase):
 
     def assertArtistSort(self, key):
         setattr(self.meta, key, key)
-        self.assertEqual(self.meta.artistsafe, key)
-        self.assertEqual(self.meta.artistsafe_sort, key)
+        self.assertEqual(self.meta.ar_combined_artist, key)
+        self.assertEqual(self.meta.ar_combined_artist_sort, key)
 
     def test_unkown(self):
-        self.assertEqual(self.meta.artistsafe, u'Unknown')
-        self.assertEqual(self.meta.artistsafe_sort, u'Unknown')
+        self.assertEqual(self.meta.ar_combined_artist, u'Unknown')
+        self.assertEqual(self.meta.ar_combined_artist_sort, u'Unknown')
 
     def test_albumartist_credit(self):
         self.assertArtistSort('albumartist_credit')
@@ -338,32 +338,33 @@ class TestPropertyArtistSafeUnit(unittest.TestCase):
     def test_artist__artist_sort(self):
         self.meta.artist = 'artist'
         self.meta.artist_sort = 'artist_sort'
-        self.assertEqual(self.meta.artistsafe, 'artist')
-        self.assertEqual(self.meta.artistsafe_sort, 'artist_sort')
+        self.assertEqual(self.meta.ar_combined_artist, 'artist')
+        self.assertEqual(self.meta.ar_combined_artist_sort, 'artist_sort')
 
     def test_albumartist__artist__artist_sort(self):
         self.meta.albumartist = 'albumartist'
         self.meta.artist = 'artist'
         self.meta.artist_sort = 'artist_sort'
-        self.assertEqual(self.meta.artistsafe, 'albumartist')
-        self.assertEqual(self.meta.artistsafe_sort, 'artist_sort')
+        self.assertEqual(self.meta.ar_combined_artist, 'albumartist')
+        self.assertEqual(self.meta.ar_combined_artist_sort, 'artist_sort')
 
     def test_artist__albumartist_sort__artist_sort(self):
         self.meta.albumartist_sort = 'albumartist_sort'
         self.meta.artist = 'artist'
         self.meta.artist_sort = 'artist_sort'
-        self.assertEqual(self.meta.artistsafe, 'artist')
-        self.assertEqual(self.meta.artistsafe_sort, 'albumartist_sort')
+        self.assertEqual(self.meta.ar_combined_artist, 'artist')
+        self.assertEqual(self.meta.ar_combined_artist_sort, 'albumartist_sort')
 
     def test_shell_unfriendly(self):
         self.meta.shell_friendly = False
         self.meta.artist_sort = 'Lastname, Prename'
-        self.assertEqual(self.meta.artistsafe_sort, 'Lastname, Prename')
+        self.assertEqual(self.meta.ar_combined_artist_sort,
+                         'Lastname, Prename')
 
     def test_shell_friendly(self):
         self.meta.shell_friendly = True
         self.meta.artist_sort = 'Lastname, Prename'
-        self.assertEqual(self.meta.artistsafe_sort, 'Lastname_Prename')
+        self.assertEqual(self.meta.ar_combined_artist_sort, 'Lastname_Prename')
 
 
 # disctrack (integration)
@@ -735,8 +736,8 @@ all_fields = [
     'artist_initial',
     'artist_sort',
     'artist',
-    'artistsafe_sort',
-    'artistsafe',
+    'ar_combined_artist_sort',
+    'ar_combined_artist',
     'asin',
     'bitdepth',
     'bitrate',
@@ -852,11 +853,11 @@ class TestAllPropertiesHines(unittest.TestCase):
     def test_artist_initial(self):
         self.assertEqual(self.meta.artist_initial, u'h')
 
-    def test_artistsafe(self):
-        self.assertEqual(self.meta.artistsafe, u'Earl Hines')
+    def test_ar_combined_artist(self):
+        self.assertEqual(self.meta.ar_combined_artist, u'Earl Hines')
 
-    def test_artistsafe_sort(self):
-        self.assertEqual(self.meta.artistsafe_sort, u'Hines, Earl')
+    def test_ar_combined_artist_sort(self):
+        self.assertEqual(self.meta.ar_combined_artist_sort, u'Hines, Earl')
 
     def test_composer_initial(self):
         self.assertEqual(self.meta.composer_initial, u'e')
@@ -908,17 +909,17 @@ class TestAllPropertiesWagner(unittest.TestCase):
     def test_artist_initial(self):
         self.assertEqual(self.meta.artist_initial, u'w')
 
-    def test_artistsafe(self):
+    def test_ar_combined_artist(self):
         self.assertEqual(
-            self.meta.artistsafe,
+            self.meta.ar_combined_artist,
             u'Richard Wagner; René Kollo, Helen Donath, Theo Adam, Geraint ' +
             'Evans, Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der ' +
             'Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle ' +
             'Dresden, Herbert von Karajan')
 
-    def test_artistsafe_sort(self):
+    def test_ar_combined_artist_sort(self):
         self.assertEqual(
-            self.meta.artistsafe_sort,
+            self.meta.ar_combined_artist_sort,
             u'Wagner, Richard; Kollo, René, Donath, Helen, Adam, Theo, Evans, '
             'Geraint, Schreier, Peter, Hesse, Ruth, Ridderbusch, Karl, Chor '
             'der Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle '

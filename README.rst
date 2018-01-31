@@ -102,23 +102,23 @@ Usage
                                name
     
         $artist_initial:       First character in lowercase of
-                               “artistsafe_sort”
+                               “ar_combined_artist_sort”
     
         $artist_sort:          The “sort name” of the track
                                artist (e.g., “Beatles, The”
                                or “White, Jack”)
     
-        $artistsafe:           The first available value of this
+        $ar_combined_artist:           The first available value of this
                                metatag order: “albumartist”
                                -> “artist” ->
                                “albumartist_credit” ->
                                “artist_credit”
     
-        $artistsafe_sort:      The first available value of this
+        $ar_combined_artist_sort:      The first available value of this
                                metatag order:
                                “albumartist_sort” ->
                                “artist_sort” ->
-                               “artistsafe”
+                               “ar_combined_artist”
     
         $asin:                 Amazon Standard Identification
                                Number

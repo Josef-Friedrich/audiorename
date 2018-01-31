@@ -116,7 +116,7 @@ class Stats(object):
 class DefaultFormats(object):
 
     default = '$artist_initial/' + \
-              '%shorten{$artistsafe_sort}/' + \
+              '%shorten{$ar_combined_artist_sort}/' + \
               '%shorten{$album_clean}' + \
               '%ifdefnotempty{year_safe,_${year_safe}}/' + \
               '${disctrack}_%shorten{$title}'

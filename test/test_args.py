@@ -87,12 +87,12 @@ class TestHelp(unittest.TestCase):
         self.assertTrue('artist_initial' in self.output)
         self.assertTrue('First character' in self.output)
 
-    def test_field_artistsafe(self):
-        self.assertTrue('artistsafe' in self.output)
+    def test_field_ar_combined_artist(self):
+        self.assertTrue('ar_combined_artist' in self.output)
         self.assertTrue('The first available' in self.output)
 
-    def test_field_artistsafe_sort(self):
-        self.assertTrue('artistsafe_sort' in self.output)
+    def test_field_ar_combined_artist_sort(self):
+        self.assertTrue('ar_combined_artist_sort' in self.output)
         self.assertTrue('The first available' in self.output)
 
     # composer

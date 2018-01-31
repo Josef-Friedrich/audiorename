@@ -25,18 +25,20 @@ fields = {
     },
     # artist
     'artist_initial': {
-        'description': 'First character in lowercase of “artistsafe_sort”',
+        'description': 'First character in lowercase of '
+                       '“ar_combined_artist_sort”',
         'category': 'ordinary',
     },
-    'artistsafe': {
-        'description': 'The first available value of this metatag order: ' +
+    'ar_combined_artist': {
+        'description': 'The first available value of this metatag order: '
                        '“albumartist” -> “artist” -> “albumartist_credit” '
                        '-> “artist_credit”',
         'category': 'ordinary',
     },
-    'artistsafe_sort': {
-        'description': 'The first available value of this metatag order: ' +
-                       '“albumartist_sort” -> “artist_sort” -> “artistsafe”',
+    'ar_combined_artist_sort': {
+        'description': 'The first available value of this metatag order: '
+                       '“albumartist_sort” -> “artist_sort” -> '
+                       '“ar_combined_artist”',
         'category': 'ordinary',
     },
     # composer
