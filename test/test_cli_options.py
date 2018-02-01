@@ -316,7 +316,7 @@ class TestDebug(unittest.TestCase):
                 tmp
             )
 
-        self.assertTrue(u'   ar_combined_year: 2001' in str(output))
+        self.assertTrue(u'ar_combined_year       : 2001' in str(output))
 
 
 # --delete
@@ -434,10 +434,12 @@ class TestEnrichMetadata(unittest.TestCase):
                          u'Die Meistersinger von Nürnberg, WWV 96 -> '
                          u'Die Meistersinger von Nürnberg, WWV 96: Akt I -> '
                          u'Die Meistersinger von Nürnberg, WWV 96: Akt I. '
-                         u'Vorspiel' )
+                         u'Vorspiel')
         self.assertEqual(enriched.work,
                          u'Die Meistersinger von Nürnberg, WWV 96: Akt I. '
                          u'Vorspiel')
+
+
 # --field-skip
 class TestSkipIfEmpty(unittest.TestCase):
 
