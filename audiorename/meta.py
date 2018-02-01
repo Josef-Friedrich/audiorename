@@ -2,6 +2,11 @@
 
 """Extend the class ``MediaFile`` of the package ``phrydy``.
 
+.. code-block:: Python
+
+    import json
+    print(json.dumps(result,indent=2))
+
 ``get_recording_by_id`` with ``work-rels``
 
 soundtrack/Pulp-Fiction/01.mp3
@@ -77,7 +82,35 @@ classical/Mozart_Horn-concertos/01.mp3
         "type": "Aria",
         "id": "eafec51f-47c5-3c66-8c36-a524246c85f8",
         "language": "deu",
-        "title": "Die Zauberfl\u00f6te: Act I, Scene II. No. 2 Aria .."
+        "title": "Die Zauberfl\u00f6te: Act I, Scene II. No. 2 Aria ..",
+        "artist-relation-list": [
+          {
+            "type-id": "7474ab81-486f-40b5-8685-3a4f8ea624cb",
+            "direction": "backward",
+            "type": "librettist",
+            "target": "86104c7c-cda4-4798-a4ab-104318c7ae9c",
+            "artist": {
+              "sort-name": "Schikaneder, Emanuel",
+              "id": "86104c7c-cda4-4798-a4ab-104318c7ae9c",
+              "name": "Emanuel Schikaneder"
+            }
+          },
+          {
+            "begin": "1791",
+            "end": "1791",
+            "target": "b972f589-fb0e-474e-b64a-803b0364fa75",
+            "artist": {
+              "sort-name": "Mozart, Wolfgang Amadeus",
+              "disambiguation": "classical composer",
+              "id": "b972f589-fb0e-474e-b64a-803b0364fa75",
+              "name": "Wolfgang Amadeus Mozart"
+            },
+            "direction": "backward",
+            "type-id": "d59d99ea-23d4-4a80-b066-edca32ee158f",
+            "ended": "true",
+            "type": "composer"
+          }
+        ]
       }
     }
 
@@ -242,6 +275,9 @@ def query_mbrainz(mb_type, mb_id):
         mb_includes = ['release-groups']
     else:
         mb_includes = []
+
+    if mb_type == 'work':
+        mb_includes.append('artist-rels')
 
     try:
         result = query(mb_id, includes=mb_includes)
