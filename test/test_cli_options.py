@@ -405,6 +405,15 @@ class TestEnrichMetadata(unittest.TestCase):
         from audiorename.meta import Meta
 
         orig = Meta(tmp)
+        orig.composer = None
+        orig.composer_sort = None
+        orig.save()
+        orig = Meta(tmp)
+        self.assertEqual(orig.composer_sort, None)
+        self.assertEqual(orig.composer, None)
+        self.assertEqual(orig.mb_workhierarchy_ids, None)
+        self.assertEqual(orig.mb_workid, None)
+        self.assertEqual(orig.work_hierarchy, None)
         self.assertEqual(orig.work, None)
 
         with helper.Capturing() as output:
@@ -412,13 +421,23 @@ class TestEnrichMetadata(unittest.TestCase):
 
         self.assertTrue('Enrich metadata' in helper.join(output))
 
-        with_work = Meta(tmp)
-        self.assertEqual(
-            with_work.work,
-            u'Die Meistersinger von N\xfcrnberg, WWV 96: Akt I. Vorspiel'
-        )
-
-
+        enriched = Meta(tmp)
+        self.assertEqual(enriched.composer_sort, u'Wagner, Richard')
+        self.assertEqual(enriched.composer, u'Richard Wagner')
+        self.assertEqual(enriched.mb_workhierarchy_ids,
+                         u'4d644732-9876-4b0d-9c2c-b6a738d6530e/'
+                         u'73663bd3-392f-45a7-b4ff-e75c01f5926a/'
+                         u'6b198406-4fbf-3d61-82db-0b7ef195a7fe')
+        self.assertEqual(enriched.mb_workid,
+                         u'6b198406-4fbf-3d61-82db-0b7ef195a7fe')
+        self.assertEqual(enriched.work_hierarchy,
+                         u'Die Meistersinger von Nürnberg, WWV 96 -> '
+                         u'Die Meistersinger von Nürnberg, WWV 96: Akt I -> '
+                         u'Die Meistersinger von Nürnberg, WWV 96: Akt I. '
+                         u'Vorspiel' )
+        self.assertEqual(enriched.work,
+                         u'Die Meistersinger von Nürnberg, WWV 96: Akt I. '
+                         u'Vorspiel')
 # --field-skip
 class TestSkipIfEmpty(unittest.TestCase):
 

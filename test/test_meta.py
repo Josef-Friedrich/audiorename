@@ -122,6 +122,7 @@ class TestEnrich(unittest.TestCase):
                          '5adc213f-700a-4435-9e95-831ed720f348')
         self.assertEqual(result[2]['id'],
                          'e208c5f5-5d37-3dfc-ac0b-999f207c9e46')
+        self.assertTrue('artist-relation-list' in result[2])
 
 
 ###############################################################################

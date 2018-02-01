@@ -297,7 +297,7 @@ def work_recursion(work_id, works=[]):
     if not work:
         return works
 
-    works.append({'id': work['id'], 'title': work['title']})
+    works.append(work)
 
     parent_work = False
     if 'work-relation-list' in work:
@@ -387,8 +387,16 @@ class Meta(MediaFile):
             work_hierarchy = work_recursion(work_id, [])
             if work_hierarchy:
                 work_hierarchy.reverse()
-                self.mb_workid = work_hierarchy[-1]['id']
-                self.work = work_hierarchy[-1]['title']
+                work_bottom = work_hierarchy[-1]
+                if 'artist-relation-list' in work_bottom:
+                    for artist in work_bottom['artist-relation-list']:
+                        if artist['direction'] == 'backward' and \
+                           artist['type'] == 'composer':
+                            self.composer = artist['artist']['name']
+                            self.composer_sort = artist['artist']['sort-name']
+                            break
+                self.mb_workid = work_bottom['id']
+                self.work = work_bottom['title']
                 wh_titles = []
                 wh_ids = []
                 for work in work_hierarchy:
