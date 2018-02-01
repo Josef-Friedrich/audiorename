@@ -384,9 +384,13 @@ class Meta(MediaFile):
             safe.append(['artist', self.artist])
             self.artist = self.composer
 
-        if self.work:
+        if self.ar_combined_work_top:
             safe.append(['album', self.album])
-            self.album = self.work
+            self.ar_performer_short
+            album = self.ar_combined_work_top
+            if self.ar_performer_short:
+                album += ' (' + self.ar_performer_short + ')'
+            self.album = album
 
         if safe:
             comments = u'Original metadata: '
@@ -529,7 +533,7 @@ class Meta(MediaFile):
 
         Examples:
 
-        * ``Horn Concerto: I. Allegro`` → ``I. Allegro``
+        * ``Horn Concerto: I. Allegro`` → ``Horn Concerto``
         * ``Die Meistersinger von Nürnberg``
         """
         if self.work:
@@ -791,33 +795,32 @@ class Meta(MediaFile):
 
         * ``phrydy.mediafile.MediaFile.ar_performer_raw``
         """
-        out = u''
+        out = []
 
-        ar_performer = self.ar_performer_raw
+        performers = self.ar_performer_raw
         picked = []
-        for p in ar_performer:
-            if p[0] == u'conductor' or p[0] == u'orchestra':
-                picked.append(p)
+        for performer in performers:
+            if performer[0] == u'conductor' or performer[0] == u'orchestra':
+                picked.append(performer)
 
         if len(picked) > 0:
-            ar_performer = picked
+            performers = picked
 
-        for p in ar_performer:
+        for performer in performers:
 
-            if p[0] == u'producer' or p[0] == u'executive producer' or \
-                    p[0] == 'balance engineer':
-                s = u''
-            elif p[0] == u'orchestra' or p[0] == u'choir vocals' or \
-                    p[0] == 'string quartet':
-                s = self._shorten_performer(p[1], separator=u'',
-                                            abbreviation=u'')
+            if performer[0] == u'producer' or \
+                    performer[0] == u'executive producer' or \
+                    performer[0] == 'balance engineer':
+                pass
+            elif performer[0] == u'orchestra' or \
+                    performer[0] == u'choir vocals' or \
+                    performer[0] == 'string quartet':
+                out.append(self._shorten_performer(performer[1], separator=u'',
+                                                   abbreviation=u''))
             else:
-                s = p[1].split(' ')[-1]
-            out = out + u', ' + s
+                out.append(performer[1].split(' ')[-1])
 
-        out = out[2:]
-
-        return out
+        return u', '.join(out)
 
     @property
     def ar_combined_soundtrack(self):

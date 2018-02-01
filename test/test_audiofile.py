@@ -47,7 +47,8 @@ class TestClassAction(unittest.TestCase):
 
         meta = Meta(tmp.abspath)
         self.assertEqual(meta.album,
-                         'Die Winterreise, op. 89, D. 911: I. Gute Nacht')
+                         'Die Winterreise, op. 89, D. 911 '
+                         '(Fischer-Dieskau, Moore)')
 
 
 class TestClassAudioFile(unittest.TestCase):
