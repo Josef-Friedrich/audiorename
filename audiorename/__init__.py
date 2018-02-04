@@ -436,6 +436,8 @@ def job_info(job):
     info.add('Action', job.rename.move)
     info.add('Source', job.source)
     info.add('Target', job.target)
+    if job.rename.cleanup == 'backup':
+        info.add('Backup folder', job.rename.backup_folder)
 
     if job.output.verbose:
         info.add('Default', job.format.default)

@@ -501,28 +501,35 @@ class TestCustomFormats(unittest.TestCase):
 # --job-info
 class TestJobInfo(unittest.TestCase):
 
-    def test_dry_run(self):
+    def get_job_info(self, *args):
         with helper.Capturing() as output:
             audiorename.execute('--dry-run', '--job-info',
-                                helper.get_testfile('mixed_formats'))
+                                helper.get_testfile('mixed_formats'), *args)
+        return '\n'.join(output)
 
-        output = str(output)
+    def test_dry_run(self):
+        output = self.get_job_info()
         self.assertTrue('Versions: ' in output)
         self.assertTrue('audiorename=' in output)
         self.assertTrue('phrydy=' in output)
         self.assertTrue('tmep=' in output)
         self.assertTrue('Source: ' in output)
         self.assertTrue('Target: ' in output)
+        self.assertFalse('Backup folder: ' in output)
 
     def test_verbose(self):
-        with helper.Capturing() as output:
-            audiorename.execute('--dry-run', '--job-info', '--verbose',
-                                helper.get_testfile('mixed_formats'))
-
-        output = str(output)
+        output = self.get_job_info('--verbose')
         self.assertTrue('Default: ' in output)
         self.assertTrue('Compilation: ' in output)
         self.assertTrue('Soundtrack: ' in output)
+
+    def test_backup(self):
+        output = self.get_job_info('--backup')
+        self.assertTrue('_audiorename_backups' in output)
+
+    def test_backup_folder(self):
+        output = self.get_job_info('--backup', '--backup-folder', '/tmp')
+        self.assertTrue('Backup folder: /tmp' in output)
 
 
 # --mb-track-listing
