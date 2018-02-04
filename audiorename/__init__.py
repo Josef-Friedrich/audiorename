@@ -173,7 +173,13 @@ class RenameAction(object):
     def __init__(self, args):
         self._args = args
         self.best_format = args.best_format
-        self.backup_folder = args.backup_folder
+
+    @property
+    def backup_folder(self):
+        if self._args.backup_folder:
+            return self._args.backup_folder
+        else:
+            return os.path.join(os.getcwd(), '_audiorename_backups')
 
     @property
     def cleanup(self):

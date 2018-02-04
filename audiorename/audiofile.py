@@ -204,14 +204,9 @@ class Action(object):
             self.delete(audio_file)
 
     def backup(self, audio_file):
-        if self.job.rename.backup_folder:
-            backup_folder = self.job.rename.backup_folder
-        else:
-            backup_folder = os.path.join(os.getcwd(), '_audiorename_backups')
-
         backup_file = AudioFile(
             os.path.join(
-                backup_folder,
+                self.job.rename.backup_folder,
                 os.path.basename(audio_file.abspath)
             ), file_type='target'
         )
