@@ -266,7 +266,22 @@ class Message(object):
         self.output(self.template_indent(2) + self.template_path(source))
         self.output(self.template_indent(2) + 'to:')
         self.output(self.template_indent(2) + self.template_path(target))
-        self.output()
+
+    def best_format(self, best, attr, source, target):
+        source_attr = getattr(source, attr)
+        target_attr = getattr(target, attr)
+
+        if source_attr == target_attr and best == 'target':
+            self.output('Best format: Source and target have the some formats,'
+                        ' use target.')
+        else:
+            self.output(
+                'Best format is “' + best +
+                '” because of “' + attr +
+                '”: (source: ' + str(source_attr) +
+                ', target: ' + str(target_attr) +
+                ')'
+            )
 
     def diff(self, key, value1, value2):
         key_width = self.max_field + 2

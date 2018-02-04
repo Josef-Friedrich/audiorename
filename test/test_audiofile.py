@@ -126,39 +126,80 @@ class TestFunctionBestFormat(unittest.TestCase):
         return audiofile.best_format(
             helper.get_meta('quality', source),
             helper.get_meta('quality', target),
+            helper.get_job()
         )
 
     def test_same_quality(self):
-        result = self.source_target('flac.flac', 'flac.flac')
+        with helper.Capturing() as output:
+            result = self.source_target('flac.flac', 'flac.flac')
         self.assertEqual(result, 'target')
+        self.assertEqual(
+            output[0], u'Best format: Source and target have the some '
+            'formats, use target.'
+        )
 
-    def test_target_better(self):
-        result = self.source_target('mp3_128.mp3', 'flac.flac')
+    def test_type_target_better(self):
+        with helper.Capturing() as output:
+            result = self.source_target('mp3_128.mp3', 'flac.flac')
         self.assertEqual(result, 'target')
+        self.assertEqual(
+            output[0], u'Best format is “target” because of “type”: '
+            '(source: mp3, target: flac)'
+        )
 
-    def test_source_better(self):
-        result = self.source_target('flac.flac', 'mp3_128.mp3')
+    def test_type_source_better(self):
+        with helper.Capturing() as output:
+            result = self.source_target('flac.flac', 'mp3_128.mp3')
         self.assertEqual(result, 'source')
+        self.assertEqual(
+            output[0], u'Best format is “source” because of “type”: '
+            '(source: flac, target: mp3)'
+        )
 
-    def test_mp3_source_better(self):
-        result = self.source_target('mp3_320.mp3', 'mp3_128.mp3')
+    def test_bitrate_mp3_source_better(self):
+        with helper.Capturing() as output:
+            result = self.source_target('mp3_320.mp3', 'mp3_128.mp3')
         self.assertEqual(result, 'source')
+        self.assertEqual(
+            output[0], u'Best format is “source” because of “bitrate”: '
+            '(source: 319999, target: 191995)'
+        )
 
-    def test_mp3_target_better_2(self):
-        result = self.source_target('mp3_144.mp3', 'mp3_320.mp3')
+    def test_bitrate_mp3_target_better_2(self):
+        with helper.Capturing() as output:
+            result = self.source_target('mp3_144.mp3', 'mp3_320.mp3')
         self.assertEqual(result, 'target')
+        self.assertEqual(
+            output[0], u'Best format is “target” because of “bitrate”: '
+            '(source: 86884, target: 319999)'
+        )
 
-    def test_mp3_source_better_2(self):
-        result = self.source_target('mp3_320.mp3', 'mp3_144.mp3')
+    def test_bitrate_mp3_source_better_2(self):
+        with helper.Capturing() as output:
+            result = self.source_target('mp3_320.mp3', 'mp3_144.mp3')
         self.assertEqual(result, 'source')
+        self.assertEqual(
+            output[0], u'Best format is “source” because of “bitrate”: '
+            '(source: 319999, target: 86884)'
+        )
 
-    def test_mp3_target_better(self):
-        result = self.source_target('m4a_100.m4a', 'm4a_250.m4a')
+    def test_bitrate_m4a_target_better(self):
+        with helper.Capturing() as output:
+            result = self.source_target('m4a_100.m4a', 'm4a_250.m4a')
         self.assertEqual(result, 'target')
+        self.assertEqual(
+            output[0], u'Best format is “target” because of “bitrate”: '
+            '(source: 198551, target: 235243)'
+        )
 
-    def test_m4a_target_better(self):
-        result = self.source_target('m4a_250.m4a', 'm4a_100.m4a')
+    def test_bitrate_m4a_source_better(self):
+        with helper.Capturing() as output:
+            result = self.source_target('m4a_250.m4a', 'm4a_100.m4a')
         self.assertEqual(result, 'source')
+        self.assertEqual(
+            output[0], u'Best format is “source” because of “bitrate”: '
+            '(source: 235243, target: 198551)'
+        )
 
 
 class TestBasicRename(unittest.TestCase):

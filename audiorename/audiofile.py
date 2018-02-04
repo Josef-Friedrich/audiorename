@@ -114,7 +114,7 @@ def get_target(target, extensions):
             return audio_file
 
 
-def best_format(source, target):
+def best_format(source, target, job):
     """
     :param source: The metadata object of the source file.
     :type source: audiorename.meta.Meta
@@ -133,7 +133,9 @@ def best_format(source, target):
         bitrates = {}
         bitrates[source.bitrate] = 'source'
         bitrates[target.bitrate] = 'target'
-        return get_highest(bitrates)
+        best = get_highest(bitrates)
+        job.msg.best_format(best, 'bitrate', source, target)
+        return best
 
     else:
 
@@ -164,7 +166,9 @@ def best_format(source, target):
         types = {}
         types[ranking[source.type]] = 'source'
         types[ranking[target.type]] = 'target'
-        return get_highest(types)
+        best = get_highest(types)
+        job.msg.best_format(best, 'type', source, target)
+        return best
 
 
 def process_target_path(meta, format_string, shell_friendly=True):
@@ -378,7 +382,7 @@ def do_job_on_audiofile(source, job=None):
 
         # Both file exist
         if target:
-            best = best_format(source.meta, target.meta)
+            best = best_format(source.meta, target.meta, job)
 
             if job.rename.cleanup:
 
