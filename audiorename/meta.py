@@ -304,7 +304,7 @@ def work_recursion(work_id, works=[]):
         for relation in work['work-relation-list']:
             if 'direction' in relation and \
                     relation['direction'] == 'backward' and \
-                    relation['type'] != 'medley':
+                    relation['type'] == 'parts':
                 parent_work = relation
                 break
 

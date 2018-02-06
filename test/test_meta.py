@@ -115,7 +115,8 @@ class TestEnrich(unittest.TestCase):
         # recording_id 6a0599ea-5c06-483a-ba66-f3a036da900a
         # work_id eafec51f-47c5-3c66-8c36-a524246c85f8
         # Akt 1: 5adc213f-700a-4435-9e95-831ed720f348
-        result = meta.work_recursion('eafec51f-47c5-3c66-8c36-a524246c85f8')
+        result = meta.work_recursion('eafec51f-47c5-3c66-8c36-a524246c85f8',
+                                     [])
         self.assertEqual(result[0]['id'],
                          'eafec51f-47c5-3c66-8c36-a524246c85f8')
         self.assertEqual(result[1]['id'],
@@ -123,6 +124,15 @@ class TestEnrich(unittest.TestCase):
         self.assertEqual(result[2]['id'],
                          'e208c5f5-5d37-3dfc-ac0b-999f207c9e46')
         self.assertTrue('artist-relation-list' in result[2])
+
+    @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
+    def test_work_kempff_transcription(self):
+        # work_id 4fba670e-3b8e-4ddf-a3a6-90817c94d6ce
+        result = meta.work_recursion('4fba670e-3b8e-4ddf-a3a6-90817c94d6ce',
+                                     [])
+        self.assertEqual(result[0]['id'],
+                         '4fba670e-3b8e-4ddf-a3a6-90817c94d6ce')
+        self.assertEqual(len(result), 1)
 
 
 ###############################################################################
