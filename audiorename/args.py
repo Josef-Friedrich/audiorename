@@ -3,7 +3,7 @@
 """Create the command line interface using the package “argparse”."""
 
 import phrydy
-from tmep import doc as tmep_doc
+import tmep
 import argparse
 
 from ._version import get_versions
@@ -144,7 +144,7 @@ Metadata fields
 Functions
 =========
 
-''' + tmep_doc.Doc().get()
+''' + tmep.doc.Doc().get()
 
 
 def parse_args(argv):
