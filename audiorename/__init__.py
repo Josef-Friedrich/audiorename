@@ -7,6 +7,8 @@ from __future__ import print_function
 import os
 import ansicolor
 import phrydy
+import phrydy
+import tmep
 from .args import parse_args, all_fields
 from .batch import Batch
 from ._version import get_versions
@@ -423,9 +425,6 @@ class Job(object):
 
 
 def job_info(job):
-    import phrydy
-    import tmep
-
     versions = KeyValue(job.output.color)
     versions.add('audiorename', __version__)
     versions.add('phrydy', phrydy.__version__)
