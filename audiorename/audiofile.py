@@ -5,19 +5,18 @@
 
 from __future__ import print_function
 
-import os
-
-import shutil
-
-import phrydy
 from phrydy.utils import as_string
 from tmep import Functions
 from tmep import Template
+import errno
+import os
+import phrydy
+import re
+import shutil
+import six
 
 from .meta import Meta, dict_diff
-import six
-import re
-import errno
+
 
 if six.PY2:
     import sys

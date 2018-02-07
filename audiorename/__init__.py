@@ -4,17 +4,17 @@
 
 from __future__ import print_function
 
-import os
+from collections import namedtuple, OrderedDict
 import ansicolor
+import os
 import phrydy
-import phrydy
+import sys
+import time
 import tmep
+
 from .args import parse_args, all_fields
 from .batch import Batch
 from ._version import get_versions
-from collections import namedtuple, OrderedDict
-import time
-import sys
 
 __version__ = get_versions()['version']
 del get_versions

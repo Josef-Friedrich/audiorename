@@ -2,11 +2,12 @@
 
 """Batch processing of the audio files."""
 
-from .audiofile import do_job_on_audiofile
-from .audiofile import mb_track_listing
-import phrydy
 from phrydy import MediaFile
 import os
+import phrydy
+
+from .audiofile import do_job_on_audiofile
+from .audiofile import mb_track_listing
 
 
 class Batch(object):

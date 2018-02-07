@@ -249,11 +249,12 @@ classical/Mozart_Horn-concertos/01.mp3
 
 """
 
-import re
 from phrydy import MediaFile
 from tmep import Functions
-import six
 import musicbrainzngs as mbrainz
+import re
+import six
+
 from ._version import get_versions
 
 
