@@ -2,7 +2,7 @@
 
 """Create the command line interface using the package “argparse”."""
 
-from phrydy import doc as phrydy_doc
+import phrydy
 from tmep import doc as tmep_doc
 import argparse
 
@@ -82,7 +82,7 @@ fields = {
 }
 """Documentation of the extra fields."""
 
-all_fields = phrydy_doc.merge_fields(phrydy_doc.fields, fields)
+all_fields = phrydy.doc.merge_fields(phrydy.doc.fields, fields)
 
 
 class ArgsDefault():
@@ -139,7 +139,7 @@ def description():
 Metadata fields
 ===============
 
-''' + phrydy_doc.get_doc(additional_doc=fields) + '''
+''' + phrydy.doc.get_doc(additional_doc=fields) + '''
 
 Functions
 =========
