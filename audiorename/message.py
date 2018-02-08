@@ -42,8 +42,8 @@ class KeyValue(object):
 class Message(object):
     """Print messages on the command line interface.
 
-    :param job: The `job` object
-    :type job: audiorename.Job
+    :param job: The `job` object.
+    :type job: audiorename.job.Job
     """
 
     def __init__(self, job):
@@ -151,6 +151,10 @@ class Message(object):
 
 
 def job_info(job):
+    """
+    :param job: The `job` object.
+    :type job: audiorename.job.Job
+    """
     versions = KeyValue(job.output.color)
     versions.add('audiorename', audiorename.__version__)
     versions.add('phrydy', phrydy.__version__)
@@ -173,6 +177,10 @@ def job_info(job):
 
 
 def stats(job):
+    """
+    :param job: The `job` object.
+    :type job: audiorename.job.Job
+    """
     kv = KeyValue(job.output.color)
 
     kv.add('Execution time', job.stats.timer.result())

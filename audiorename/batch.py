@@ -14,7 +14,11 @@ class Batch(object):
     this process it tries to make bundles of files belonging to a album. This
     bundle of files is temporary stores in the attribute `virtual_album`. This
     complicated mechanism is needed for the both filters `album_complete` and
-    `album_min`."""
+    `album_min`.
+
+    :param job: The `job` object.
+    :type job: audiorename.job.Job
+    """
 
     virtual_album = []
     """Storage of a list of files belonging to an album."""

@@ -23,7 +23,15 @@ if six.PY2:
 
 
 class AudioFile(object):
-
+    """
+    :param path: The path string of the audio file.
+    :param string file_type: Either “source” or “target”.
+    :param string prefix: The path prefix of the audio file, for example the
+        base folder of your music collection. Used to shorten the path strings
+        in the progress messaging.
+    :param job: The `job` object.
+    :type job: audiorename.job.Job
+    """
     def __init__(self, path=None, file_type='source', prefix=None, job=None):
         self.__path = path
         self.type = file_type
@@ -118,6 +126,8 @@ def best_format(source, target, job):
     :param target: The metadata object of the target file.
     :type target: audiorename.meta.Meta
     :return: Either the string `source` or the string `target`
+    :param job: The `job` object.
+    :type job: audiorename.job.Job
     :rtype: string
     """
     def get_highest(dictionary):
@@ -169,6 +179,12 @@ def best_format(source, target, job):
 
 
 def process_target_path(meta, format_string, shell_friendly=True):
+    """
+    :param dict meta: The to a dictionary converted attributes of a
+        meta object :class:`audiorename.meta.Meta`.
+    :param string format_string:
+    :param boolean shell_friendly:
+    """
     template = Template(as_string(format_string))
     functions = Functions(meta)
     target = template.substitute(meta, functions.functions())
@@ -186,6 +202,10 @@ def process_target_path(meta, format_string, shell_friendly=True):
 
 
 class Action(object):
+    """
+    :param job: The `job` object.
+    :type job: audiorename.job.Job
+    """
 
     def __init__(self, job):
         self.job = job
@@ -271,7 +291,10 @@ class Action(object):
 
 
 def do_job_on_audiofile(source, job=None):
-
+    """
+    :param job: The `job` object.
+    :type job: audiorename.job.Job
+    """
     def count(key):
         job.stats.counter.count(key)
     skip = False
