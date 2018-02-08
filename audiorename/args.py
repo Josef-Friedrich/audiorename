@@ -2,11 +2,10 @@
 
 """Create the command line interface using the package “argparse”."""
 
+from audiorename._version import get_versions
+import argparse
 import phrydy
 import tmep
-import argparse
-
-from ._version import get_versions
 
 fields = {
     # album

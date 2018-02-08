@@ -4,7 +4,7 @@
 """
 
 from __future__ import print_function
-
+from audiorename.meta import Meta, dict_diff
 from phrydy.utils import as_string
 from tmep import Functions
 from tmep import Template
@@ -14,8 +14,6 @@ import phrydy
 import re
 import shutil
 import six
-
-from .meta import Meta, dict_diff
 
 
 if six.PY2:

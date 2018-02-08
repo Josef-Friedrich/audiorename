@@ -28,6 +28,24 @@ audiorename.batch module
     :undoc-members:
     :show-inheritance:
 
+
+audiorename.job module
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: audiorename.job
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+audiorename.message module
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: audiorename.message
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 audiorename.meta module
 ^^^^^^^^^^^^^^^^^^^^^^^
 
