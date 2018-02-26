@@ -256,12 +256,13 @@ class Job(object):
 
     @property
     def source(self):
-        """The source path as a absolute path. Maybe a directory or a file."""
+        """The source path as an absolute path. It maybe a directory or a
+        file."""
         return os.path.abspath(self._args.source)
 
     @property
     def target(self):
-        """The path of the target path as an absolute path. Is always a
+        """The path of the target as an absolute path. It is always a
         directory.
         """
         if self._args.source_as_target:
