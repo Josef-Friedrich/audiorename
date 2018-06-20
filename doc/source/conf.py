@@ -23,29 +23,10 @@ language = None
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
 
+autodoc_default_flags = ['members', 'undoc-members', 'private-members', 'show-inheritance']
+
 html_static_path = []
 htmlhelp_basename = 'audiorenamedoc'
-
-latex_elements = {
-     'papersize': 'a4paper',
-     'pointsize': '11pt',
-}
-
-latex_documents = [
-    (master_doc, 'audiorename.tex', u'audiorename Documentation',
-     u'Josef Friedrich', 'manual'),
-]
-
-man_pages = [
-    (master_doc, 'audiorename', u'audiorename Documentation',
-     [author], 1)
-]
-
-texinfo_documents = [
-    (master_doc, 'audiorename', u'audiorename Documentation',
-     author, 'audiorename', 'Rename audio files from metadata tags.',
-     'Miscellaneous'),
-]
 
 [extensions]
 todo_include_todos = True
