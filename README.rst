@@ -1,8 +1,14 @@
 .. image:: http://img.shields.io/pypi/v/audiorename.svg
     :target: https://pypi.python.org/pypi/audiorename
+    :alt: This package on the Python Package Index
 
 .. image:: https://travis-ci.org/Josef-Friedrich/audiorename.svg?branch=packaging
     :target: https://travis-ci.org/Josef-Friedrich/audiorename
+    :alt: Contineus integration
+
+.. image:: https://readthedocs.org/projects/audiorename/badge/?version=latest
+    :target: https://audiorename.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 ***********
 audiorename
@@ -275,20 +281,6 @@ Usage
     Functions
     =========
     
-        alpha
-        -----
-    
-        %alpha{text}
-            This function first ASCIIfies the given text, then all non alphabet
-            characters are replaced with whitespaces.
-    
-        alphanum
-        --------
-    
-        %alphanum{text}
-            This function first ASCIIfies the given text, then all non alpanumeric
-            characters are replaced with whitespaces.
-    
         asciify
         -------
     
@@ -350,13 +342,6 @@ Usage
             If field is not empty, then return truetext. Otherwise, returns
             falsetext. The field should be entered without $.
     
-        initial
-        -------
-    
-        %initial{text}
-            Get the first character of a text in lowercase. The text is converted
-            to ASCII. All non word characters are erased.
-    
         left
         ----
     
@@ -369,19 +354,12 @@ Usage
         %lower{text}
             Convert “text” to lowercase.
     
-        nowhitespace
-        ------------
-    
-        %nowhitespace{text,replace}
-            Replace all whitespace characters with replace. By default: a dash (-)
-            %nowhitespace{$track,_}
-    
         num
         ---
     
-        %num{number,count}
+        %num{number, count}
             Pad decimal number with leading zeros.
-            %num{$track,3}
+            %num{$track, 3}
     
         replchars
         ---------
@@ -405,9 +383,9 @@ Usage
         shorten
         -------
     
-        %shorten{text} or %shorten{text,max_size}
+        %shorten{text} or %shorten{text, max_size}
             Shorten “text” on word boundarys.
-            %shorten{$title,32}
+            %shorten{$title, 32}
     
         time
         ----
