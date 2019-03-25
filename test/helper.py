@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
-
 """Helper module for all tests."""
 
 import os
 import shutil
 import tempfile
 import sys
-import six
 import re
 import audiorename
 from audiorename import Job
@@ -14,12 +11,7 @@ from audiorename.args import ArgsDefault
 from audiorename.meta import set_useragent, query_mbrainz
 import musicbrainzngs
 import subprocess
-
-
-if six.PY2:
-    from cStringIO import StringIO
-else:
-    from io import StringIO
+from io import StringIO
 
 SKIP_API_CALLS = False
 try:

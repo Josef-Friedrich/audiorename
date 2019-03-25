@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Extend the class ``MediaFile`` of the package ``phrydy``.
 
 .. code-block:: Python
@@ -254,7 +252,6 @@ from phrydy import MediaFile
 from tmep import Functions
 import musicbrainzngs as mbrainz
 import re
-import six
 
 
 def set_useragent():
@@ -533,9 +530,7 @@ class Meta(MediaFile):
 
     @staticmethod
     def _sanitize(value):
-        if isinstance(value, str) or \
-                (six.PY2 and isinstance(value, unicode)) or \
-                (six.PY3 and isinstance(value, bytes)):
+        if isinstance(value, str) or isinstance(value, bytes):
             value = Functions.tmpl_sanitize(value)
             value = re.sub(r'\s{2,}', ' ', value)
         else:

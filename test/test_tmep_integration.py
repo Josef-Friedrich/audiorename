@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Test the integration of the python package “tmep”."""
 
 import unittest

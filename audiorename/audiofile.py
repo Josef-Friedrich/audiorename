@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """This module contains all functionality on the level of a single audio file.
 """
 
@@ -13,13 +11,6 @@ import os
 import phrydy
 import re
 import shutil
-import six
-
-
-if six.PY2:
-    import sys
-    reload(sys)
-    sys.setdefaultencoding('utf8')
 
 
 class AudioFile(object):
@@ -189,7 +180,7 @@ def process_target_path(meta, format_string, shell_friendly=True):
     functions = Functions(meta)
     target = template.substitute(meta, functions.functions())
 
-    if isinstance(target, str) or isinstance(target, unicode):
+    if isinstance(target, str):
         if shell_friendly:
             target = Functions.tmpl_asciify(target)
             target = Functions.tmpl_delchars(target, '().,!"\'’')

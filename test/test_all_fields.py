@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Test all metatag fields, the fields from MediaFile too."""
 
 import unittest

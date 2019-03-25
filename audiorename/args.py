@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Create the command line interface using the package “argparse”."""
 
 from audiorename._version import get_versions

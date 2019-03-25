@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Envoke the exectutable from the command line."""
 
 import unittest

@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
-
 """Test the submodule “args.py”."""
 
 import unittest
 import re
-import six
 import audiorename
 import helper
 
@@ -45,12 +42,8 @@ class TestVersion(unittest.TestCase):
 
     def test_version(self):
         with self.assertRaises(SystemExit):
-            if six.PY2:
-                with helper.Capturing('err') as output:
-                    audiorename.execute('--version')
-            else:
-                with helper.Capturing() as output:
-                    audiorename.execute('--version')
+            with helper.Capturing() as output:
+                audiorename.execute('--version')
 
         result = re.search('[^ ]* [^ ]*', output[0])
         self.assertTrue(result)

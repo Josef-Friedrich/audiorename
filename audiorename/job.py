@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-
 """Collect all informations about the current job in a class."""
 
-
-from __future__ import print_function
 from audiorename.message import Message
 from collections import namedtuple
 import os

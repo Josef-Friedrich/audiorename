@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-
 """Rename audio files from metadata tags."""
 
-from __future__ import print_function
-
+import sys
 from .args import parse_args
 from .batch import Batch
 from .job import Job

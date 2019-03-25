@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
-
 """Print messages on the command line."""
 
-from __future__ import print_function
 from audiorename.args import all_fields
 from collections import OrderedDict
 import ansicolor

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Batch processing of the audio files."""
 
 from audiorename.audiofile import do_job_on_audiofile

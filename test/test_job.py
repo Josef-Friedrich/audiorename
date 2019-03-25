@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Test the code in the __init__ file."""
 
 from audiorename.job import Job, Timer, Counter
