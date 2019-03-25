@@ -4,7 +4,7 @@
 
 .. image:: https://travis-ci.org/Josef-Friedrich/audiorename.svg?branch=packaging
     :target: https://travis-ci.org/Josef-Friedrich/audiorename
-    :alt: Contineus integration
+    :alt: Continuous integration
 
 .. image:: https://readthedocs.org/projects/audiorename/badge/?version=latest
     :target: https://audiorename.readthedocs.io/en/latest/?badge=latest
