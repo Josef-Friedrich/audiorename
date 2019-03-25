@@ -16,6 +16,7 @@ matrix:
           env: TOXENV=flake8
 
 install:
+    - pip install six
     - pip install tox
 
 script: tox
