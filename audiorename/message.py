@@ -107,11 +107,9 @@ class Message(object):
                         ' use target.')
         else:
             self.output(
-                'Best format is “' + best +
-                '” because of “' + attr +
-                '”: (source: ' + str(source_attr) +
-                ', target: ' + str(target_attr) +
-                ')'
+                'Best format is “' + best + '” because of “' + attr + '”: '
+                '(source: ' + str(source_attr) + ', '
+                'target: ' + str(target_attr) + ')'
             )
 
     def diff(self, key, value1, value2):

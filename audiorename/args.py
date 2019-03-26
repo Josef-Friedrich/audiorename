@@ -47,7 +47,7 @@ fields = {
         'category': 'ordinary',
     },
     'ar_combined_disctrack': {
-        'description': 'Combination of disc and track in the format: ' +
+        'description': 'Combination of disc and track in the format: '
                        'disk-track, e.g. 1-01, 3-099',
         'category': 'ordinary',
     },
@@ -56,7 +56,7 @@ fields = {
         'category': 'ordinary',
     },
     'ar_combined_soundtrack': {
-        'description': 'Boolean flag which indicates if the audio file is ' +
+        'description': 'Boolean flag which indicates if the audio file is '
         'a soundtrack',
         'category': 'ordinary',
     },

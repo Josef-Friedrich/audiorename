@@ -282,8 +282,8 @@ def query_mbrainz(mb_type, mb_id):
 
     except mbrainz.ResponseError as err:
         if err.cause.code == 404:
-            print('Item of type “' + mb_type + '” with the ID “' +
-                  mb_id + '” not found.')
+            print('Item of type “' + mb_type + '” with the ID '
+                  '“' + mb_id + '” not found.')
         else:
             print("Received bad response from the MusicBrainz server.")
 
@@ -312,17 +312,17 @@ def work_recursion(work_id, works=[]):
 
 
 def dict_diff(first, second):
-        """Compare two dicts for differenes.
+    """Compare two dicts for differenes.
 
-        :param first: Fist dictionary to diff.
-        :param second: Second dicationary to diff.
-        :return diff: As list of key entries which values differ.
-        """
-        diff = []
-        for key, value in sorted(first.items()):
-            if first[key] != second[key]:
-                diff.append((key, first[key], second[key]))
-        return diff
+    :param first: Fist dictionary to diff.
+    :param second: Second dicationary to diff.
+    :return diff: As list of key entries which values differ.
+    """
+    diff = []
+    for key, value in sorted(first.items()):
+        if first[key] != second[key]:
+            diff.append((key, first[key], second[key]))
+    return diff
 
 
 class Meta(MediaFile):
@@ -863,8 +863,8 @@ class Meta(MediaFile):
 
     @property
     def ar_combined_soundtrack(self):
-        if (self.releasegroup_types and
-            u'soundtrack' in self.releasegroup_types.lower()) or \
+        if (self.releasegroup_types and u'soundtrack'
+           in self.releasegroup_types.lower()) or \
            (self.albumtype and u'soundtrack' in self.albumtype.lower()):
             return True
         else:

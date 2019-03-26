@@ -38,7 +38,3 @@ def execute(*argv):
         if job.output.stats:
             stats(job)
         sys.exit(0)
-
-from ._version import get_versions
-__version__ = get_versions()['version']
-del get_versions

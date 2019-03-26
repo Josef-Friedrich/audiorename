@@ -187,9 +187,9 @@ def process_target_path(meta, format_string, shell_friendly=True):
             target = Functions.tmpl_replchars(target, '-', ' ')
         # asciify generates new characters which must be sanitzed, e. g.:
         # ¿ -> ?
-        target = Functions.tmpl_delchars(target, ':*?"<>|\~&{}')
+        target = Functions.tmpl_delchars(target, ':*?"<>|\\~&{}')
         target = Functions.tmpl_deldupchars(target)
-    return re.sub('\.$', '', target)
+    return re.sub(r'\.$', '', target)
 
 
 class Action(object):
@@ -327,11 +327,8 @@ def do_job_on_audiofile(source, job=None):
         )
         return
 
-    if job.field_skip and  \
-       (
-            not hasattr(source.meta, job.field_skip) or
-            not getattr(source.meta, job.field_skip)
-       ):
+    if job.field_skip and (not hasattr(source.meta,
+       job.field_skip) or not getattr(source.meta, job.field_skip)):
         job.msg.status(u'No field', status='error')
         count('no_field')
         return
