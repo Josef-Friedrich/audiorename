@@ -175,14 +175,14 @@ class TestEnrichMetadata(unittest.TestCase):
         meta.enrich_metadata()
         self.assertEqual(meta.mb_workid,
                          '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
-        self.assertEqual(meta.work, u'Die Meistersinger von Nürnberg, ' +
+        self.assertEqual(meta.work, u'Die Meistersinger von Nürnberg, '
                          'WWV 96: Akt I. Vorspiel')
         meta.save()
 
         finished = Meta(tmp)
         self.assertEqual(finished.mb_workid,
                          '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
-        self.assertEqual(finished.work, u'Die Meistersinger von Nürnberg, ' +
+        self.assertEqual(finished.work, u'Die Meistersinger von Nürnberg, '
                          'WWV 96: Akt I. Vorspiel')
         self.assertEqual(
             finished.mb_workhierarchy_ids,
@@ -469,8 +469,8 @@ class TestPropertyPerformerDifferentFormats(unittest.TestCase):
         self.assertEqual(raw[3][0], u'choir vocals')
         self.assertEqual(raw[3][1], u'Chor der Wiener Volksoper')
 
-        self.assertEqual(meta.ar_performer, u'Fabio Luisi, Wiener ' +
-                         u'Symphoniker, Elena Filipova, Chor der Wiener ' +
+        self.assertEqual(meta.ar_performer, u'Fabio Luisi, Wiener '
+                         u'Symphoniker, Elena Filipova, Chor der Wiener '
                          u'Volksoper')
         self.assertEqual(meta.ar_performer_short, u'Luisi, WieSym')
 
@@ -545,7 +545,7 @@ class TestPropertyWork(unittest.TestCase):
         meta = get_meta('classical', 'Mozart_Horn-concertos', '01.mp3')
         self.assertEqual(
             meta.work,
-            u'Concerto for French Horn no. 1 in D major, ' +
+            u'Concerto for French Horn no. 1 in D major, '
             u'K. 386b / KV 412: I. Allegro'
         )
         self.assertEqual(
@@ -789,6 +789,7 @@ all_fields = [
     'mb_albumid',
     'mb_artistid',
     'mb_releasegroupid',
+    'mb_releasetrackid',
     'mb_trackid',
     'mb_workhierarchy_ids',
     'mb_workid',
@@ -922,9 +923,9 @@ class TestAllPropertiesWagner(unittest.TestCase):
     def test_ar_combined_artist(self):
         self.assertEqual(
             self.meta.ar_combined_artist,
-            u'Richard Wagner; René Kollo, Helen Donath, Theo Adam, Geraint ' +
-            'Evans, Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der ' +
-            'Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle ' +
+            u'Richard Wagner; René Kollo, Helen Donath, Theo Adam, Geraint '
+            'Evans, Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der '
+            'Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle '
             'Dresden, Herbert von Karajan')
 
     def test_ar_combined_artist_sort(self):

@@ -93,9 +93,7 @@ class TestBatch(unittest.TestCase):
                 helper.get_testfile('files')
             )
         self.assertEqual(
-            self.singles +
-            self.album_complete +
-            self.album_small,
+            self.singles + self.album_complete + self.album_small,
             helper.filter_source(output)
         )
 

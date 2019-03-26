@@ -161,8 +161,7 @@ class TestClassical(unittest.TestCase):
     def test_mozart_02(self):
         self.assertDryRun(
             'Mozart_Horn-concertos', '02.mp3',
-            self.m + self.h1 +
-            '/02_II-Rondo-Allegro_a897e98e.mp3'
+            self.m + self.h1 + '/02_II-Rondo-Allegro_a897e98e.mp3'
         )
 
     def test_mozart_03(self):
@@ -210,29 +209,28 @@ class TestClassical(unittest.TestCase):
     def test_tschaikowski_01(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-01.mp3',
-            self.t + self.lake +
-            '1-01_Introduction-Moderato-assai-Allegro-ma-non-troppo-' +
-            'Tempo-I_3f6fc6b3.mp3'
+            self.t + self.lake + '1-01_Introduction-Moderato-assai-'
+            'Allegro-ma-non-troppo-Tempo-I_3f6fc6b3.mp3'
         )
 
     def test_tschaikowski_02(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-02.mp3',
-            self.t + self.lake + '1-02_Act-I-no-1-Scene-Allegro-giusto_' +
+            self.t + self.lake + '1-02_Act-I-no-1-Scene-Allegro-giusto_'
             '29413f6c.mp3'
         )
 
     def test_tschaikowski_03(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-03.mp3',
-            self.t + self.lake + '1-03_Act-I-no-2-Valse-Tempo-di-valse_' +
+            self.t + self.lake + '1-03_Act-I-no-2-Valse-Tempo-di-valse_'
             '5303b318.mp3'
         )
 
     def test_tschaikowski_04(self):
         self.assertDryRun(
             'Tschaikowski_Swan-Lake', '1-04.mp3',
-            self.t + self.lake + '1-04_Act-I-no-3-Scene-Allegro-moderato_' +
+            self.t + self.lake + '1-04_Act-I-no-3-Scene-Allegro-moderato_'
             '4d5781a4.mp3'
         )
 
@@ -248,24 +246,22 @@ class TestClassical(unittest.TestCase):
     def test_wagner_02(self):
         self.assertDryRun(
             'Wagner_Meistersinger', '02.mp3',
-            self.wr + self.mn +
-            '1-02_Akt-I-Szene-I-Da-zu-dir-der-Heiland-kam-Gemeinde_' +
-            'cdd9f298.mp3'
+            self.wr + self.mn + '1-02_Akt-I-Szene-I-Da-zu-dir-der-Heiland-'
+            'kam-Gemeinde_cdd9f298.mp3'
         )
 
     def test_wagner_03(self):
         self.assertDryRun(
             'Wagner_Meistersinger', '03.mp3',
-            self.wr + self.mn + '1-03_Akt-I-Szene-I-Verweilt-Ein-Wort-' +
+            self.wr + self.mn + '1-03_Akt-I-Szene-I-Verweilt-Ein-Wort-'
             'Walther-Eva-Magdalene_adab7b8c.mp3'
         )
 
     def test_wagner_04(self):
         self.assertDryRun(
             'Wagner_Meistersinger', '04.mp3',
-            self.wr + self.mn +
-            '1-04_Akt-I-Szene-I-Da-bin-ich-David-Magdalene-Walther-Eva' +
-            '_f3f0231f.mp3'
+            self.wr + self.mn + '1-04_Akt-I-Szene-I-Da-bin-ich-David-'
+            'Magdalene-Walther-Eva_f3f0231f.mp3'
         )
 
 
@@ -283,10 +279,7 @@ class TestBasicCopy(unittest.TestCase):
     def test_album(self):
         self.assertTrue(helper.is_file(self.tmp_album))
         self.assertTrue(
-            os.path.isfile(
-                helper.dir_cwd +
-                helper.path_album
-            )
+            os.path.isfile(helper.dir_cwd + helper.path_album)
         )
 
     def test_compilation(self):
@@ -379,10 +372,7 @@ class TestDryRun(unittest.TestCase):
     def test_album(self):
         self.assertTrue(helper.is_file(self.tmp_album))
         self.assertFalse(
-            os.path.isfile(
-                helper.dir_cwd +
-                helper.path_album
-            )
+            os.path.isfile(helper.dir_cwd + helper.path_album)
         )
 
     def test_compilation(self):
@@ -545,13 +535,13 @@ class TestMbTrackListing(unittest.TestCase):
         audiorename.audiofile.counter = 0
         result = self.mb_track_listing('Debussy_Estampes-etc', '01.mp3')
         self.assertEqual(result,
-                         '1. Estampes/Images/Pour le Piano: Estampes: ' +
+                         '1. Estampes/Images/Pour le Piano: Estampes: '
                          'Pagodes (0:00)')
 
     def test_schubert(self):
         self.assertEqual(self.mb_track_listing('Schubert_Winterreise',
                          '01.mp3'),
-                         '1. Winterreise: Winterreise, D. 911: Gute Nacht ' +
+                         '1. Winterreise: Winterreise, D. 911: Gute Nacht '
                          '(0:00)')
 
     def test_folder(self):
@@ -578,9 +568,9 @@ class TestSoundtrack(unittest.TestCase):
     def assertDryRun(self, folder, track, test):
         self.assertEqual(helper.dry_run([
             '--soundtrack',
-            '$ar_initial_album/' +
-            '%shorten{$ar_combined_album}' +
-            '%ifdef{ar_combined_year,_${ar_combined_year}}/' +
+            '$ar_initial_album/'
+            '%shorten{$ar_combined_album}'
+            '%ifdef{ar_combined_year,_${ar_combined_year}}/'
             '${ar_combined_disctrack}_${artist}_%shorten{$title}',
             helper.get_testfile('soundtrack', folder, track)
         ]), test)
@@ -606,21 +596,21 @@ class TestSoundtrack(unittest.TestCase):
     def test_pulp_04(self):
         self.assertDryRun(
             'Pulp-Fiction', '04.mp3',
-            '/p/Pulp-Fiction_1994/' +
+            '/p/Pulp-Fiction_1994/'
             '04_[dialogue]_Royale-With-Cheese-dialogue.mp3'
         )
 
     def test_pulp_05(self):
         self.assertDryRun(
             'Pulp-Fiction', '05.mp3',
-            '/p/Pulp-Fiction_1994/' +
+            '/p/Pulp-Fiction_1994/'
             '05_The-Brothers-Johnson_Strawberry-Letter-23.mp3'
         )
 
     def test_pulp_06(self):
         self.assertDryRun(
             'Pulp-Fiction', '06.mp3',
-            '/p/Pulp-Fiction_1994/' +
+            '/p/Pulp-Fiction_1994/'
             '06_[dialogue]_Ezekiel-2517-dialogue-Samuel-L.mp3'
         )
 
@@ -645,7 +635,7 @@ class TestSoundtrack(unittest.TestCase):
     def test_pulp_10(self):
         self.assertDryRun(
             'Pulp-Fiction', '10.mp3',
-            '/p/Pulp-Fiction_1994/' +
+            '/p/Pulp-Fiction_1994/'
             '10_Dusty-Springfield_Son-of-a-Preacher-Man.mp3'
         )
 

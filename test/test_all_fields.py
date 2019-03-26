@@ -203,7 +203,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.ar_combined_album, u'Divertimenti')
         self.assertEqual(meta.ar_initial_album, u'd')
         self.assertEqual(meta.albumartist,
-                         u'Wolfgang Amadeus Mozart; Berliner ' +
+                         u'Wolfgang Amadeus Mozart; Berliner '
                          'Philharmoniker, Herbert von Karajan')
         self.assertEqual(meta.albumartist_credit, None)
         self.assertEqual(meta.albumartist_sort, u'Mozart, Wolfgang Amadeus; '
@@ -218,7 +218,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.ar_initial_artist, u'm')
         self.assertEqual(meta.artist_sort, u'Mozart, Wolfgang Amadeus')
         self.assertEqual(meta.ar_combined_artist,
-                         u'Wolfgang Amadeus Mozart; Berliner ' +
+                         u'Wolfgang Amadeus Mozart; Berliner '
                          'Philharmoniker, Herbert von Karajan')
         self.assertEqual(meta.ar_combined_artist_sort,
                          u'Mozart, Wolfgang Amadeus; '
@@ -234,7 +234,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.composer, None)
         self.assertEqual(meta.ar_initial_composer, u'w')
         self.assertEqual(meta.ar_combined_composer,
-                         u'Wolfgang Amadeus Mozart; Berliner ' +
+                         u'Wolfgang Amadeus Mozart; Berliner '
                          'Philharmoniker, Herbert von Karajan')
         self.assertEqual(meta.composer_sort, None)
         self.assertEqual(meta.country, u'DE')
@@ -257,8 +257,8 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.lyricist, None)
         self.assertEqual(meta.lyrics, None)
         self.assertEqual(meta.mb_albumartistid,
-                         u'b972f589-fb0e-474e-b64a-803b0364fa75/' +
-                         'dea28aa9-1086-4ffa-8739-0ccc759de1ce/' +
+                         u'b972f589-fb0e-474e-b64a-803b0364fa75/'
+                         'dea28aa9-1086-4ffa-8739-0ccc759de1ce/'
                          'd2ced2f1-6b58-47cf-ae87-5943e2ab6d99')
         self.assertEqual(meta.mb_albumid,
                          u'73678131-46a7-442b-8cce-27a8b3bf99c7')
@@ -287,7 +287,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.script, u'Latn')
         self.assertEqual(meta.ar_combined_soundtrack, False)
         self.assertEqual(meta.title,
-                         u'Serenade no. 13 for Strings in G major, K. 525 ' +
+                         u'Serenade no. 13 for Strings in G major, K. 525 '
                          '"Eine kleine Nachtmusik": I. Allegro')
         self.assertEqual(meta.ar_classical_title, u'I. Allegro')
         self.assertEqual(meta.track, 1)
