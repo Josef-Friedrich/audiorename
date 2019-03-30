@@ -1,10 +1,22 @@
-import versioneer
 import os
-from setuptools import setup
+
+from setuptools import setup, find_packages
+import versioneer
 
 
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+def read(file_name):
+    """
+    Read the contents of a text file and return its content.
+
+    :param str file_name: The name of the file to read.
+
+    :return: The content of the text file.
+    :rtype: str
+    """
+    return open(
+        os.path.join(os.path.dirname(__file__), file_name),
+        encoding='utf-8'
+    ).read()
 
 
 setup(
@@ -15,7 +27,7 @@ setup(
     author_email='josef@friedrich.rocks',
     description=('Rename audio files from metadata tags.'),
     license='MIT',
-    packages=['audiorename'],
+    packages=find_packages(),
     keywords='audio',
     url='https://github.com/Josef-Friedrich/audiorename',
     install_requires=[
