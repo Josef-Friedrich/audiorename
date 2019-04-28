@@ -24,14 +24,14 @@ class TestCommandlineInterface(unittest.TestCase):
 
     def test_without_arguments(self):
         with self.assertRaises(SystemExit) as cm:
-            with helper.Capturing('err'):
+            with helper.Capturing('stderr'):
                 audiorename.execute()
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '2')
 
     def test_without_mutually_exclusive(self):
         with self.assertRaises(SystemExit) as cm:
-            with helper.Capturing('err') as output:
+            with helper.Capturing('stderr') as output:
                 audiorename.execute('--copy', '--move', '.')
         the_exception = cm.exception
         self.assertEqual(str(the_exception), '2')
