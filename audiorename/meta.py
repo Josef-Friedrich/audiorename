@@ -357,6 +357,9 @@ class Meta(MediaFile):
 
         if self.mb_trackid:
             recording = query_mbrainz('recording', self.mb_trackid)
+        else:
+            print('No music brainz track id found.')
+            return
 
         if self.mb_albumid:
             release = query_mbrainz('release', self.mb_albumid)
