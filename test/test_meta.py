@@ -176,24 +176,22 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertEqual(meta.mb_workid,
                          '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
         self.assertEqual(meta.work, u'Die Meistersinger von Nürnberg, '
-                         'WWV 96: Akt I. Vorspiel')
+                         'WWV 96: Vorspiel')
         meta.save()
 
         finished = Meta(tmp)
         self.assertEqual(finished.mb_workid,
                          '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
         self.assertEqual(finished.work, u'Die Meistersinger von Nürnberg, '
-                         'WWV 96: Akt I. Vorspiel')
+                         'WWV 96: Vorspiel')
         self.assertEqual(
             finished.mb_workhierarchy_ids,
             u'4d644732-9876-4b0d-9c2c-b6a738d6530e/'
-            '73663bd3-392f-45a7-b4ff-e75c01f5926a/'
-            '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
+            u'6b198406-4fbf-3d61-82db-0b7ef195a7fe')
         self.assertEqual(
             finished.work_hierarchy,
             u'Die Meistersinger von Nürnberg, WWV 96 -> '
-            u'Die Meistersinger von Nürnberg, WWV 96: Akt I -> '
-            u'Die Meistersinger von Nürnberg, WWV 96: Akt I. Vorspiel'
+            u'Die Meistersinger von Nürnberg, WWV 96: Vorspiel'
         )
         self.assertEqual(finished.releasegroup_types, u'album')
 
