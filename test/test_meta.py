@@ -215,7 +215,7 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertEqual(finished.mb_workhierarchy_ids, None)
         self.assertEqual(finished.work_hierarchy, None)
         self.assertEqual(finished.releasegroup_types,
-                         u'soundtrack/album/compilation')
+                         u'soundtrack/album')
 
 
 class TestRemapClassical(unittest.TestCase):
