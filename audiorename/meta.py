@@ -443,7 +443,7 @@ class Meta(MediaFile):
                     str(safed[0]) + u': ' + \
                     str(safed[1]) + u'; '
 
-        self.comments = comments
+            self.comments = comments
 
 ###############################################################################
 # Class methods
