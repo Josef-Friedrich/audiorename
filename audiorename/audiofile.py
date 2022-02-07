@@ -319,6 +319,8 @@ def do_job_on_audiofile(source, job=None):
         return
 
     if job.output.debug:
+        return
+        # following line throws errors... maybe meta fields is not correct set?
         phrydy.doc.print_debug(
             source.abspath,
             Meta,
