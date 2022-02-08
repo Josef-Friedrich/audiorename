@@ -201,13 +201,15 @@ class Job(object):
         Filter = namedtuple('Filter', [
             'album_complete',
             'album_min',
-            'extension'
+            'extension',
+            'genre_classical'
         ])
 
         return Filter(
             self._args.album_complete,
             self._args.album_min,
-            self._args.extension.split(',')
+            self._args.extension.split(','),
+            self._args.genre_classical.split(',')
         )
 
     @property
