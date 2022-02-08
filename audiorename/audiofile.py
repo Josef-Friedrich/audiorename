@@ -347,12 +347,13 @@ def do_job_on_audiofile(source, job=None):
             job.metadata_actions.enrich_metadata,
             job.metadata_actions.remap_classical
         )
-    elif source.meta.genre in job.filter.genre_classical:
+    elif source.meta.genre.lower() in job.filter.genre_classical:
         action.metadata(
             source,
             job.metadata_actions.enrich_metadata,
             True
         )
+        print(job.filter.genre_classical)
         job.format.default = job.format.classical
         job.format.compilation = job.format.classical
         job.format.soundtrack = job.format.classical
