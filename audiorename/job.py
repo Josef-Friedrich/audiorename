@@ -117,15 +117,19 @@ class Formats(object):
 
         if args.soundtrack:
             defaults.soundtrack = args.soundtrack
-
+        if args.format_classical:
+            defaults.classical = args.format_classical
+            
         if args.classical:
             self.default = defaults.classical
             self.compilation = defaults.classical
             self.soundtrack = defaults.classical
+            self.classical = defaults.classical
         else:
             self.default = defaults.default
             self.compilation = defaults.compilation
             self.soundtrack = defaults.soundtrack
+            self.classical = defaults.classical
 
 
 class RenameAction(object):
