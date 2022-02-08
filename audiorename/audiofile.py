@@ -347,7 +347,7 @@ def do_job_on_audiofile(source, job=None):
             job.metadata_actions.enrich_metadata,
             job.metadata_actions.remap_classical
         )
-    elif source.meta.genre in job.filter.genre_classical.split(","):
+    elif source.meta.genre in job.filter.genreclassical.split(","):
         action.metadata(
             source,
             job.metadata_actions.enrich_metadata,
