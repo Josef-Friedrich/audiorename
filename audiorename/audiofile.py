@@ -341,6 +341,7 @@ def do_job_on_audiofile(source, job=None):
     ##
     
     if source.meta.genre in ["Classical","Classical Instrumental","Classical Ballet","Classical Piano","Klassische Musik","Piano","Klavier"]:
+        print(type(job.metadata_actions))
         job.metadata_actions=job.metadata_actions._replace(remap_classical=True)
 
     if job.metadata_actions.remap_classical or \
