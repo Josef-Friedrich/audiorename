@@ -348,7 +348,6 @@ def do_job_on_audiofile(source, job=None):
             job.metadata_actions.remap_classical
         )
     elif source.meta.genre in ["Classical","Classical Instrumental","Classical Ballet","Classical Piano","Klassische Musik","Piano","Klavier"]:
-            job.metadata_actions.enrich_metadata:
         action.metadata(
             source,
             job.metadata_actions.enrich_metadata,
