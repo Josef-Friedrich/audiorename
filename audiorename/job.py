@@ -209,7 +209,7 @@ class Job(object):
             self._args.album_complete,
             self._args.album_min,
             self._args.extension.split(','),
-            self._args.genre_classical.lower().split(',')
+            list(filter(str.strip, self._args.genre_classical.lower().split(',')))
         )
 
     @property
