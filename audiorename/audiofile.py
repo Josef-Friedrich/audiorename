@@ -347,30 +347,15 @@ def do_job_on_audiofile(source, job=None):
             job.metadata_actions.enrich_metadata,
             job.metadata_actions.remap_classical
         )
-    elif source.meta.genre in ["Classical","Classical Instrumental","Classical Ballet","Classical Piano","Klassische Musik","Piano","Klavier"]:
+    elif source.meta.genre in job.filter.genre_classical:
         action.metadata(
             source,
             job.metadata_actions.enrich_metadata,
             True
         )
-        job.format.default = '$ar_initial_composer/$ar_combined_composer/' \
-                '%shorten{$ar_combined_work_top,48}' \
-                '_[%shorten{$ar_classical_performer,32}]/' \
-                '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_' \
-                '%shorten{$acoustid_id,8}'
-
-        job.format.compilation = '$ar_initial_composer/$ar_combined_composer/' \
-                '%shorten{$ar_combined_work_top,48}' \
-                '_[%shorten{$ar_classical_performer,32}]/' \
-                '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_' \
-                '%shorten{$acoustid_id,8}'
-
-        job.format.soundtrack = '$ar_initial_composer/$ar_combined_composer/' \
-                '%shorten{$ar_combined_work_top,48}' \
-                '_[%shorten{$ar_classical_performer,32}]/' \
-                '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_' \
-                '%shorten{$acoustid_id,8}'
-
+        job.format.default = job.format.classical
+        job.format.compilation = job.format.classical
+        job.format.soundtrack = job.format.classical
     ##
     # Rename action
     ##
