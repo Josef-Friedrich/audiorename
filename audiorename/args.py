@@ -328,7 +328,13 @@ def parse_args(argv):
         help='Extensions to rename',
         default='mp3,m4a,flac,wma'
     )
-
+    
+    # extension
+    filters.add_argument(
+        '--genre-classical',
+        help='List of Genres to be classical',
+        default='classical,'
+    )
 ###############################################################################
 # formats
 ###############################################################################
@@ -389,7 +395,15 @@ def parse_args(argv):
         and functions to build the format string.',
         default=False
     )
-
+    
+    # classical
+    format_strings.add_argument(
+        '--format-classical',
+        metavar='FORMAT_STRING',
+        help='Format string for classical audio file. Use metadata fields \
+        and functions to build the format string.',
+        default=False
+    )
 ###############################################################################
 # output
 ###############################################################################
