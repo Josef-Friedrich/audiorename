@@ -102,6 +102,7 @@ class ArgsDefault():
     dry_run = False
     enrich_metadata = False
     extension = 'mp3,m4a,flac,wma'
+    genre_classical = 'classical,'
     field_skip = False
     format = False
     job_info = False
