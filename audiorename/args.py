@@ -41,7 +41,9 @@ fields = {
     },
     # composer
     'ar_initial_composer': {
-        'description': 'For example “Ludwig van Beethoven” -> “l”',
+        'description': 'First character in lowercase of '
+                       '“ar_combined_composer”. '
+                       'For example “Ludwig van Beethoven” -> “l”',
         'category': 'ordinary',
     },
     'ar_combined_composer': {

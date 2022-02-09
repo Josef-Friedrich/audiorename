@@ -96,7 +96,9 @@ Comande line interface
         $ar_initial_artist:          First character in lowercase of
                                      “ar_combined_artist_sort”
     
-        $ar_initial_composer:        For example “Ludwig van Beethoven” -> “l”
+        $ar_initial_composer:        First character in lowercase of
+                                     “ar_combined_composer”. For example “Ludwig
+                                     van Beethoven” -> “l”
     
         $arranger:                   arranger
     
