@@ -8,7 +8,9 @@ import tmep
 fields = {
     # album
     'ar_classical_album': {
-        'description': 'ar_classical_album',
+        'description': 'The field “work” without the movement suffix. '
+                       'For example: “Horn Concerto: I. Allegro” -> '
+                       '“Horn Concerto”',
         'category': 'ordinary',
     },
     'ar_combined_album': {
@@ -39,11 +41,12 @@ fields = {
     },
     # composer
     'ar_initial_composer': {
-        'description': 'ar_initial_composer',
+        'description': 'For example “Ludwig van Beethoven” -> “l”',
         'category': 'ordinary',
     },
     'ar_combined_composer': {
-        'description': 'ar_combined_composer',
+        'description': 'The first not empty field of this field list: '
+                       '“composer_sort”, “composer”, “ar_combined_artist”',
         'category': 'ordinary',
     },
     'ar_combined_disctrack': {
@@ -52,20 +55,27 @@ fields = {
         'category': 'ordinary',
     },
     'ar_classical_performer': {
-        'description': 'ar_classical_performer',
+        'description': '“ar_performer_short” or “albumartist” without the '
+                       'composer prefix: “Beethoven; Karajan, Mutter” -> '
+                       '“Karajan, Mutter”',
         'category': 'ordinary',
     },
     'ar_combined_soundtrack': {
         'description': 'Boolean flag which indicates if the audio file is '
-        'a soundtrack',
+                       'a soundtrack',
         'category': 'ordinary',
     },
     'ar_classical_title': {
-        'description': 'ar_classical_title',
+        'description': 'The movement title without the parent work prefix. '
+                       'For example “Horn Concerto: I. Allegro” -> '
+                       '“I. Allegro”',
         'category': 'ordinary',
     },
     'ar_classical_track': {
-        'description': 'ar_classical_track',
+        'description': 'If the title contains Roman numbers, then these are '
+                       'converted to arabic numbers with leading zeros. '
+                       'If no Roman numbers could be found, then the field '
+                       '“ar_combined_disctrack” is used.',
         'category': 'ordinary',
     },
     'ar_combined_year': {

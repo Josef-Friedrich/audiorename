@@ -85,13 +85,23 @@ Usage
         $albumtype:                  The MusicBrainz album type; the MusicBrainz
                                      wiki has a list of type names
     
-        $ar_classical_album:         ar_classical_album
+        $ar_classical_album:         The field “work” without the movement suffix.
+                                     For example: “Horn Concerto: I. Allegro” ->
+                                     “Horn Concerto”
     
-        $ar_classical_performer:     ar_classical_performer
+        $ar_classical_performer:     “ar_performer_short” or “albumartist” without
+                                     the composer prefix: “Beethoven; Karajan,
+                                     Mutter” -> “Karajan, Mutter”
     
-        $ar_classical_title:         ar_classical_title
+        $ar_classical_title:         The movement title without the parent work
+                                     prefix. For example “Horn Concerto: I.
+                                     Allegro” -> “I. Allegro”
     
-        $ar_classical_track:         ar_classical_track
+        $ar_classical_track:         If the title contains Roman numbers, then
+                                     these are converted to arabic numbers with
+                                     leading zeros. If no Roman numbers could be
+                                     found, then the field “ar_combined_disctrack”
+                                     is used.
     
         $ar_combined_album:          “album” without ” (Disc X)”.
     
@@ -103,7 +113,9 @@ Usage
                                      order: “albumartist_sort” -> “artist_sort” ->
                                      “ar_combined_artist”
     
-        $ar_combined_composer:       ar_combined_composer
+        $ar_combined_composer:       The first not empty field of this field list:
+                                     “composer_sort”, “composer”,
+                                     “ar_combined_artist”
     
         $ar_combined_disctrack:      Combination of disc and track in the format:
                                      disk-track, e.g. 1-01, 3-099
@@ -122,7 +134,7 @@ Usage
         $ar_initial_artist:          First character in lowercase of
                                      “ar_combined_artist_sort”
     
-        $ar_initial_composer:        ar_initial_composer
+        $ar_initial_composer:        For example “Ludwig van Beethoven” -> “l”
     
         $arranger:                   arranger
     
