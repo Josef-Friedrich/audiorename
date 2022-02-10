@@ -15,7 +15,6 @@ fields = {
         'description': '“album” without ” (Disc X)”.',
         'category': 'ordinary',
     },
-    'ar_initial_album': {
         'description': 'First character in lowercase of “ar_combined_album”.',
         'category': 'ordinary',
     },
@@ -111,6 +110,7 @@ class ArgsDefault():
     no_rename = False
     one_line = False
     remap_classical = False
+    format_classical = False
     shell_friendly = False
     soundtrack = False
     source = u'.'
