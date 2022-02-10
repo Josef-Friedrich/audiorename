@@ -18,7 +18,7 @@ fields = {
         'description': 'First character in lowercase of “ar_combined_album”.',
         'category': 'ordinary',
     },
-    # artist
+    # artist2
     'ar_initial_artist': {
         'description': 'First character in lowercase of '
                        '“ar_combined_artist_sort”',
