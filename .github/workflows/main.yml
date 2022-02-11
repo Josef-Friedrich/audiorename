@@ -1,6 +1,6 @@
 ---
 # https://hynek.me/articles/python-github-actions/
-name: Run tests
+name: tests
 
 on:
   push:
