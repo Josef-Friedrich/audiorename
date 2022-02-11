@@ -15,10 +15,11 @@ fields = {
         'description': '“album” without ” (Disc X)”.',
         'category': 'ordinary',
     },
+    'ar_initial_album': {
         'description': 'First character in lowercase of “ar_combined_album”.',
         'category': 'ordinary',
     },
-    # artist2
+    # artist
     'ar_initial_artist': {
         'description': 'First character in lowercase of '
                        '“ar_combined_artist_sort”',
