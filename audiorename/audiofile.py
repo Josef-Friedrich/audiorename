@@ -349,11 +349,10 @@ def do_job_on_audiofile(source, job=None):
         )
     if source.meta.genre is not None and getattr(source.meta,"genre","").lower() in job.filter.genre_classical:
         
-        if not (job.metadata_actions.remap_classical or \
-            job.metadata_actions.enrich_metadata):
+        if not (job.metadata_actions.remap_classical):
             action.metadata(
                 source,
-                job.metadata_actions.enrich_metadata,
+                False,
                 True
             )
         job.format.default = job.format.classical
