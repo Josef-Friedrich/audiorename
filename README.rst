@@ -2,9 +2,9 @@
     :target: https://pypi.python.org/pypi/audiorename
     :alt: This package on the Python Package Index
 
-.. image:: https://travis-ci.org/Josef-Friedrich/audiorename.svg?branch=packaging
-    :target: https://travis-ci.org/Josef-Friedrich/audiorename
-    :alt: Continuous integration
+.. image:: https://github.com/Josef-Friedrich/audiorename/actions/workflows/main.yml/badge.svg
+    :target: https://github.com/Josef-Friedrich/audiorename/actions/workflows/main.yml
+    :alt: Tests
 
 .. image:: https://readthedocs.org/projects/audiorename/badge/?version=latest
     :target: https://audiorename.readthedocs.io/en/latest/?badge=latest
