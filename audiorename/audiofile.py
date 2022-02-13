@@ -162,7 +162,6 @@ def best_format(source, target, job):
         }
 
         types = {}
-        
         types[ranking[source.type] if source.type in ranking else 0] = 'source'
         types[ranking[target.type] if target.type in ranking else 0] = 'target'
         best = get_highest(types)
