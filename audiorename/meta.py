@@ -263,7 +263,7 @@ def set_useragent():
     )
 
 
-def query_mbrainz(mb_type: typing.Literal['recording', 'work', 'release'],
+def query_mbrainz(mb_type: typing.Union['recording', 'work', 'release'],
                   mb_id: str):
     method = 'get_' + mb_type + '_by_id'
     query = getattr(mbrainz, method)
