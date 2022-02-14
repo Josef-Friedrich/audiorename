@@ -252,6 +252,7 @@ from phrydy import MediaFile
 from tmep import Functions
 import musicbrainzngs as mbrainz
 import re
+import typing
 
 
 def set_useragent():
@@ -262,7 +263,8 @@ def set_useragent():
     )
 
 
-def query_mbrainz(mb_type, mb_id):
+def query_mbrainz(mb_type: typing.Literal['recording', 'work', 'release'],
+                  mb_id: str):
     method = 'get_' + mb_type + '_by_id'
     query = getattr(mbrainz, method)
 
@@ -288,7 +290,7 @@ def query_mbrainz(mb_type, mb_id):
             print("Received bad response from the MusicBrainz server.")
 
 
-def work_recursion(work_id, works=[]):
+def query_works_recursively(work_id: str, works=[]):
     work = query_mbrainz('work', work_id)
 
     if not work:
@@ -306,7 +308,7 @@ def work_recursion(work_id, works=[]):
                 break
 
     if parent_work:
-        work_recursion(parent_work['work']['id'], works)
+        query_works_recursively(parent_work['work']['id'], works)
 
     return works
 
@@ -384,7 +386,7 @@ class Meta(MediaFile):
             except KeyError:
                 pass
         if work_id:
-            work_hierarchy = work_recursion(work_id, [])
+            work_hierarchy = query_works_recursively(work_id, [])
             if work_hierarchy:
                 work_hierarchy.reverse()
                 work_bottom = work_hierarchy[-1]
