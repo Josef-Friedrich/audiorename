@@ -122,6 +122,7 @@ class ArgsDefault():
     no_rename = False
     one_line = False
     remap_classical = False
+    format_classical = False
     shell_friendly = False
     soundtrack = False
     source = u'.'
@@ -401,7 +402,14 @@ def parse_args(argv):
         and functions to build the format string.',
         default=False
     )
-
+    # classical
+    format_strings.add_argument(
+        '--format-classical',
+        metavar='FORMAT_STRING',
+        help='Format string for classical audio file. Use metadata fields \
+        and functions to build the format string.',
+        default=False
+    )
 ###############################################################################
 # output
 ###############################################################################

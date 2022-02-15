@@ -194,6 +194,11 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.format, False)
         self.assertEqual(self.args.format, self.default.format)
 
+    def test_format_classical(self):
+        self.assertEqual(self.args.format_classical, False)
+        self.assertEqual(self.args.format_classical,
+                         self.default.format_classical)
+
     def test_job_info(self):
         self.assertEqual(self.args.job_info, False)
         self.assertEqual(self.args.job_info, self.default.job_info)
