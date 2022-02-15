@@ -118,6 +118,11 @@ class Formats(object):
         if args.soundtrack:
             defaults.soundtrack = args.soundtrack
 
+        if args.format_classical:
+            defaults.classical = args.format_classical
+        else:
+            defaults.classical = args.classical
+
         if args.classical:
             self.default = defaults.classical
             self.compilation = defaults.classical
