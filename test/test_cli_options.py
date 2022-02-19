@@ -465,12 +465,11 @@ class TestClassicalFormat(unittest.TestCase):
         ]), test)
 
     d = 'Debussy_Claude/'
-    e = 'Estampes-L-100_[Jean-Claude-Pennetier]'
 
     def test_debussy_01(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '01.mp3',
-            self.d + self.e + '/01_Pagodes_.mp3'
+            self.d +  '01_Pagodes_.mp3'
         )
 
 
