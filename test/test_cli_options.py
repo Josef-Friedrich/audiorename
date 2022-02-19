@@ -264,7 +264,24 @@ class TestClassical(unittest.TestCase):
             'Magdalene-Walther-Eva_f3f0231f.mp3'
         )
 
+# --classical_format string
+class TestClassicalFormat(unittest.TestCase):
 
+    def assertDryRun(self, folder, track, test):
+        self.assertEqual(helper.dry_run([
+            '--format-classical "test"',
+            helper.get_testfile('classical', folder, track)
+        ]), test)
+
+    d = '/d/Debussy_Claude/'
+    e = 'Estampes-L-100_[Jean-Claude-Pennetier]'
+    p = 'Pour-le-piano-L-95_[Jean-Claude-Pennetier]'
+
+    def test_debussy_01(self):
+        self.assertDryRun(
+            'Debussy_Estampes-etc', '01.mp3',
+            self.d + self.e + '/01_Pagodes_.mp3'
+        )
 # --copy
 class TestBasicCopy(unittest.TestCase):
 
