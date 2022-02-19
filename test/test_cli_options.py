@@ -264,24 +264,6 @@ class TestClassical(unittest.TestCase):
             'Magdalene-Walther-Eva_f3f0231f.mp3'
         )
 
-# --classical_format string
-class TestClassicalFormat(unittest.TestCase):
-
-    def assertDryRun(self, folder, track, test):
-        self.assertEqual(helper.dry_run([
-            '--format-classical "test"',
-            helper.get_testfile('classical', folder, track)
-        ]), test)
-
-    d = '/d/Debussy_Claude/'
-    e = 'Estampes-L-100_[Jean-Claude-Pennetier]'
-    p = 'Pour-le-piano-L-95_[Jean-Claude-Pennetier]'
-
-    def test_debussy_01(self):
-        self.assertDryRun(
-            'Debussy_Estampes-etc', '01.mp3',
-            self.d + self.e + '/01_Pagodes_.mp3'
-        )
 # --copy
 class TestBasicCopy(unittest.TestCase):
 
@@ -470,6 +452,28 @@ class TestSkipIfEmpty(unittest.TestCase):
         self.assertTrue(helper.has(self.compilation, 'Dry run'))
 
 
+
+# --classical_format string
+class TestClassicalFormat(unittest.TestCase):
+
+    def assertDryRun(self, folder, track, test):
+        self.assertEqual(helper.dry_run([
+            '--format-classical','$ar_combined_composer/' \
+                '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_' \
+                '%shorten{$acoustid_id,8}',
+            helper.get_testfile('classical', folder, track)
+        ]), test)
+
+    d = 'Debussy_Claude/'
+    e = 'Estampes-L-100_[Jean-Claude-Pennetier]'
+
+    def test_debussy_01(self):
+        self.assertDryRun(
+            'Debussy_Estampes-etc', '01.mp3',
+            self.d + self.e + '/01_Pagodes_.mp3'
+        )
+
+
 # --format
 class TestCustomFormats(unittest.TestCase):
 
@@ -485,7 +489,7 @@ class TestCustomFormats(unittest.TestCase):
                 '--compilation',
                 'tmp/comp_$title - $artist',
                 helper.copy_to_tmp('files', 'compilation.mp3')
-            )
+            )   
 
     def test_format(self):
         self.assertTrue(os.path.isfile(
