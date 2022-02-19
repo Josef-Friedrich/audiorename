@@ -464,7 +464,7 @@ class TestClassicalFormat(unittest.TestCase):
             helper.get_testfile('classical', folder, track)
         ]), test)
 
-    d = 'Debussy_Claude/'
+    d = '/Debussy_Claude/'
 
     def test_debussy_01(self):
         self.assertDryRun(
