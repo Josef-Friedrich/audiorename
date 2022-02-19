@@ -458,7 +458,7 @@ class TestClassicalFormat(unittest.TestCase):
 
     def assertDryRun(self, folder, track, test):
         self.assertEqual(helper.dry_run([
-            '--format-classical','$ar_combined_composer/' \
+            '--classical','--format-classical','$ar_combined_composer/' \
                 '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_' \
                 '%shorten{$acoustid_id,8}',
             helper.get_testfile('classical', folder, track)
