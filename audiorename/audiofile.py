@@ -338,12 +338,26 @@ def do_job_on_audiofile(source, job=None):
     ##
 
     if job.metadata_actions.remap_classical or \
-            job.metadata_actions.enrich_metadata:
+       job.metadata_actions.enrich_metadata:
         action.metadata(
             source,
             job.metadata_actions.enrich_metadata,
             job.metadata_actions.remap_classical
         )
+
+    if source.meta.genre is not None and \
+       getattr(source.meta,"genre","").lower() in job.filter.genre_classical:
+
+        if not job.metadata_actions.remap_classical:
+            action.metadata(
+                source,
+                job.metadata_actions.enrich_metadata,
+                True
+            )
+
+        job.format.default = job.format.classical
+        job.format.compilation = job.format.classical
+        job.format.soundtrack = job.format.classical
 
     ##
     # Rename action
