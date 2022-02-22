@@ -106,6 +106,7 @@ class Formats(object):
     default: str = u''
     compilation: str = u''
     soundtrack: str = u''
+    classical: str = u''
 
     def __init__(self, args):
         defaults = DefaultFormats()
