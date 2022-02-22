@@ -5,6 +5,7 @@ from audiorename.audiofile import mb_track_listing
 from phrydy import MediaFile
 import os
 import phrydy
+from audiorename.job import Job
 
 
 class Batch(object):
@@ -24,11 +25,15 @@ class Batch(object):
     current_album_title = ''
     """Storage for the album title of the current audio file."""
 
-    def __init__(self, job):
+    job: Job
+
+    bundle_filter: bool
+
+    def __init__(self, job: Job):
         self.job = job
         self.bundle_filter = job.filter.album_complete or job.filter.album_min
 
-    def check_extension(self, path):
+    def check_extension(self, path: str) -> bool:
         """Check the extension of the track.
 
         :params str path: The path of the tracks.

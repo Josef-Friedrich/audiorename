@@ -6,8 +6,9 @@ Comande line interface
     usage: audiorenamer [-h] [-d] [-s FIELD_SKIP] [-v] [-E] [-r]
                         [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A] [-D] [-F]
                         [-m ALBUM_MIN] [-e EXTENSION] [-k] [-S] [-c FORMAT_STRING]
-                        [-f FORMAT_STRING] [--soundtrack FORMAT_STRING] [-K] [-b]
-                        [-j] [-l] [-o] [-T] [-V] [-a] [-t TARGET]
+                        [-f FORMAT_STRING] [--soundtrack FORMAT_STRING]
+                        [--format-classical FORMAT_STRING] [-K] [-b] [-j] [-l]
+                        [-o] [-T] [-V] [-a] [-t TARGET]
                         source
     
         Rename audio files from metadata tags.
@@ -478,6 +479,9 @@ Comande line interface
                             Format string for a soundtrack audio file. Use
                             metadata fields and functions to build the format
                             string.
+      --format-classical FORMAT_STRING
+                            Format string for classical audio file. Use metadata
+                            fields and functions to build the format string.
     
     output:
       -K, --color           Colorize the standard output of the program with ANSI
