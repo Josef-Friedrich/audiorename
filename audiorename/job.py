@@ -4,6 +4,7 @@ from audiorename.message import Message
 from collections import namedtuple
 import os
 import time
+import typing
 
 
 class Timer(object):
@@ -25,15 +26,15 @@ class Timer(object):
 class Counter(object):
 
     def __init__(self):
-        self._counters = {}
+        self._counters: typing.Dict[str, int] = {}
 
     def reset(self):
         self._counters = {}
 
-    def count(self, counter):
+    def count(self, counter: str):
         """Add one to number identified by a string.
 
-        :param str counter: A string to identify the counter
+        :param counter: A string to identify the counter
 
         :return: None
         """
@@ -42,7 +43,7 @@ class Counter(object):
         else:
             self._counters[counter] = 1
 
-    def get(self, counter):
+    def get(self, counter: str) -> int:
         """Get the counter identify by a string.
 
         :param str counter: A string to identify the counter
@@ -56,8 +57,8 @@ class Counter(object):
         else:
             return 0
 
-    def result(self):
-        out = []
+    def result(self) -> str:
+        out: typing.List[str] = []
         for counter, value in sorted(self._counters.items()):
             out.append(counter + '=' + str(value))
 
@@ -102,9 +103,9 @@ class DefaultFormats(object):
 
 class Formats(object):
 
-    default = u''
-    compilation = u''
-    soundtrack = u''
+    default: str = u''
+    compilation: str = u''
+    soundtrack: str = u''
 
     def __init__(self, args):
         defaults = DefaultFormats()
