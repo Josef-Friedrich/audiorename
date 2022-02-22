@@ -355,19 +355,16 @@ def do_job_on_audiofile(source, job=None):
                 True
             )
 
-        setattr(getattr(job,"format"),"default",job.format.classical)
-        job.format.compilation = job.format.classical
-        job.format.soundtrack = job.format.classical
-        print("here we are:",str(job.format.classical),"==",job.format.default)
-        print(job.format)
-
     ##
     # Rename action
     ##
 
     if job.rename.move != 'no_rename':
 
-        if source.meta.ar_combined_soundtrack:
+        if source.meta.genre is not None and \
+           getattr(source.meta,"genre","").lower() in job.filter.genre_classical:
+            format_string = job.format.classical
+        elif source.meta.ar_combined_soundtrack:
             format_string = job.format.soundtrack
         elif source.meta.comp:
             format_string = job.format.compilation
