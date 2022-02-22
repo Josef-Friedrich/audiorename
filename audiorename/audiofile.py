@@ -355,7 +355,7 @@ def do_job_on_audiofile(source, job=None):
                 True
             )
 
-        setattr(job.format,"default",job.format.classical)
+        setattr(getattr(job,"format"),"default",job.format.classical)
         job.format.compilation = job.format.classical
         job.format.soundtrack = job.format.classical
         print("here we are:",str(job.format.classical),"==",job.format.default)
