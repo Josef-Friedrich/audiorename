@@ -346,7 +346,7 @@ def do_job_on_audiofile(source, job=None):
         )
 
     if source.meta.genre is not None and \
-       getattr(source.meta,"genre","").lower() in job.filter.genre_classical:
+       getattr(source.meta, "genre", "").lower() in job.filter.genre_classical:
 
         if not job.metadata_actions.remap_classical:
             action.metadata(
@@ -362,7 +362,8 @@ def do_job_on_audiofile(source, job=None):
     if job.rename.move != 'no_rename':
 
         if source.meta.genre is not None and \
-           getattr(source.meta,"genre","").lower() in job.filter.genre_classical:
+           getattr(source.meta, "genre", "").lower() \
+           in job.filter.genre_classical:
             format_string = job.format.classical
         elif source.meta.ar_combined_soundtrack:
             format_string = job.format.soundtrack

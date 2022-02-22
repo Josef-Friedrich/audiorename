@@ -123,7 +123,7 @@ class Formats(object):
         if args.format_classical:
             defaults.classical = args.format_classical
 
-        self.classical=defaults.classical
+        self.classical = defaults.classical
 
         if args.classical:
             self.default = defaults.classical
@@ -212,7 +212,8 @@ class Job(object):
             self._args.album_complete,
             self._args.album_min,
             self._args.extension.split(','),
-            list(filter(str.strip, self._args.genre_classical.lower().split(',')))
+            list(filter(str.strip,
+                 self._args.genre_classical.lower().split(',')))
         )
 
     @property
