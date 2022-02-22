@@ -121,7 +121,6 @@ class Formats(object):
             defaults.soundtrack = args.soundtrack
 
         if args.format_classical:
-            print(args.format_classical)
             defaults.classical = args.format_classical
 
         self.classical=defaults.classical

@@ -354,8 +354,8 @@ def do_job_on_audiofile(source, job=None):
                 job.metadata_actions.enrich_metadata,
                 True
             )
-        print("here we are:",str(job.format.classical),job.format.default)
-        job.format.default = job.format.classical
+
+        setattr(job.format,"default",job.format.classical)
         job.format.compilation = job.format.classical
         job.format.soundtrack = job.format.classical
         print("here we are:",str(job.format.classical),job.format.default)
