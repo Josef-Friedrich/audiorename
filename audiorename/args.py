@@ -114,6 +114,7 @@ class ArgsDefault():
     dry_run = False
     enrich_metadata = False
     extension = 'mp3,m4a,flac,wma'
+    genre_classical = ','
     field_skip = False
     format = False
     job_info = False
@@ -340,6 +341,13 @@ def parse_args(argv):
         '--extension',
         help='Extensions to rename',
         default='mp3,m4a,flac,wma'
+    )
+
+    # genre classical
+    filters.add_argument(
+        '--genre-classical',
+        help='List of Genres to be classical',
+        default=','
     )
 
 ###############################################################################

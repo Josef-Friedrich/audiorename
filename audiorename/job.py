@@ -106,6 +106,7 @@ class Formats(object):
     default: str = u''
     compilation: str = u''
     soundtrack: str = u''
+    classical: str = u''
 
     def __init__(self, args):
         defaults = DefaultFormats()
@@ -121,6 +122,8 @@ class Formats(object):
 
         if args.format_classical:
             defaults.classical = args.format_classical
+
+        self.classical = defaults.classical
 
         if args.classical:
             self.default = defaults.classical
@@ -201,13 +204,16 @@ class Job(object):
         Filter = namedtuple('Filter', [
             'album_complete',
             'album_min',
-            'extension'
+            'extension',
+            'genre_classical'
         ])
 
         return Filter(
             self._args.album_complete,
             self._args.album_min,
-            self._args.extension.split(',')
+            self._args.extension.split(','),
+            list(filter(str.strip,
+                 self._args.genre_classical.lower().split(',')))
         )
 
     @property

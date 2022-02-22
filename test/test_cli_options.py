@@ -471,6 +471,25 @@ class TestClassicalFormat(unittest.TestCase):
         )
 
 
+# --classical_format string
+class TestGenreClassical(unittest.TestCase):
+
+    def assertDryRun(self, folder, track, test):
+        self.assertEqual(helper.dry_run([
+            '--genre-classical', 'classical,', '--format-classical',
+            '$ar_combined_composer/'
+            '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_'
+            '%shorten{$acoustid_id,8}',
+            helper.get_testfile('classical', folder, track)
+        ]), test)
+
+    def test_debussy_01(self):
+        self.assertDryRun(
+            'Debussy_Estampes-etc', '01.mp3',
+            '/Debussy_Claude/01_Pagodes_.mp3'
+        )
+
+
 # --format
 class TestCustomFormats(unittest.TestCase):
 
