@@ -11,6 +11,7 @@ import os
 import phrydy
 import re
 import shutil
+import traceback
 
 
 class AudioFile(object):
@@ -38,7 +39,9 @@ class AudioFile(object):
             try:
                 self.meta = Meta(self.abspath, shell_friendly)
 
-            except phrydy.mediafile.UnreadableFileError:
+            except phrydy.mediafile.UnreadableFileError as e:
+                tb = traceback.TracebackException.from_exception(e)
+                print(''.join(tb.stack.format()))
                 self.meta = False
 
     @property

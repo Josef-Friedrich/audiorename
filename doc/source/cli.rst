@@ -5,8 +5,10 @@ Comande line interface
 
     usage: audiorenamer [-h] [-d] [-s FIELD_SKIP] [-v] [-E] [-r]
                         [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A] [-D] [-F]
-                        [-m ALBUM_MIN] [-e EXTENSION] [-k] [-S] [-c FORMAT_STRING]
-                        [-f FORMAT_STRING] [--soundtrack FORMAT_STRING]
+                        [-m ALBUM_MIN] [-e EXTENSION]
+                        [--genre-classical GENRE_CLASSICAL] [-k] [-S]
+                        [-c FORMAT_STRING] [-f FORMAT_STRING]
+                        [--soundtrack FORMAT_STRING]
                         [--format-classical FORMAT_STRING] [-K] [-b] [-j] [-l]
                         [-o] [-T] [-V] [-a] [-t TARGET]
                         source
@@ -458,6 +460,8 @@ Comande line interface
                             Rename only albums containing at least X files.
       -e EXTENSION, --extension EXTENSION
                             Extensions to rename
+      --genre-classical GENRE_CLASSICAL
+                            List of Genres to be classical
     
     formats:
       -k, --classical       Use the default format for classical music. If you use
