@@ -4,7 +4,7 @@ Comande line interface
 .. code-block:: text
 
     usage: audiorenamer [-h] [-d] [-s FIELD_SKIP] [-v] [-E] [-r]
-                        [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A] [-D] [-F]
+                        [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A | -D] [-F]
                         [-m ALBUM_MIN] [-e EXTENSION]
                         [--genre-classical GENRE_CLASSICAL] [-k] [-S]
                         [-c FORMAT_STRING] [-f FORMAT_STRING]
@@ -417,7 +417,7 @@ Comande line interface
             Convert “text” to UPPERCASE.
     
     positional arguments:
-      source                A folder containing audio files or a audio file
+      source                A folder containing audio files or a single audio file
     
     optional arguments:
       -h, --help            show this help message and exit
@@ -441,18 +441,23 @@ Comande line interface
                             the target file already exists. `audiorename` now
                             checks the qualtity of the two audio files (source and
                             target). The tool first examines the format. For
-                            example a flac file wins over a mp3 file.
-                            `audiorename` then checks the bitrate.
-      -D, --delete          Delete files.
+                            example a FLAC file wins over a MP3 file. Then
+                            `audiorename` checks the bitrate.
     
     rename move actions:
       -C, --copy            Copy files instead of rename / move.
       -M, --move            Move / rename a file. This is the default action. The
                             option can be omitted.
-      -n, --no-rename       Don’t rename, move, copy dry run. Do nothing.
+      -n, --no-rename       Don’t rename, move, copy or perform a dry run. Do
+                            nothing.
     
-    rename cleanup actions:
-      -A, --backup          Backup audio files instead of delete files
+    rename cleaning actions:
+      The cleaning actions are only executed if the target file already exists.
+    
+      -A, --backup          Backup the audio files instead of deleting them. The
+                            backup directory can be specified with the --backup-
+                            folder option.
+      -D, --delete          Delete the audio files instead of creating a backup.
     
     filters:
       -F, --album-complete  Rename only complete albums
@@ -461,7 +466,7 @@ Comande line interface
       -e EXTENSION, --extension EXTENSION
                             Extensions to rename
       --genre-classical GENRE_CLASSICAL
-                            List of Genres to be classical
+                            List of genres to be classical
     
     formats:
       -k, --classical       Use the default format for classical music. If you use

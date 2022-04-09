@@ -177,7 +177,7 @@ def parse_args(argv):
 
     parser.add_argument(
         'source',
-        help='A folder containing audio files or a audio file'
+        help='A folder containing audio files or a single audio file'
     )
 
     ##
@@ -253,8 +253,8 @@ def parse_args(argv):
         help='Use the best format. This option only takes effect if the \
         target file already exists. `audiorename` now checks the qualtity of \
         the two audio files (source and target). The tool first examines the \
-        format. For example a flac file wins over a mp3 file. `audiorename`\
-        then checks the bitrate.',
+        format. For example a FLAC file wins over a MP3 file. Then \
+        `audiorename` checks the bitrate.',
         action='store_true'
     )
 
@@ -286,30 +286,35 @@ def parse_args(argv):
     exclusive_rename_move.add_argument(
         '-n',
         '--no-rename',
-        help='Don’t rename, move, copy dry run. Do nothing.',
+        help='Don’t rename, move, copy or perform a dry run. Do nothing.',
         action='store_true'
     )
 
 ##
-# Cleanup actions
+# Cleaning actions
 ##
 
-    rename_cleanup = parser.add_argument_group('rename cleanup actions')
-    exclusive_rename_cleanup = rename_cleanup.add_mutually_exclusive_group()
+    rename_cleaning = parser.add_argument_group(
+        title='rename cleaning actions',
+        description='The cleaning actions are only executed if the target '
+        'file already exists.'
+    )
+    exclusive_rename_cleaning = rename_cleaning.add_mutually_exclusive_group()
 
     # --backup
-    exclusive_rename_cleanup.add_argument(
+    exclusive_rename_cleaning.add_argument(
         '-A',
         '--backup',
-        help='Backup audio files instead of delete files',
+        help='Backup the audio files instead of deleting them. The backup \
+        directory can be specified with the --backup-folder option.',
         action='store_true'
     )
 
     # delete
-    rename.add_argument(
+    exclusive_rename_cleaning.add_argument(
         '-D',
         '--delete',
-        help='Delete files.',
+        help='Delete the audio files instead of creating a backup.',
         action='store_true'
     )
 
@@ -346,7 +351,7 @@ def parse_args(argv):
     # genre classical
     filters.add_argument(
         '--genre-classical',
-        help='List of Genres to be classical',
+        help='List of genres to be classical',
         default=','
     )
 
