@@ -7,6 +7,7 @@ Test
 
 ::
 
+    pyenv local 3.6.13 3.7.10 3.9.2
     tox
 
 
