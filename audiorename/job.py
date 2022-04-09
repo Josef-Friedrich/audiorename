@@ -103,10 +103,10 @@ class DefaultFormats(object):
 
 class Formats(object):
 
-    default: str = u''
-    compilation: str = u''
-    soundtrack: str = u''
-    classical: str = u''
+    default: str = ''
+    compilation: str = ''
+    soundtrack: str = ''
+    classical: str = ''
 
     def __init__(self, args):
         defaults = DefaultFormats()
@@ -151,9 +151,9 @@ class RenameAction(object):
     @property
     def cleanup(self):
         if self._args.backup:
-            return u'backup'
+            return 'backup'
         elif self._args.delete:
-            return u'delete'
+            return 'delete'
         else:
             return False
 
@@ -169,13 +169,13 @@ class RenameAction(object):
         * no_rename
         """
         if self._args.copy:
-            return u'copy'
+            return 'copy'
         elif self._args.move:
-            return u'move'
+            return 'move'
         elif self._args.no_rename:
-            return u'no_rename'
+            return 'no_rename'
         else:
-            return u'move'
+            return 'move'
 
 
 class Job(object):

@@ -458,11 +458,11 @@ class Meta(MediaFile):
             self.album = album
 
         if safe:
-            comments = u'Original metadata: '
+            comments = 'Original metadata: '
             for safed in safe:
                 comments = comments + \
-                    str(safed[0]) + u': ' + \
-                    str(safed[1]) + u'; '
+                    str(safed[0]) + ': ' + \
+                    str(safed[1]) + '; '
 
             self.comments = comments
 
@@ -517,22 +517,22 @@ class Meta(MediaFile):
 
         .. code-block:: python
 
-            [u'John Lennon (vocals)', u'Ringo Starr (drums)']
+            ['John Lennon (vocals)', 'Ringo Starr (drums)']
 
         :return: A list
 
         .. code-block:: python
 
             [
-                ['vocals', u'John Lennon'],
-                ['drums', u'Ringo Starr'],
+                ['vocals', 'John Lennon'],
+                ['drums', 'Ringo Starr'],
             ]
         """
         out = []
         if isinstance(ar_performer, list):
             for value in ar_performer:
                 value = value[:-1]
-                value = value.split(u' (')
+                value = value.split(' (')
                 if isinstance(value, list) and len(value) == 2:
                     out.append([value[1], value[0]])
             return out
@@ -559,13 +559,13 @@ class Meta(MediaFile):
             value = Functions.tmpl_sanitize(value)
             value = re.sub(r'\s{2,}', ' ', str(value))
         else:
-            value = u''
+            value = ''
         return value
 
     @staticmethod
-    def _shorten_performer(ar_performer, length=3, separator=u' ',
-                           abbreviation=u'.'):
-        out = u''
+    def _shorten_performer(ar_performer, length=3, separator=' ',
+                           abbreviation='.'):
+        out = ''
         count = 0
         for s in ar_performer.split(' '):
             if count < 3:
@@ -603,7 +603,7 @@ class Meta(MediaFile):
         if self.work:
             return re.sub(r':.*$', '', (str(self.work)))
         else:
-            return u''
+            return ''
 
     @property
     def ar_combined_album(self) -> str:
@@ -618,7 +618,7 @@ class Meta(MediaFile):
         if self.album:
             return re.sub(r' ?\([dD]is[ck].*\)$', '', str(self.album))
         else:
-            return u''
+            return ''
 
     @property
     def ar_initial_album(self):
@@ -671,7 +671,7 @@ class Meta(MediaFile):
         elif self.artist_sort:
             out = self.artist_sort
         else:
-            out = u'Unknown'
+            out = 'Unknown'
 
         return out
 
@@ -701,7 +701,7 @@ class Meta(MediaFile):
         elif self.artist_credit:
             out = self.artist_credit
         else:
-            out = u'Unknown'
+            out = 'Unknown'
 
         if self.shell_friendly:
             out = out.replace(', ', '_')
@@ -781,9 +781,9 @@ class Meta(MediaFile):
 
         * :class:`audiorename.meta.Meta.ar_performer_raw`
         """
-        out = u''
+        out = ''
         for ar_performer in self.ar_performer_raw:
-            out = out + u', ' + ar_performer[1]
+            out = out + ', ' + ar_performer[1]
 
         out = out[2:]
 
@@ -803,7 +803,7 @@ class Meta(MediaFile):
         elif self.albumartist:
             out = re.sub(r'^.*; ?', '', self.albumartist)
         else:
-            out = u''
+            out = ''
 
         return out
 
@@ -819,8 +819,8 @@ class Meta(MediaFile):
         .. code-block:: python
 
             [
-                ['conductor', u'Herbert von Karajan'],
-                ['violin', u'Anne-Sophie Mutter'],
+                ['conductor', 'Herbert von Karajan'],
+                ['violin', 'Anne-Sophie Mutter'],
             ]
 
         Uses:
@@ -833,7 +833,7 @@ class Meta(MediaFile):
                 'performer' in self.mgfile:
             out = self._normalize_performer(self.mgfile['performer'])
             if 'conductor' in self.mgfile:
-                out.insert(0, [u'conductor', self.mgfile['conductor'][0]])
+                out.insert(0, ['conductor', self.mgfile['conductor'][0]])
         elif self.format == 'MP3':
             # 4.2.2 TMCL Musician credits list
             if 'TMCL' in self.mgfile:
@@ -846,7 +846,7 @@ class Meta(MediaFile):
             # 4.2.2 TPE3 Conductor/ar_performer refinement
             if len(out) > 0 and 'conductor' not in out[0] \
                     and 'TPE3' in self.mgfile:
-                out.insert(0, [u'conductor', self.mgfile['TPE3'].text[0]])
+                out.insert(0, ['conductor', self.mgfile['TPE3'].text[0]])
 
         else:
             out = []
@@ -864,7 +864,7 @@ class Meta(MediaFile):
         performers = self.ar_performer_raw
         picked = []
         for performer in performers:
-            if performer[0] == u'conductor' or performer[0] == u'orchestra':
+            if performer[0] == 'conductor' or performer[0] == 'orchestra':
                 picked.append(performer)
 
         if len(picked) > 0:
@@ -872,25 +872,25 @@ class Meta(MediaFile):
 
         for performer in performers:
 
-            if performer[0] == u'producer' or \
-                    performer[0] == u'executive producer' or \
+            if performer[0] == 'producer' or \
+                    performer[0] == 'executive producer' or \
                     performer[0] == 'balance engineer':
                 pass
-            elif performer[0] == u'orchestra' or \
-                    performer[0] == u'choir vocals' or \
+            elif performer[0] == 'orchestra' or \
+                    performer[0] == 'choir vocals' or \
                     performer[0] == 'string quartet':
-                out.append(self._shorten_performer(performer[1], separator=u'',
-                                                   abbreviation=u''))
+                out.append(self._shorten_performer(performer[1], separator='',
+                                                   abbreviation=''))
             else:
                 out.append(performer[1].split(' ')[-1])
 
-        return u', '.join(out)
+        return ', '.join(out)
 
     @property
     def ar_combined_soundtrack(self):
-        if (self.releasegroup_types and u'soundtrack'
+        if (self.releasegroup_types and 'soundtrack'
            in self.releasegroup_types.lower()) or \
-           (self.albumtype and u'soundtrack' in self.albumtype.lower()):
+           (self.albumtype and 'soundtrack' in self.albumtype.lower()):
             return True
         else:
             return False
@@ -908,7 +908,7 @@ class Meta(MediaFile):
         if self.title:
             return re.sub(r'^[^:]*: ?', '', self.title)
         else:
-            return u''
+            return ''
 
     @property
     def ar_classical_track(self):

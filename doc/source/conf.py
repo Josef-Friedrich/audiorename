@@ -14,9 +14,9 @@ source_suffix = '.rst'
 
 master_doc = 'index'
 
-project = u'audiorename'
-copyright = u'2016, Josef Friedrich'
-author = u'Josef Friedrich'
+project = 'audiorename'
+copyright = '2016, Josef Friedrich'
+author = 'Josef Friedrich'
 version = audiorename.__version__
 release = audiorename.__version__
 language = None

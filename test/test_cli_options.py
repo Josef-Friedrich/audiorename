@@ -44,7 +44,7 @@ class TestBestFormat(unittest.TestCase):
         with helper.Capturing() as output:
             self.move(self.high_quality, '--delete')
             self.move(self.low_quality, '--delete')
-        self.assertTrue(u'Delete […]' + self.low_quality in
+        self.assertTrue('Delete […]' + self.low_quality in
                         helper.join(output))
         self.assertFalse(os.path.exists(self.high_quality))
         self.assertFalse(os.path.exists(self.low_quality))
@@ -53,7 +53,7 @@ class TestBestFormat(unittest.TestCase):
         with helper.Capturing() as output:
             self.move(self.low_quality, '--delete')
             self.move(self.high_quality, '--delete')
-        self.assertTrue(u'Delete […]test-file.mp3' in
+        self.assertTrue('Delete […]test-file.mp3' in
                         helper.join(output))
         self.assertFalse(os.path.exists(self.high_quality))
         self.assertFalse(os.path.exists(self.low_quality))
@@ -62,7 +62,7 @@ class TestBestFormat(unittest.TestCase):
         with helper.Capturing() as output:
             self.move(self.high_quality, '--backup')
             self.move(self.low_quality, '--backup')
-        self.assertTrue(u'Backup […]' + self.low_quality in
+        self.assertTrue('Backup […]' + self.low_quality in
                         helper.join(output))
         self.assertFalse(os.path.exists(self.high_quality))
         self.assertFalse(os.path.exists(self.low_quality))
@@ -74,7 +74,7 @@ class TestBestFormat(unittest.TestCase):
         with helper.Capturing() as output:
             self.move(self.low_quality, '--backup')
             self.move(self.high_quality, '--backup')
-        self.assertTrue(u'Backup […]test-file.mp3' in
+        self.assertTrue('Backup […]test-file.mp3' in
                         helper.join(output))
         self.assertFalse(os.path.exists(self.high_quality))
         self.assertFalse(os.path.exists(self.low_quality))
@@ -86,7 +86,7 @@ class TestBestFormat(unittest.TestCase):
         with helper.Capturing() as output:
             self.move(self.high_quality, *self.backup_args)
             self.move(self.low_quality, *self.backup_args)
-        self.assertTrue(u'Backup […]' + self.low_quality in
+        self.assertTrue('Backup […]' + self.low_quality in
                         helper.join(output))
         self.assertFalse(os.path.exists(self.high_quality))
         self.assertFalse(os.path.exists(self.low_quality))
@@ -99,7 +99,7 @@ class TestBestFormat(unittest.TestCase):
         with helper.Capturing() as output:
             self.move(self.low_quality, *self.backup_args)
             self.move(self.high_quality, *self.backup_args)
-        self.assertTrue(u'Backup […]test-file.mp3' in
+        self.assertTrue('Backup […]test-file.mp3' in
                         helper.join(output))
         self.assertFalse(os.path.exists(self.high_quality))
         self.assertFalse(os.path.exists(self.low_quality))
@@ -147,8 +147,8 @@ class TestClassical(unittest.TestCase):
         )
 
     m = '/m/Mozart_Wolfgang-Amadeus/'
-    mp1 = u'[OrpChaOrc]'
-    mp2 = u'[OrpChaOrc]'
+    mp1 = '[OrpChaOrc]'
+    mp2 = '[OrpChaOrc]'
     h1 = 'Concerto-for-French-Horn-no-1-in-D-major-K_' + mp1
     h2 = 'Concerto-for-Horn-no-2-in-E-flat-major-K-417_' + mp2
 
@@ -307,7 +307,7 @@ class TestDebug(unittest.TestCase):
                 tmp
             )
 
-        self.assertTrue(u'ar_combined_year       : 2001' in str(output))
+        self.assertTrue('ar_combined_year       : 2001' in str(output))
 
 
 # --delete
@@ -410,20 +410,20 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertTrue('Enrich metadata' in helper.join(output))
 
         enriched = Meta(tmp)
-        self.assertEqual(enriched.composer_sort, u'Wagner, Richard')
-        self.assertEqual(enriched.composer, u'Richard Wagner')
+        self.assertEqual(enriched.composer_sort, 'Wagner, Richard')
+        self.assertEqual(enriched.composer, 'Richard Wagner')
         self.assertEqual(enriched.mb_workhierarchy_ids,
-                         u'4d644732-9876-4b0d-9c2c-b6a738d6530e/'
-                         u'6b198406-4fbf-3d61-82db-0b7ef195a7fe')
+                         '4d644732-9876-4b0d-9c2c-b6a738d6530e/'
+                         '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
         self.assertEqual(enriched.mb_workid,
-                         u'6b198406-4fbf-3d61-82db-0b7ef195a7fe')
+                         '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
         self.assertEqual(enriched.work_hierarchy,
-                         u'Die Meistersinger von Nürnberg, WWV 96 -> '
-                         u'Die Meistersinger von Nürnberg, WWV 96: '
-                         u'Vorspiel')
+                         'Die Meistersinger von Nürnberg, WWV 96 -> '
+                         'Die Meistersinger von Nürnberg, WWV 96: '
+                         'Vorspiel')
         self.assertEqual(enriched.work,
-                         u'Die Meistersinger von Nürnberg, WWV 96: '
-                         u'Vorspiel')
+                         'Die Meistersinger von Nürnberg, WWV 96: '
+                         'Vorspiel')
 
 
 # --field-skip

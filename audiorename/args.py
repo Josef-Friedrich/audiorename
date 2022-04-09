@@ -126,7 +126,7 @@ class ArgsDefault():
     format_classical = False
     shell_friendly = False
     soundtrack = False
-    source = u'.'
+    source = '.'
     source_as_target = False
     stats = False
     target = ''

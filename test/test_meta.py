@@ -26,8 +26,8 @@ class TestDictDiff(unittest.TestCase):
         self.assertEqual(
             result,
             [
-                (u'ar_classical_title', 'full', 'diff'),
-                (u'title', 'full', 'diff'),
+                ('ar_classical_title', 'full', 'diff'),
+                ('title', 'full', 'diff'),
             ]
         )
 
@@ -41,10 +41,10 @@ class TestDictDiff(unittest.TestCase):
         self.assertEqual(
             result,
             [
-                (u'ar_classical_track', '4-02', '4-99'),
-                (u'ar_combined_disctrack', '4-02', '4-99'),
-                (u'artist', 'the artist', 'diff'),
-                (u'track', '2', '99'),
+                ('ar_classical_track', '4-02', '4-99'),
+                ('ar_combined_disctrack', '4-02', '4-99'),
+                ('artist', 'the artist', 'diff'),
+                ('track', '2', '99'),
             ]
         )
 
@@ -57,8 +57,8 @@ class TestDictDiff(unittest.TestCase):
         self.assertEqual(
             result,
             [
-                (u'ar_classical_title', 'full', None),
-                (u'title', 'full', None),
+                ('ar_classical_title', 'full', None),
+                ('title', 'full', None),
             ]
         )
 
@@ -76,7 +76,7 @@ class TestEnrich(unittest.TestCase):
             '0480672d-4d88-4824-a06b-917ff408eabe',
         )
         self.assertEqual(result['id'],
-                         u'0480672d-4d88-4824-a06b-917ff408eabe')
+                         '0480672d-4d88-4824-a06b-917ff408eabe')
 
     @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
     def test_recording_mozart_01(self):
@@ -86,7 +86,7 @@ class TestEnrich(unittest.TestCase):
             '7886ad6c-11af-435b-8ec3-bca5711f7728',
         )
         self.assertEqual(result['work-relation-list'][0]['work']['id'],
-                         u'21fe0bf0-a040-387c-a39d-369d53c251fe')
+                         '21fe0bf0-a040-387c-a39d-369d53c251fe')
 
     @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
     def test_release_pulp_01(self):
@@ -96,7 +96,7 @@ class TestEnrich(unittest.TestCase):
             'ab81edcb-9525-47cd-8247-db4fa969f525',
         )
         self.assertEqual(result['release-group']['id'],
-                         u'1703cd63-9401-33c0-87c6-50c4ba2e0ba8')
+                         '1703cd63-9401-33c0-87c6-50c4ba2e0ba8')
 
     @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
     def test_release_mozart_01(self):
@@ -106,7 +106,7 @@ class TestEnrich(unittest.TestCase):
             '5ed650c5-0f72-4b79-80a7-c458c869f53e',
         )
         self.assertEqual(result['release-group']['id'],
-                         u'e1fa28f0-e56e-395b-82d3-a8de54e8c627')
+                         'e1fa28f0-e56e-395b-82d3-a8de54e8c627')
 
     @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
     def test_work_mozart_zauberfloete_unit(self):
@@ -145,7 +145,7 @@ class TestExportDict(unittest.TestCase):
         meta = get_meta('files', 'album.mp3')
 
         result = meta.export_dict()
-        self.assertEqual(result['title'], u'full')
+        self.assertEqual(result['title'], 'full')
 
 
 # Test file:
@@ -176,25 +176,25 @@ class TestEnrichMetadata(unittest.TestCase):
         meta.enrich_metadata()
         self.assertEqual(meta.mb_workid,
                          '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
-        self.assertEqual(meta.work, u'Die Meistersinger von Nürnberg, '
+        self.assertEqual(meta.work, 'Die Meistersinger von Nürnberg, '
                          'WWV 96: Vorspiel')
         meta.save()
 
         finished = Meta(tmp)
         self.assertEqual(finished.mb_workid,
                          '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
-        self.assertEqual(finished.work, u'Die Meistersinger von Nürnberg, '
+        self.assertEqual(finished.work, 'Die Meistersinger von Nürnberg, '
                          'WWV 96: Vorspiel')
         self.assertEqual(
             finished.mb_workhierarchy_ids,
-            u'4d644732-9876-4b0d-9c2c-b6a738d6530e/'
-            u'6b198406-4fbf-3d61-82db-0b7ef195a7fe')
+            '4d644732-9876-4b0d-9c2c-b6a738d6530e/'
+            '6b198406-4fbf-3d61-82db-0b7ef195a7fe')
         self.assertEqual(
             finished.work_hierarchy,
-            u'Die Meistersinger von Nürnberg, WWV 96 -> '
-            u'Die Meistersinger von Nürnberg, WWV 96: Vorspiel'
+            'Die Meistersinger von Nürnberg, WWV 96 -> '
+            'Die Meistersinger von Nürnberg, WWV 96: Vorspiel'
         )
-        self.assertEqual(finished.releasegroup_types, u'album')
+        self.assertEqual(finished.releasegroup_types, 'album')
 
     @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
     def test_enrich_metadata_pulp(self):
@@ -216,7 +216,7 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertEqual(finished.mb_workhierarchy_ids, None)
         self.assertEqual(finished.work_hierarchy, None)
         self.assertEqual(finished.releasegroup_types,
-                         u'soundtrack/album')
+                         'soundtrack/album')
 
 
 class TestRemapClassical(unittest.TestCase):
@@ -250,7 +250,7 @@ class TestRemapClassical(unittest.TestCase):
                                          'major, K. 447 (OrpChaOrc)')
         self.assertEqual(
             finished.comments,
-            u'Original metadata: title: Horn Concerto No. 3 in E-flat major, '
+            'Original metadata: title: Horn Concerto No. 3 in E-flat major, '
             'K. 447: I. Allegro; track: 6; artist: Wolfgang Amadeus Mozart; '
             'album: 4 Hornkonzerte (Concertos for Horn and Orchestra); '
         )
@@ -267,7 +267,7 @@ class TestPropertyAlbumClean(unittest.TestCase):
     def setUp(self):
         self.meta = get_meta('files', 'album.mp3')
 
-    def assertAlbumClean(self, album, compare=u'Lorem ipsum'):
+    def assertAlbumClean(self, album, compare='Lorem ipsum'):
         self.meta.album = album
         self.assertEqual(self.meta.ar_combined_album, compare)
 
@@ -286,7 +286,7 @@ class TestPropertyAlbumClean(unittest.TestCase):
                         'The-Greatest-No1s-of-the-80s_1994',
                         '2-09_Respectable.mp3')
         self.assertEqual(meta.ar_combined_album,
-                         u'The Greatest No.1s of the 80s')
+                         'The Greatest No.1s of the 80s')
 
 
 # ar_combined_artist (integration)
@@ -294,15 +294,15 @@ class TestPropertyArtistSafe(unittest.TestCase):
 
     def test_artist(self):
         meta = get_meta('meta', 'artist.mp3')
-        self.assertEqual(meta.ar_combined_artist, u'artist')
+        self.assertEqual(meta.ar_combined_artist, 'artist')
 
     def test_artist_sort(self):
         meta = get_meta('meta', 'artist_sort.mp3')
-        self.assertEqual(meta.ar_combined_artist_sort, u'artist_sort')
+        self.assertEqual(meta.ar_combined_artist_sort, 'artist_sort')
 
     def test_albumartist(self):
         meta = get_meta('meta', 'albumartist.mp3')
-        self.assertEqual(meta.ar_combined_artist, u'albumartist')
+        self.assertEqual(meta.ar_combined_artist, 'albumartist')
 
 
 # ar_combined_artist (unit)
@@ -310,12 +310,12 @@ class TestPropertyArtistSafeUnit(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta('files', 'album.mp3')
-        self.meta.albumartist_credit = u''
-        self.meta.albumartist_sort = u''
-        self.meta.albumartist = u''
-        self.meta.artist_credit = u''
-        self.meta.artist_sort = u''
-        self.meta.artist = u''
+        self.meta.albumartist_credit = ''
+        self.meta.albumartist_sort = ''
+        self.meta.albumartist = ''
+        self.meta.artist_credit = ''
+        self.meta.artist_sort = ''
+        self.meta.artist = ''
 
     def assertArtistSort(self, key):
         setattr(self.meta, key, key)
@@ -323,8 +323,8 @@ class TestPropertyArtistSafeUnit(unittest.TestCase):
         self.assertEqual(self.meta.ar_combined_artist_sort, key)
 
     def test_unkown(self):
-        self.assertEqual(self.meta.ar_combined_artist, u'Unknown')
-        self.assertEqual(self.meta.ar_combined_artist_sort, u'Unknown')
+        self.assertEqual(self.meta.ar_combined_artist, 'Unknown')
+        self.assertEqual(self.meta.ar_combined_artist_sort, 'Unknown')
 
     def test_albumartist_credit(self):
         self.assertArtistSort('albumartist_credit')
@@ -382,13 +382,13 @@ class TestPropertyDiskTrack(unittest.TestCase):
     def test_single_disc(self):
         meta = get_meta('real-world', 'e', 'Everlast', 'Eat-At-Whiteys_2000',
                         '02_Black-Jesus.mp3')
-        self.assertEqual(meta.ar_combined_disctrack, u'02')
+        self.assertEqual(meta.ar_combined_disctrack, '02')
 
     def test_double_disk(self):
         meta = get_meta('real-world', '_compilations', 't',
                         'The-Greatest-No1s-of-the-80s_1994',
                         '2-09_Respectable.mp3')
-        self.assertEqual(meta.ar_combined_disctrack, u'2-09')
+        self.assertEqual(meta.ar_combined_disctrack, '2-09')
 
 
 # ar_combined_disctrack (unit)
@@ -396,59 +396,59 @@ class TestPropertyDiskTrackUnit(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta('files', 'album.mp3')
-        self.meta.track = u''
-        self.meta.tracktotal = u''
-        self.meta.disc = u''
-        self.meta.disctotal = u''
+        self.meta.track = ''
+        self.meta.tracktotal = ''
+        self.meta.disc = ''
+        self.meta.disctotal = ''
 
     def test_empty(self):
-        self.assertEqual(self.meta.ar_combined_disctrack, u'')
+        self.assertEqual(self.meta.ar_combined_disctrack, '')
 
     def test_no_track(self):
         self.meta.disc = '2'
         self.meta.disctotal = '3'
         self.meta.tracktotal = '36'
-        self.assertEqual(self.meta.ar_combined_disctrack, u'')
+        self.assertEqual(self.meta.ar_combined_disctrack, '')
 
     def test_disc_track(self):
         self.meta.disc = '2'
         self.meta.track = '4'
-        self.assertEqual(self.meta.ar_combined_disctrack, u'2-04')
+        self.assertEqual(self.meta.ar_combined_disctrack, '2-04')
 
     def test_disk_total_one(self):
         self.meta.disc = '1'
         self.meta.track = '4'
         self.meta.disctotal = '1'
         self.meta.tracktotal = '36'
-        self.assertEqual(self.meta.ar_combined_disctrack, u'04')
+        self.assertEqual(self.meta.ar_combined_disctrack, '04')
 
     def test_all_set(self):
         self.meta.disc = '2'
         self.meta.track = '4'
         self.meta.disctotal = '3'
         self.meta.tracktotal = '36'
-        self.assertEqual(self.meta.ar_combined_disctrack, u'2-04')
+        self.assertEqual(self.meta.ar_combined_disctrack, '2-04')
 
     def test_zfill_track(self):
         self.meta.track = '4'
         self.meta.tracktotal = '100'
-        self.assertEqual(self.meta.ar_combined_disctrack, u'004')
+        self.assertEqual(self.meta.ar_combined_disctrack, '004')
 
         self.meta.tracktotal = '10'
-        self.assertEqual(self.meta.ar_combined_disctrack, u'04')
+        self.assertEqual(self.meta.ar_combined_disctrack, '04')
 
         self.meta.tracktotal = '5'
-        self.assertEqual(self.meta.ar_combined_disctrack, u'04')
+        self.assertEqual(self.meta.ar_combined_disctrack, '04')
 
     def test_zfill_disc(self):
         self.meta.track = '4'
         self.meta.tracktotal = '10'
         self.meta.disc = '2'
         self.meta.disctotal = '10'
-        self.assertEqual(self.meta.ar_combined_disctrack, u'02-04')
+        self.assertEqual(self.meta.ar_combined_disctrack, '02-04')
 
         self.meta.disctotal = '100'
-        self.assertEqual(self.meta.ar_combined_disctrack, u'002-04')
+        self.assertEqual(self.meta.ar_combined_disctrack, '002-04')
 
 
 # ar_performer*
@@ -459,21 +459,21 @@ class TestPropertyPerformerDifferentFormats(unittest.TestCase):
 
     def assertPerformer(self, meta):
         raw = meta.ar_performer_raw
-        self.assertEqual(raw[0][0], u'conductor')
-        self.assertEqual(raw[0][1], u'Fabio Luisi')
-        self.assertEqual(raw[1][0], u'orchestra')
-        self.assertEqual(raw[1][1], u'Wiener Symphoniker')
-        self.assertEqual(raw[2][0], u'soprano vocals')
-        self.assertEqual(raw[2][1], u'Elena Filipova')
-        self.assertEqual(raw[3][0], u'choir vocals')
-        self.assertEqual(raw[3][1], u'Chor der Wiener Volksoper')
+        self.assertEqual(raw[0][0], 'conductor')
+        self.assertEqual(raw[0][1], 'Fabio Luisi')
+        self.assertEqual(raw[1][0], 'orchestra')
+        self.assertEqual(raw[1][1], 'Wiener Symphoniker')
+        self.assertEqual(raw[2][0], 'soprano vocals')
+        self.assertEqual(raw[2][1], 'Elena Filipova')
+        self.assertEqual(raw[3][0], 'choir vocals')
+        self.assertEqual(raw[3][1], 'Chor der Wiener Volksoper')
 
-        self.assertEqual(meta.ar_performer, u'Fabio Luisi, Wiener '
-                         u'Symphoniker, Elena Filipova, Chor der Wiener '
-                         u'Volksoper')
-        self.assertEqual(meta.ar_performer_short, u'Luisi, WieSym')
+        self.assertEqual(meta.ar_performer, 'Fabio Luisi, Wiener '
+                         'Symphoniker, Elena Filipova, Chor der Wiener '
+                         'Volksoper')
+        self.assertEqual(meta.ar_performer_short, 'Luisi, WieSym')
 
-        self.assertEqual(meta.ar_classical_performer, u'Luisi, WieSym')
+        self.assertEqual(meta.ar_classical_performer, 'Luisi, WieSym')
 
     def test_flac(self):
         meta = self.getMeta('flac')
@@ -530,7 +530,7 @@ class TestPropertyTrackClassical(unittest.TestCase):
         self.assertEqual(self.meta.ar_classical_track, compare)
 
     def test_function(self):
-        self.assertTrack('III. Credo', u'03')
+        self.assertTrack('III. Credo', '03')
         self.assertTrack('III Credo', '4-02')
         self.assertTrack('Credo', '4-02')
         self.meta.track = 123
@@ -544,14 +544,14 @@ class TestPropertyWork(unittest.TestCase):
         meta = get_meta('classical', 'Mozart_Horn-concertos', '01.mp3')
         self.assertEqual(
             meta.work,
-            u'Concerto for French Horn no. 1 in D major, '
-            u'K. 386b / KV 412: I. Allegro'
+            'Concerto for French Horn no. 1 in D major, '
+            'K. 386b / KV 412: I. Allegro'
         )
         self.assertEqual(
             meta.mb_workid,
-            u'21fe0bf0-a040-387c-a39d-369d53c251fe'
+            '21fe0bf0-a040-387c-a39d-369d53c251fe'
         )
-        self.assertEqual(meta.composer_sort, u'Mozart, Wolfgang Amadeus')
+        self.assertEqual(meta.composer_sort, 'Mozart, Wolfgang Amadeus')
 
 
 # ar_combined_work_top
@@ -565,19 +565,19 @@ class TestPropertyWorkTop(unittest.TestCase):
 
     def test_mutliple(self):
         self.meta.work_hierarchy = 'top -> work'
-        self.assertEqual(self.meta.ar_combined_work_top, u'top')
+        self.assertEqual(self.meta.ar_combined_work_top, 'top')
 
     def test_single(self):
         self.meta.work_hierarchy = 'top'
-        self.assertEqual(self.meta.ar_combined_work_top, u'top')
+        self.assertEqual(self.meta.ar_combined_work_top, 'top')
 
     def test_work_colon(self):
         self.meta.work = 'work: test'
-        self.assertEqual(self.meta.ar_combined_work_top, u'work')
+        self.assertEqual(self.meta.ar_combined_work_top, 'work')
 
     def test_work(self):
         self.meta.work = 'work'
-        self.assertEqual(self.meta.ar_combined_work_top, u'work')
+        self.assertEqual(self.meta.ar_combined_work_top, 'work')
 
 
 # ar_classical_title
@@ -635,10 +635,10 @@ class TestStaticMethodInitials(unittest.TestCase):
         self.meta = get_meta('files', 'album.mp3')
 
     def test_lowercase(self):
-        self.assertEqual(self.meta._initials(u'beethoven'), u'b')
+        self.assertEqual(self.meta._initials('beethoven'), 'b')
 
     def test_uppercase(self):
-        self.assertEqual(self.meta._initials(u'Beethoven'), u'b')
+        self.assertEqual(self.meta._initials('Beethoven'), 'b')
 
 
 class TestStaticMethodNormalizePerformer(unittest.TestCase):
@@ -647,15 +647,15 @@ class TestStaticMethodNormalizePerformer(unittest.TestCase):
         self.meta = get_meta('files', 'album.mp3')
 
     def test_unit_normalize_performer(self):
-        out = self.meta._normalize_performer([u'John Lennon (vocals)',
-                                             u'Ringo Starr (drums)'])
-        self.assertEqual(out[0][0], u'vocals')
-        self.assertEqual(out[0][1], u'John Lennon')
-        self.assertEqual(out[1][0], u'drums')
-        self.assertEqual(out[1][1], u'Ringo Starr')
+        out = self.meta._normalize_performer(['John Lennon (vocals)',
+                                             'Ringo Starr (drums)'])
+        self.assertEqual(out[0][0], 'vocals')
+        self.assertEqual(out[0][1], 'John Lennon')
+        self.assertEqual(out[1][0], 'drums')
+        self.assertEqual(out[1][1], 'Ringo Starr')
 
     def test_unit_normalize_performer_string(self):
-        out = self.meta._normalize_performer(u'Ludwig van Beethoven')
+        out = self.meta._normalize_performer('Ludwig van Beethoven')
         self.assertEqual(out, [])
 
 
@@ -665,13 +665,13 @@ class TestStaticMethodSanitize(unittest.TestCase):
         self.meta = get_meta('files', 'album.mp3')
 
     def test_slash(self):
-        self.assertEqual(self.meta._sanitize(u'lol/lol'), u'lollol')
+        self.assertEqual(self.meta._sanitize('lol/lol'), 'lollol')
 
     def test_whitespaces(self):
-        self.assertEqual(self.meta._sanitize(u'lol  lol'), u'lol lol')
+        self.assertEqual(self.meta._sanitize('lol  lol'), 'lol lol')
 
     def test_list(self):
-        self.assertEqual(self.meta._sanitize([]), u'')
+        self.assertEqual(self.meta._sanitize([]), '')
 
 
 class TestStaticMethodShortenPerformer(unittest.TestCase):
@@ -680,24 +680,24 @@ class TestStaticMethodShortenPerformer(unittest.TestCase):
         self.meta = get_meta('files', 'album.mp3')
 
     def test_ar_performer_shorten(self):
-        s = self.meta._shorten_performer(u'Ludwig van Beethoven')
-        self.assertEqual(s, u'Lud. van Bee.')
+        s = self.meta._shorten_performer('Ludwig van Beethoven')
+        self.assertEqual(s, 'Lud. van Bee.')
 
     def test_ar_performer_shorten_option_separator(self):
-        s = self.meta._shorten_performer(u'Ludwig van Beethoven',
-                                         separator=u'--')
-        self.assertEqual(s, u'Lud.--van--Bee.')
+        s = self.meta._shorten_performer('Ludwig van Beethoven',
+                                         separator='--')
+        self.assertEqual(s, 'Lud.--van--Bee.')
 
     def test_ar_performer_shorten_option_abbreviation(self):
-        s = self.meta._shorten_performer(u'Ludwig van Beethoven',
-                                         abbreviation=u'_')
-        self.assertEqual(s, u'Lud_ van Bee_')
+        s = self.meta._shorten_performer('Ludwig van Beethoven',
+                                         abbreviation='_')
+        self.assertEqual(s, 'Lud_ van Bee_')
 
     def test_ar_performer_shorten_option_all(self):
-        s = self.meta._shorten_performer(u'Ludwig van Beethoven',
-                                         separator=u'',
-                                         abbreviation=u'')
-        self.assertEqual(s, u'LudvanBee')
+        s = self.meta._shorten_performer('Ludwig van Beethoven',
+                                         separator='',
+                                         abbreviation='')
+        self.assertEqual(s, 'LudvanBee')
 
 
 class TestStaticMethodUnifyList(unittest.TestCase):
@@ -711,14 +711,14 @@ class TestStaticMethodUnifyList(unittest.TestCase):
 
     def test_unify_list(self):
         seq = self.meta._unify_list([
-            [u'conductor', u'Herbert von Karajan'],
-            [u'orchestra', u'Staatskapelle Dresden'],
-            [u'orchestra', u'Staatskapelle Dresden']
+            ['conductor', 'Herbert von Karajan'],
+            ['orchestra', 'Staatskapelle Dresden'],
+            ['orchestra', 'Staatskapelle Dresden']
         ])
 
         self.assertEqual(seq, [
-            [u'conductor', u'Herbert von Karajan'],
-            [u'orchestra', u'Staatskapelle Dresden']
+            ['conductor', 'Herbert von Karajan'],
+            ['orchestra', 'Staatskapelle Dresden']
         ])
 
 
@@ -852,49 +852,49 @@ class TestAllPropertiesHines(unittest.TestCase):
                              'Just-Friends_1989', '06_Indian-Summer.mp3')
 
     def test_ar_classical_album(self):
-        self.assertEqual(self.meta.ar_classical_album, u'')
+        self.assertEqual(self.meta.ar_classical_album, '')
 
     def test_ar_combined_album(self):
-        self.assertEqual(self.meta.ar_combined_album, u'Just Friends')
+        self.assertEqual(self.meta.ar_combined_album, 'Just Friends')
 
     def test_ar_initial_album(self):
-        self.assertEqual(self.meta.ar_initial_album, u'j')
+        self.assertEqual(self.meta.ar_initial_album, 'j')
 
     def test_ar_initial_artist(self):
-        self.assertEqual(self.meta.ar_initial_artist, u'h')
+        self.assertEqual(self.meta.ar_initial_artist, 'h')
 
     def test_ar_combined_artist(self):
-        self.assertEqual(self.meta.ar_combined_artist, u'Earl Hines')
+        self.assertEqual(self.meta.ar_combined_artist, 'Earl Hines')
 
     def test_ar_combined_artist_sort(self):
-        self.assertEqual(self.meta.ar_combined_artist_sort, u'Hines, Earl')
+        self.assertEqual(self.meta.ar_combined_artist_sort, 'Hines, Earl')
 
     def test_ar_initial_composer(self):
-        self.assertEqual(self.meta.ar_initial_composer, u'e')
+        self.assertEqual(self.meta.ar_initial_composer, 'e')
 
     def test_ar_combined_composer(self):
-        self.assertEqual(self.meta.ar_combined_composer, u'Earl Hines')
+        self.assertEqual(self.meta.ar_combined_composer, 'Earl Hines')
 
     def test_ar_combined_disctrack(self):
-        self.assertEqual(self.meta.ar_combined_disctrack, u'06')
+        self.assertEqual(self.meta.ar_combined_disctrack, '06')
 
     def test_ar_performer(self):
-        self.assertEqual(self.meta.ar_performer, u'')
+        self.assertEqual(self.meta.ar_performer, '')
 
     def test_ar_classical_performer(self):
-        self.assertEqual(self.meta.ar_classical_performer, u'Earl Hines')
+        self.assertEqual(self.meta.ar_classical_performer, 'Earl Hines')
 
     def test_ar_performer_raw(self):
         self.assertEqual(self.meta.ar_performer_raw, [])
 
     def test_ar_performer_short(self):
-        self.assertEqual(self.meta.ar_performer_short, u'')
+        self.assertEqual(self.meta.ar_performer_short, '')
 
     def test_ar_classical_title(self):
-        self.assertEqual(self.meta.ar_classical_title, u'Indian Summer')
+        self.assertEqual(self.meta.ar_classical_title, 'Indian Summer')
 
     def test_ar_classical_track(self):
-        self.assertEqual(self.meta.ar_classical_track, u'06')
+        self.assertEqual(self.meta.ar_classical_track, '06')
 
     def test_ar_combined_year(self):
         self.assertEqual(self.meta.ar_combined_year, 1989)
@@ -907,22 +907,22 @@ class TestAllPropertiesWagner(unittest.TestCase):
 
     def test_ar_classical_album(self):
         self.assertEqual(self.meta.ar_classical_album,
-                         u'Die Meistersinger von Nürnberg')
+                         'Die Meistersinger von Nürnberg')
 
     def test_ar_combined_album(self):
         self.assertEqual(self.meta.ar_combined_album,
-                         u'Die Meistersinger von Nürnberg')
+                         'Die Meistersinger von Nürnberg')
 
     def test_ar_initial_album(self):
-        self.assertEqual(self.meta.ar_initial_album, u'd')
+        self.assertEqual(self.meta.ar_initial_album, 'd')
 
     def test_ar_initial_artist(self):
-        self.assertEqual(self.meta.ar_initial_artist, u'w')
+        self.assertEqual(self.meta.ar_initial_artist, 'w')
 
     def test_ar_combined_artist(self):
         self.assertEqual(
             self.meta.ar_combined_artist,
-            u'Richard Wagner; René Kollo, Helen Donath, Theo Adam, Geraint '
+            'Richard Wagner; René Kollo, Helen Donath, Theo Adam, Geraint '
             'Evans, Peter Schreier, Ruth Hesse, Karl Ridderbusch, Chor der '
             'Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle '
             'Dresden, Herbert von Karajan')
@@ -930,38 +930,38 @@ class TestAllPropertiesWagner(unittest.TestCase):
     def test_ar_combined_artist_sort(self):
         self.assertEqual(
             self.meta.ar_combined_artist_sort,
-            u'Wagner, Richard; Kollo, René, Donath, Helen, Adam, Theo, Evans, '
+            'Wagner, Richard; Kollo, René, Donath, Helen, Adam, Theo, Evans, '
             'Geraint, Schreier, Peter, Hesse, Ruth, Ridderbusch, Karl, Chor '
             'der Staatsoper Dresden, MDR Rundfunkchor Leipzig, Staatskapelle '
             'Dresden, Karajan, Herbert von')
 
     def test_ar_initial_composer(self):
-        self.assertEqual(self.meta.ar_initial_composer, u'w')
+        self.assertEqual(self.meta.ar_initial_composer, 'w')
 
     def test_ar_combined_composer(self):
-        self.assertEqual(self.meta.ar_combined_composer, u'Wagner, Richard')
+        self.assertEqual(self.meta.ar_combined_composer, 'Wagner, Richard')
 
     def test_ar_combined_disctrack(self):
-        self.assertEqual(self.meta.ar_combined_disctrack, u'1-01')
+        self.assertEqual(self.meta.ar_combined_disctrack, '1-01')
 
     def test_ar_performer(self):
         self.assertEqual(self.meta.ar_performer,
-                         u'Herbert von Karajan, Staatskapelle Dresden')
+                         'Herbert von Karajan, Staatskapelle Dresden')
 
     def test_ar_classical_performer(self):
         self.assertEqual(self.meta.ar_classical_performer,
-                         u'Karajan, StaDre')
+                         'Karajan, StaDre')
 
     def test_ar_performer_raw(self):
         self.assertEqual(self.meta.ar_performer_raw,
                          [
-                             [u'conductor', u'Herbert von Karajan'],
-                             [u'orchestra', u'Staatskapelle Dresden']
+                             ['conductor', 'Herbert von Karajan'],
+                             ['orchestra', 'Staatskapelle Dresden']
                          ])
 
     def test_ar_performer_short(self):
         self.assertEqual(self.meta.ar_performer_short,
-                         u'Karajan, StaDre')
+                         'Karajan, StaDre')
 
     def test_ar_classical_title(self):
         self.assertEqual(self.meta.ar_classical_title, 'Vorspiel')
@@ -990,151 +990,151 @@ class TestClassical(unittest.TestCase):
     def test_ar_classical_album_mozart(self):
         self.assertEqual(
             self.mozart.ar_classical_album,
-            u'Concerto for French Horn no. 1 in D major, K. 386b / KV 412'
+            'Concerto for French Horn no. 1 in D major, K. 386b / KV 412'
         )
 
     def test_ar_classical_album_schubert(self):
         self.assertEqual(
             self.schubert.ar_classical_album,
-            u'Die Winterreise, op. 89, D. 911'
+            'Die Winterreise, op. 89, D. 911'
         )
 
     def test_ar_classical_album_tschaikowski(self):
         self.assertEqual(
             self.tschaikowski.ar_classical_album,
-            u'Swan Lake, op. 20'
+            'Swan Lake, op. 20'
         )
 
     def test_ar_classical_album_wagner(self):
         self.assertEqual(
             self.wagner.ar_classical_album,
-            u'Die Meistersinger von N\xfcrnberg'
+            'Die Meistersinger von N\xfcrnberg'
         )
 
     # ar_initial_composer
     def test_ar_initial_composer_mozart(self):
-        self.assertEqual(self.mozart.ar_initial_composer, u'm')
+        self.assertEqual(self.mozart.ar_initial_composer, 'm')
 
     def test_ar_initial_composer_schubert(self):
-        self.assertEqual(self.schubert.ar_initial_composer, u's')
+        self.assertEqual(self.schubert.ar_initial_composer, 's')
 
     def test_ar_initial_composer_tschaikowski(self):
-        self.assertEqual(self.tschaikowski.ar_initial_composer, u't')
+        self.assertEqual(self.tschaikowski.ar_initial_composer, 't')
 
     def test_ar_initial_composer_wagner(self):
-        self.assertEqual(self.wagner.ar_initial_composer, u'w')
+        self.assertEqual(self.wagner.ar_initial_composer, 'w')
 
     # ar_combined_composer
     def test_ar_combined_composer_mozart(self):
         self.assertEqual(
             self.mozart.ar_combined_composer,
-            u'Mozart, Wolfgang Amadeus'
+            'Mozart, Wolfgang Amadeus'
         )
 
     def test_ar_combined_composer_mozart2(self):
         self.assertEqual(
             self.mozart2.ar_combined_composer,
-            u'Mozart, Wolfgang Amadeus'
+            'Mozart, Wolfgang Amadeus'
         )
 
     def test_ar_combined_composer_schubert(self):
         self.assertEqual(
             self.schubert.ar_combined_composer,
-            u'Schubert, Franz'
+            'Schubert, Franz'
         )
 
     def test_ar_combined_composer_tschaikowski(self):
         self.assertEqual(
             self.tschaikowski.ar_combined_composer,
-            u'Tchaikovsky, Pyotr Ilyich'
+            'Tchaikovsky, Pyotr Ilyich'
         )
 
     def test_ar_combined_composer_wagner(self):
         self.assertEqual(
             self.wagner.ar_combined_composer,
-            u'Wagner, Richard'
+            'Wagner, Richard'
         )
 
     # composer_sort
     def test_composer_sort_mozart(self):
         self.assertEqual(
             self.mozart.composer_sort,
-            u'Mozart, Wolfgang Amadeus'
+            'Mozart, Wolfgang Amadeus'
         )
 
     def test_composer_sort_schubert(self):
         self.assertEqual(
             self.schubert.composer_sort,
-            u'Schubert, Franz'
+            'Schubert, Franz'
         )
 
     def test_composer_sort_tschaikowski(self):
         self.assertEqual(
             self.tschaikowski.composer_sort,
-            u'Tchaikovsky, Pyotr Ilyich'
+            'Tchaikovsky, Pyotr Ilyich'
         )
 
     def test_composer_sort_wagner(self):
         self.assertEqual(
             self.wagner.composer_sort,
-            u'Wagner, Richard'
+            'Wagner, Richard'
         )
 
     # ar_classical_performer
     def test_ar_classical_performer_mozart(self):
         self.assertEqual(
             self.mozart.ar_classical_performer,
-            u'OrpChaOrc'
+            'OrpChaOrc'
         )
 
     def test_ar_classical_performer_schubert(self):
         self.assertEqual(
             self.schubert.ar_classical_performer,
-            u'Fischer-Dieskau, Moore'
+            'Fischer-Dieskau, Moore'
         )
 
     def test_ar_classical_performer_tschaikowski(self):
         self.assertEqual(
             self.tschaikowski.ar_classical_performer,
-            u'Svetlanov, StaAcaSym'
+            'Svetlanov, StaAcaSym'
         )
 
     def test_ar_classical_performer_wagner(self):
         self.assertEqual(
             self.wagner.ar_classical_performer,
-            u'Karajan, StaDre'
+            'Karajan, StaDre'
         )
 
     # ar_classical_title
     def test_ar_classical_title_mozart(self):
-        self.assertEqual(self.mozart.ar_classical_title, u'I. Allegro')
+        self.assertEqual(self.mozart.ar_classical_title, 'I. Allegro')
 
     def test_ar_classical_title_schubert(self):
         self.assertEqual(
-            self.schubert.ar_classical_title, u'Gute Nacht')
+            self.schubert.ar_classical_title, 'Gute Nacht')
 
     def test_ar_classical_title_tschaikowski(self):
         self.assertEqual(
             self.tschaikowski.ar_classical_title,
-            u'Introduction. Moderato assai - Allegro, ma non troppo - Tempo I'
+            'Introduction. Moderato assai - Allegro, ma non troppo - Tempo I'
         )
 
     def test_ar_classical_title_wagner(self):
         self.assertEqual(
-            self.wagner.ar_classical_title, u'Vorspiel')
+            self.wagner.ar_classical_title, 'Vorspiel')
 
     # ar_classical_track
     def test_ar_classical_track_mozart(self):
-        self.assertEqual(self.mozart.ar_classical_track, u'01')
+        self.assertEqual(self.mozart.ar_classical_track, '01')
 
     def test_ar_classical_track_schubert(self):
-        self.assertEqual(self.schubert.ar_classical_track, u'01')
+        self.assertEqual(self.schubert.ar_classical_track, '01')
 
     def test_ar_classical_track_tschaikowski(self):
-        self.assertEqual(self.tschaikowski.ar_classical_track, u'1-01')
+        self.assertEqual(self.tschaikowski.ar_classical_track, '1-01')
 
     def test_ar_classical_track_wagner(self):
-        self.assertEqual(self.wagner.ar_classical_track, u'1-01')
+        self.assertEqual(self.wagner.ar_classical_track, '1-01')
 
 
 if __name__ == '__main__':

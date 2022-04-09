@@ -306,7 +306,7 @@ def do_job_on_audiofile(source_path: str, job: job.Job):
     ##
 
     if skip:
-        job.msg.status(u'Broken file', status='error')
+        job.msg.status('Broken file', status='error')
         count('broken_file')
         return
 
@@ -331,7 +331,7 @@ def do_job_on_audiofile(source_path: str, job: job.Job):
 
     if job.field_skip and (not hasattr(source.meta,
        job.field_skip) or not getattr(source.meta, job.field_skip)):
-        job.msg.status(u'No field', status='error')
+        job.msg.status('No field', status='error')
         count('no_field')
         return
 

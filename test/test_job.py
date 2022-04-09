@@ -110,25 +110,25 @@ class TestJob(unittest.TestCase):
     # move default
     def test_rename_move_default(self):
         job = Job(self.args)
-        self.assertEqual(job.rename.move, u'move')
+        self.assertEqual(job.rename.move, 'move')
 
     # move copy
     def test_rename_move_copy(self):
         job = Job(self.args)
         self.args.copy = True
-        self.assertEqual(job.rename.move, u'copy')
+        self.assertEqual(job.rename.move, 'copy')
 
     # move move
     def test_rename_move_move(self):
         job = Job(self.args)
         self.args.move = True
-        self.assertEqual(job.rename.move, u'move')
+        self.assertEqual(job.rename.move, 'move')
 
     # move no_rename
     def test_rename_move_no_rename(self):
         job = Job(self.args)
         self.args.no_rename = True
-        self.assertEqual(job.rename.move, u'no_rename')
+        self.assertEqual(job.rename.move, 'no_rename')
 
     # best_format
     def test_rename_best_format(self):
@@ -138,21 +138,21 @@ class TestJob(unittest.TestCase):
 
     # backup_folder
     def test_rename_backup_folder(self):
-        self.args.backup_folder = u'/tmp'
+        self.args.backup_folder = '/tmp'
         job = Job(self.args)
-        self.assertEqual(job.rename.backup_folder, u'/tmp')
+        self.assertEqual(job.rename.backup_folder, '/tmp')
 
     # backup
     def test_rename_cleanup_backup(self):
         job = Job(self.args)
         self.args.backup = True
-        self.assertEqual(job.rename.cleanup, u'backup')
+        self.assertEqual(job.rename.cleanup, 'backup')
 
     # delete
     def test_rename_cleanup_delete(self):
         self.args.delete = True
         job = Job(self.args)
-        self.assertEqual(job.rename.cleanup, u'delete')
+        self.assertEqual(job.rename.cleanup, 'delete')
 
     ##
     # end rename
@@ -161,7 +161,7 @@ class TestJob(unittest.TestCase):
     # target
     def test_target(self):
         job = Job(self.args)
-        self.args.path = u'.'
+        self.args.path = '.'
         self.assertEqual(job.target, os.getcwd())
         self.args.target = 'test'
         self.assertEqual(job.target, os.path.abspath('test'))
@@ -182,9 +182,9 @@ class TestJob(unittest.TestCase):
 
     # source
     def test_source(self):
-        self.args.path = u'.'
+        self.args.path = '.'
         job = Job(self.args)
-        self.assertEqual(job.source, os.path.abspath(u'.'))
+        self.assertEqual(job.source, os.path.abspath('.'))
 
 
 class TestTimer(unittest.TestCase):

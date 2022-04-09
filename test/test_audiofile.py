@@ -131,7 +131,7 @@ class TestFunctionBestFormat(unittest.TestCase):
             result = self.source_target('flac.flac', 'flac.flac')
         self.assertEqual(result, 'target')
         self.assertEqual(
-            output[0], u'Best format: Source and target have the some '
+            output[0], 'Best format: Source and target have the some '
             'formats, use target.'
         )
 
@@ -140,7 +140,7 @@ class TestFunctionBestFormat(unittest.TestCase):
             result = self.source_target('mp3_128.mp3', 'flac.flac')
         self.assertEqual(result, 'target')
         self.assertEqual(
-            output[0], u'Best format is “target” because of “type”: '
+            output[0], 'Best format is “target” because of “type”: '
             '(source: mp3, target: flac)'
         )
 
@@ -149,7 +149,7 @@ class TestFunctionBestFormat(unittest.TestCase):
             result = self.source_target('flac.flac', 'mp3_128.mp3')
         self.assertEqual(result, 'source')
         self.assertEqual(
-            output[0], u'Best format is “source” because of “type”: '
+            output[0], 'Best format is “source” because of “type”: '
             '(source: flac, target: mp3)'
         )
 
@@ -158,7 +158,7 @@ class TestFunctionBestFormat(unittest.TestCase):
             result = self.source_target('mp3_320.mp3', 'mp3_128.mp3')
         self.assertEqual(result, 'source')
         self.assertEqual(
-            output[0], u'Best format is “source” because of “bitrate”: '
+            output[0], 'Best format is “source” because of “bitrate”: '
             '(source: 319999, target: 191995)'
         )
 
@@ -167,7 +167,7 @@ class TestFunctionBestFormat(unittest.TestCase):
             result = self.source_target('mp3_144.mp3', 'mp3_320.mp3')
         self.assertEqual(result, 'target')
         self.assertEqual(
-            output[0], u'Best format is “target” because of “bitrate”: '
+            output[0], 'Best format is “target” because of “bitrate”: '
             '(source: 86884, target: 319999)'
         )
 
@@ -176,7 +176,7 @@ class TestFunctionBestFormat(unittest.TestCase):
             result = self.source_target('mp3_320.mp3', 'mp3_144.mp3')
         self.assertEqual(result, 'source')
         self.assertEqual(
-            output[0], u'Best format is “source” because of “bitrate”: '
+            output[0], 'Best format is “source” because of “bitrate”: '
             '(source: 319999, target: 86884)'
         )
 
@@ -185,7 +185,7 @@ class TestFunctionBestFormat(unittest.TestCase):
             result = self.source_target('m4a_100.m4a', 'm4a_250.m4a')
         self.assertEqual(result, 'target')
         self.assertEqual(
-            output[0], u'Best format is “target” because of “bitrate”: '
+            output[0], 'Best format is “target” because of “bitrate”: '
             '(source: 198551, target: 235243)'
         )
 
@@ -194,7 +194,7 @@ class TestFunctionBestFormat(unittest.TestCase):
             result = self.source_target('m4a_250.m4a', 'm4a_100.m4a')
         self.assertEqual(result, 'source')
         self.assertEqual(
-            output[0], u'Best format is “source” because of “bitrate”: '
+            output[0], 'Best format is “source” because of “bitrate”: '
             '(source: 235243, target: 198551)'
         )
 
