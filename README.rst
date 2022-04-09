@@ -39,7 +39,7 @@ From PyPI
 Examples
 ========
 
-Please use the `-d` (`--dry-run`) option first
+Please use the ``-d`` (``--dry-run``) option first
 
 Basic example:
 
