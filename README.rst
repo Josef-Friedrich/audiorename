@@ -36,6 +36,31 @@ From PyPI
     pip install audiorename
     easy_install audiorename
 
+Examples
+========
+
+Please use the `-d` (`--dry-run`) option first
+
+Basic example:
+
+.. code:: Shell
+
+    cd my-chaotic-music-collection
+    audiorenamer -d .
+
+
+More advanced example:
+
+.. code:: Shell
+
+    audiorenamer -d -f '$artist/$album/$track $title' --target /mnt/hd/my-organized-music-collection .
+
+Very advanced example:
+
+.. code:: Shell
+
+    audiorenamer -d -f '$ar_initial_artist/%shorten{$ar_combined_artist_sort}/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}' .
+
 Usage
 =====
 
