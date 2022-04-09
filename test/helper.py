@@ -5,6 +5,9 @@ import shutil
 import tempfile
 import re
 import audiorename
+import audiorename.meta
+import audiorename.audiofile
+import musicbrainzngs.musicbrainz
 from audiorename import Job
 from audiorename.args import ArgsDefault
 from audiorename.meta import set_useragent, query_mbrainz
@@ -119,6 +122,7 @@ def call_bin(*args):
                                    stderr=subprocess.STDOUT)
     audiorename.wait()
     out = []
-    for line in audiorename.stdout.readlines():
-        out.append(line.decode('utf-8'))
+    if audiorename.stdout:
+        for line in audiorename.stdout.readlines():
+            out.append(line.decode('utf-8'))
     return out
