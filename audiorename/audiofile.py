@@ -12,6 +12,7 @@ import phrydy
 import re
 import shutil
 import traceback
+import audiorename.job as job
 
 
 class AudioFile(object):
@@ -24,7 +25,8 @@ class AudioFile(object):
     :param job: The `job` object.
     :type job: audiorename.job.Job
     """
-    def __init__(self, path=None, file_type='source', prefix=None, job=None):
+    def __init__(self, path: str, job: job.Job, file_type='source',
+                 prefix=None):
         self.__path = path
         self.type = file_type
         self.job = job
@@ -219,7 +221,7 @@ class Action(object):
             os.path.join(
                 self.job.rename.backup_folder,
                 os.path.basename(audio_file.abspath)
-            ), file_type='target'
+            ), job=self.job, file_type='target'
         )
 
         self.job.msg.action_two_path('Backup', audio_file, backup_file)
@@ -284,18 +286,15 @@ class Action(object):
             audio_file.meta.save()
 
 
-def do_job_on_audiofile(source, job=None):
-    """
-    :param job: The `job` object.
-    :type job: audiorename.job.Job
-    """
+def do_job_on_audiofile(source_path: str, job: job.Job):
     def count(key):
         job.stats.counter.count(key)
     skip = False
 
     action = Action(job)
 
-    source = AudioFile(source, prefix=os.getcwd(), file_type='source', job=job)
+    source = AudioFile(source_path, job=job, prefix=os.getcwd(),
+                       file_type='source')
     if not job.output.mb_track_listing:
         job.msg.next_file(source)
 
@@ -384,8 +383,8 @@ def do_job_on_audiofile(source, job=None):
             desired_target_path + '.' + source.extension
         )
 
-        desired_target = AudioFile(desired_target_path, prefix=job.target,
-                                   file_type='target', job=job)
+        desired_target = AudioFile(desired_target_path, job=job,
+                                   prefix=job.target, file_type='target')
 
         # Do nothing
         if source.abspath == desired_target.abspath:
@@ -397,8 +396,8 @@ def do_job_on_audiofile(source, job=None):
         target = False
         target_path = get_target(desired_target.abspath, job.filter.extension)
         if target_path:
-            target = AudioFile(target_path, prefix=job.target,
-                               file_type='target', job=job)
+            target = AudioFile(target_path, job=job, prefix=job.target,
+                               file_type='target')
 
         # Both file exist
         if target:

@@ -42,7 +42,8 @@ def copy_to_tmp(*path_list):
 
 
 def get_tmp_file_object(*path_list):
-    return audiorename.audiofile.AudioFile(copy_to_tmp(*path_list))
+    return audiorename.audiofile.AudioFile(copy_to_tmp(*path_list),
+                                           job=get_job())
 
 
 def gen_file_list(files, path, extension='mp3'):

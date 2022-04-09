@@ -399,7 +399,7 @@ class Meta(MediaFile):
         work_id = ''
         if self.mb_workid:
             work_id = self.mb_workid
-        else:
+        elif recording:
             try:
                 work_id = recording['work-relation-list'][0]['work']['id']
             except KeyError:
