@@ -97,8 +97,8 @@ class DefaultFormats(object):
     classical = '$ar_initial_composer/$ar_combined_composer/' \
                 '%shorten{$ar_combined_work_top,48}' \
                 '_[%shorten{$ar_classical_performer,32}]/' \
-                '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_' \
-                '%shorten{$acoustid_id,8}'
+                '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}' \
+                '%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}'
 
 
 class Formats(object):

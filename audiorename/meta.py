@@ -314,18 +314,33 @@ def query_works_recursively(work_id: str, works=[]):
     return works
 
 
-def dict_diff(first: typing.Dict[str, str],
-              second: typing.Dict[str, str]) -> typing.List[str]:
-    """Compare two dicts for differenes.
+def compare_dicts(first: typing.Dict[str, str],
+                  second: typing.Dict[str, str]) -> typing.List[str]:
+    """Compare two dictionaries for differenes.
 
-    :param first: Fist dictionary to diff.
+    :param first: First dictionary to diff.
     :param second: Second dicationary to diff.
-    :return diff: As list of key entries which values differ.
+
+    :return: As list of key entries whose values differ.
     """
     diff = []
     for key, _ in sorted(first.items()):
-        if first[key] != second[key]:
+        if key not in second:
+            diff.append((key, first[key], None))
+
+    for key, _ in sorted(second.items()):
+        if key not in first:
+            diff.append((key, None, second[key]))
+
+    all_keys = set()
+    for key, _ in first.items():
+        all_keys.add(key)
+    for key, _ in second.items():
+        all_keys.add(key)
+    for key in sorted(all_keys):
+        if key in first and key in second and first[key] != second[key]:
             diff.append((key, first[key], second[key]))
+
     return diff
 
 
@@ -354,8 +369,6 @@ class Meta(MediaFile):
                     out[field] = self._sanitize(str(value))
                 else:
                     out[field] = value
-            else:
-                out[field] = u''
 
         return out
 

@@ -14,7 +14,7 @@ class TestDictDiff(unittest.TestCase):
 
     def test_identical(self):
         tmp = helper.get_meta('files', 'album.mp3')
-        result = meta.dict_diff(tmp.export_dict(), tmp.export_dict())
+        result = meta.compare_dicts(tmp.export_dict(), tmp.export_dict())
         self.assertEqual(result, [])
 
     def test_one_diff(self):
@@ -22,7 +22,7 @@ class TestDictDiff(unittest.TestCase):
         dict1 = tmp.export_dict()
         tmp.title = 'diff'
         dict2 = tmp.export_dict()
-        result = meta.dict_diff(dict1, dict2)
+        result = meta.compare_dicts(dict1, dict2)
         self.assertEqual(
             result,
             [
@@ -37,7 +37,7 @@ class TestDictDiff(unittest.TestCase):
         tmp.artist = 'diff'
         tmp.track = 99
         dict2 = tmp.export_dict()
-        result = meta.dict_diff(dict1, dict2)
+        result = meta.compare_dicts(dict1, dict2)
         self.assertEqual(
             result,
             [
@@ -53,12 +53,12 @@ class TestDictDiff(unittest.TestCase):
         dict1 = tmp.export_dict()
         delattr(tmp, 'title')
         dict2 = tmp.export_dict()
-        result = meta.dict_diff(dict1, dict2)
+        result = meta.compare_dicts(dict1, dict2)
         self.assertEqual(
             result,
             [
-                (u'ar_classical_title', 'full', u''),
-                (u'title', 'full', u''),
+                (u'ar_classical_title', 'full', None),
+                (u'title', 'full', None),
             ]
         )
 

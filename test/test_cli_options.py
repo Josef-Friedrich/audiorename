@@ -125,25 +125,25 @@ class TestClassical(unittest.TestCase):
     def test_debussy_01(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '01.mp3',
-            self.d + self.e + '/01_Pagodes_.mp3'
+            self.d + self.e + '/01_Pagodes.mp3'
         )
 
     def test_debussy_02(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '02.mp3',
-            self.d + self.e + '/02_Soiree-dans-Grenade_.mp3'
+            self.d + self.e + '/02_Soiree-dans-Grenade.mp3'
         )
 
     def test_debussy_03(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '03.mp3',
-            self.d + self.e + '/03_Jardins-sous-la-pluie_.mp3'
+            self.d + self.e + '/03_Jardins-sous-la-pluie.mp3'
         )
 
     def test_debussy_04(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '04.mp3',
-            self.d + self.p + '/04_Prelude_.mp3'
+            self.d + self.p + '/04_Prelude.mp3'
         )
 
     m = '/m/Mozart_Wolfgang-Amadeus/'
@@ -459,15 +459,14 @@ class TestClassicalFormat(unittest.TestCase):
     def assertDryRun(self, folder, track, test):
         self.assertEqual(helper.dry_run([
             '--classical', '--format-classical', '$ar_combined_composer/'
-            '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_'
-            '%shorten{$acoustid_id,8}',
+            '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}',
             helper.get_testfile('classical', folder, track)
         ]), test)
 
     def test_debussy_01(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '01.mp3',
-            '/Debussy_Claude/01_Pagodes_.mp3'
+            '/Debussy_Claude/01_Pagodes.mp3'
         )
 
 
@@ -478,15 +477,14 @@ class TestGenreClassical(unittest.TestCase):
         self.assertEqual(helper.dry_run([
             '--genre-classical', 'classical,', '--format-classical',
             '$ar_combined_composer/'
-            '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}_'
-            '%shorten{$acoustid_id,8}',
+            '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}',
             helper.get_testfile('classical', folder, track)
         ]), test)
 
     def test_debussy_01(self):
         self.assertDryRun(
             'Debussy_Estampes-etc', '01.mp3',
-            '/Debussy_Claude/01_Pagodes_.mp3'
+            '/Debussy_Claude/01_Pagodes.mp3'
         )
 
 

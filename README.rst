@@ -589,6 +589,12 @@ Test
     pyenv local 3.6.13 3.7.10 3.9.2
     tox
 
+Run a single test
+
+::
+
+    tox -e py38 -- test/test_audiofile.py:TestUnicodeUnittest.test_rename
+
 
 Publish a new version
 ---------------------

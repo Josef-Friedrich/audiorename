@@ -26,7 +26,6 @@ class TestClassAction(unittest.TestCase):
     @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
     def test_method_metadata_enrich(self):
         tmp = helper.get_tmp_file_object('classical', 'without_work.mp3')
-
         self.assertEqual(tmp.meta.mb_workid, None)
         with helper.Capturing():
             self.action.metadata(tmp, enrich=True)
@@ -272,7 +271,8 @@ class TestUnicodeUnittest(unittest.TestCase):
 
     def setUp(self):
         self.uni = helper.get_testfile('äöü', 'ÅåÆæØø.mp3')
-        self.renamed = os.path.join('/►', '►',
+        self.renamed = os.path.join('/►', '►', '$ar_combined_album',
+                                    '$ar_combined_disctrack'
                                     '_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3')
 
     def test_dry_run(self):

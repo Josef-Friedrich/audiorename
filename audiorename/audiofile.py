@@ -2,7 +2,7 @@
 """
 
 from __future__ import print_function
-from audiorename.meta import Meta, dict_diff
+from audiorename.meta import Meta, compare_dicts
 from phrydy.utils import as_string
 from tmep import Functions
 from tmep import Template
@@ -265,7 +265,7 @@ class Action(object):
             method = getattr(audio_file.meta, method_name)
             method()
             post = audio_file.meta.export_dict(sanitize=False)
-            diff = dict_diff(pre, post)
+            diff = compare_dicts(pre, post)
             if diff:
                 self.count(method_name)
             self.job.msg.output(message)
@@ -278,7 +278,7 @@ class Action(object):
             single_action(audio_file, 'remap_classical', 'Remap classical')
 
         post = audio_file.meta.export_dict(sanitize=False)
-        diff = dict_diff(pre, post)
+        diff = compare_dicts(pre, post)
 
         if not self.dry_run and diff:
             audio_file.meta.save()
