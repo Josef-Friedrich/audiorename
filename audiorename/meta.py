@@ -255,7 +255,7 @@ import re
 import typing
 
 
-def set_useragent():
+def set_useragent() -> None:
     mbrainz.set_useragent(
         'audiorename',
         get_versions()['version'],
@@ -263,8 +263,9 @@ def set_useragent():
     )
 
 
-def query_mbrainz(mb_type: typing.Union['recording', 'work', 'release'],
-                  mb_id: str):
+def query_mbrainz(
+        mb_type: typing.Union['recording', 'work', 'release'],
+        mb_id: str) -> typing.Union[typing.Dict[str, typing.Any], None]:
     method = 'get_' + mb_type + '_by_id'
     query = getattr(mbrainz, method)
 
@@ -283,7 +284,7 @@ def query_mbrainz(mb_type: typing.Union['recording', 'work', 'release'],
         return result[mb_type]
 
     except mbrainz.ResponseError as err:
-        if err.cause.code == 404:
+        if err.cause and err.cause.code == 404:
             print('Item of type “' + mb_type + '” with the ID '
                   '“' + mb_id + '” not found.')
         else:
@@ -313,7 +314,8 @@ def query_works_recursively(work_id: str, works=[]):
     return works
 
 
-def dict_diff(first, second):
+def dict_diff(first: typing.Dict[str, str],
+              second: typing.Dict[str, str]) -> typing.List[str]:
     """Compare two dicts for differenes.
 
     :param first: Fist dictionary to diff.
@@ -321,7 +323,7 @@ def dict_diff(first, second):
     :return diff: As list of key entries which values differ.
     """
     diff = []
-    for key, value in sorted(first.items()):
+    for key, _ in sorted(first.items()):
         if first[key] != second[key]:
             diff.append((key, first[key], second[key]))
     return diff
@@ -329,7 +331,7 @@ def dict_diff(first, second):
 
 class Meta(MediaFile):
 
-    def __init__(self, path, shell_friendly=False):
+    def __init__(self, path, shell_friendly: bool = False):
         super(Meta, self).__init__(path, False)
         self.shell_friendly = shell_friendly
 
@@ -337,9 +339,12 @@ class Meta(MediaFile):
 # Public methods
 ###############################################################################
 
-    def export_dict(self, sanitize=True):
+    def export_dict(self, sanitize: bool = True) -> typing.Dict[str, str]:
         """
-        :param bool sanitize: Boolean value to trigger the sanitize function.
+        Export all fields into a dictionary.
+
+        :param sanitize: Set the parameter to true to trigger the sanitize
+          function.
         """
         out = {}
         for field in self.fields_sorted():
@@ -354,7 +359,7 @@ class Meta(MediaFile):
 
         return out
 
-    def enrich_metadata(self):
+    def enrich_metadata(self) -> None:
         set_useragent()
 
         if self.mb_trackid:
@@ -363,9 +368,10 @@ class Meta(MediaFile):
             print('No music brainz track id found.')
             return
 
+        release = None
         if self.mb_albumid:
             release = query_mbrainz('release', self.mb_albumid)
-        if 'release-group' in release:
+        if release and 'release-group' in release:
             release_group = release['release-group']
             types = []
             if 'type' in release_group:
@@ -407,7 +413,7 @@ class Meta(MediaFile):
                 self.work_hierarchy = ' -> '.join(wh_titles)
                 self.mb_workhierarchy_ids = '/'.join(wh_ids)
 
-    def remap_classical(self):
+    def remap_classical(self) -> None:
         """Remap some fields to fit better for classical music. For example
         ``composer`` becomes ``artist`` and ``work`` becomes ``album``.
         All overwritten fields are safed in the ``comments`` field. No
@@ -484,14 +490,15 @@ class Meta(MediaFile):
 ###############################################################################
 
     @staticmethod
-    def _initials(value):
+    def _initials(value: str) -> str:
         """
         :param str value: A string to extract the initials.
         """
         return value[0:1].lower()
 
     @staticmethod
-    def _normalize_performer(ar_performer):
+    def _normalize_performer(
+            ar_performer: typing.List[str]) -> typing.List[typing.List[str]]:
         """
         :param list ar_performer: A list of raw ar_performer strings like
 
@@ -520,7 +527,7 @@ class Meta(MediaFile):
             return []
 
     @staticmethod
-    def _roman_to_int(n):
+    def _roman_to_int(n: str) -> int:
         numeral_map = tuple(zip(
             (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
             ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV',
@@ -537,7 +544,7 @@ class Meta(MediaFile):
     def _sanitize(value):
         if isinstance(value, str) or isinstance(value, bytes):
             value = Functions.tmpl_sanitize(value)
-            value = re.sub(r'\s{2,}', ' ', value)
+            value = re.sub(r'\s{2,}', ' ', str(value))
         else:
             value = u''
         return value
@@ -586,7 +593,7 @@ class Meta(MediaFile):
             return u''
 
     @property
-    def ar_combined_album(self):
+    def ar_combined_album(self) -> str:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.album``
