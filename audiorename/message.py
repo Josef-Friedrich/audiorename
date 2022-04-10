@@ -6,18 +6,22 @@ import ansicolor
 import audiorename
 import phrydy
 import tmep
+import typing
+if typing.TYPE_CHECKING:
+    from .job import Job
+    from .audiofile import AudioFile
 
 
 class KeyValue(object):
 
-    def __init__(self, color=False):
+    def __init__(self, color: bool = False):
         self.color = color
         self.kv = OrderedDict()
 
-    def add(self, key, value):
+    def add(self, key, value) -> None:
         self.kv[key] = value
 
-    def result(self):
+    def result(self) -> str:
         out = ''
         for key, value in self.kv.items():
             key = key + ':'
@@ -26,7 +30,7 @@ class KeyValue(object):
             out = out + key + ' ' + value + '\n'
         return out
 
-    def result_one_line(self):
+    def result_one_line(self) -> str:
         out = []
         for key, value in self.kv.items():
             if self.color:
@@ -51,19 +55,19 @@ class Message(object):
         self.indent_width = 4
 
     @staticmethod
-    def max_fields_length():
+    def max_fields_length() -> int:
         return phrydy.doc.get_max_field_length(all_fields)
 
-    def output(self, text=''):
+    def output(self, text='') -> None:
         if self.one_line:
             print(text.strip(), end=' ')
         else:
             print(text)
 
-    def template_indent(self, level=1):
+    def template_indent(self, level: int = 1) -> str:
         return (' ' * self.indent_width) * level
 
-    def template_path(self, audio_file):
+    def template_path(self, audio_file: 'AudioFile'):
         if self.verbose:
             path = audio_file.abspath
         else:
@@ -77,7 +81,7 @@ class Message(object):
 
         return path
 
-    def next_file(self, audio_file):
+    def next_file(self, audio_file: 'AudioFile'):
         print()
         if self.verbose:
             path = audio_file.abspath
@@ -87,18 +91,20 @@ class Message(object):
             path = ansicolor.blue(path, reverse=True)
         self.output(path)
 
-    def action_one_path(self, message, audio_file):
+    def action_one_path(self, message: str, audio_file: 'AudioFile') -> None:
         self.status(message, status='progress')
         self.output(self.template_indent(2) + self.template_path(audio_file))
         self.output()
 
-    def action_two_path(self, message, source, target):
+    def action_two_path(self, message: str, source: 'AudioFile',
+                        target: 'AudioFile') -> None:
         self.status(message, status='progress')
         self.output(self.template_indent(2) + self.template_path(source))
         self.output(self.template_indent(2) + 'to:')
         self.output(self.template_indent(2) + self.template_path(target))
 
-    def best_format(self, best, attr, source, target):
+    def best_format(self, best, attr, source: 'AudioFile',
+                    target: 'AudioFile') -> None:
         source_attr = getattr(source, attr)
         target_attr = getattr(target, attr)
 
@@ -130,7 +136,8 @@ class Message(object):
         self.output(self.template_indent(1) + key + value1)
         self.output(' ' * value2_indent + value2)
 
-    def status_color(self, status):
+    def status_color(self, status: typing.Literal['ok', 'error', 'progress']
+                     ) -> typing.Literal['yellow', 'red', 'green']:
         if status == 'progress':
             return 'yellow'
         elif status == 'error':
@@ -138,18 +145,15 @@ class Message(object):
         else:
             return 'green'
 
-    def status(self, text, status):
+    def status(self, text: str,
+               status: typing.Literal['ok', 'error', 'progress']):
         if self.color:
             color = getattr(ansicolor, self.status_color(status))
             text = color(text, reverse=True)
         self.output(self.template_indent(1) + text)
 
 
-def job_info(job):
-    """
-    :param job: The `job` object.
-    :type job: audiorename.job.Job
-    """
+def job_info(job: 'Job') -> None:
     versions = KeyValue(job.output.color)
     versions.add('audiorename', audiorename.__version__)
     versions.add('phrydy', phrydy.__version__)
@@ -171,11 +175,7 @@ def job_info(job):
     print(info.result())
 
 
-def stats(job):
-    """
-    :param job: The `job` object.
-    :type job: audiorename.job.Job
-    """
+def stats(job: 'Job') -> None:
     kv = KeyValue(job.output.color)
 
     kv.add('Execution time', job.stats.timer.result())

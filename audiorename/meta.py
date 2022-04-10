@@ -264,7 +264,7 @@ def set_useragent() -> None:
 
 
 def query_mbrainz(
-        mb_type: typing.Union['recording', 'work', 'release'],
+        mb_type: typing.Literal['recording', 'work', 'release'],
         mb_id: str) -> typing.Union[typing.Dict[str, typing.Any], None]:
     method = 'get_' + mb_type + '_by_id'
     query = getattr(mbrainz, method)
@@ -896,7 +896,7 @@ class Meta(MediaFile):
             return False
 
     @property
-    def ar_classical_title(self):
+    def ar_classical_title(self) -> str:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.title``
@@ -911,7 +911,7 @@ class Meta(MediaFile):
             return ''
 
     @property
-    def ar_classical_track(self):
+    def ar_classical_track(self) -> str:
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_classical_title`
@@ -928,7 +928,7 @@ class Meta(MediaFile):
         return out
 
     @property
-    def ar_combined_work_top(self):
+    def ar_combined_work_top(self) -> typing.Optional[str]:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.work_hierarchy``
