@@ -1,7 +1,7 @@
 """This module contains all functionality on the level of a single audio file.
 """
 
-from audiorename.meta import Meta, compare_dicts
+from .meta import Meta, compare_dicts
 from phrydy.utils import as_string
 from tmep import Functions
 from tmep import Template

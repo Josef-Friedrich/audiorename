@@ -1,22 +1,18 @@
 """Batch processing of the audio files."""
 
-from audiorename.audiofile import do_job_on_audiofile
-from audiorename.audiofile import mb_track_listing
+from .audiofile import do_job_on_audiofile, mb_track_listing
 from phrydy import MediaFile
 import os
 import phrydy
-from audiorename.job import Job
+from .job import Job
 
 
 class Batch:
-    """This class first sorts all files and then walks through all files. At
-    this process it tries to make bundles of files belonging to a album. This
-    bundle of files is temporary stores in the attribute `virtual_album`. This
-    complicated mechanism is needed for the both filters `album_complete` and
+    """This class first sorts all files and then walks through all files. In
+    this process it tries to make bundles of files belonging to an album. This
+    bundle of files is temporary stored in the attribute `virtual_album`. This
+    complicated mechanism is needed for the two filters `album_complete` and
     `album_min`.
-
-    :param job: The `job` object.
-    :type job: audiorename.job.Job
     """
 
     virtual_album = []

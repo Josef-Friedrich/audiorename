@@ -1,6 +1,6 @@
 """Print messages on the command line."""
 
-from audiorename.args import all_fields
+from .args import all_fields
 from collections import OrderedDict
 import ansicolor
 import audiorename
