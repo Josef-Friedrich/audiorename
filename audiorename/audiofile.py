@@ -377,6 +377,11 @@ def do_job_on_audiofile(source_path: str, job: job.Job):
 
         desired_target_path = process_target_path(meta_dict, format_string,
                                                   job.shell_friendly)
+
+        # Remove the leading path separator to prevent the audio files from
+        # ending up in a folder other than the target folder.
+        desired_target_path = re.sub(r'^' + os.path.sep + r'+', '',
+                                     desired_target_path)
         desired_target_path = os.path.join(
             job.target,
             desired_target_path + '.' + source.extension
