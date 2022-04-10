@@ -590,7 +590,7 @@ class Meta(MediaFile):
 ###############################################################################
 
     @property
-    def ar_classical_album(self):
+    def ar_classical_album(self) -> typing.Optional[str]:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.work``
@@ -602,11 +602,9 @@ class Meta(MediaFile):
         """
         if self.work:
             return re.sub(r':.*$', '', (str(self.work)))
-        else:
-            return ''
 
     @property
-    def ar_combined_album(self) -> str:
+    def ar_combined_album(self) -> typing.Optional[str]:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.album``
@@ -617,11 +615,9 @@ class Meta(MediaFile):
         """
         if self.album:
             return re.sub(r' ?\([dD]is[ck].*\)$', '', str(self.album))
-        else:
-            return ''
 
     @property
-    def ar_initial_album(self):
+    def ar_initial_album(self) -> typing.Optional[str]:
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_combined_album`
@@ -631,7 +627,8 @@ class Meta(MediaFile):
         * ``Just Friends`` → ``j``
         * ``Die Meistersinger von Nürnberg``  → ``d``
         """
-        return self._initials(self.ar_combined_album)
+        if self.ar_combined_album:
+            return self._initials(self.ar_combined_album)
 
     @property
     def ar_initial_artist(self):
@@ -647,7 +644,7 @@ class Meta(MediaFile):
         return self._initials(self.ar_combined_artist_sort)
 
     @property
-    def ar_combined_artist(self):
+    def ar_combined_artist(self) -> str:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.albumartist``
@@ -676,7 +673,7 @@ class Meta(MediaFile):
         return out
 
     @property
-    def ar_combined_artist_sort(self):
+    def ar_combined_artist_sort(self) -> str:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.albumartist_sort``
@@ -709,7 +706,7 @@ class Meta(MediaFile):
         return out
 
     @property
-    def ar_initial_composer(self):
+    def ar_initial_composer(self) -> str:
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_combined_composer`
@@ -717,7 +714,7 @@ class Meta(MediaFile):
         return self._initials(self.ar_combined_composer)
 
     @property
-    def ar_combined_composer(self):
+    def ar_combined_composer(self) -> str:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.composer_sort``
@@ -738,7 +735,7 @@ class Meta(MediaFile):
         return re.sub(r' ?/.*', '', out)
 
     @property
-    def ar_combined_disctrack(self):
+    def ar_combined_disctrack(self) -> typing.Optional[str]:
         """
         Generate a combination of track and disc number, e. g.: ``1-04``,
         ``3-06``.
@@ -752,7 +749,7 @@ class Meta(MediaFile):
         """
 
         if not self.track:
-            return ''
+            return
 
         if self.disctotal and int(self.disctotal) > 99:
             disk = str(self.disc).zfill(3)
@@ -896,7 +893,7 @@ class Meta(MediaFile):
             return False
 
     @property
-    def ar_classical_title(self) -> str:
+    def ar_classical_title(self) -> typing.Optional[str]:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.title``
@@ -907,25 +904,21 @@ class Meta(MediaFile):
         """
         if self.title:
             return re.sub(r'^[^:]*: ?', '', self.title)
-        else:
-            return ''
 
     @property
-    def ar_classical_track(self) -> str:
+    def ar_classical_track(self) -> typing.Optional[str]:
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_classical_title`
         * :class:`audiorename.meta.Meta.ar_combined_disctrack`
         """
-        roman = re.findall(r'^([IVXLCDM]*)\.', self.ar_classical_title)
+        roman = None
+        if self.ar_classical_title:
+            roman = re.findall(r'^([IVXLCDM]*)\.', self.ar_classical_title)
         if roman:
-            out = str(self._roman_to_int(roman[0])).zfill(2)
+            return str(self._roman_to_int(roman[0])).zfill(2)
         elif self.ar_combined_disctrack:
-            out = self.ar_combined_disctrack
-        else:
-            out = ''
-
-        return out
+            return self.ar_combined_disctrack
 
     @property
     def ar_combined_work_top(self) -> typing.Optional[str]:

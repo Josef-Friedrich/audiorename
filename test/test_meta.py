@@ -8,6 +8,7 @@ import tempfile
 import shutil
 import helper
 from helper import get_meta
+import typing
 
 
 class TestDictDiff(unittest.TestCase):
@@ -267,7 +268,8 @@ class TestPropertyAlbumClean(unittest.TestCase):
     def setUp(self):
         self.meta = get_meta('files', 'album.mp3')
 
-    def assertAlbumClean(self, album, compare='Lorem ipsum'):
+    def assertAlbumClean(self, album,
+                         compare: typing.Optional[str] = 'Lorem ipsum'):
         self.meta.album = album
         self.assertEqual(self.meta.ar_combined_album, compare)
 
@@ -279,7 +281,7 @@ class TestPropertyAlbumClean(unittest.TestCase):
         self.assertAlbumClean('Lorem ipsum (disk99)')
 
     def test_empty(self):
-        self.assertAlbumClean('', '')
+        self.assertAlbumClean('', None)
 
     def test_real_world(self):
         meta = get_meta('real-world', '_compilations', 't',
@@ -402,13 +404,13 @@ class TestPropertyDiskTrackUnit(unittest.TestCase):
         self.meta.disctotal = ''
 
     def test_empty(self):
-        self.assertEqual(self.meta.ar_combined_disctrack, '')
+        self.assertEqual(self.meta.ar_combined_disctrack, None)
 
     def test_no_track(self):
         self.meta.disc = '2'
         self.meta.disctotal = '3'
         self.meta.tracktotal = '36'
-        self.assertEqual(self.meta.ar_combined_disctrack, '')
+        self.assertEqual(self.meta.ar_combined_disctrack, None)
 
     def test_disc_track(self):
         self.meta.disc = '2'
@@ -852,7 +854,7 @@ class TestAllPropertiesHines(unittest.TestCase):
                              'Just-Friends_1989', '06_Indian-Summer.mp3')
 
     def test_ar_classical_album(self):
-        self.assertEqual(self.meta.ar_classical_album, '')
+        self.assertEqual(self.meta.ar_classical_album, None)
 
     def test_ar_combined_album(self):
         self.assertEqual(self.meta.ar_combined_album, 'Just Friends')
