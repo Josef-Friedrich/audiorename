@@ -16,18 +16,20 @@ from .job import Job
 from .meta import Meta, compare_dicts
 
 
+DestinationType = typing.Literal['source', 'target']
+
+
 class AudioFile:
     """
     :param path: The path string of the audio file.
+    :param job: The current `job` object.
     :param string file_type: Either “source” or “target”.
     :param string prefix: The path prefix of the audio file, for example the
         base folder of your music collection. Used to shorten the path strings
         in the progress messaging.
-    :param job: The `job` object.
-    :type job: audiorename.job.Job
     """
     def __init__(self, path: str, job: Job,
-                 file_type: typing.Literal['source', 'target'] = 'source',
+                 file_type: DestinationType = 'source',
                  prefix=None):
         self.__path = path
         self.type = file_type
@@ -113,7 +115,8 @@ class MBTrackListing:
 mb_track_listing = MBTrackListing()
 
 
-def get_target(target, extensions):
+def find_target_path(target: str,
+                     extensions: typing.List[str]) -> typing.Optional[str]:
     """Get the path of a existing audio file target. Search for audio files
     with different extensions.
     """
@@ -124,25 +127,23 @@ def get_target(target, extensions):
             return audio_file
 
 
-def best_format(source, target, job: Job) -> str:
+def detect_best_format(source: Meta, target: Meta,
+                       job: Job) -> DestinationType:
     """
     :param source: The metadata object of the source file.
-    :type source: audiorename.meta.Meta
     :param target: The metadata object of the target file.
-    :type target: audiorename.meta.Meta
-    :return: Either the string `source` or the string `target`
     :param job: The `job` object.
-    :type job: audiorename.job.Job
-    :rtype: string
+
+    :return: Either the string `source` or the string `target`
     """
-    def get_highest(dictionary):
-        out: str = ''
-        for key, value in sorted(dictionary.items()):
+    def get_highest(dictionary: typing.Dict[typing.Any, DestinationType]
+                    ) -> DestinationType:
+        out: DestinationType = 'target'
+        for _, value in sorted(dictionary.items()):
             out = value
         return out
 
     if source.format == target.format:
-
         bitrates = {}
         bitrates[source.bitrate] = 'source'
         bitrates[target.bitrate] = 'target'
@@ -331,6 +332,9 @@ def do_job_on_audiofile(source_path: str, job: Job):
     # Output only
     ##
 
+    if not source.meta:
+        raise Exception('source.meta must not be empty.')
+
     if job.output.mb_track_listing:
         print(mb_track_listing.format_audiofile(source.meta.album,
                                                 source.meta.title,
@@ -416,14 +420,17 @@ def do_job_on_audiofile(source_path: str, job: Job):
 
         # Search existing target
         target = False
-        target_path = get_target(desired_target.abspath, job.filter.extension)
+        target_path = find_target_path(desired_target.abspath,
+                                       job.filter.extension)
         if target_path:
             target = AudioFile(target_path, job=job, prefix=job.target,
                                file_type='target')
 
         # Both file exist
         if target:
-            best = best_format(source.meta, target.meta, job)
+            if not target.meta:
+                raise Exception('target.meta must not be empty.')
+            best = detect_best_format(source.meta, target.meta, job)
 
             if job.rename.cleanup:
 

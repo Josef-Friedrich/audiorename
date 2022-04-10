@@ -10,6 +10,7 @@ import typing
 if typing.TYPE_CHECKING:
     from .job import Job
     from .audiofile import AudioFile
+    from .meta import Meta
 
 
 class KeyValue:
@@ -103,8 +104,8 @@ class Message:
         self.output(self.template_indent(2) + 'to:')
         self.output(self.template_indent(2) + self.template_path(target))
 
-    def best_format(self, best, attr, source: 'AudioFile',
-                    target: 'AudioFile') -> None:
+    def best_format(self, best, attr, source: 'Meta',
+                    target: 'Meta') -> None:
         source_attr = getattr(source, attr)
         target_attr = getattr(target, attr)
 
