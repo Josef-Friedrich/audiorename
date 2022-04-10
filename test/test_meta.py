@@ -146,6 +146,7 @@ class TestExportDict(unittest.TestCase):
         meta = get_meta('files', 'album.mp3')
 
         result = meta.export_dict()
+        print(result)
         self.assertEqual(result['title'], 'full')
 
 
@@ -760,6 +761,7 @@ all_fields = [
     'artist',
     'asin',
     'bitdepth',
+    'bitrate_mode',
     'bitrate',
     'bpm',
     'catalognum',
@@ -775,6 +777,8 @@ all_fields = [
     'disctitle',
     'disctotal',
     'encoder',
+    'encoder_info',
+    'encoder_settings',
     'format',
     'genre',
     'genres',

@@ -248,11 +248,13 @@ classical/Mozart_Horn-concertos/01.mp3
 """
 
 from audiorename._version import get_versions
-from phrydy import MediaFile
+from phrydy import MediaFileExtended
 from tmep import Functions
 import musicbrainzngs as mbrainz
 import re
 import typing
+
+MediaFile = MediaFileExtended
 
 
 def set_useragent() -> None:

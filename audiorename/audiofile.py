@@ -49,7 +49,7 @@ class AudioFile:
         if self.exists:
             try:
                 return Meta(self.abspath, self.shell_friendly)
-            except phrydy.mediafile.UnreadableFileError as e:
+            except Exception as e:
                 tb = traceback.TracebackException.from_exception(e)
                 print(''.join(tb.stack.format()))
 

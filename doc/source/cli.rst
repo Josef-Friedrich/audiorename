@@ -41,6 +41,8 @@ Comande line interface
     
         $albumartist_sort:           albumartist_sort
     
+        $albumartists:               albumartists
+    
         $albumdisambig:              albumdisambig
     
         $albumstatus:                The status describes how "official" a release
@@ -116,12 +118,18 @@ Comande line interface
         $artist_sort:                The “sort name” of the track artist (e.g.,
                                      “Beatles, The” or “White, Jack”)
     
+        $artists:                    artists
+    
         $asin:                       Amazon Standard Identification Number
+    
+        $barcode:                    barcode
     
         $bitdepth:                   only available for some formats
     
         $bitrate:                    in kilobits per second, with units: e.g.,
                                      “192kbps”
+    
+        $bitrate_mode:               bitrate_mode
     
         $bpm:                        bpm
     
@@ -142,6 +150,8 @@ Comande line interface
     
         $composer_sort:              Composer name for sorting.
     
+        $copyright:                  copyright
+    
         $country:                    The country the release was issued in.
     
         $date:                       date
@@ -156,6 +166,10 @@ Comande line interface
     
         $encoder:                    encoder
     
+        $encoder_info:               encoder_info
+    
+        $encoder_settings:           encoder_settings
+    
         $format:                     e.g., “MP3” or “FLAC”
     
         $genre:                      genre
@@ -167,6 +181,8 @@ Comande line interface
         $images:                     images
     
         $initial_key:                initial_key
+    
+        $isrc:                       isrc
     
         $label:                      The label which issued the release. There may
                                      be more than one.
@@ -183,9 +199,13 @@ Comande line interface
     
         $mb_albumartistid:           MusicBrainz album artist ID
     
+        $mb_albumartistids:          mb_albumartistids
+    
         $mb_albumid:                 MusicBrainz album ID
     
         $mb_artistid:                MusicBrainz artist ID
+    
+        $mb_artistids:               mb_artistids
     
         $mb_releasegroupid:          MusicBrainz releasegroup ID
     
@@ -233,8 +253,6 @@ Comande line interface
         $rg_album_peak:              rg_album_peak
     
         $rg_track_gain:              rg_track_gain
-    
-        $rg_track_peak:              rg_track_peak
     
         $samplerate:                 in kilohertz, with units: e.g., “48kHz”
     
