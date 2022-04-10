@@ -1,17 +1,19 @@
 """This module contains all functionality on the level of a single audio file.
 """
 
-from .meta import Meta, compare_dicts
-from phrydy.utils import as_string
-from tmep import Functions
-from tmep import Template
 import errno
 import os
-import phrydy
 import re
 import shutil
 import traceback
-import audiorename.job as job
+import typing
+
+import phrydy
+from phrydy.utils import as_string
+from tmep import Functions, Template
+
+from .job import Job
+from .meta import Meta, compare_dicts
 
 
 class AudioFile:
@@ -24,7 +26,8 @@ class AudioFile:
     :param job: The `job` object.
     :type job: audiorename.job.Job
     """
-    def __init__(self, path: str, job: job.Job, file_type='source',
+    def __init__(self, path: str, job: Job,
+                 file_type: typing.Literal['source', 'target'] = 'source',
                  prefix=None):
         self.__path = path
         self.type = file_type
@@ -32,21 +35,25 @@ class AudioFile:
         self.__prefix = prefix
         self.shorten_symbol = '[…]'
 
+    @property
+    def shell_friendly(self):
         if not self.job:
-            shell_friendly = True
+            return True
         else:
-            shell_friendly = self.job.shell_friendly
+            return self.job.shell_friendly
+
+    @property
+    def meta(self) -> typing.Optional[Meta]:
         if self.exists:
             try:
-                self.meta = Meta(self.abspath, shell_friendly)
-
+                return Meta(self.abspath, self.shell_friendly)
             except phrydy.mediafile.UnreadableFileError as e:
                 tb = traceback.TracebackException.from_exception(e)
                 print(''.join(tb.stack.format()))
-                self.meta = False
 
     @property
-    def abspath(self):
+    def abspath(self) -> str:
+        """The absolute path of the audio file."""
         return os.path.abspath(self.__path)
 
     @property
@@ -62,11 +69,12 @@ class AudioFile:
         return os.path.exists(self.abspath)
 
     @property
-    def extension(self):
+    def extension(self) -> str:
+        """The file extension of the audio file."""
         return self.abspath.split('.')[-1].lower()
 
     @property
-    def short(self):
+    def short(self) -> str:
         if self.prefix:
             short = self.abspath.replace(self.prefix, '')
         else:
@@ -75,11 +83,13 @@ class AudioFile:
         return self.shorten_symbol + short
 
     @property
-    def filename(self):
+    def filename(self) -> str:
+        """The file name of the audio file."""
         return os.path.basename(self.abspath)
 
     @property
-    def dir_and_file(self):
+    def dir_and_file(self) -> str:
+        """The parent directory name and the file name."""
         path_segments = self.abspath.split(os.path.sep)
         return os.path.sep.join(path_segments[-2:])
 
@@ -114,7 +124,7 @@ def get_target(target, extensions):
             return audio_file
 
 
-def best_format(source, target, job):
+def best_format(source, target, job: Job) -> str:
     """
     :param source: The metadata object of the source file.
     :type source: audiorename.meta.Meta
@@ -126,6 +136,7 @@ def best_format(source, target, job):
     :rtype: string
     """
     def get_highest(dictionary):
+        out: str = ''
         for key, value in sorted(dictionary.items()):
             out = value
         return out
@@ -258,14 +269,21 @@ class Action:
             self.create_dir(target)
             shutil.move(source.abspath, target.abspath)
 
-    def metadata(self, audio_file, enrich=False, remap=False):
-        pre = audio_file.meta.export_dict(sanitize=False)
+    def metadata(self, audio_file: AudioFile, enrich: bool = False,
+                 remap: bool = False) -> None:
+        if not audio_file.meta:
+            raise Exception('The given audio file has no meta property.')
+        meta = audio_file.meta
+        pre = meta.export_dict(sanitize=False)
 
-        def single_action(audio_file, method_name, message):
-            pre = audio_file.meta.export_dict(sanitize=False)
-            method = getattr(audio_file.meta, method_name)
+        def single_action(meta: Meta,
+                          method_name: typing.Literal['enrich_metadata',
+                                                      'remap_classical'],
+                          message: str):
+            pre = meta.export_dict(sanitize=False)
+            method = getattr(meta, method_name)
             method()
-            post = audio_file.meta.export_dict(sanitize=False)
+            post = meta.export_dict(sanitize=False)
             diff = compare_dicts(pre, post)
             if diff:
                 self.count(method_name)
@@ -274,18 +292,18 @@ class Action:
                 self.job.msg.diff(change[0], change[1], change[2])
 
         if enrich:
-            single_action(audio_file, 'enrich_metadata', 'Enrich metadata')
+            single_action(meta, 'enrich_metadata', 'Enrich metadata')
         if remap:
-            single_action(audio_file, 'remap_classical', 'Remap classical')
+            single_action(meta, 'remap_classical', 'Remap classical')
 
-        post = audio_file.meta.export_dict(sanitize=False)
+        post = meta.export_dict(sanitize=False)
         diff = compare_dicts(pre, post)
 
         if not self.dry_run and diff:
-            audio_file.meta.save()
+            meta.save()
 
 
-def do_job_on_audiofile(source_path: str, job: job.Job):
+def do_job_on_audiofile(source_path: str, job: Job):
     def count(key):
         job.stats.counter.count(key)
     skip = False

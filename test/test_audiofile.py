@@ -26,6 +26,8 @@ class TestClassAction(unittest.TestCase):
     @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
     def test_method_metadata_enrich(self):
         tmp = helper.get_tmp_file_object('classical', 'without_work.mp3')
+        if not tmp.meta:
+            self.fail('The audio file needs a meta property.')
         self.assertEqual(tmp.meta.mb_workid, None)
         with helper.Capturing():
             self.action.metadata(tmp, enrich=True)
