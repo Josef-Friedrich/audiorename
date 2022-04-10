@@ -12,7 +12,7 @@ if typing.TYPE_CHECKING:
     from .audiofile import AudioFile
 
 
-class KeyValue(object):
+class KeyValue:
 
     def __init__(self, color: bool = False):
         self.color = color
@@ -40,7 +40,7 @@ class KeyValue(object):
         return ' '.join(out)
 
 
-class Message(object):
+class Message:
     """Print messages on the command line interface.
 
     :param job: The `job` object.

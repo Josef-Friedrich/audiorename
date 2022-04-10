@@ -8,7 +8,7 @@ import phrydy
 from audiorename.job import Job
 
 
-class Batch(object):
+class Batch:
     """This class first sorts all files and then walks through all files. At
     this process it tries to make bundles of files belonging to a album. This
     bundle of files is temporary stores in the attribute `virtual_album`. This

@@ -1,7 +1,6 @@
 """This module contains all functionality on the level of a single audio file.
 """
 
-from __future__ import print_function
 from audiorename.meta import Meta, compare_dicts
 from phrydy.utils import as_string
 from tmep import Functions
@@ -15,7 +14,7 @@ import traceback
 import audiorename.job as job
 
 
-class AudioFile(object):
+class AudioFile:
     """
     :param path: The path string of the audio file.
     :param string file_type: Either “source” or “target”.
@@ -85,7 +84,7 @@ class AudioFile(object):
         return os.path.sep.join(path_segments[-2:])
 
 
-class MBTrackListing(object):
+class MBTrackListing:
 
     def __init__(self):
         self.counter = 0
@@ -197,7 +196,7 @@ def process_target_path(meta, format_string, shell_friendly=True):
     return re.sub(r'\.$', '', target)
 
 
-class Action(object):
+class Action:
     """
     :param job: The `job` object.
     :type job: audiorename.job.Job

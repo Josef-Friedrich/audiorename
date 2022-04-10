@@ -7,7 +7,7 @@ import time
 import typing
 
 
-class Timer(object):
+class Timer:
 
     begin = 0
 
@@ -23,7 +23,7 @@ class Timer(object):
         return '{:.1f}s'.format(self.end - self.begin)
 
 
-class Counter(object):
+class Counter:
 
     def __init__(self):
         self._counters: typing.Dict[str, int] = {}
@@ -68,13 +68,13 @@ class Counter(object):
             return 'Nothing to count!'
 
 
-class Stats(object):
+class Stats:
 
     counter = Counter()
     timer = Timer()
 
 
-class DefaultFormats(object):
+class DefaultFormats:
 
     default = '$ar_initial_artist/' \
               '%shorten{$ar_combined_artist_sort}/' \
@@ -101,7 +101,7 @@ class DefaultFormats(object):
                 '%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}'
 
 
-class Formats(object):
+class Formats:
 
     default: str = ''
     compilation: str = ''
@@ -135,7 +135,7 @@ class Formats(object):
             self.soundtrack = defaults.soundtrack
 
 
-class RenameAction(object):
+class RenameAction:
 
     def __init__(self, args):
         self._args = args
@@ -178,7 +178,7 @@ class RenameAction(object):
             return 'move'
 
 
-class Job(object):
+class Job:
     """Holds informations of one job which can handle multiple files.
 
     A jobs represents one call of the program on the command line.
