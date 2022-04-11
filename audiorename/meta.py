@@ -254,8 +254,6 @@ import musicbrainzngs as mbrainz
 import re
 import typing
 
-MediaFile = MediaFileExtended
-
 
 def set_useragent() -> None:
     mbrainz.set_useragent(
@@ -346,7 +344,7 @@ def compare_dicts(first: typing.Dict[str, str],
     return diff
 
 
-class Meta(MediaFile):
+class Meta(MediaFileExtended):
 
     def __init__(self, path, shell_friendly: bool = False):
         super(Meta, self).__init__(path, False)
@@ -474,7 +472,7 @@ class Meta(MediaFile):
 
     @classmethod
     def fields_phrydy(cls):
-        for field in sorted(MediaFile.readable_fields()):
+        for field in sorted(MediaFileExtended.readable_fields()):
             yield field
 
     @classmethod

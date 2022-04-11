@@ -9,7 +9,6 @@ import traceback
 import typing
 
 import phrydy
-from phrydy.utils import as_string
 from tmep import Functions, Template
 
 from .job import Job
@@ -192,7 +191,7 @@ def process_target_path(meta, format_string, shell_friendly=True):
     :param string format_string:
     :param boolean shell_friendly:
     """
-    template = Template(as_string(format_string))
+    template = Template(format_string)
     functions = Functions(meta)
     target = template.substitute(meta, functions.functions())
 

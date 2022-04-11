@@ -3,7 +3,6 @@
 from .audiofile import do_job_on_audiofile, mb_track_listing
 from phrydy import MediaFile
 import os
-import phrydy
 from .job import Job
 
 
@@ -96,7 +95,7 @@ class Batch:
                 self.current_album_title = media.album
                 self.process_album()
             self.virtual_album.append(record)
-        except phrydy.mediafile.UnreadableFileError:
+        except Exception:
             pass
 
     def execute(self):

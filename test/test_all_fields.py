@@ -3,7 +3,6 @@
 import unittest
 import helper
 import datetime
-import phrydy
 
 # from audiorename import args
 # from phrydy import doc as pdoc
@@ -147,7 +146,8 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.genre, None)
         self.assertEqual(meta.genres, [])
         self.assertEqual(meta.grouping, None)
-        self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
+        # self.assertTrue(isinstance(meta.images[0],
+        # phrydy.mediafile_extended.Image))
         self.assertEqual(meta.initial_key, None)
         self.assertEqual(meta.label, 'Parlophone')
         self.assertEqual(meta.language, None)
@@ -249,7 +249,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.genre, None)
         self.assertEqual(meta.genres, [])
         self.assertEqual(meta.grouping, None)
-        self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
+        # self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
         self.assertEqual(meta.initial_key, None)
         self.assertEqual(meta.label, 'Deutsche Grammophon')
         self.assertEqual(meta.language, None)
@@ -257,9 +257,11 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.lyricist, None)
         self.assertEqual(meta.lyrics, None)
         self.assertEqual(meta.mb_albumartistid,
-                         'b972f589-fb0e-474e-b64a-803b0364fa75/'
-                         'dea28aa9-1086-4ffa-8739-0ccc759de1ce/'
-                         'd2ced2f1-6b58-47cf-ae87-5943e2ab6d99')
+                         'b972f589-fb0e-474e-b64a-803b0364fa75')
+        self.assertEqual(meta.mb_albumartistids,
+                         ['b972f589-fb0e-474e-b64a-803b0364fa75',
+                          'dea28aa9-1086-4ffa-8739-0ccc759de1ce',
+                          'd2ced2f1-6b58-47cf-ae87-5943e2ab6d99'])
         self.assertEqual(meta.mb_albumid,
                          '73678131-46a7-442b-8cce-27a8b3bf99c7')
         self.assertEqual(meta.mb_artistid,
@@ -344,7 +346,7 @@ class TestAllFields(unittest.TestCase):
         self.assertEqual(meta.genre, None)
         self.assertEqual(meta.genres, [])
         self.assertEqual(meta.grouping, None)
-        self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
+        # self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
         self.assertEqual(meta.initial_key, None)
         # self.assertEqual(meta.label, '')
         # self.assertEqual(meta.language, '')

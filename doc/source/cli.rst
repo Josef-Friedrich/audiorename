@@ -131,7 +131,7 @@ Comande line interface
     
         $bitrate_mode:               bitrate_mode
     
-        $bpm:                        bpm
+        $bpm:                        Beats per Minute
     
         $catalognum:                 This is a number assigned to the release by
                                      the label which can often be found on the
@@ -215,8 +215,8 @@ Comande line interface
     
         $mb_workhierarchy_ids:       All IDs in the work hierarchy. This field
                                      corresponds to the field `work_hierarchy`.
-                                     The top level work ID appears first. As
-                                     separator a slash (/) is used.Example:
+                                     The top level work ID appears first. A slash
+                                     (/) is used as separator.Example:
                                      e208c5f5-5d37-3dfc-ac0b-999f207c9e46 /
                                      5adc213f-700a-4435-9e95-831ed720f348 /
                                      eafec51f-47c5-3c66-8c36-a524246c85f8
@@ -254,6 +254,8 @@ Comande line interface
     
         $rg_track_gain:              rg_track_gain
     
+        $rg_track_peak:              rg_track_peak
+    
         $samplerate:                 in kilohertz, with units: e.g., “48kHz”
     
         $script:                     The script used to write the release’s track
@@ -265,6 +267,8 @@ Comande line interface
         $track:                      track
     
         $tracktotal:                 tracktotal
+    
+        $url:                        Uniform Resource Locator.
     
         $work:                       The Musicbrainzs’ work entity.
     
