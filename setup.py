@@ -4,14 +4,13 @@ from setuptools import setup, find_packages
 import versioneer
 
 
-def read(file_name):
+def read(file_name: str) -> str:
     """
     Read the contents of a text file and return its content.
 
-    :param str file_name: The name of the file to read.
+    :param file_name: The name of the file to read.
 
     :return: The content of the text file.
-    :rtype: str
     """
     return open(
         os.path.join(os.path.dirname(__file__), file_name),
@@ -32,10 +31,9 @@ setup(
     url='https://github.com/Josef-Friedrich/audiorename',
     install_requires=[
         'phrydy==3.0.0.a4',
-        'tmep>=2.0.2',
-        'ansicolor',
-        'six',
-        'musicbrainzngs',
+        'tmep==2.0.2',
+        'ansicolor==0.3.2',
+        'musicbrainzngs==0.7.1',
     ],
     scripts=['bin/audiorenamer'],
     long_description=read('README.rst'),
