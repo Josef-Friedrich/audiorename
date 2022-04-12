@@ -1,9 +1,9 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
 
 
 import subprocess
 import os
+import re
 
 
 def path(*path_segments):
@@ -16,10 +16,17 @@ def open_file(*path_segments):
     return open(file_path, 'a')
 
 
-header = open(path('README_header.rst'), 'r')
-readme = open_file('README.rst')
-sphinx = open_file('doc', 'source', 'cli.rst')
+template = open(path('README_template.rst'), 'r').read()
+process = subprocess.run('audiorenamer --help', capture_output=True, shell=True)
+stdout = process.stdout.decode('utf-8')
+stdout = '    ' + re.sub(r'\n', '\n    ', stdout)
+template = template.replace('<< cli help >>', stdout)
 
+readme = open_file('README.rst')
+readme.write(template)
+readme.close()
+
+sphinx = open_file('doc', 'source', 'cli.rst')
 sphinx_header = (
     'Comande line interface\n',
     '======================\n',
@@ -27,28 +34,5 @@ sphinx_header = (
     '.. code-block:: text\n',
     '\n',
 )
-
-for line in sphinx_header:
-    sphinx.write(str(line))
-
-footer = open(path('README_footer.rst'), 'r')
-
-for line in header:
-    readme.write(line)
-
-audiorenamer = subprocess.Popen('audiorenamer --help', shell=True,
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-readme.write('\n')
-
-for line in audiorenamer.stdout:
-    indented_line = '    ' + line.decode('utf-8')
-    readme.write(indented_line)
-    sphinx.write(indented_line)
-audiorenamer.wait()
-
-for line in footer:
-    readme.write(line)
-
-readme.close()
+sphinx.write(''.join(sphinx_header) + stdout)
 sphinx.close()
