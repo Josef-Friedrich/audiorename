@@ -11,82 +11,82 @@ fields: phrydy.FieldDocCollection = {
         'description': 'The field “work” without the movement suffix. '
                        'For example: “Horn Concerto: I. Allegro” -> '
                        '“Horn Concerto”',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_combined_album': {
         'description': '“album” without ” (Disc X)”.',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_initial_album': {
         'description': 'First character in lowercase of “ar_combined_album”.',
-        'category': 'ordinary',
+        'category': 'common',
     },
     # artist
     'ar_initial_artist': {
         'description': 'First character in lowercase of '
                        '“ar_combined_artist_sort”',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_combined_artist': {
         'description': 'The first available value of this metatag order: '
                        '“albumartist” -> “artist” -> “albumartist_credit” '
                        '-> “artist_credit”',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_combined_artist_sort': {
         'description': 'The first available value of this metatag order: '
                        '“albumartist_sort” -> “artist_sort” -> '
                        '“ar_combined_artist”',
-        'category': 'ordinary',
+        'category': 'common',
     },
     # composer
     'ar_initial_composer': {
         'description': 'First character in lowercase of '
                        '“ar_combined_composer”. '
                        'For example “Ludwig van Beethoven” -> “l”',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_combined_composer': {
         'description': 'The first not empty field of this field list: '
                        '“composer_sort”, “composer”, “ar_combined_artist”',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_combined_disctrack': {
         'description': 'Combination of disc and track in the format: '
                        'disk-track, e.g. 1-01, 3-099',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_classical_performer': {
         'description': '“ar_performer_short” or “albumartist” without the '
                        'composer prefix: “Beethoven; Karajan, Mutter” -> '
                        '“Karajan, Mutter”',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_combined_soundtrack': {
         'description': 'Boolean flag which indicates if the audio file is '
                        'a soundtrack',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_classical_title': {
         'description': 'The movement title without the parent work prefix. '
                        'For example “Horn Concerto: I. Allegro” -> '
                        '“I. Allegro”',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_classical_track': {
         'description': 'If the title contains Roman numbers, then these are '
                        'converted to arabic numbers with leading zeros. '
                        'If no Roman numbers could be found, then the field '
                        '“ar_combined_disctrack” is used.',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_combined_year': {
         'description': 'First “original_year” then “year”.',
-        'category': 'ordinary',
+        'category': 'common',
     },
     'ar_combined_work_top': {
         'description': 'The work on the top level of a work hierarchy.',
-        'category': 'ordinary',
+        'category': 'common',
     },
 }
 """Documentation of the extra fields."""
@@ -150,7 +150,8 @@ def description():
 Metadata fields
 ===============
 
-''' + phrydy.format_fields_as_txt(additional_fields=fields) + '''
+''' + phrydy.format_fields_as_txt(additional_fields=fields, color=True,
+                                  field_prefix='$') + '''
 
 Functions
 =========

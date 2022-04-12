@@ -68,6 +68,11 @@ Usage
 
 << cli help >>
 
+Metadata fields
+===============
+
+<< fields documentation >>
+
 Development
 ===========
 

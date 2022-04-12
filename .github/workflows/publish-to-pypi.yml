@@ -2,15 +2,21 @@
 # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 name: Build and Publish to PyPI
 
-on: push
+on:
+  push:
+    # Pattern matched against refs/tags
+    tags:
+    - '*' # Push events to every tag not containing /
+
 jobs:
   build-n-publish:
     name: Build and Publish to PyPI
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
+    - name: Checkout git repository
+      uses: actions/checkout@v2
+    - name: Setup Python3.8
+      uses: actions/setup-python@v2
       with:
         python-version: 3.8
     - name: Build

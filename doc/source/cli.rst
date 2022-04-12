@@ -228,7 +228,7 @@ Comande line interface
                                      from the ISO 639-3 standard.
                                      Examples: ['zxx']
     
-        $length:                     in seconds
+        $length:                     The length of a recording in seconds.
                                      Examples: [674.4666666666667]
     
         $lyricist:                   lyricist
@@ -238,25 +238,25 @@ Comande line interface
         $mb_albumartistid:           MusicBrainz album artist ID
                                      Examples: ['1f9df192-a621-4f54-8850-2c5373b7eac9', 'b972f589-fb0e-474e-b64a-803b0364fa75']
     
-        $mb_albumartistids:          mb_albumartistids
+        $mb_albumartistids:          MusicBrainz album artist IDs as a list.
                                      Examples: [['b972f589-fb0e-474e-b64a-803b0364fa75', 'dea28aa9-1086-4ffa-8739-0ccc759de1ce', 'd2ced2f1-6b58-47cf-ae87-5943e2ab6d99']]
     
-        $mb_albumid:                 MusicBrainz album ID
+        $mb_albumid:                 MusicBrainz album ID.
                                      Examples: ['fd6adc77-1489-4a13-9aa0-32951061d92b']
     
-        $mb_artistid:                MusicBrainz artist ID
+        $mb_artistid:                MusicBrainz artist ID.
                                      Examples: ['1f9df192-a621-4f54-8850-2c5373b7eac9']
     
-        $mb_artistids:               mb_artistids
+        $mb_artistids:               MusicBrainz artist IDs as a list.
                                      Examples: [['1f9df192-a621-4f54-8850-2c5373b7eac9']]
     
-        $mb_releasegroupid:          MusicBrainz releasegroup ID
+        $mb_releasegroupid:          MusicBrainz releasegroup ID.
                                      Examples: ['f714fd70-aaca-4863-9d0d-2768a53acaeb']
     
-        $mb_releasetrackid:          MusicBrainz release track ID
+        $mb_releasetrackid:          MusicBrainz release track ID.
                                      Examples: ['38c8c114-5e3b-484f-8af0-79c47ef9c169']
     
-        $mb_trackid:                 MusicBrainz track ID
+        $mb_trackid:                 MusicBrainz track ID.
                                      Examples: ['c390b132-4a44-4e16-bec3-bffbbcaa19aa']
     
         $mb_workhierarchy_ids:       All IDs in the work hierarchy. This field
@@ -265,24 +265,27 @@ Comande line interface
                                      (/) is used as separator.
                                      Examples: ['e208c5f5-5d37-3dfc-ac0b-999f207c9e46 / 5adc213f-700a-4435-9e95-831ed720f348 / eafec51f-47c5-3c66-8c36-a524246c85f8']
     
-        $mb_workid:                  MusicBrainz work ID
+        $mb_workid:                  MusicBrainz work ID.
                                      Examples: ['508ec4b1-9549-38cd-a61e-1f0d120a6118']
     
-        $media:                      media
+        $media:                      A prototypical medium is one of the physical,
+                                     separate things you would get when you buy
+                                     something in a record store.
                                      Examples: ['CD']
     
-        $month:                      The release month of the specific release
+        $month:                      The release month of the specific release.
     
-        $original_date:              original_date
+        $original_date:              The release date of the original version of
+                                     the album.
     
         $original_day:               The release day of the original version of
-                                     the album
+                                     the album.
     
         $original_month:             The release month of the original version of
-                                     the album
+                                     the album.
     
         $original_year:              The release year of the original version of
-                                     the album
+                                     the album.
     
         $r128_album_gain:            An optional gain for album normalization
     
@@ -308,7 +311,7 @@ Comande line interface
                                      https://en.wikipedia.org/wiki/ReplayGain.
                                      Examples: [0.000244]
     
-        $samplerate:                 in kilohertz, with units: e.g., “48kHz”
+        $samplerate:                 The sample rate as an integer number.
                                      Examples: [44100]
     
         $script:                     The script used to write the release’s track
