@@ -93,27 +93,32 @@ Usage
         $acoustid_fingerprint:       Acoustic ID fingerprint
     
         $acoustid_id:                Acoustic ID
+                                     Examples: ['86e217b7-d3ad-4493-a9f2-cf71256ace07']
     
         $album:                      album
+                                     Examples: ['Help!']
     
         $albumartist:                The artist for the entire album, which may be
                                      different from the artists for the individual
                                      tracks
+                                     Examples: ['The Beatles']
     
         $albumartist_credit:         albumartist_credit
     
         $albumartist_sort:           albumartist_sort
+                                     Examples: ['Beatles, The']
     
         $albumartists:               albumartists
     
         $albumdisambig:              albumdisambig
     
         $albumstatus:                The status describes how "official" a release
-                                     is. Possible values are: official,
-                                     promotional, bootleg, pseudo-release
+                                     is.
+                                     Examples: ['official', 'promotional', 'bootleg', 'pseudo-release']
     
         $albumtype:                  The MusicBrainz album type; the MusicBrainz
                                      wiki has a list of type names
+                                     Examples: ['album/soundtrack']
     
         $ar_classical_album:         The field “work” without the movement suffix.
                                      For example: “Horn Concerto: I. Allegro” ->
@@ -173,24 +178,33 @@ Usage
         $art:                        art
     
         $artist:                     artist
+                                     Examples: ['The Beatles']
     
         $artist_credit:              The track-specific artist credit name, which
                                      may be a variation of the artist’s
                                      “canonical” name
     
-        $artist_sort:                The “sort name” of the track artist (e.g.,
-                                     “Beatles, The” or “White, Jack”)
+        $artist_sort:                The “sort name” of the track artist.
+                                     Examples: ['Beatles, The', 'White, Jack']
     
         $artists:                    artists
     
         $asin:                       Amazon Standard Identification Number
+                                     Examples: ['B000002UAL']
     
-        $barcode:                    barcode
+        $barcode:                    There are many different types of barcode,
+                                     but the ones usually found on music releases
+                                     are two: 1. Universal Product Code (UPC),
+                                     which is the original barcode used in North
+                                     America. 2. European Article Number (EAN)
+                                     Examples: ['5028421931838', '036000291452']
     
         $bitdepth:                   only available for some formats
+                                     Examples: [16]
     
         $bitrate:                    in kilobits per second, with units: e.g.,
                                      “192kbps”
+                                     Examples: [436523]
     
         $bitrate_mode:               bitrate_mode
     
@@ -202,16 +216,21 @@ Usage
                                      than one, especially when multiple labels are
                                      involved. This is not the ASIN — there is a
                                      relationship for that — nor the label code.
+                                     Examples: ['CDP 7 46439 2']
     
         $channels:                   channels
+                                     Examples: [1]
     
         $comments:                   comments
     
         $comp:                       Compilation flag
+                                     Examples: [True, False]
     
-        $composer:                   composer
+        $composer:                   The name of the composer.
+                                     Examples: ['Ludwig van Beethoven']
     
-        $composer_sort:              Composer name for sorting.
+        $composer_sort:              The composer name for sorting.
+                                     Examples: ['Beethoven, Ludwig van']
     
         $copyright:                  copyright
     
@@ -227,13 +246,18 @@ Usage
     
         $disctotal:                  disctotal
     
-        $encoder:                    encoder
+        $encoder:                    the name of the person or organisation that
+                                     encoded the audio file. This field may
+                                     contain a copyright message, if the audio
+                                     file also is copyrighted by the encoder.
+                                     Examples: ['iTunes v7.6.2']
     
         $encoder_info:               encoder_info
     
         $encoder_settings:           encoder_settings
     
         $format:                     e.g., “MP3” or “FLAC”
+                                     Examples: ['MP3', 'FLAC']
     
         $genre:                      genre
     
@@ -243,50 +267,72 @@ Usage
     
         $images:                     images
     
-        $initial_key:                initial_key
+        $initial_key:                The Initial key frame contains the musical
+                                     key in which the sound starts. It is
+                                     represented as a string with a maximum length
+                                     of three characters. The ground keys are
+                                     represented with "A","B","C","D","E", "F" and
+                                     "G" and halfkeys represented with "b" and
+                                     "#". Minor is represented as "m".
+                                     Examples: ['Dbm']
     
-        $isrc:                       isrc
+        $isrc:                       The International Standard Recording Code,
+                                     abbreviated to ISRC, is a system of codes
+                                     that identify audio and music video
+                                     recordings.
+                                     Examples: ['CAC118989003', 'ITO101117740']
     
         $label:                      The label which issued the release. There may
                                      be more than one.
+                                     Examples: ['Brilliant Classics']
     
         $language:                   The language a release’s track list is
                                      written in. The possible values are taken
                                      from the ISO 639-3 standard.
+                                     Examples: ['zxx']
     
         $length:                     in seconds
+                                     Examples: [674.4666666666667]
     
         $lyricist:                   lyricist
     
         $lyrics:                     lyrics
     
         $mb_albumartistid:           MusicBrainz album artist ID
+                                     Examples: ['1f9df192-a621-4f54-8850-2c5373b7eac9', 'b972f589-fb0e-474e-b64a-803b0364fa75']
     
         $mb_albumartistids:          mb_albumartistids
+                                     Examples: [['b972f589-fb0e-474e-b64a-803b0364fa75', 'dea28aa9-1086-4ffa-8739-0ccc759de1ce', 'd2ced2f1-6b58-47cf-ae87-5943e2ab6d99']]
     
         $mb_albumid:                 MusicBrainz album ID
+                                     Examples: ['fd6adc77-1489-4a13-9aa0-32951061d92b']
     
         $mb_artistid:                MusicBrainz artist ID
+                                     Examples: ['1f9df192-a621-4f54-8850-2c5373b7eac9']
     
         $mb_artistids:               mb_artistids
+                                     Examples: [['1f9df192-a621-4f54-8850-2c5373b7eac9']]
     
         $mb_releasegroupid:          MusicBrainz releasegroup ID
+                                     Examples: ['f714fd70-aaca-4863-9d0d-2768a53acaeb']
     
         $mb_releasetrackid:          MusicBrainz release track ID
+                                     Examples: ['38c8c114-5e3b-484f-8af0-79c47ef9c169']
     
         $mb_trackid:                 MusicBrainz track ID
+                                     Examples: ['c390b132-4a44-4e16-bec3-bffbbcaa19aa']
     
         $mb_workhierarchy_ids:       All IDs in the work hierarchy. This field
                                      corresponds to the field `work_hierarchy`.
                                      The top level work ID appears first. A slash
-                                     (/) is used as separator.Example:
-                                     e208c5f5-5d37-3dfc-ac0b-999f207c9e46 /
-                                     5adc213f-700a-4435-9e95-831ed720f348 /
-                                     eafec51f-47c5-3c66-8c36-a524246c85f8
+                                     (/) is used as separator.
+                                     Examples: ['e208c5f5-5d37-3dfc-ac0b-999f207c9e46 / 5adc213f-700a-4435-9e95-831ed720f348 / eafec51f-47c5-3c66-8c36-a524246c85f8']
     
         $mb_workid:                  MusicBrainz work ID
+                                     Examples: ['508ec4b1-9549-38cd-a61e-1f0d120a6118']
     
         $media:                      media
+                                     Examples: ['CD']
     
         $month:                      The release month of the specific release
     
@@ -311,38 +357,49 @@ Usage
                                      usage of this field is to determine in a
                                      secure manner if the release is a soundtrack.
     
-        $rg_album_gain:              rg_album_gain
+        $rg_album_gain:              ReplayGain Album Gain, see
+                                     https://en.wikipedia.org/wiki/ReplayGain.
     
-        $rg_album_peak:              rg_album_peak
+        $rg_album_peak:              ReplayGain Album Peak, see
+                                     https://en.wikipedia.org/wiki/ReplayGain.
     
-        $rg_track_gain:              rg_track_gain
+        $rg_track_gain:              ReplayGain Track Gain, see
+                                     https://en.wikipedia.org/wiki/ReplayGain.
+                                     Examples: [0.0]
     
-        $rg_track_peak:              rg_track_peak
+        $rg_track_peak:              ReplayGain Track Peak, see
+                                     https://en.wikipedia.org/wiki/ReplayGain.
+                                     Examples: [0.000244]
     
         $samplerate:                 in kilohertz, with units: e.g., “48kHz”
+                                     Examples: [44100]
     
         $script:                     The script used to write the release’s track
                                      list. The possible values are taken from the
                                      ISO 15924 standard.
+                                     Examples: ['Latn']
     
         $title:                      The title of a audio file.
+                                     Examples: ['32 Variations for Piano in C minor on an Original Theme, WoO 80']
     
-        $track:                      track
+        $track:                      The track number.
+                                     Examples: [1]
     
-        $tracktotal:                 tracktotal
+        $tracktotal:                 The total track number.
+                                     Examples: [12]
     
         $url:                        Uniform Resource Locator.
     
         $work:                       The Musicbrainzs’ work entity.
+                                     Examples: ['32 Variations for Piano in C minor on an Original Theme, WoO 80']
     
         $work_hierarchy:             The hierarchy of works: The top level work
                                      appears first. As separator is this string
-                                     used: -->. Example: Die Zauberflöte, K. 620
-                                     --> Die Zauberflöte, K. 620: Akt I --> Die
-                                     Zauberflöte, K. 620: Act I, Scene II. No. 2
-                                     Aria "Was hör ...
+                                     used: -->.
+                                     Examples: ['Die Zauberflöte, K. 620 --> Die Zauberflöte, K. 620: Akt I --> Die Zauberflöte, K. 620: Act I, Scene II. No. 2 Aria "Was hör ...']
     
         $year:                       The release year of the specific release
+                                     Examples: [2001]
     
     Functions
     =========
@@ -609,6 +666,7 @@ Test
 ::
 
     pyenv local 3.6.13 3.7.10 3.9.2
+    pip install tox tox-pyenv
     tox
 
 Run a single test

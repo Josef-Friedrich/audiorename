@@ -5,7 +5,7 @@ import argparse
 import phrydy
 import tmep
 
-fields = {
+fields: phrydy.FieldDocCollection = {
     # album
     'ar_classical_album': {
         'description': 'The field “work” without the movement suffix. '
@@ -91,7 +91,7 @@ fields = {
 }
 """Documentation of the extra fields."""
 
-all_fields = phrydy.doc.merge_fields(phrydy.doc.fields, fields)
+all_fields = phrydy.merge_fields(phrydy.fields, fields)
 
 
 class ArgsDefault():
@@ -150,7 +150,7 @@ def description():
 Metadata fields
 ===============
 
-''' + phrydy.doc.get_doc(additional_doc=fields) + '''
+''' + phrydy.format_fields_as_txt(additional_fields=fields) + '''
 
 Functions
 =========

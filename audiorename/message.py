@@ -57,7 +57,7 @@ class Message:
 
     @staticmethod
     def max_fields_length() -> int:
-        return phrydy.doc.get_max_field_length(all_fields)
+        return phrydy.doc_generator.get_max_field_length(all_fields)
 
     def output(self, text='') -> None:
         if self.one_line:

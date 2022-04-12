@@ -30,7 +30,7 @@ setup(
     keywords='audio',
     url='https://github.com/Josef-Friedrich/audiorename',
     install_requires=[
-        'phrydy==3.0.0.a4',
+        'phrydy==3.0.0.b0',
         'tmep==2.0.2',
         'ansicolor==0.3.2',
         'musicbrainzngs==0.7.1',
@@ -43,5 +43,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
     ],
-    zip_safe=False, )
+    zip_safe=False,
+)

@@ -44,7 +44,6 @@
     "**/docs/_build/": true,
     "**/target/": true,
     "**/.ipynb_checkpoints": true,
-    "**/.python-version": true,
     "**/celerybeat-schedule": true,
     "**/.env": true,
     "**/venv/": true,

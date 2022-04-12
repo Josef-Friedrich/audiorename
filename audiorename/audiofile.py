@@ -341,7 +341,7 @@ def do_job_on_audiofile(source_path: str, job: Job):
         return
 
     if job.output.debug:
-        phrydy.doc.print_debug(
+        phrydy.print_debug(
             source.abspath,
             Meta,
             Meta.fields,
