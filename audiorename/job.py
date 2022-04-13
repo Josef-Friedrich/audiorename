@@ -250,6 +250,8 @@ class Job:
             'verbose',
         ])
 
+        self._args.color = self._args.no_color is not True
+
         return Output(
             self._args.color,
             self._args.debug,

@@ -9,8 +9,8 @@ Comande line interface
                         [--genre-classical GENRE_CLASSICAL] [-k] [-S]
                         [-c FORMAT_STRING] [-f FORMAT_STRING]
                         [--soundtrack FORMAT_STRING]
-                        [--format-classical FORMAT_STRING] [-K] [-b] [-j] [-l]
-                        [-o] [-T] [-V] [-a] [-t TARGET]
+                        [--format-classical FORMAT_STRING] [-K | --no-color] [-b]
+                        [-j] [-l] [-o] [-T] [-V] [-a] [-t TARGET]
                         source
     
         Rename audio files from metadata tags.
@@ -64,59 +64,84 @@ Comande line interface
         $ar_classical_album:         The field “work” without the movement suffix.
                                      For example: “Horn Concerto: I. Allegro” ->
                                      “Horn Concerto”
+                                     Examples: ['Horn Concerto', 'Die Meistersinger von Nürnberg']
     
         $ar_classical_performer:     “ar_performer_short” or “albumartist” without
                                      the composer prefix: “Beethoven; Karajan,
                                      Mutter” -> “Karajan, Mutter”
+                                     Examples: ['Karajan, Mutter', 'Karajan, StaDre']
     
         $ar_classical_title:         The movement title without the parent work
                                      prefix. For example “Horn Concerto: I.
                                      Allegro” -> “I. Allegro”
+                                     Examples: ['I. Allegro', 'Akt III, Szene V. "Morgendlich leuchtend im rosigen Schein" (Walther, Volk, Meister, Sachs, Pogner, Eva)']
     
         $ar_classical_track:         If the title contains Roman numbers, then
                                      these are converted to arabic numbers with
                                      leading zeros. If no Roman numbers could be
                                      found, then the field “ar_combined_disctrack”
                                      is used.
+                                     Examples: ['01', '4-08']
     
         $ar_combined_album:          “album” without ” (Disc X)”.
+                                     Examples: ['Headlines and Deadlines: The Hits of a-ha', 'Die Meistersinger von Nürnberg']
     
         $ar_combined_artist:         The first available value of this metatag
                                      order: “albumartist” -> “artist” ->
                                      “albumartist_credit” -> “artist_credit”
+                                     Examples: ['a-ha', 'Richard Wagner; René Kollo, Helen Donath, ...']
     
         $ar_combined_artist_sort:    The first available value of this metatag
                                      order: “albumartist_sort” -> “artist_sort” ->
                                      “ar_combined_artist”
+                                     Examples: ['a-ha', 'Wagner, Richard; Kollo, René, Donath, Helen...']
     
         $ar_combined_composer:       The first not empty field of this field list:
                                      “composer_sort”, “composer”,
                                      “ar_combined_artist”
+                                     Examples: ['Beethoven, Ludwig-van', 'Wagner, Richard']
     
         $ar_combined_disctrack:      Combination of disc and track in the format:
-                                     disk-track, e.g. 1-01, 3-099
+                                     disk-track
+                                     Examples: ['1-01', '3-099']
     
         $ar_combined_soundtrack:     Boolean flag which indicates if the audio
                                      file is a soundtrack
+                                     Examples: [True, False]
     
         $ar_combined_work_top:       The work on the top level of a work
                                      hierarchy.
+                                     Examples: ['Horn Concerto: I. Allegro', 'Die Meistersinger von Nürnberg']
     
         $ar_combined_year:           First “original_year” then “year”.
+                                     Examples: [1978]
     
         $ar_initial_album:           First character in lowercase of
                                      “ar_combined_album”.
+                                     Examples: ['h']
     
         $ar_initial_artist:          First character in lowercase of
                                      “ar_combined_artist_sort”
+                                     Examples: ['b']
     
         $ar_initial_composer:        First character in lowercase of
                                      “ar_combined_composer”. For example “Ludwig
                                      van Beethoven” -> “l”
+                                     Examples: ['l']
+    
+        $ar_performer:               Performer names.
+                                     Examples: ['Herbert von Karajan, Staatskapelle Dresden']
+    
+        $ar_performer_raw:           Raw performer names.
+                                     Examples: [[['conductor', 'Herbert von Karajan'], ['orchestra', 'Staatskapelle Dresden']]]
+    
+        $ar_performer_short:         Abbreviated performer names.
+                                     Examples: ['Karajan, StaDre']
     
         $arranger:                   A musician who creates arrangements.
     
         $art:                        Legacy album art field.
+                                     Examples: [b'\xff\xd8\xff\xe0\x00']
     
         $artist:                     artist
                                      Examples: ['The Beatles']
@@ -129,6 +154,7 @@ Comande line interface
                                      Examples: ['Beatles, The', 'White, Jack']
     
         $artists:                    artists
+                                     Examples: [['a-ha']]
     
         $asin:                       Amazon Standard Identification Number
                                      Examples: ['B000002UAL']
@@ -145,9 +171,10 @@ Comande line interface
     
         $bitrate:                    in kilobits per second, with units: e.g.,
                                      “192kbps”
-                                     Examples: [436523]
+                                     Examples: [436523, 256000]
     
         $bitrate_mode:               bitrate_mode
+                                     Examples: ['CBR']
     
         $bpm:                        Beats per Minute
     
@@ -160,7 +187,7 @@ Comande line interface
                                      Examples: ['CDP 7 46439 2']
     
         $channels:                   channels
-                                     Examples: [1]
+                                     Examples: [1, 2]
     
         $comments:                   comments
     
@@ -178,14 +205,17 @@ Comande line interface
         $country:                    The country the release was issued in.
     
         $date:                       The release data of the specific release.
+                                     Examples: ['1996-01-01']
     
         $day:                        The release day of the specific release.
     
         $disc:                       disc
+                                     Examples: [1]
     
         $disctitle:                  disctitle
     
         $disctotal:                  disctotal
+                                     Examples: [1]
     
         $encoder:                    the name of the person or organisation that
                                      encoded the audio file. This field may
@@ -194,8 +224,10 @@ Comande line interface
                                      Examples: ['iTunes v7.6.2']
     
         $encoder_info:               encoder_info
+                                     Examples: ['LAME 3.92.0+']
     
         $encoder_settings:           encoder_settings
+                                     Examples: ['-b 255+']
     
         $format:                     e.g., “MP3” or “FLAC”
                                      Examples: ['MP3', 'FLAC']
@@ -208,6 +240,7 @@ Comande line interface
                                      media items such as a CD boxed set.
     
         $images:                     images
+                                     Examples: [['<mediafile.Image object at 0x7f51fce26b20>']]
     
         $initial_key:                The Initial key frame contains the musical
                                      key in which the sound starts. It is
@@ -226,12 +259,12 @@ Comande line interface
     
         $label:                      The label which issued the release. There may
                                      be more than one.
-                                     Examples: ['Brilliant Classics']
+                                     Examples: ['Brilliant Classics', 'wea']
     
         $language:                   The language a release’s track list is
                                      written in. The possible values are taken
                                      from the ISO 639-3 standard.
-                                     Examples: ['zxx']
+                                     Examples: ['zxx', 'eng']
     
         $length:                     The length of a recording in seconds.
                                      Examples: [674.4666666666667]
@@ -281,18 +314,23 @@ Comande line interface
                                      Examples: ['CD']
     
         $month:                      The release month of the specific release.
+                                     Examples: [11]
     
         $original_date:              The release date of the original version of
                                      the album.
+                                     Examples: ['1991-11-04']
     
         $original_day:               The release day of the original version of
                                      the album.
+                                     Examples: [4]
     
         $original_month:             The release month of the original version of
                                      the album.
+                                     Examples: [11]
     
         $original_year:              The release year of the original version of
                                      the album.
+                                     Examples: [1991]
     
         $r128_album_gain:            An optional gain for album normalization. EBU
                                      R 128 is a recommendation for loudness
@@ -555,13 +593,13 @@ Comande line interface
       -D, --delete          Delete the audio files instead of creating a backup.
     
     filters:
-      -F, --album-complete  Rename only complete albums
+      -F, --album-complete  Rename only complete albums.
       -m ALBUM_MIN, --album-min ALBUM_MIN
                             Rename only albums containing at least X files.
       -e EXTENSION, --extension EXTENSION
-                            Extensions to rename
+                            Extensions to rename.
       --genre-classical GENRE_CLASSICAL
-                            List of genres to be classical
+                            List of genres to be classical.
     
     formats:
       -k, --classical       Use the default format for classical music. If you use
@@ -590,6 +628,8 @@ Comande line interface
     output:
       -K, --color           Colorize the standard output of the program with ANSI
                             colors.
+      --no-color            Don’t colorize the standard output of the program with
+                            ANSI colors.
       -b, --debug           Print debug informations about the single metadata
                             fields.
       -j, --job-info        Display informations about the current job. This

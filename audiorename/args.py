@@ -6,72 +6,30 @@ import phrydy
 import tmep
 
 fields: phrydy.FieldDocCollection = {
-    # album
     'ar_classical_album': {
         'description': 'The field “work” without the movement suffix. '
                        'For example: “Horn Concerto: I. Allegro” -> '
                        '“Horn Concerto”',
         'category': 'common',
-    },
-    'ar_combined_album': {
-        'description': '“album” without ” (Disc X)”.',
-        'category': 'common',
-    },
-    'ar_initial_album': {
-        'description': 'First character in lowercase of “ar_combined_album”.',
-        'category': 'common',
-    },
-    # artist
-    'ar_initial_artist': {
-        'description': 'First character in lowercase of '
-                       '“ar_combined_artist_sort”',
-        'category': 'common',
-    },
-    'ar_combined_artist': {
-        'description': 'The first available value of this metatag order: '
-                       '“albumartist” -> “artist” -> “albumartist_credit” '
-                       '-> “artist_credit”',
-        'category': 'common',
-    },
-    'ar_combined_artist_sort': {
-        'description': 'The first available value of this metatag order: '
-                       '“albumartist_sort” -> “artist_sort” -> '
-                       '“ar_combined_artist”',
-        'category': 'common',
-    },
-    # composer
-    'ar_initial_composer': {
-        'description': 'First character in lowercase of '
-                       '“ar_combined_composer”. '
-                       'For example “Ludwig van Beethoven” -> “l”',
-        'category': 'common',
-    },
-    'ar_combined_composer': {
-        'description': 'The first not empty field of this field list: '
-                       '“composer_sort”, “composer”, “ar_combined_artist”',
-        'category': 'common',
-    },
-    'ar_combined_disctrack': {
-        'description': 'Combination of disc and track in the format: '
-                       'disk-track, e.g. 1-01, 3-099',
-        'category': 'common',
+        'examples': ['Horn Concerto', 'Die Meistersinger von Nürnberg'],
     },
     'ar_classical_performer': {
         'description': '“ar_performer_short” or “albumartist” without the '
                        'composer prefix: “Beethoven; Karajan, Mutter” -> '
                        '“Karajan, Mutter”',
         'category': 'common',
-    },
-    'ar_combined_soundtrack': {
-        'description': 'Boolean flag which indicates if the audio file is '
-                       'a soundtrack',
-        'category': 'common',
+        'examples': ['Karajan, Mutter', 'Karajan, StaDre'],
+        'data_type': 'str',
     },
     'ar_classical_title': {
         'description': 'The movement title without the parent work prefix. '
                        'For example “Horn Concerto: I. Allegro” -> '
                        '“I. Allegro”',
         'category': 'common',
+        'examples': ['I. Allegro',
+                     'Akt III, Szene V. "Morgendlich leuchtend im rosigen '
+                     'Schein" (Walther, Volk, Meister, Sachs, Pogner, Eva)'],
+        'data_type': 'str',
     },
     'ar_classical_track': {
         'description': 'If the title contains Roman numbers, then these are '
@@ -79,14 +37,104 @@ fields: phrydy.FieldDocCollection = {
                        'If no Roman numbers could be found, then the field '
                        '“ar_combined_disctrack” is used.',
         'category': 'common',
+        'examples': ['01', '4-08'],
+        'data_type': 'str',
     },
-    'ar_combined_year': {
-        'description': 'First “original_year” then “year”.',
+    'ar_combined_album': {
+        'description': '“album” without ” (Disc X)”.',
         'category': 'common',
+        'examples': ['Headlines and Deadlines: The Hits of a-ha',
+                     'Die Meistersinger von Nürnberg'],
+    },
+    'ar_combined_artist': {
+        'description': 'The first available value of this metatag order: '
+                       '“albumartist” -> “artist” -> “albumartist_credit” '
+                       '-> “artist_credit”',
+        'category': 'common',
+        'examples': ['a-ha',
+                     'Richard Wagner; René Kollo, Helen Donath, ...'],
+        'data_type': 'str',
+    },
+    'ar_combined_artist_sort': {
+        'description': 'The first available value of this metatag order: '
+                       '“albumartist_sort” -> “artist_sort” -> '
+                       '“ar_combined_artist”',
+        'category': 'common',
+        'examples': ['a-ha', 'Wagner, Richard; Kollo, René, Donath, Helen...'],
+        'data_type': 'str',
+    },
+    'ar_combined_composer': {
+        'description': 'The first not empty field of this field list: '
+                       '“composer_sort”, “composer”, “ar_combined_artist”',
+        'category': 'common',
+        'examples': ['Beethoven, Ludwig-van', 'Wagner, Richard'],
+        'data_type': 'str',
+    },
+    'ar_combined_disctrack': {
+        'description': 'Combination of disc and track in the format: '
+                       'disk-track',
+        'category': 'common',
+        'examples': ['1-01', '3-099'],
+        'data_type': 'str',
+    },
+    'ar_combined_soundtrack': {
+        'description': 'Boolean flag which indicates if the audio file is '
+                       'a soundtrack',
+        'category': 'common',
+        'examples': [True, False],
+        'data_type': 'bool',
     },
     'ar_combined_work_top': {
         'description': 'The work on the top level of a work hierarchy.',
         'category': 'common',
+        'examples': ['Horn Concerto: I. Allegro',
+                     'Die Meistersinger von Nürnberg'],
+        'data_type': 'str',
+    },
+    'ar_combined_year': {
+        'description': 'First “original_year” then “year”.',
+        'category': 'common',
+        'examples': [1978],
+        'data_type': 'int',
+    },
+    'ar_initial_album': {
+        'description': 'First character in lowercase of “ar_combined_album”.',
+        'category': 'common',
+        'examples': ['h'],
+    },
+    'ar_initial_artist': {
+        'description': 'First character in lowercase of '
+                       '“ar_combined_artist_sort”',
+        'category': 'common',
+        'examples': ['b'],
+        'data_type': 'str',
+    },
+    'ar_initial_composer': {
+        'description': 'First character in lowercase of '
+                       '“ar_combined_composer”. '
+                       'For example “Ludwig van Beethoven” -> “l”',
+        'category': 'common',
+        'examples': ['l'],
+        'data_type': 'str',
+    },
+    'ar_performer': {
+        'description': 'Performer names.',
+        'category': 'common',
+        'examples': ['Herbert von Karajan, Staatskapelle Dresden'],
+        'data_type': 'str',
+    },
+    'ar_performer_raw': {
+        'description': 'Raw performer names.',
+        'category': 'common',
+        'examples': [[['conductor', 'Herbert von Karajan'],
+                      ['orchestra', 'Staatskapelle Dresden']]],
+        'data_type': 'list',
+    },
+    'ar_performer_short': {
+        'description': 'Abbreviated performer names.',
+        'category': 'common',
+        'examples': ['Karajan, StaDre'],
+        'data_type': 'str',
     },
 }
 """Documentation of the extra fields."""
@@ -107,6 +155,7 @@ class ArgsDefault():
     best_format = False
     classical = False
     color = False
+    no_color = False
     compilation = False
     copy = False
     debug = False
@@ -329,7 +378,7 @@ def parse_args(argv):
     filters.add_argument(
         '-F',
         '--album-complete',
-        help='Rename only complete albums',
+        help='Rename only complete albums.',
         action='store_true'
     )
 
@@ -345,14 +394,14 @@ def parse_args(argv):
     filters.add_argument(
         '-e',
         '--extension',
-        help='Extensions to rename',
+        help='Extensions to rename.',
         default='mp3,m4a,flac,wma'
     )
 
     # genre classical
     filters.add_argument(
         '--genre-classical',
-        help='List of genres to be classical',
+        help='List of genres to be classical.',
         default=','
     )
 
@@ -430,11 +479,20 @@ def parse_args(argv):
 
     output = parser.add_argument_group('output')
 
+    output_color = output.add_mutually_exclusive_group()
+
     # color
-    output.add_argument(
+    output_color.add_argument(
         '-K',
         '--color',
         help='Colorize the standard output of the program with ANSI colors.',
+        action='store_true'
+    )
+
+    output_color.add_argument(
+        '--no-color',
+        help='Don’t colorize the standard output of the program with ANSI '
+             'colors.',
         action='store_true'
     )
 
