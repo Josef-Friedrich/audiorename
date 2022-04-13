@@ -110,7 +110,11 @@ Usage
     
         $albumartists:               albumartists
     
-        $albumdisambig:              albumdisambig
+        $albumdisambig:              The disambiguation album field helps to
+                                     distinguish between identically named albums.
+                                     The album “Weezer” for example has the
+                                     disambiguation comments “Red Album” and
+                                     “Green Album”.
     
         $albumstatus:                The status describes how "official" a release
                                      is.
@@ -173,9 +177,9 @@ Usage
                                      “ar_combined_composer”. For example “Ludwig
                                      van Beethoven” -> “l”
     
-        $arranger:                   arranger
+        $arranger:                   A musician who creates arrangements.
     
-        $art:                        art
+        $art:                        Legacy album art field.
     
         $artist:                     artist
                                      Examples: ['The Beatles']
@@ -236,9 +240,9 @@ Usage
     
         $country:                    The country the release was issued in.
     
-        $date:                       date
+        $date:                       The release data of the specific release.
     
-        $day:                        The release day of the specific release
+        $day:                        The release day of the specific release.
     
         $disc:                       disc
     
@@ -263,7 +267,8 @@ Usage
     
         $genres:                     genres
     
-        $grouping:                   grouping
+        $grouping:                   A content group, which is a collection of
+                                     media items such as a CD boxed set.
     
         $images:                     images
     
@@ -294,11 +299,13 @@ Usage
         $length:                     The length of a recording in seconds.
                                      Examples: [674.4666666666667]
     
-        $lyricist:                   lyricist
+        $lyricist:                   The writer of the text or lyrics in the
+                                     recording.
     
-        $lyrics:                     lyrics
+        $lyrics:                     The lyrics of the song or a text
+                                     transcription of other vocal activities.
     
-        $mb_albumartistid:           MusicBrainz album artist ID
+        $mb_albumartistid:           MusicBrainz album artist ID.
                                      Examples: ['1f9df192-a621-4f54-8850-2c5373b7eac9', 'b972f589-fb0e-474e-b64a-803b0364fa75']
     
         $mb_albumartistids:          MusicBrainz album artist IDs as a list.
@@ -350,9 +357,15 @@ Usage
         $original_year:              The release year of the original version of
                                      the album.
     
-        $r128_album_gain:            An optional gain for album normalization
+        $r128_album_gain:            An optional gain for album normalization. EBU
+                                     R 128 is a recommendation for loudness
+                                     normalisation and maximum level of audio
+                                     signals.
     
-        $r128_track_gain:            An optional gain for track normalization
+        $r128_track_gain:            An optional gain for track normalization. EBU
+                                     R 128 is a recommendation for loudness
+                                     normalisation and maximum level of audio
+                                     signals.
     
         $releasegroup_types:         This field collects all items in the
                                      MusicBrainz’ API  related to type: `type`,
@@ -401,7 +414,7 @@ Usage
                                      used: -->.
                                      Examples: ['Die Zauberflöte, K. 620 --> Die Zauberflöte, K. 620: Akt I --> Die Zauberflöte, K. 620: Act I, Scene II. No. 2 Aria "Was hör ...']
     
-        $year:                       The release year of the specific release
+        $year:                       The release year of the specific release.
                                      Examples: [2001]
     
     Functions
@@ -703,7 +716,7 @@ Metadata fields
      - 
    * - albumdisambig
      - common
-     - albumdisambig
+     - The disambiguation album field helps to distinguish between identically named albums. The album “Weezer” for example has the disambiguation comments “Red Album” and “Green Album”.
      - 
    * - albumstatus
      - common
@@ -775,11 +788,11 @@ Metadata fields
      - 
    * - arranger
      - common
-     - arranger
+     - A musician who creates arrangements.
      - 
    * - art
      - common
-     - art
+     - Legacy album art field.
      - 
    * - artist
      - common
@@ -855,11 +868,11 @@ Metadata fields
      - 
    * - date
      - date
-     - date
+     - The release data of the specific release.
      - 
    * - day
      - date
-     - The release day of the specific release
+     - The release day of the specific release.
      - 
    * - disc
      - common
@@ -899,7 +912,7 @@ Metadata fields
      - 
    * - grouping
      - common
-     - grouping
+     - A content group, which is a collection of media items such as a CD boxed set.
      - 
    * - images
      - common
@@ -927,15 +940,15 @@ Metadata fields
      - ``674.4666666666667``
    * - lyricist
      - common
-     - lyricist
+     - The writer of the text or lyrics in the recording.
      - 
    * - lyrics
      - common
-     - lyrics
+     - The lyrics of the song or a text transcription of other vocal activities.
      - 
    * - mb_albumartistid
      - music_brainz
-     - MusicBrainz album artist ID
+     - MusicBrainz album artist ID.
      - ``1f9df192-a621-4f54-8850-2c5373b7eac9``, ``b972f589-fb0e-474e-b64a-803b0364fa75``
    * - mb_albumartistids
      - music_brainz
@@ -998,12 +1011,12 @@ Metadata fields
      - The release year of the original version of the album.
      - 
    * - r128_album_gain
-     - rg
-     - An optional gain for album normalization
+     - r128
+     - An optional gain for album normalization. EBU R 128 is a recommendation for loudness normalisation and maximum level of audio signals.
      - 
    * - r128_track_gain
-     - rg
-     - An optional gain for track normalization
+     - r128
+     - An optional gain for track normalization. EBU R 128 is a recommendation for loudness normalisation and maximum level of audio signals.
      - 
    * - releasegroup_types
      - music_brainz
@@ -1059,7 +1072,7 @@ Metadata fields
      - ``Die Zauberflöte, K. 620 --> Die Zauberflöte, K. 620: Akt I --> Die Zauberflöte, K. 620: Act I, Scene II. No. 2 Aria "Was hör ...``
    * - year
      - date
-     - The release year of the specific release
+     - The release year of the specific release.
      - ``2001``
 
 

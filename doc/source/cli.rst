@@ -47,7 +47,11 @@ Comande line interface
     
         $albumartists:               albumartists
     
-        $albumdisambig:              albumdisambig
+        $albumdisambig:              The disambiguation album field helps to
+                                     distinguish between identically named albums.
+                                     The album “Weezer” for example has the
+                                     disambiguation comments “Red Album” and
+                                     “Green Album”.
     
         $albumstatus:                The status describes how "official" a release
                                      is.
@@ -110,9 +114,9 @@ Comande line interface
                                      “ar_combined_composer”. For example “Ludwig
                                      van Beethoven” -> “l”
     
-        $arranger:                   arranger
+        $arranger:                   A musician who creates arrangements.
     
-        $art:                        art
+        $art:                        Legacy album art field.
     
         $artist:                     artist
                                      Examples: ['The Beatles']
@@ -173,9 +177,9 @@ Comande line interface
     
         $country:                    The country the release was issued in.
     
-        $date:                       date
+        $date:                       The release data of the specific release.
     
-        $day:                        The release day of the specific release
+        $day:                        The release day of the specific release.
     
         $disc:                       disc
     
@@ -200,7 +204,8 @@ Comande line interface
     
         $genres:                     genres
     
-        $grouping:                   grouping
+        $grouping:                   A content group, which is a collection of
+                                     media items such as a CD boxed set.
     
         $images:                     images
     
@@ -231,11 +236,13 @@ Comande line interface
         $length:                     The length of a recording in seconds.
                                      Examples: [674.4666666666667]
     
-        $lyricist:                   lyricist
+        $lyricist:                   The writer of the text or lyrics in the
+                                     recording.
     
-        $lyrics:                     lyrics
+        $lyrics:                     The lyrics of the song or a text
+                                     transcription of other vocal activities.
     
-        $mb_albumartistid:           MusicBrainz album artist ID
+        $mb_albumartistid:           MusicBrainz album artist ID.
                                      Examples: ['1f9df192-a621-4f54-8850-2c5373b7eac9', 'b972f589-fb0e-474e-b64a-803b0364fa75']
     
         $mb_albumartistids:          MusicBrainz album artist IDs as a list.
@@ -287,9 +294,15 @@ Comande line interface
         $original_year:              The release year of the original version of
                                      the album.
     
-        $r128_album_gain:            An optional gain for album normalization
+        $r128_album_gain:            An optional gain for album normalization. EBU
+                                     R 128 is a recommendation for loudness
+                                     normalisation and maximum level of audio
+                                     signals.
     
-        $r128_track_gain:            An optional gain for track normalization
+        $r128_track_gain:            An optional gain for track normalization. EBU
+                                     R 128 is a recommendation for loudness
+                                     normalisation and maximum level of audio
+                                     signals.
     
         $releasegroup_types:         This field collects all items in the
                                      MusicBrainz’ API  related to type: `type`,
@@ -338,7 +351,7 @@ Comande line interface
                                      used: -->.
                                      Examples: ['Die Zauberflöte, K. 620 --> Die Zauberflöte, K. 620: Akt I --> Die Zauberflöte, K. 620: Act I, Scene II. No. 2 Aria "Was hör ...']
     
-        $year:                       The release year of the specific release
+        $year:                       The release year of the specific release.
                                      Examples: [2001]
     
     Functions

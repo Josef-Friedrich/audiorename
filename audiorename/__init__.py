@@ -1,7 +1,7 @@
 """Rename audio files from metadata tags."""
 
 import sys
-from .args import parse_args, fields
+from .args import parse_args, fields  # noqa: F401
 from .batch import Batch
 from .job import Job
 from .message import stats, job_info

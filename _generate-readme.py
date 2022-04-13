@@ -20,7 +20,8 @@ def open_file(*path_segments):
 
 template = open(path('README_template.rst'), 'r').read()
 
-process = subprocess.run('audiorenamer --help', capture_output=True, shell=True)
+process = subprocess.run('audiorenamer --help', capture_output=True,
+                         shell=True)
 stdout = process.stdout.decode('utf-8')
 stdout = '    ' + re.sub(r'\n', '\n    ', stdout)
 stdout = phrydy.doc_generator.remove_color(stdout)

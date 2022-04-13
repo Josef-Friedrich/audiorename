@@ -15,7 +15,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 project = 'audiorename'
-copyright = '2016, Josef Friedrich'
+copyright = '2016 - 2022, Josef Friedrich'
 author = 'Josef Friedrich'
 version = audiorename.__version__
 release = audiorename.__version__
