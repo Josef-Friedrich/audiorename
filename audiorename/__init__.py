@@ -19,6 +19,8 @@ def execute(*argv):
         :code:`['--dry-run', '.']`
     """
 
+    job = None
+
     try:
         args = parse_args(argv)
         job = Job(args)
@@ -34,7 +36,8 @@ def execute(*argv):
         if job.output.stats:
             stats(job)
     except KeyboardInterrupt:
-        job.stats.timer.stop()
-        if job.output.stats:
-            stats(job)
+        if job:
+            job.stats.timer.stop()
+            if job.output.stats:
+                stats(job)
         sys.exit(0)
