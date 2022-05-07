@@ -554,7 +554,7 @@ class Meta(MediaFileExtended):
         return result
 
     @staticmethod
-    def _sanitize(value):
+    def _sanitize(value) -> str:
         if isinstance(value, str) or isinstance(value, bytes):
             value = Functions.tmpl_sanitize(value)
             value = re.sub(r'\s{2,}', ' ', str(value))
@@ -563,8 +563,9 @@ class Meta(MediaFileExtended):
         return value
 
     @staticmethod
-    def _shorten_performer(ar_performer, length=3, separator=' ',
-                           abbreviation='.'):
+    def _shorten_performer(ar_performer: str, length: int = 3,
+                           separator: str = ' ',
+                           abbreviation: str = '.') -> str:
         out = ''
         count = 0
         for s in ar_performer.split(' '):
