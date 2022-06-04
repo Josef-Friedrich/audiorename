@@ -133,7 +133,7 @@ class TestFunctionBestFormat(unittest.TestCase):
             result = self.source_target('flac.flac', 'flac.flac')
         self.assertEqual(result, 'target')
         self.assertEqual(
-            output[0], 'Best format: Source and target have the some '
+            output[0], 'Best format: Source and target have the same '
             'formats, use target.'
         )
 

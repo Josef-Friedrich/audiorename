@@ -110,7 +110,7 @@ class Message:
         target_attr = getattr(target, attr)
 
         if source_attr == target_attr and best == 'target':
-            self.output('Best format: Source and target have the some formats,'
+            self.output('Best format: Source and target have the same formats,'
                         ' use target.')
         else:
             self.output(
