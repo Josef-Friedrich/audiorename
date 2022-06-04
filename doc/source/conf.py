@@ -19,7 +19,7 @@ copyright = '2016 - 2022, Josef Friedrich'
 author = 'Josef Friedrich'
 version = audiorename.__version__
 release = audiorename.__version__
-language = None
+language = 'en'
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
 
