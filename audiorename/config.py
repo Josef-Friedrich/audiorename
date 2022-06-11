@@ -17,8 +17,8 @@ def read_config_file(file_path) -> ArgsDefault:
         for option in config.options(section):
             options[option] = config.get(section, option)
 
-    for k, v in vars(args).items():
-        if k in options:
-            setattr(args, k, v)
+    for attr in dir(args):
+        if '__' not in attr and attr in options:
+            setattr(args, attr, options[attr])
 
     return args

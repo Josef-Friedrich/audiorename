@@ -6,7 +6,7 @@ class TestConfig(unittest.TestCase):
 
     def test_read_config(self):
         args = read_config_file('example-config.ini')
-        # self.assertEquals(args.backup_folder, '/tmp/backup')
+        self.assertEquals(args.backup_folder, '/tmp/backup')
 
 
 if __name__ == '__main__':
