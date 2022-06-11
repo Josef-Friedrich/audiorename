@@ -248,14 +248,6 @@ def parse_args(argv):
         action='store_true'
     )
 
-    # field_skip
-    parser.add_argument(
-        '-s',
-        '--field-skip',
-        help='Skip renaming if field is empty.',
-        default=False
-    )
-
     # version
     parser.add_argument(
         '-v',
@@ -284,7 +276,11 @@ def parse_args(argv):
     metadata_actions.add_argument(
         '-r',
         '--remap-classical',
-        help='',
+        help='Remap some fields to fit better for classical music: \
+        “composer” becomes “artist”, “work” becomes “album”, from the \
+        “title” the work prefix is removed (“Symphonie No. 9: I. Allegro” \
+        -> “I. Allegro”) and “track” becomes the movement number. All \
+        overwritten fields are safed in the “comments” field.',
         action='store_true'
     )
 
@@ -379,6 +375,14 @@ def parse_args(argv):
 ###############################################################################
 
     filters = parser.add_argument_group('filters')
+
+    # field_skip
+    parser.add_argument(
+        '-s',
+        '--field-skip',
+        help='Skip renaming if field is empty.',
+        default=False
+    )
 
     # album_complete
     filters.add_argument(

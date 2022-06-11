@@ -66,8 +66,8 @@ Usage
 
 .. code-block:: text
 
-    usage: audiorenamer [-h] [-d] [-s FIELD_SKIP] [-v] [-E] [-r]
-                        [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A | -D] [-F]
+    usage: audiorenamer [-h] [-d] [-v] [-E] [-r] [-p BACKUP_FOLDER] [-B]
+                        [-C | -M | -n] [-A | -D] [-s FIELD_SKIP] [-F]
                         [-m ALBUM_MIN] [-e EXTENSION]
                         [--genre-classical GENRE_CLASSICAL] [-k] [-S]
                         [-c FORMAT_STRING] [-f FORMAT_STRING]
@@ -623,9 +623,9 @@ Usage
     optional arguments:
       -h, --help            show this help message and exit
       -d, --dry-run         Don’t rename or copy the audio files.
+      -v, --version         show program's version number and exit
       -s FIELD_SKIP, --field-skip FIELD_SKIP
                             Skip renaming if field is empty.
-      -v, --version         show program's version number and exit
     
     metadata actions:
       -E, --enrich-metadata
@@ -634,6 +634,12 @@ Usage
                             The audio file must have the tag field “mb_trackid”.
                             The give audio file is not renamed.
       -r, --remap-classical
+                            Remap some fields to fit better for classical music:
+                            “composer” becomes “artist”, “work” becomes “album”,
+                            from the “title” the work prefix is removed
+                            (“Symphonie No. 9: I. Allegro” -> “I. Allegro”) and
+                            “track” becomes the movement number. All overwritten
+                            fields are safed in the “comments” field.
     
     rename:
       -p BACKUP_FOLDER, --backup-folder BACKUP_FOLDER

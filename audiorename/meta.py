@@ -427,12 +427,13 @@ class Meta(MediaFileExtended):
                 self.mb_workhierarchy_ids = '/'.join(wh_ids)
 
     def remap_classical(self) -> None:
-        """Remap some fields to fit better for classical music. For example
-        ``composer`` becomes ``artist`` and ``work`` becomes ``album``.
-        All overwritten fields are safed in the ``comments`` field. No
-        combined properties (like ``ar_combined_composer``) are used and
-        therefore some code duplications are done on purpose to avoid circular
-        endless loops.
+        """Remap some fields to fit better for classical music:
+        ``composer`` becomes ``artist``, ``work`` becomes ``album``, from the
+        ``title`` the work prefix is removed (``Symphonie No. 9: I. Allegro``
+        -> ``I. Allegro``) and ``track`` becomes the movement number. All
+        overwritten fields are safed in the ``comments`` field. No combined
+        properties (like ``ar_combined_composer``) are used and therefore some
+        code duplications are done on purpose to avoid circular endless loops.
         """
         safe = []
 
