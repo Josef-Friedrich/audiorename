@@ -27,7 +27,7 @@ path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
 path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
 
 
-def get_testfile(*path_list):
+def get_testfile(*path_list) -> str:
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files',
                         *path_list)
 
@@ -36,7 +36,7 @@ def get_meta(*path_list):
     return audiorename.meta.Meta(get_testfile(*path_list), False)
 
 
-def copy_to_tmp(*path_list):
+def copy_to_tmp(*path_list) -> str:
     orig = get_testfile(*path_list)
 
     tmp = os.path.join(tempfile.mkdtemp(), os.path.basename(orig))

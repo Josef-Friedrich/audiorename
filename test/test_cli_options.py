@@ -265,6 +265,23 @@ class TestClassical(unittest.TestCase):
         )
 
 
+# --compilation
+class TestCompilation(unittest.TestCase):
+
+    def assertDryRun(self, rel_path, test):
+        self.assertEqual(helper.dry_run([
+            helper.get_testfile('real-world', '_compilations', rel_path)
+        ]), test)
+
+    def test_default(self):
+        self.assertDryRun(
+            os.path.join('k', 'K7-Compilation_2003',
+                         '1-01_Supa-Sista-Modaji-Downlow-mix.mp3'),
+            '/_compilations/k/K7-Compilation_2003/'
+            '1-01_Supa-Sista-Modaji-Downlow-mix.mp3'
+        )
+
+
 # --copy
 class TestBasicCopy(unittest.TestCase):
 

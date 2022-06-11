@@ -503,11 +503,23 @@ class Meta(MediaFileExtended):
 ###############################################################################
 
     @staticmethod
-    def _initials(value: str) -> str:
+    def _find_initials(value: str) -> str:
         """
         :param str value: A string to extract the initials.
         """
-        return value[0:1].lower()
+        # To avoid ae -> a
+        value = Functions.tmpl_asciify(value)
+        # To avoid “!K7-Compilations” -> “!”
+        value = re.sub(r'^\W*', '', value)
+        initial = value[0:1].lower()
+
+        if re.match(r'\d', initial):
+            return '0'
+
+        if initial == '':
+            return '_'
+
+        return initial
 
     @staticmethod
     def _normalize_performer(
@@ -629,7 +641,7 @@ class Meta(MediaFileExtended):
         * ``Die Meistersinger von Nürnberg``  → ``d``
         """
         if self.ar_combined_album:
-            return self._initials(self.ar_combined_album)
+            return self._find_initials(self.ar_combined_album)
 
     @property
     def ar_initial_artist(self):
@@ -642,7 +654,7 @@ class Meta(MediaFileExtended):
         * ``Just Friends`` → ``j``
         * ``Die Meistersinger von Nürnberg``  → ``d``
         """
-        return self._initials(self.ar_combined_artist_sort)
+        return self._find_initials(self.ar_combined_artist_sort)
 
     @property
     def ar_combined_artist(self) -> str:
@@ -712,7 +724,7 @@ class Meta(MediaFileExtended):
 
         * :class:`audiorename.meta.Meta.ar_combined_composer`
         """
-        return self._initials(self.ar_combined_composer)
+        return self._find_initials(self.ar_combined_composer)
 
     @property
     def ar_combined_composer(self) -> str:

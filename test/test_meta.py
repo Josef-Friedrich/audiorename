@@ -638,10 +638,10 @@ class TestStaticMethodInitials(unittest.TestCase):
         self.meta = get_meta('files', 'album.mp3')
 
     def test_lowercase(self):
-        self.assertEqual(self.meta._initials('beethoven'), 'b')
+        self.assertEqual(self.meta._find_initials('beethoven'), 'b')
 
     def test_uppercase(self):
-        self.assertEqual(self.meta._initials('Beethoven'), 'b')
+        self.assertEqual(self.meta._find_initials('Beethoven'), 'b')
 
 
 class TestStaticMethodNormalizePerformer(unittest.TestCase):

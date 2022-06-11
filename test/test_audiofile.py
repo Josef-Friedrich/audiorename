@@ -273,7 +273,7 @@ class TestUnicodeUnittest(unittest.TestCase):
 
     def setUp(self):
         self.uni = helper.get_testfile('äöü', 'ÅåÆæØø.mp3')
-        self.renamed = os.path.join('/►', '►', '$ar_combined_album',
+        self.renamed = os.path.join('/_', '►', '$ar_combined_album',
                                     '$ar_combined_disctrack'
                                     '_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3')
 
@@ -300,7 +300,7 @@ class TestUnicodeUnittest(unittest.TestCase):
 
     def tearDown(self):
         try:
-            shutil.rmtree(helper.dir_cwd + '/►/')
+            shutil.rmtree(helper.dir_cwd + '/_/')
         except OSError:
             pass
 
