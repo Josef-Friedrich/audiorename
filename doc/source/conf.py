@@ -23,7 +23,12 @@ language = 'en'
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
 
-autodoc_default_flags = ['members', 'undoc-members', 'private-members', 'show-inheritance']
+autodoc_default_options = {
+    'members': True,
+    'private-members': True,
+    'undoc-members': True,
+    'show-inheritance': True
+}
 
 html_static_path = []
 htmlhelp_basename = 'audiorenamedoc'

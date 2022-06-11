@@ -573,7 +573,7 @@ class TestMbTrackListing(unittest.TestCase):
 
     def test_schubert(self):
         self.assertEqual(self.mb_track_listing('Schubert_Winterreise',
-                         '01.mp3'),
+                                               '01.mp3'),
                          '1. Winterreise: Winterreise, D. 911: Gute Nacht '
                          '(0:00)')
 
@@ -596,6 +596,7 @@ class TestMbTrackListing(unittest.TestCase):
 
 
 # --soundtrack
+# --no-soundtrack
 class TestSoundtrack(unittest.TestCase):
 
     def assertDryRun(self, folder, track, test):
@@ -607,6 +608,19 @@ class TestSoundtrack(unittest.TestCase):
             '${ar_combined_disctrack}_${artist}_%shorten{$title}',
             helper.get_testfile('soundtrack', folder, track)
         ]), test)
+
+    def test_default(self):
+        self.assertEqual(helper.dry_run([
+            helper.get_testfile('soundtrack', 'Pulp-Fiction', '01.mp3')
+        ]), '/_soundtrack/p/Pulp-Fiction_1994/01_[dialogue]_'
+            'Pumpkin-and-Honey-Bunny.mp3')
+
+    def test_no_soundtrack(self):
+        self.assertEqual(helper.dry_run([
+            '--no-soundtrack',
+            helper.get_testfile('soundtrack', 'Pulp-Fiction', '01.mp3')
+        ]), '/_compilations/p/Pulp-Fiction_1994/'
+            '01_Pumpkin-and-Honey-Bunny.mp3')
 
     def test_pulp_01(self):
         self.assertDryRun(

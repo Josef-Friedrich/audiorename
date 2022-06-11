@@ -388,7 +388,10 @@ def do_job_on_audiofile(source_path: str, job: Job):
            in job.filter.genre_classical:
             format_string = job.format.classical
         elif source.meta.ar_combined_soundtrack:
-            format_string = job.format.soundtrack
+            if job._args.no_soundtrack and source.meta.comp:
+                format_string = job.format.compilation
+            else:
+                format_string = job.format.soundtrack
         elif source.meta.comp:
             format_string = job.format.compilation
         else:

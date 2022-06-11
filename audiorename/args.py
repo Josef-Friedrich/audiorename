@@ -144,7 +144,7 @@ all_fields = phrydy.merge_fields(phrydy.fields, fields)
 
 class ArgsDefault():
     """This is a dummy class. The code only exists to document the return
-    value of the :func:`audiorename.args.parse_args`.  It can also be used
+    value of the :func:`audiorename.args.parse_args`. It can also be used
     to mock the args object for testing purposes.
     """
 
@@ -170,6 +170,7 @@ class ArgsDefault():
     mb_track_listing = False
     move = False
     no_rename = False
+    no_soundtrack = False
     one_line = False
     remap_classical = False
     format_classical = False
@@ -463,6 +464,15 @@ def parse_args(argv):
         metavar='FORMAT_STRING',
         help='Format string for a soundtrack audio file. Use metadata fields \
         and functions to build the format string.',
+        default=False
+    )
+
+    # no_soundtrack
+    format_strings.add_argument(
+        '--no-soundtrack',
+        action='store_true',
+        help='Do not use the format string for soundtracks. Use instead the \
+        default format string.',
         default=False
     )
 

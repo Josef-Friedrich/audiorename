@@ -8,7 +8,7 @@ Comande line interface
                         [-m ALBUM_MIN] [-e EXTENSION]
                         [--genre-classical GENRE_CLASSICAL] [-k] [-S]
                         [-c FORMAT_STRING] [-f FORMAT_STRING]
-                        [--soundtrack FORMAT_STRING]
+                        [--soundtrack FORMAT_STRING] [--no-soundtrack]
                         [--format-classical FORMAT_STRING] [-K | --no-color] [-b]
                         [-j] [-l] [-o] [-T] [-V] [-a] [-t TARGET]
                         source
@@ -621,6 +621,8 @@ Comande line interface
                             Format string for a soundtrack audio file. Use
                             metadata fields and functions to build the format
                             string.
+      --no-soundtrack       Do not use the format string for soundtracks. Use
+                            instead the default format string.
       --format-classical FORMAT_STRING
                             Format string for classical audio file. Use metadata
                             fields and functions to build the format string.

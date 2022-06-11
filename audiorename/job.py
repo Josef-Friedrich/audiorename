@@ -1,10 +1,12 @@
 """Collect all informations about the current job in a class."""
 
-from audiorename.message import Message
 from collections import namedtuple
 import os
 import time
 import typing
+
+from .message import Message
+from .args import ArgsDefault
 
 
 class Timer:
@@ -68,13 +70,14 @@ class Counter:
             return 'Nothing to count!'
 
 
-class Stats:
+class Statistic:
 
     counter = Counter()
     timer = Timer()
 
 
-class DefaultFormats:
+class DefaultFormat:
+    """A class to store the default format strings."""
 
     default = '$ar_initial_artist/' \
               '%shorten{$ar_combined_artist_sort}/' \
@@ -101,15 +104,24 @@ class DefaultFormats:
                 '%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}'
 
 
-class Formats:
+class Format:
+    """A class to store the selected or configured format strings. This class
+    can be accessed under the attibute format of the Job class."""
 
     default: str = ''
-    compilation: str = ''
-    soundtrack: str = ''
-    classical: str = ''
+    """Store the default format string."""
 
-    def __init__(self, args):
-        defaults = DefaultFormats()
+    compilation: str = ''
+    """Store the format string for compilations."""
+
+    soundtrack: str = ''
+    """Store the format string for soundtracks."""
+
+    classical: str = ''
+    """Store the format string for classical music."""
+
+    def __init__(self, args: ArgsDefault):
+        defaults = DefaultFormat()
 
         if args.format:
             defaults.default = args.format
@@ -119,6 +131,9 @@ class Formats:
 
         if args.soundtrack:
             defaults.soundtrack = args.soundtrack
+
+        if args.no_soundtrack:
+            defaults.soundtrack = defaults.default
 
         if args.format_classical:
             defaults.classical = args.format_classical
@@ -137,7 +152,7 @@ class Formats:
 
 class RenameAction:
 
-    def __init__(self, args):
+    def __init__(self, args: ArgsDefault):
         self._args = args
         self.best_format = args.best_format
 
@@ -188,9 +203,9 @@ class Job:
     the job.
     """
 
-    stats = Stats()
+    stats = Statistic()
 
-    def __init__(self, args):
+    def __init__(self, args: ArgsDefault):
         self._args = args
 
         self.field_skip = args.field_skip
@@ -217,13 +232,8 @@ class Job:
         )
 
     @property
-    def format(self):
-        """
-        default
-        compilation
-        soundtrack
-        """
-        return Formats(self._args)
+    def format(self) -> Format:
+        return Format(self._args)
 
     @property
     def metadata_actions(self):
@@ -231,12 +241,10 @@ class Job:
             'enrich_metadata',
             'remap_classical',
         ])
-
         return MetadataActions(
             self._args.enrich_metadata,
             self._args.remap_classical,
         )
-        pass
 
     @property
     def output(self):
@@ -263,13 +271,13 @@ class Job:
         )
 
     @property
-    def source(self):
+    def source(self) -> str:
         """The source path as an absolute path. It maybe a directory or a
         file."""
         return os.path.abspath(self._args.source)
 
     @property
-    def target(self):
+    def target(self) -> str:
         """The path of the target as an absolute path. It is always a
         directory.
         """
