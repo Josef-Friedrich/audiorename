@@ -351,7 +351,7 @@ def parse_args(argv):
     )
     exclusive_rename_cleaning = rename_cleaning.add_mutually_exclusive_group()
 
-    # --backup
+    # backup
     exclusive_rename_cleaning.add_argument(
         '-A',
         '--backup',
@@ -465,6 +465,7 @@ def parse_args(argv):
         and functions to build the format string.',
         default=False
     )
+
     # classical
     format_strings.add_argument(
         '--format-classical',
@@ -473,6 +474,7 @@ def parse_args(argv):
         and functions to build the format string.',
         default=False
     )
+
 ###############################################################################
 # output
 ###############################################################################
