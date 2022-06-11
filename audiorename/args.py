@@ -98,13 +98,17 @@ fields: phrydy.FieldDocCollection = {
         'data_type': 'int',
     },
     'ar_initial_album': {
-        'description': 'First character in lowercase of “ar_combined_album”.',
+        'description': 'First character in lowercase of “ar_combined_album”. '
+                       'Allowed characters: [a-z, 0, _], 0-9 -> 0, ? -> _. '
+                       'For example “Help!” -> “h”.',
         'category': 'common',
         'examples': ['h'],
     },
     'ar_initial_artist': {
         'description': 'First character in lowercase of '
-                       '“ar_combined_artist_sort”',
+                       '“ar_combined_artist_sort”. '
+                       'Allowed characters: [a-z, 0, _], 0-9 -> 0, ? -> _. '
+                       'For example “Brendel, Alfred” -> “b”.',
         'category': 'common',
         'examples': ['b'],
         'data_type': 'str',
@@ -112,7 +116,8 @@ fields: phrydy.FieldDocCollection = {
     'ar_initial_composer': {
         'description': 'First character in lowercase of '
                        '“ar_combined_composer”. '
-                       'For example “Ludwig van Beethoven” -> “l”',
+                       'Allowed characters: [a-z, 0, _], 0-9 -> 0, ? -> _. '
+                       'For example “Ludwig van Beethoven” -> “l”.',
         'category': 'common',
         'examples': ['l'],
         'data_type': 'str',

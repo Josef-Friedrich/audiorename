@@ -505,7 +505,13 @@ class Meta(MediaFileExtended):
     @staticmethod
     def _find_initials(value: str) -> str:
         """
+        Find the first character of a string.
+
         :param str value: A string to extract the initials.
+
+        :return: A single character in lowercase. The possible return values
+            are lowercase letters from the ASCII alphabet (``a-z``), the digit
+            ``0`` and the underscore character (``_``).
         """
         # To avoid ae -> a
         value = Functions.tmpl_asciify(value)

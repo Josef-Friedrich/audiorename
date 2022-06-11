@@ -117,16 +117,21 @@ Comande line interface
                                      Examples: [1978]
     
         $ar_initial_album:           First character in lowercase of
-                                     “ar_combined_album”.
+                                     “ar_combined_album”. Allowed characters:
+                                     [a-z, 0, _], 0-9 -> 0, ? -> _. For example
+                                     “Help!” -> “h”.
                                      Examples: ['h']
     
         $ar_initial_artist:          First character in lowercase of
-                                     “ar_combined_artist_sort”
+                                     “ar_combined_artist_sort”. Allowed
+                                     characters: [a-z, 0, _], 0-9 -> 0, ? -> _.
+                                     For example “Brendel, Alfred” -> “b”.
                                      Examples: ['b']
     
         $ar_initial_composer:        First character in lowercase of
-                                     “ar_combined_composer”. For example “Ludwig
-                                     van Beethoven” -> “l”
+                                     “ar_combined_composer”. Allowed characters:
+                                     [a-z, 0, _], 0-9 -> 0, ? -> _. For example
+                                     “Ludwig van Beethoven” -> “l”.
                                      Examples: ['l']
     
         $ar_performer:               Performer names.
