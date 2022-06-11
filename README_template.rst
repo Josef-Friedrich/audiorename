@@ -2,8 +2,8 @@
     :target: https://pypi.python.org/pypi/audiorename
     :alt: This package on the Python Package Index
 
-.. image:: https://github.com/Josef-Friedrich/audiorename/actions/workflows/main.yml/badge.svg
-    :target: https://github.com/Josef-Friedrich/audiorename/actions/workflows/main.yml
+.. image:: https://github.com/Josef-Friedrich/audiorename/actions/workflows/tests.yml/badge.svg
+    :target: https://github.com/Josef-Friedrich/audiorename/actions/workflows/tests.yml
     :alt: Tests
 
 .. image:: https://readthedocs.org/projects/audiorename/badge/?version=latest
