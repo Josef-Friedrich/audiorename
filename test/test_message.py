@@ -24,8 +24,8 @@ class TestClassMessage(unittest.TestCase):
     def test_attributes(self):
         msg = self.get_message()
         self.assertEqual(msg.color, True)
-        self.assertEqual(msg.verbose, None)
-        self.assertEqual(msg.one_line, None)
+        self.assertEqual(msg.verbose, False)
+        self.assertEqual(msg.one_line, False)
         self.assertEqual(msg.max_field, 23)
 
     def test_diff(self):

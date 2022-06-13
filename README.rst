@@ -66,9 +66,9 @@ Usage
 
 .. code-block:: text
 
-    usage: audiorenamer [-h] [-d] [-v] [-E] [-r] [-p BACKUP_FOLDER] [-B]
-                        [-C | -M | -n] [-A | -D] [-s FIELD_SKIP] [-F]
-                        [-m ALBUM_MIN] [-e EXTENSION]
+    usage: audiorenamer [-h] [--config CONFIG] [-d] [-v] [-E] [-r]
+                        [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A | -D]
+                        [-s FIELD_SKIP] [-F] [-m ALBUM_MIN] [-e EXTENSION]
                         [--genre-classical GENRE_CLASSICAL] [-k] [-S]
                         [-c FORMAT_STRING] [-f FORMAT_STRING]
                         [--soundtrack FORMAT_STRING] [--no-soundtrack]
@@ -622,6 +622,7 @@ Usage
     
     optional arguments:
       -h, --help            show this help message and exit
+      --config CONFIG       Load a configuration file in INI format.
       -d, --dry-run         Don’t rename or copy the audio files.
       -v, --version         show program's version number and exit
       -s FIELD_SKIP, --field-skip FIELD_SKIP
@@ -732,7 +733,7 @@ Example configuration file
 
 .. code-block:: ini
 
-    [metadata actions]
+    [metadata_actions]
     enrich_metadata = False
     remap_classical = False
     
@@ -740,34 +741,34 @@ Example configuration file
     backup_folder = /tmp/backup
     best_format = True
     
-    [move actions]
+    [move_actions]
     copy = False
     move = True
     no_rename = False
     
-    [cleaning actions]
+    [cleaning_actions]
     backup = True
     delete = False
     
     [filters]
     album_complete = False
     album_min = False
-    extension = False
+    extension = mp3,m4a,flac,wma
     genre_classical = False
     field_skip = False
     
-    [formats]
+    [format_settings]
     classical = False
     shell-friendly = False
     no_soundtrack = False
     
-    [format strings]
-    format = $ar_initial_artist/%shorten{$ar_combined_artist_sort}/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}
-    compilation = _compilations/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}
-    soundtrack = _soundtrack/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_${artist}_%shorten{$title}
-    format_classical = $ar_initial_composer/$ar_combined_composer/%shorten{$ar_combined_work_top,48}_[%shorten{$ar_classical_performer,32}]/${ar_combined_disctrack}_%shorten{$ar_classical_title,64}%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}
+    [format_templates]
+    format = '$ar_initial_artist/%shorten{$ar_combined_artist_sort}/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}'
+    compilation = '_compilations/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}'
+    soundtrack = '_soundtrack/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_${artist}_%shorten{$title}'
+    format_classical = '$ar_initial_composer/$ar_combined_composer/%shorten{$ar_combined_work_top,48}_[%shorten{$ar_classical_performer,32}]/${ar_combined_disctrack}_%shorten{$ar_classical_title,64}%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}'
     
-    [output]
+    [cli_output]
     color = True
     debug = False
     job_info = False

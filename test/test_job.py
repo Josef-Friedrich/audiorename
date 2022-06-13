@@ -63,44 +63,44 @@ class TestJob(unittest.TestCase):
 
     # color
     def test_output_color(self):
-        job = Job(self.args)
         self.args.color = True
+        job = Job(self.args)
         self.assertEqual(job.output.color, True)
 
     # debug
     def test_output_debug(self):
-        job = Job(self.args)
         self.args.debug = True
+        job = Job(self.args)
         self.assertEqual(job.output.debug, True)
 
     # job_info
     def test_output_job_info(self):
-        job = Job(self.args)
         self.args.job_info = True
+        job = Job(self.args)
         self.assertEqual(job.output.job_info, True)
 
     # mb_track_listing
     def test_output_mb_track_listing(self):
-        job = Job(self.args)
         self.args.mb_track_listing = True
+        job = Job(self.args)
         self.assertEqual(job.output.mb_track_listing, True)
 
     # one_line
     def test_output_one_line(self):
-        job = Job(self.args)
         self.args.one_line = True
+        job = Job(self.args)
         self.assertEqual(job.output.one_line, True)
 
     # stats
     def test_output_stats(self):
-        job = Job(self.args)
         self.args.stats = True
+        job = Job(self.args)
         self.assertEqual(job.output.stats, True)
 
     # verbose
     def test_output_verbose(self):
-        job = Job(self.args)
         self.args.verbose = True
+        job = Job(self.args)
         self.assertEqual(job.output.verbose, True)
 
     ##

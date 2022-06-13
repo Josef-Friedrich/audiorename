@@ -228,13 +228,13 @@ class Config:
 
 
 class OutputConfig(Config):
-    color = False
+    color = True
     debug = False
     job_info = False
     mb_track_listing = False
     one_line = False
     stats = False
-    verbose = True
+    verbose = False
 
 
 class Job:
@@ -251,18 +251,14 @@ class Job:
 
     _config = None
 
+    output = None
+
     def __init__(self, args: ArgsDefault):
         self._args = args
         if args.config is not None:
             self._config = self.__read_config(args.config)
 
-        self.field_skip = args.field_skip
-        self.shell_friendly = args.shell_friendly
-        self.rename = RenameAction(args)
-        self.dry_run = args.dry_run
-        self.msg = Message(self)
-
-        self.output_ng = OutputConfig(self._args, self._config, 'output', {
+        self.output = OutputConfig(self._args, self._config, 'output', {
             'color': 'boolean',
             'debug': 'boolean',
             'job_info': 'boolean',
@@ -271,6 +267,12 @@ class Job:
             'stats': 'boolean',
             'verbose': 'boolean',
         })
+
+        self.field_skip = args.field_skip
+        self.shell_friendly = args.shell_friendly
+        self.rename = RenameAction(args)
+        self.dry_run = args.dry_run
+        self.msg = Message(self)
 
     def __read_config(file_path: str) -> configparser.ConfigParser:
         config = configparser.ConfigParser()
@@ -307,30 +309,6 @@ class Job:
         return MetadataActions(
             self._args.enrich_metadata,
             self._args.remap_classical,
-        )
-
-    @property
-    def output(self):
-        Output = namedtuple('Output', [
-            'color',
-            'debug',
-            'job_info',
-            'mb_track_listing',
-            'one_line',
-            'stats',
-            'verbose',
-        ])
-
-        self._args.color = self._args.no_color is not True
-
-        return Output(
-            self._args.color,
-            self._args.debug,
-            self._args.job_info,
-            self._args.mb_track_listing,
-            self._args.one_line,
-            self._args.stats,
-            self._args.verbose,
         )
 
     @property

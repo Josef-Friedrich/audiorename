@@ -3,9 +3,9 @@ Comande line interface
 
 .. code-block:: text
 
-    usage: audiorenamer [-h] [-d] [-v] [-E] [-r] [-p BACKUP_FOLDER] [-B]
-                        [-C | -M | -n] [-A | -D] [-s FIELD_SKIP] [-F]
-                        [-m ALBUM_MIN] [-e EXTENSION]
+    usage: audiorenamer [-h] [--config CONFIG] [-d] [-v] [-E] [-r]
+                        [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A | -D]
+                        [-s FIELD_SKIP] [-F] [-m ALBUM_MIN] [-e EXTENSION]
                         [--genre-classical GENRE_CLASSICAL] [-k] [-S]
                         [-c FORMAT_STRING] [-f FORMAT_STRING]
                         [--soundtrack FORMAT_STRING] [--no-soundtrack]
@@ -559,6 +559,7 @@ Comande line interface
     
     optional arguments:
       -h, --help            show this help message and exit
+      --config CONFIG       Load a configuration file in INI format.
       -d, --dry-run         Don’t rename or copy the audio files.
       -v, --version         show program's version number and exit
       -s FIELD_SKIP, --field-skip FIELD_SKIP

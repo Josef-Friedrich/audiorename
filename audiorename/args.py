@@ -153,40 +153,58 @@ class ArgsDefault():
     mock the args object for testing purposes.
     """
 
-    album_complete = None
-    album_min = None
-    backup = None
+    # default
+    config = None
+    source = '.'
+    dry_run = None
+
+    # metadata_actions
+    enrich_metadata = None
+    remap_classical = None
+
+    # rename
     backup_folder = None
     best_format = None
-    classical = None
-    color = None
-    compilation = None
-    config = None
+
+    # move actions
     copy = None
-    debug = None
-    delete = None
-    dry_run = None
-    enrich_metadata = None
-    extension = 'mp3,m4a,flac,wma'
-    field_skip = None
-    format = None
-    genre_classical = ','
-    job_info = None
-    no_color = None
-    mb_track_listing = None
     move = None
     no_rename = None
-    no_soundtrack = None
-    one_line = None
-    remap_classical = None
-    format_classical = None
+
+    # cleaning_actions
+    backup = None
+    delete = None
+
+    # filters
+    album_complete = None
+    album_min = None
+    extension = 'mp3,m4a,flac,wma'
+    genre_classical = ','
+    field_skip = None
+
+    # format_settings
+    classical = None
     shell_friendly = None
+
+    # format_strings
+    format = None
     soundtrack = None
-    source = '.'
-    source_as_target = None
+    compilation = None
+    format_classical = None
+
+    # cli_output
+    color = None
+    debug = None
+    job_info = None
+    no_soundtrack = None
+    mb_track_listing = None
+    one_line = None
     stats = None
-    target = None
     verbose = None
+
+    # Target
+    source_as_target = None
+    target = None
 
 
 def description():
@@ -535,7 +553,8 @@ def parse_args(argv):
         '--no-color',
         help='Don’t colorize the standard output of the program with ANSI '
              'colors.',
-        action='store_true',
+        action='store_false',
+        dest='color',
         default=None,
     )
 
