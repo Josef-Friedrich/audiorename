@@ -738,15 +738,15 @@ Example configuration file
     
     [rename]
     backup_folder = /tmp/backup
-    best_format = None
+    best_format = True
     
     [move actions]
     copy = False
-    move = False
+    move = True
     no_rename = False
     
     [cleaning actions]
-    backup = False
+    backup = True
     delete = False
     
     [filters]
@@ -762,19 +762,19 @@ Example configuration file
     no_soundtrack = False
     
     [format strings]
-    compilation = False
-    format = False
-    soundtrack = False
-    format_classical = False
+    format = $ar_initial_artist/%shorten{$ar_combined_artist_sort}/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}
+    compilation = _compilations/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}
+    soundtrack = _soundtrack/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_${artist}_%shorten{$title}
+    format_classical = $ar_initial_composer/$ar_combined_composer/%shorten{$ar_combined_work_top,48}_[%shorten{$ar_classical_performer,32}]/${ar_combined_disctrack}_%shorten{$ar_classical_title,64}%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}
     
     [output]
-    color = False
+    color = True
     debug = False
     job_info = False
     mb_track_listing = False
-    one_line = True
-    stats = False
-    ; verbose = False
+    one_line = False
+    stats = True
+    verbose = False
     
     [target]
     source_as_target = False

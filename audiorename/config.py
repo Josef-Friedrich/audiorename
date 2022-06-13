@@ -6,7 +6,7 @@ from .args import ArgsDefault
 
 
 def read_config_file(file_path) -> ArgsDefault:
-    config = configparser.ConfigParser()
+    config = configparser.ConfigParser(interpolation=None)
     config.read(file_path)
 
     options = {}
