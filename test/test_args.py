@@ -129,56 +129,56 @@ class TestArgsDefault(unittest.TestCase):
 
     # optional arguments
     def test_album_complete(self):
-        self.assertEqual(self.args.album_complete, False)
+        self.assertEqual(self.args.album_complete, None)
         self.assertEqual(self.args.album_complete, self.default.album_complete)
 
     def test_album_min(self):
-        self.assertEqual(self.args.album_min, False)
+        self.assertEqual(self.args.album_min, None)
         self.assertEqual(self.args.album_min, self.default.album_min)
 
     def test_backup(self):
-        self.assertEqual(self.args.backup, False)
+        self.assertEqual(self.args.backup, None)
         self.assertEqual(self.args.backup, self.default.backup)
 
     def test_backup_folder(self):
-        self.assertEqual(self.args.backup_folder, False)
+        self.assertEqual(self.args.backup_folder, None)
         self.assertEqual(self.args.backup_folder, self.default.backup_folder)
 
     def test_best_format(self):
-        self.assertEqual(self.args.best_format, False)
+        self.assertEqual(self.args.best_format, None)
         self.assertEqual(self.args.best_format, self.default.best_format)
 
     def test_classical(self):
-        self.assertEqual(self.args.classical, False)
+        self.assertEqual(self.args.classical, None)
         self.assertEqual(self.args.classical, self.default.classical)
 
     def test_color(self):
-        self.assertEqual(self.args.color, False)
+        self.assertEqual(self.args.color, None)
         self.assertEqual(self.args.color, self.default.color)
 
     def test_compilation(self):
-        self.assertEqual(self.args.compilation, False)
+        self.assertEqual(self.args.compilation, None)
         self.assertEqual(self.args.compilation, self.default.compilation)
 
     def test_copy(self):
-        self.assertEqual(self.args.copy, False)
+        self.assertEqual(self.args.copy, None)
         self.assertEqual(self.args.copy, self.default.copy)
 
     def test_debug(self):
-        self.assertEqual(self.args.debug, False)
+        self.assertEqual(self.args.debug, None)
         self.assertEqual(self.args.debug, self.default.debug)
 
     def test_delete(self):
-        self.assertEqual(self.args.delete, False)
+        self.assertEqual(self.args.delete, None)
         self.assertEqual(self.args.delete,
                          self.default.delete)
 
     def test_dry_run(self):
-        self.assertEqual(self.args.dry_run, False)
+        self.assertEqual(self.args.dry_run, None)
         self.assertEqual(self.args.dry_run, self.default.dry_run)
 
     def test_enrich_metadata(self):
-        self.assertEqual(self.args.enrich_metadata, False)
+        self.assertEqual(self.args.enrich_metadata, None)
         self.assertEqual(self.args.enrich_metadata,
                          self.default.enrich_metadata)
 
@@ -187,67 +187,67 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.extension, self.default.extension)
 
     def test_field_skip(self):
-        self.assertEqual(self.args.field_skip, False)
+        self.assertEqual(self.args.field_skip, None)
         self.assertEqual(self.args.field_skip, self.default.field_skip)
 
     def test_format(self):
-        self.assertEqual(self.args.format, False)
+        self.assertEqual(self.args.format, None)
         self.assertEqual(self.args.format, self.default.format)
 
     def test_format_classical(self):
-        self.assertEqual(self.args.format_classical, False)
+        self.assertEqual(self.args.format_classical, None)
         self.assertEqual(self.args.format_classical,
                          self.default.format_classical)
 
     def test_job_info(self):
-        self.assertEqual(self.args.job_info, False)
+        self.assertEqual(self.args.job_info, None)
         self.assertEqual(self.args.job_info, self.default.job_info)
 
     def test_no_rename(self):
-        self.assertEqual(self.args.no_rename, False)
+        self.assertEqual(self.args.no_rename, None)
         self.assertEqual(self.args.no_rename, self.default.no_rename)
 
     def test_mb_track_listing(self):
-        self.assertEqual(self.args.mb_track_listing, False)
+        self.assertEqual(self.args.mb_track_listing, None)
         self.assertEqual(self.args.mb_track_listing,
                          self.default.mb_track_listing)
 
     def test_move(self):
-        self.assertEqual(self.args.move, False)
+        self.assertEqual(self.args.move, None)
         self.assertEqual(self.args.move, self.default.move)
 
     def test_one_line(self):
-        self.assertEqual(self.args.one_line, False)
+        self.assertEqual(self.args.one_line, None)
         self.assertEqual(self.args.one_line, self.default.one_line)
 
     def test_remap_classical(self):
-        self.assertEqual(self.args.remap_classical, False)
+        self.assertEqual(self.args.remap_classical, None)
         self.assertEqual(self.args.remap_classical,
                          self.default.remap_classical)
 
     def test_shell_friendly(self):
-        self.assertEqual(self.args.shell_friendly, False)
+        self.assertEqual(self.args.shell_friendly, None)
         self.assertEqual(self.args.shell_friendly, self.default.shell_friendly)
 
     def test_soundtrack(self):
-        self.assertEqual(self.args.soundtrack, False)
+        self.assertEqual(self.args.soundtrack, None)
         self.assertEqual(self.args.soundtrack, self.default.soundtrack)
 
     def test_source_as_target(self):
-        self.assertEqual(self.args.source_as_target, False)
+        self.assertEqual(self.args.source_as_target, None)
         self.assertEqual(self.args.source_as_target,
                          self.default.source_as_target)
 
     def test_target(self):
-        self.assertEqual(self.args.target, '')
+        self.assertEqual(self.args.target, None)
         self.assertEqual(self.args.target, self.default.target)
 
     def test_stats(self):
-        self.assertEqual(self.args.stats, False)
+        self.assertEqual(self.args.stats, None)
         self.assertEqual(self.args.stats, self.default.stats)
 
     def test_verbose(self):
-        self.assertEqual(self.args.verbose, False)
+        self.assertEqual(self.args.verbose, None)
         self.assertEqual(self.args.verbose, self.default.verbose)
 
 

@@ -153,39 +153,39 @@ class ArgsDefault():
     to mock the args object for testing purposes.
     """
 
-    album_complete = False
-    album_min = False
-    backup = False
-    backup_folder = False
-    best_format = False
-    classical = False
-    color = False
-    no_color = False
-    compilation = False
-    copy = False
-    debug = False
-    delete = False
-    dry_run = False
-    enrich_metadata = False
+    album_complete = None
+    album_min = None
+    backup = None
+    backup_folder = None
+    best_format = None
+    classical = None
+    color = None
+    no_color = None
+    compilation = None
+    copy = None
+    debug = None
+    delete = None
+    dry_run = None
+    enrich_metadata = None
     extension = 'mp3,m4a,flac,wma'
     genre_classical = ','
-    field_skip = False
-    format = False
-    job_info = False
-    mb_track_listing = False
-    move = False
-    no_rename = False
-    no_soundtrack = False
-    one_line = False
-    remap_classical = False
-    format_classical = False
-    shell_friendly = False
-    soundtrack = False
+    field_skip = None
+    format = None
+    job_info = None
+    mb_track_listing = None
+    move = None
+    no_rename = None
+    no_soundtrack = None
+    one_line = None
+    remap_classical = None
+    format_classical = None
+    shell_friendly = None
+    soundtrack = None
     source = '.'
-    source_as_target = False
-    stats = False
-    target = ''
-    verbose = False
+    source_as_target = None
+    stats = None
+    target = None
+    verbose = None
 
 
 def description():
@@ -245,7 +245,8 @@ def parse_args(argv):
         '-d',
         '--dry-run',
         help='Don’t rename or copy the audio files.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # version
@@ -269,7 +270,8 @@ def parse_args(argv):
         help='Fetch the tag fields “work” and “mb_workid” from Musicbrainz \
         and save this fields into the audio file. The audio file must have \
         the tag field “mb_trackid”. The give audio file is not renamed.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # remap_classical
@@ -281,7 +283,8 @@ def parse_args(argv):
         “title” the work prefix is removed (“Symphonie No. 9: I. Allegro” \
         -> “I. Allegro”) and “track” becomes the movement number. All \
         overwritten fields are safed in the “comments” field.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
 ###############################################################################
@@ -295,7 +298,7 @@ def parse_args(argv):
         '-p',
         '--backup-folder',
         help='Folder to store the backup files in.',
-        default=False
+        default=None
     )
 
     # best_format
@@ -307,7 +310,8 @@ def parse_args(argv):
         the two audio files (source and target). The tool first examines the \
         format. For example a FLAC file wins over a MP3 file. Then \
         `audiorename` checks the bitrate.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
 ##
@@ -322,7 +326,8 @@ def parse_args(argv):
         '-C',
         '--copy',
         help='Copy files instead of rename / move.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # move
@@ -331,7 +336,8 @@ def parse_args(argv):
         '--move',
         help='Move / rename a file. This is the default action. The option \
         can be omitted.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # no_rename
@@ -339,7 +345,8 @@ def parse_args(argv):
         '-n',
         '--no-rename',
         help='Don’t rename, move, copy or perform a dry run. Do nothing.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
 ##
@@ -359,7 +366,8 @@ def parse_args(argv):
         '--backup',
         help='Backup the audio files instead of deleting them. The backup \
         directory can be specified with the --backup-folder option.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # delete
@@ -367,7 +375,8 @@ def parse_args(argv):
         '-D',
         '--delete',
         help='Delete the audio files instead of creating a backup.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
 ###############################################################################
@@ -381,7 +390,7 @@ def parse_args(argv):
         '-s',
         '--field-skip',
         help='Skip renaming if field is empty.',
-        default=False
+        default=None
     )
 
     # album_complete
@@ -389,7 +398,8 @@ def parse_args(argv):
         '-F',
         '--album-complete',
         help='Rename only complete albums.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # album_min
@@ -397,7 +407,7 @@ def parse_args(argv):
         '-m',
         '--album-min',
         help='Rename only albums containing at least X files.',
-        default=False
+        default=None
     )
 
     # extension
@@ -428,7 +438,8 @@ def parse_args(argv):
         help='Use the default format for classical music. If you use this \
         option, both parameters (--format and --compilation) have no \
         effect. Classical music is sorted by the lastname of the composer.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # shell_friendly
@@ -437,7 +448,8 @@ def parse_args(argv):
         '--shell-friendly',
         help='Rename audio files “shell friendly”, this means without \
         whitespaces, parentheses etc.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
 ###############################################################################
@@ -453,7 +465,7 @@ def parse_args(argv):
         metavar='FORMAT_STRING',
         help='Format string for compilations. Use metadata fields and \
         functions to build the format string.',
-        default=False
+        default=None,
     )
 
     # format
@@ -464,7 +476,7 @@ def parse_args(argv):
         help='The default format string for audio files that are not \
         compilations or compilations. Use metadata fields and functions to \
         build the format string.',
-        default=False
+        default=None,
     )
 
     # soundtrack
@@ -473,7 +485,7 @@ def parse_args(argv):
         metavar='FORMAT_STRING',
         help='Format string for a soundtrack audio file. Use metadata fields \
         and functions to build the format string.',
-        default=False
+        default=None,
     )
 
     # no_soundtrack
@@ -482,7 +494,7 @@ def parse_args(argv):
         action='store_true',
         help='Do not use the format string for soundtracks. Use instead the \
         default format string.',
-        default=False
+        default=None,
     )
 
     # classical
@@ -491,7 +503,7 @@ def parse_args(argv):
         metavar='FORMAT_STRING',
         help='Format string for classical audio file. Use metadata fields \
         and functions to build the format string.',
-        default=False
+        default=None,
     )
 
 ###############################################################################
@@ -507,14 +519,16 @@ def parse_args(argv):
         '-K',
         '--color',
         help='Colorize the standard output of the program with ANSI colors.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     output_color.add_argument(
         '--no-color',
         help='Don’t colorize the standard output of the program with ANSI '
              'colors.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # debug
@@ -522,7 +536,8 @@ def parse_args(argv):
         '-b',
         '--debug',
         help='Print debug informations about the single metadata fields.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # job_info
@@ -531,7 +546,8 @@ def parse_args(argv):
         '--job-info',
         help='Display informations about the current job. This informations \
         are printted out before any actions on the audio files are executed.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # mb_track_listing
@@ -542,7 +558,8 @@ def parse_args(argv):
         title (duration), e. g.: \
           1. He, Zigeuner (1:31) \
           2. Hochgetürmte Rimaflut (1:21)',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # one_line
@@ -551,7 +568,8 @@ def parse_args(argv):
         '--one-line',
         help='Display the rename / copy action status on one line instead of \
         two.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # stats
@@ -559,7 +577,8 @@ def parse_args(argv):
         '-T',
         '--stats',
         help='Show statistics at the end of the execution.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # verbose
@@ -567,7 +586,8 @@ def parse_args(argv):
         '-V',
         '--verbose',
         help='Make the command line output more verbose.',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
 ###############################################################################
@@ -581,7 +601,8 @@ def parse_args(argv):
         '-a',
         '--source-as-target',
         help='Use specified source folder as target directory',
-        action='store_true'
+        action='store_true',
+        default=None,
     )
 
     # target
@@ -589,7 +610,7 @@ def parse_args(argv):
         '-t',
         '--target',
         help='Target directory',
-        default=''
+        default=None,
     )
 
     return parser.parse_args(argv)
