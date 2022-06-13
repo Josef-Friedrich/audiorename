@@ -93,9 +93,11 @@ class TestExportDict(unittest.TestCase):
 #
 # work:
 #  Die Meistersinger von Nürnberg, WWV 96: Akt I. Vorspiel
+@unittest.skipIf(helper.SKIP_QUICK, 'Ignored, as it has to be done quickly.')
+@unittest.skipIf(helper.SKIP_API_CALLS,
+                 'Ignored if the API is not available.')
 class TestEnrichMetadata(unittest.TestCase):
 
-    @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
     def test_enrich_metadata_meistersinger(self):
         tmp = helper.copy_to_tmp('classical', 'without_work.mp3')
         meta = Meta(tmp)
@@ -127,7 +129,6 @@ class TestEnrichMetadata(unittest.TestCase):
         )
         self.assertEqual(finished.releasegroup_types, 'album')
 
-    @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
     def test_enrich_metadata_pulp(self):
         tmp = helper.copy_to_tmp('soundtrack', 'Pulp-Fiction', '01.mp3')
         meta = Meta(tmp)

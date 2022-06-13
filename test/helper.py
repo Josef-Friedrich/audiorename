@@ -22,6 +22,8 @@ try:
 except musicbrainzngs.musicbrainz.NetworkError:
     SKIP_API_CALLS = True
 
+SKIP_QUICK = 'QUICK' in os.environ
+
 dir_cwd = os.getcwd()
 path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
 path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'

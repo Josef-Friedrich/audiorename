@@ -23,7 +23,10 @@ class TestClassAction(unittest.TestCase):
         self.assertFalse(os.path.exists(tmp.abspath))
         self.assertTrue('Delete' in helper.join(output))
 
-    @unittest.skipIf(helper.SKIP_API_CALLS, 'Disable if API not available')
+    @unittest.skipIf(helper.SKIP_QUICK,
+                     'Ignored, as it has to be done quickly.')
+    @unittest.skipIf(helper.SKIP_API_CALLS,
+                     'Ignored if the API is not available.')
     def test_method_metadata_enrich(self):
         tmp = helper.get_tmp_file_object('classical', 'without_work.mp3')
         if not tmp.meta:
