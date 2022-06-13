@@ -242,6 +242,22 @@ class MetadataActionsConfig(Config):
     remap_classical = False
 
 
+class FilterConfig(Config):
+    album_complete = False
+    album_min = False
+    extension = 'mp3,m4a,flac,wma'
+    genre_classical = ','
+
+    def __init__(self, args: argparse.Namespace,
+                 config: configparser.ConfigParser,
+                 section: str, options: dict):
+        super().__init__(args, config, section, options)
+        self.genre_classical = list(
+            filter(str.strip,
+                   self.genre_classical.lower().split(',')))
+        self.extension = self.extension.split(',')
+
+
 class Job:
     """Holds informations of one job which can handle multiple files.
 
@@ -259,6 +275,8 @@ class Job:
     output = None
 
     metadata_actions = None
+
+    filter = None
 
     def __init__(self, args: ArgsDefault):
         self._args = args
@@ -282,6 +300,14 @@ class Job:
             'verbose': 'boolean',
         })
 
+        self.filter = FilterConfig(self._args, self._config, 'filter', {
+            'album_complete': 'boolean',
+            'album_min': 'boolean',
+            'extension': 'string',
+            'genre_classical': 'string',
+
+        })
+
         self.field_skip = args.field_skip
         self.shell_friendly = args.shell_friendly
         self.rename = RenameAction(args)
@@ -292,23 +318,6 @@ class Job:
         config = configparser.ConfigParser()
         config.read(file_path)
         return config
-
-    @property
-    def filter(self):
-        Filter = namedtuple('Filter', [
-            'album_complete',
-            'album_min',
-            'extension',
-            'genre_classical'
-        ])
-
-        return Filter(
-            self._args.album_complete,
-            self._args.album_min,
-            self._args.extension.split(','),
-            list(filter(str.strip,
-                        self._args.genre_classical.lower().split(',')))
-        )
 
     @property
     def format(self) -> Format:

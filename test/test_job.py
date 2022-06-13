@@ -25,7 +25,7 @@ class TestJob(unittest.TestCase):
     def test_filter_album_complete(self):
         self.args.album_complete = 19
         job = Job(self.args)
-        self.assertEqual(job.filter.album_min, None)
+        self.assertEqual(job.filter.album_min, False)
         self.assertEqual(job.filter.album_complete, 19)
 
     # album_min
@@ -33,7 +33,7 @@ class TestJob(unittest.TestCase):
         self.args.album_min = 19
         job = Job(self.args)
         self.assertEqual(job.filter.album_min, 19)
-        self.assertEqual(job.filter.album_complete, None)
+        self.assertEqual(job.filter.album_complete, False)
 
     # extension
     def test_filter_extension(self):
