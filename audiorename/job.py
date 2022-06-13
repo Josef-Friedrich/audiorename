@@ -4,6 +4,8 @@ from collections import namedtuple
 import os
 import time
 import typing
+import configparser
+import argparse
 
 from .message import Message
 from .args import ArgsDefault
@@ -193,26 +195,87 @@ class RenameAction:
             return 'move'
 
 
+class Config:
+
+    _options = None
+
+    def __init__(self, args: argparse.Namespace,
+                 config: configparser.ConfigParser,
+                 section: str, options: dict):
+        self._options = options
+        for option, data_type in options.items():
+            attr = None
+            if getattr(args, option) is not None:
+                attr = getattr(args, option)
+            elif config:
+                try:
+                    if data_type == 'boolean':
+                        attr = config.getboolean(section, option)
+                    elif data_type == 'integer':
+                        attr = config.getint(section, option)
+                    else:
+                        attr = config.get(section, option)
+                except configparser.NoOptionError:
+                    pass
+
+            if attr is not None:
+                setattr(self, option, attr)
+
+    def _debug(self):
+        for option, data_type in self._options.items():
+            value = getattr(self, option)
+            print(option + ' ' + str(value) + ' ' + type(value).__name__)
+
+
+class OutputConfig(Config):
+    color = False
+    debug = False
+    job_info = False
+    mb_track_listing = False
+    one_line = False
+    stats = False
+    verbose = True
+
+
 class Job:
     """Holds informations of one job which can handle multiple files.
 
-    A jobs represents one call of the program on the command line.
-    This class unifies and processes the data of the `argparse` call. It groups
-    the `argparse` key value pairs into parent properties. The properties of
-    this class for example can be used to display easily an overview message of
-    the job.
+    A jobs represents one call of the program on the command line. This class
+    unifies and processes the data of the `argparse` call. It groups the
+    `argparse` and the `configparser` key value pairs into parent properties.
+    The properties of this class for example can be used to display easily an
+    overview message of the job.
     """
 
     stats = Statistic()
 
+    _config = None
+
     def __init__(self, args: ArgsDefault):
         self._args = args
+        if args.config is not None:
+            self._config = self.__read_config(args.config)
 
         self.field_skip = args.field_skip
         self.shell_friendly = args.shell_friendly
         self.rename = RenameAction(args)
         self.dry_run = args.dry_run
         self.msg = Message(self)
+
+        self.output_ng = OutputConfig(self._args, self._config, 'output', {
+            'color': 'boolean',
+            'debug': 'boolean',
+            'job_info': 'boolean',
+            'mb_track_listing': 'boolean',
+            'one_line': 'boolean',
+            'stats': 'boolean',
+            'verbose': 'boolean',
+        })
+
+    def __read_config(file_path: str) -> configparser.ConfigParser:
+        config = configparser.ConfigParser()
+        config.read(file_path)
+        return config
 
     @property
     def filter(self):
@@ -228,7 +291,7 @@ class Job:
             self._args.album_min,
             self._args.extension.split(','),
             list(filter(str.strip,
-                 self._args.genre_classical.lower().split(',')))
+                        self._args.genre_classical.lower().split(',')))
         )
 
     @property

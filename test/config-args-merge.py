@@ -404,11 +404,12 @@ class Config:
     def __init__(self, args: argparse.Namespace, config: ConfigParser,
                  section: str, options: dict):
         self._options = options
+        print(config)
         for option, data_type in options.items():
             attr = None
             if getattr(args, option) is not None:
                 attr = getattr(args, option)
-            else:
+            elif isinstance(config, ConfigParser):
                 try:
                     if data_type == 'boolean':
                         attr = config.getboolean(section, option)

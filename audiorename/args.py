@@ -148,9 +148,9 @@ all_fields = phrydy.merge_fields(phrydy.fields, fields)
 
 
 class ArgsDefault():
-    """This is a dummy class. The code only exists to document the return
-    value of the :func:`audiorename.args.parse_args`. It can also be used
-    to mock the args object for testing purposes.
+    """To document the return
+    value of the :func:`audiorename.args.parse_args`. It can also be used to
+    mock the args object for testing purposes.
     """
 
     album_complete = None
@@ -160,18 +160,19 @@ class ArgsDefault():
     best_format = None
     classical = None
     color = None
-    no_color = None
     compilation = None
+    config = None
     copy = None
     debug = None
     delete = None
     dry_run = None
     enrich_metadata = None
     extension = 'mp3,m4a,flac,wma'
-    genre_classical = ','
     field_skip = None
     format = None
+    genre_classical = ','
     job_info = None
+    no_color = None
     mb_track_listing = None
     move = None
     no_rename = None
@@ -239,6 +240,13 @@ def parse_args(argv):
     ##
     # Options (sorted alphabetically)
     ##
+
+    # config
+    parser.add_argument(
+        '--config',
+        help='Load a configuration file in INI format.',
+        default=None,
+    )
 
     # dry_run
     parser.add_argument(
