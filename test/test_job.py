@@ -23,22 +23,22 @@ class TestJob(unittest.TestCase):
 
     # album_complete
     def test_filter_album_complete(self):
-        job = Job(self.args)
         self.args.album_complete = 19
+        job = Job(self.args)
         self.assertEqual(job.filter.album_min, None)
         self.assertEqual(job.filter.album_complete, 19)
 
     # album_min
     def test_filter_album_min(self):
-        job = Job(self.args)
         self.args.album_min = 19
+        job = Job(self.args)
         self.assertEqual(job.filter.album_min, 19)
         self.assertEqual(job.filter.album_complete, None)
 
     # extension
     def test_filter_extension(self):
-        job = Job(self.args)
         self.args.extension = 'lol'
+        job = Job(self.args)
         self.assertEqual(job.filter.extension, ['lol'])
 
     ##
@@ -47,14 +47,14 @@ class TestJob(unittest.TestCase):
 
     # enrich_metadata
     def test_metadata_actions_enrich_metadata(self):
-        job = Job(self.args)
         self.args.enrich_metadata = True
+        job = Job(self.args)
         self.assertEqual(job.metadata_actions.enrich_metadata, True)
 
     # remap_classical
     def test_metadata_actions_remap_classical(self):
-        job = Job(self.args)
         self.args.remap_classical = True
+        job = Job(self.args)
         self.assertEqual(job.metadata_actions.remap_classical, True)
 
     ##
@@ -114,20 +114,20 @@ class TestJob(unittest.TestCase):
 
     # move copy
     def test_rename_move_copy(self):
-        job = Job(self.args)
         self.args.copy = True
+        job = Job(self.args)
         self.assertEqual(job.rename.move, 'copy')
 
     # move move
     def test_rename_move_move(self):
-        job = Job(self.args)
         self.args.move = True
+        job = Job(self.args)
         self.assertEqual(job.rename.move, 'move')
 
     # move no_rename
     def test_rename_move_no_rename(self):
-        job = Job(self.args)
         self.args.no_rename = True
+        job = Job(self.args)
         self.assertEqual(job.rename.move, 'no_rename')
 
     # best_format
@@ -144,8 +144,8 @@ class TestJob(unittest.TestCase):
 
     # backup
     def test_rename_cleanup_backup(self):
-        job = Job(self.args)
         self.args.backup = True
+        job = Job(self.args)
         self.assertEqual(job.rename.cleanup, 'backup')
 
     # delete

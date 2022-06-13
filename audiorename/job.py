@@ -237,14 +237,19 @@ class OutputConfig(Config):
     verbose = False
 
 
+class MetadataActionsConfig(Config):
+    enrich_metadata = False
+    remap_classical = False
+
+
 class Job:
     """Holds informations of one job which can handle multiple files.
 
     A jobs represents one call of the program on the command line. This class
-    unifies and processes the data of the `argparse` call. It groups the
-    `argparse` and the `configparser` key value pairs into parent properties.
-    The properties of this class for example can be used to display easily an
-    overview message of the job.
+    unifies and processes the data of the `argparse` and the `configparser`
+    call. It groups the `argparse` and the `configparser` key-value pairs into
+    parent properties. The properties of this class for example can be used to
+    display easily an overview message of the job.
     """
 
     stats = Statistic()
@@ -253,10 +258,19 @@ class Job:
 
     output = None
 
+    metadata_actions = None
+
     def __init__(self, args: ArgsDefault):
         self._args = args
         if args.config is not None:
             self._config = self.__read_config(args.config)
+
+        self.metadata_actions = MetadataActionsConfig(
+            self._args, self._config,
+            'metadata_actions', {
+                'enrich_metadata': 'boolean',
+                'remap_classical': 'boolean',
+            })
 
         self.output = OutputConfig(self._args, self._config, 'output', {
             'color': 'boolean',
@@ -299,17 +313,6 @@ class Job:
     @property
     def format(self) -> Format:
         return Format(self._args)
-
-    @property
-    def metadata_actions(self):
-        MetadataActions = namedtuple('MetadataAction', [
-            'enrich_metadata',
-            'remap_classical',
-        ])
-        return MetadataActions(
-            self._args.enrich_metadata,
-            self._args.remap_classical,
-        )
 
     @property
     def source(self) -> str:
