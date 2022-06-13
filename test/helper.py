@@ -10,7 +10,7 @@ import audiorename.audiofile
 import musicbrainzngs.musicbrainz
 from audiorename import Job
 from audiorename.args import ArgsDefault
-from audiorename.meta import set_useragent, query_mbrainz
+from audiorename.musicbrainz import set_useragent, query
 import musicbrainzngs
 import subprocess
 from jflib import Capturing
@@ -18,7 +18,7 @@ from jflib import Capturing
 SKIP_API_CALLS = False
 try:
     set_useragent()
-    query_mbrainz('recording', '0480672d-4d88-4824-a06b-917ff408eabe')
+    query('recording', '0480672d-4d88-4824-a06b-917ff408eabe')
 except musicbrainzngs.musicbrainz.NetworkError:
     SKIP_API_CALLS = True
 

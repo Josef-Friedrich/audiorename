@@ -14,10 +14,20 @@ audiorename.args module
 
 .. automodule:: audiorename.args
 
+audiorename.audiofile module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: audiorename.audiofile
+
 audiorename.batch module
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: audiorename.batch
+
+audiorename.config module
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: audiorename.config
 
 audiorename.job module
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -35,7 +45,7 @@ audiorename.meta module
 .. automodule:: audiorename.meta
     :special-members:
 
-audiorename.audiofile module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+audiorename.musicbrainz module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: audiorename.audiofile
+.. automodule:: audiorename.musicbrainz
