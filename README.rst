@@ -727,6 +727,60 @@ Usage
                             Target directory
     
 
+Example configuration file
+==========================
+
+.. code-block:: ini
+
+    [metadata actions]
+    enrich_metadata = False
+    remap_classical = False
+    
+    [rename]
+    backup_folder = /tmp/backup
+    best_format = None
+    
+    [move actions]
+    copy = False
+    move = False
+    no_rename = False
+    
+    [cleaning actions]
+    backup = False
+    delete = False
+    
+    [filters]
+    album_complete = False
+    album_min = False
+    extension = False
+    genre_classical = False
+    field_skip = False
+    
+    [formats]
+    classical = False
+    shell-friendly = False
+    no_soundtrack = False
+    
+    [format strings]
+    compilation = False
+    format = False
+    soundtrack = False
+    format_classical = False
+    
+    [output]
+    color = False
+    debug = False
+    job_info = False
+    mb_track_listing = False
+    one_line = True
+    stats = False
+    ; verbose = False
+    
+    [target]
+    source_as_target = False
+    target = False
+    
+
 Metadata fields
 ===============
 

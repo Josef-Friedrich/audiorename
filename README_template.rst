@@ -68,6 +68,13 @@ Usage
 
 << cli help >>
 
+Example configuration file
+==========================
+
+.. code-block:: ini
+
+<< config file >>
+
 Metadata fields
 ===============
 

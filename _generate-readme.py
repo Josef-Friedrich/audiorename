@@ -18,18 +18,30 @@ def open_file(*path_segments):
     return open(file_path, 'a')
 
 
+def indent(text: str) -> str:
+    return '    ' + re.sub(r'\n', '\n    ', text)
+
+
 template = open(path('README_template.rst'), 'r').read()
 
+
+# cli help
 process = subprocess.run('audiorenamer --help', capture_output=True,
                          shell=True)
 stdout = process.stdout.decode('utf-8')
-stdout = '    ' + re.sub(r'\n', '\n    ', stdout)
+stdout = indent(stdout)
 stdout = phrydy.doc_generator.remove_color(stdout)
 template = template.replace('<< cli help >>', stdout)
 
+# config file
+config = open(path('example-config.ini'), 'r').read()
+config = indent(config)
+template = template.replace('<< config file >>', config)
+
+# fields documentation
 template = template.replace('<< fields documentation >>',
-    phrydy.doc_generator.format_fields_as_rst_table(
-        additional_fields=audiorename.fields))
+                            phrydy.doc_generator.format_fields_as_rst_table(
+                                additional_fields=audiorename.fields))
 
 readme = open_file('README.rst')
 readme.write(template)
