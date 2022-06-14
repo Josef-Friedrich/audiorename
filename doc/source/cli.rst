@@ -565,7 +565,7 @@ Comande line interface
       -s FIELD_SKIP, --field-skip FIELD_SKIP
                             Skip renaming if field is empty.
     
-    metadata actions:
+    [metadata_actions]:
       -E, --enrich-metadata
                             Fetch the tag fields “work” and “mb_workid” from
                             Musicbrainz and save this fields into the audio file.
@@ -579,7 +579,7 @@ Comande line interface
                             “track” becomes the movement number. All overwritten
                             fields are safed in the “comments” field.
     
-    rename:
+    [rename]:
       -p BACKUP_FOLDER, --backup-folder BACKUP_FOLDER
                             Folder to store the backup files in.
       -B, --best-format     Use the best format. This option only takes effect if
@@ -589,14 +589,14 @@ Comande line interface
                             example a FLAC file wins over a MP3 file. Then
                             `audiorename` checks the bitrate.
     
-    rename move actions:
+    move action:
       -C, --copy            Copy files instead of rename / move.
       -M, --move            Move / rename a file. This is the default action. The
                             option can be omitted.
       -n, --no-rename       Don’t rename, move, copy or perform a dry run. Do
                             nothing.
     
-    rename cleaning actions:
+    cleaning action:
       The cleaning actions are only executed if the target file already exists.
     
       -A, --backup          Backup the audio files instead of deleting them. The
@@ -604,7 +604,9 @@ Comande line interface
                             folder option.
       -D, --delete          Delete the audio files instead of creating a backup.
     
-    filters:
+    [filters]:
+      The following options filter the music files that are renamed according to certain rules.
+    
       -F, --album-complete  Rename only complete albums.
       -m ALBUM_MIN, --album-min ALBUM_MIN
                             Rename only albums containing at least X files.
@@ -639,7 +641,9 @@ Comande line interface
                             Format string for classical audio file. Use metadata
                             fields and functions to build the format string.
     
-    output:
+    [cli_output]:
+      This group contains all options that affect the output on the command line interface (cli).
+    
       -K, --color           Colorize the standard output of the program with ANSI
                             colors.
       --no-color            Don’t colorize the standard output of the program with

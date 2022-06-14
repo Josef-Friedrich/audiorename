@@ -280,7 +280,7 @@ def parse_args(argv):
 # Metadata actions
 ###############################################################################
 
-    metadata_actions = parser.add_argument_group('metadata actions')
+    metadata_actions = parser.add_argument_group('[metadata_actions]')
 
     # enrich_metadata
     metadata_actions.add_argument(
@@ -310,7 +310,7 @@ def parse_args(argv):
 # Rename
 ###############################################################################
 
-    rename = parser.add_argument_group('rename')
+    rename = parser.add_argument_group('[rename]')
 
     # backup_folder
     rename.add_argument(
@@ -337,7 +337,7 @@ def parse_args(argv):
 # Move actions
 ##
 
-    rename_move = parser.add_argument_group('rename move actions')
+    rename_move = parser.add_argument_group('move action')
     exclusive_rename_move = rename_move.add_mutually_exclusive_group()
 
     # copy
@@ -376,7 +376,7 @@ def parse_args(argv):
 ##
 
     rename_cleaning = parser.add_argument_group(
-        title='rename cleaning actions',
+        title='cleaning action',
         description='The cleaning actions are only executed if the target '
         'file already exists.'
     )
@@ -407,7 +407,11 @@ def parse_args(argv):
 # filters
 ###############################################################################
 
-    filters = parser.add_argument_group('filters')
+    filters = parser.add_argument_group(
+        title='[filters]',
+        description='The following options filter the music files that are '
+        'renamed according to certain rules.'
+    )
 
     # field_skip
     parser.add_argument(
@@ -534,7 +538,10 @@ def parse_args(argv):
 # output
 ###############################################################################
 
-    output = parser.add_argument_group('output')
+    output = parser.add_argument_group(
+        title='[cli_output]',
+        description='This group contains all options that affect the output '
+        'on the command line interface (cli).')
 
     output_color = output.add_mutually_exclusive_group()
 
