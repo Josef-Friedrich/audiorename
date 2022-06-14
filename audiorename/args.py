@@ -155,20 +155,24 @@ class ArgsDefault():
 
     # default
     config = None
-    source = '.'
     dry_run = None
 
-    # metadata_actions
+    # [selection]
+    source = '.'
+    source_as_target = None
+    target = None
+
+    # [metadata_actions]
     enrich_metadata = None
     remap_classical = None
 
-    # rename
+    # [rename]
     backup_folder = None
     best_format = None
     move_action = None
     cleaning_action = None
 
-    # filters
+    # [filters]
     album_complete = None
     album_min = None
     extension = 'mp3,m4a,flac,wma'
@@ -185,7 +189,7 @@ class ArgsDefault():
     compilation = None
     format_classical = None
 
-    # cli_output
+    # [cli_output]
     color = None
     debug = None
     job_info = None
@@ -194,10 +198,6 @@ class ArgsDefault():
     one_line = None
     stats = None
     verbose = None
-
-    # Target
-    source_as_target = None
-    target = None
 
 
 def description():
@@ -243,9 +243,39 @@ def parse_args(argv):
         description=description()
     )
 
-    parser.add_argument(
+###############################################################################
+# [selection]
+###############################################################################
+
+    selection = parser.add_argument_group(
+        title='[selection]',
+        description='The following arguments are intended to select the audio '
+        'files.'
+    )
+
+    selection.add_argument(
         'source',
-        help='A folder containing audio files or a single audio file'
+        help='A folder containing audio files or a single audio file. If you '
+        'specify a folder, the program will search for audio files in all '
+        'subfolders. If you want to rename the audio files in the current '
+        'working directory, then specify a dot (“.”).'
+    )
+
+    # target
+    selection.add_argument(
+        '-t',
+        '--target',
+        help='Target directory',
+        default=None,
+    )
+
+    # source_as_target
+    selection.add_argument(
+        '-a',
+        '--source-as-target',
+        help='Use specified source folder as target directory',
+        action='store_true',
+        default=None,
     )
 
     ##
@@ -619,29 +649,6 @@ def parse_args(argv):
         '--verbose',
         help='Make the command line output more verbose.',
         action='store_true',
-        default=None,
-    )
-
-###############################################################################
-# target
-###############################################################################
-
-    target = parser.add_argument_group('target')
-
-    # source_as_target
-    target.add_argument(
-        '-a',
-        '--source-as-target',
-        help='Use specified source folder as target directory',
-        action='store_true',
-        default=None,
-    )
-
-    # target
-    target.add_argument(
-        '-t',
-        '--target',
-        help='Target directory',
         default=None,
     )
 

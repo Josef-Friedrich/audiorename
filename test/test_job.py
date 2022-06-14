@@ -142,12 +142,16 @@ class TestJob(unittest.TestCase):
 
     # target
     def test_target(self):
-        job = Job(self.args)
         self.args.path = '.'
+        job = Job(self.args)
         self.assertEqual(job.target, os.getcwd())
+
         self.args.target = 'test'
+        job = Job(self.args)
         self.assertEqual(job.target, os.path.abspath('test'))
+
         self.args.source_as_target = True
+        job = Job(self.args)
         self.assertEqual(job.target, os.getcwd())
 
     # shell_friendly

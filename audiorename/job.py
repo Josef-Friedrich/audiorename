@@ -183,6 +183,12 @@ class Config:
             print(option + ' ' + str(value) + ' ' + type(value).__name__)
 
 
+class SelectionConfig(Config):
+    source = '.'
+    target = None
+    source_as_target = False
+
+
 class OutputConfig(Config):
     color = True
     debug = False
@@ -251,10 +257,20 @@ class Job:
 
     filters = None
 
+    selection = None
+
     def __init__(self, args: ArgsDefault):
         self._args = args
         if args.config is not None:
             self._config = self.__read_config(args.config)
+
+        self.selection = SelectionConfig(
+            self._args, self._config,
+            'selection', {
+                'source': 'string',
+                'target': 'string',
+                'source_as_target': 'string'
+            })
 
         self.metadata_actions = MetadataActionsConfig(
             self._args, self._config,
@@ -306,19 +322,19 @@ class Job:
     def source(self) -> str:
         """The source path as an absolute path. It maybe a directory or a
         file."""
-        return os.path.abspath(self._args.source)
+        return os.path.abspath(self.selection.source)
 
     @property
     def target(self) -> str:
         """The path of the target as an absolute path. It is always a
         directory.
         """
-        if self._args.source_as_target:
+        if self.selection.source_as_target:
             if os.path.isdir(self.source):
                 return os.path.abspath(self.source)
             else:
                 return os.path.abspath(os.path.dirname(self.source))
-        elif self._args.target:
-            return os.path.abspath(self._args.target)
+        elif self.selection.target:
+            return os.path.abspath(self.selection.target)
         else:
             return os.getcwd()
