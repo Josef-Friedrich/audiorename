@@ -66,14 +66,14 @@ Usage
 
 .. code-block:: text
 
-    usage: audiorenamer [-h] [--config CONFIG] [-d] [-v] [-E] [-r]
-                        [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A | -D]
+    usage: audiorenamer [-h] [-t TARGET] [-a] [--config CONFIG] [-d] [-v] [-E]
+                        [-r] [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A | -D]
                         [-s FIELD_SKIP] [-F] [-m ALBUM_MIN] [-e EXTENSION]
                         [--genre-classical GENRE_CLASSICAL] [-k] [-S]
                         [-c FORMAT_STRING] [-f FORMAT_STRING]
                         [--soundtrack FORMAT_STRING] [--no-soundtrack]
                         [--format-classical FORMAT_STRING] [-K | --no-color] [-b]
-                        [-j] [-l] [-o] [-T] [-V] [-a] [-t TARGET]
+                        [-j] [-l] [-o] [-T] [-V]
                         source
     
         Rename audio files from metadata tags.
@@ -617,9 +617,6 @@ Usage
         %upper{text}
             Convert “text” to UPPERCASE.
     
-    positional arguments:
-      source                A folder containing audio files or a single audio file
-    
     optional arguments:
       -h, --help            show this help message and exit
       --config CONFIG       Load a configuration file in INI format.
@@ -627,6 +624,19 @@ Usage
       -v, --version         show program's version number and exit
       -s FIELD_SKIP, --field-skip FIELD_SKIP
                             Skip renaming if field is empty.
+    
+    [selection]:
+      The following arguments are intended to select the audio files.
+    
+      source                A folder containing audio files or a single audio
+                            file. If you specify a folder, the program will search
+                            for audio files in all subfolders. If you want to
+                            rename the audio files in the current working
+                            directory, then specify a dot (“.”).
+      -t TARGET, --target TARGET
+                            Target directory
+      -a, --source-as-target
+                            Use specified source folder as target directory
     
     [metadata_actions]:
       -E, --enrich-metadata
@@ -725,18 +735,17 @@ Usage
       -T, --stats           Show statistics at the end of the execution.
       -V, --verbose         Make the command line output more verbose.
     
-    target:
-      -a, --source-as-target
-                            Use specified source folder as target directory
-      -t TARGET, --target TARGET
-                            Target directory
-    
 
 Example configuration file
 ==========================
 
 .. code-block:: ini
 
+    [selection]
+    source = '.'
+    target = False
+    source_as_target = False
+    
     [metadata_actions]
     enrich_metadata = False
     remap_classical = False
@@ -780,10 +789,6 @@ Example configuration file
     one_line = False
     stats = True
     verbose = False
-    
-    [target]
-    source_as_target = False
-    target = False
     
 
 Metadata fields

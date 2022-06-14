@@ -183,10 +183,56 @@ class Config:
             print(option + ' ' + str(value) + ' ' + type(value).__name__)
 
 
-class SelectionConfig(Config):
-    source = '.'
-    target = None
-    source_as_target = False
+class ConfigNg:
+
+    _options = None
+
+    def __init__(self, args: argparse.Namespace,
+                 config: configparser.ConfigParser,
+                 section: str, options: dict):
+        self._options = options
+        for option, data_type in options.items():
+            attr = None
+            if getattr(args, option) is not None:
+                attr = getattr(args, option)
+            elif config:
+                try:
+                    if data_type == 'boolean':
+                        attr = config.getboolean(section, option)
+                    elif data_type == 'integer':
+                        attr = config.getint(section, option)
+                    else:
+                        attr = config.get(section, option)
+                except configparser.NoOptionError:
+                    pass
+
+            if attr is not None:
+                setattr(self, '_' + option, attr)
+
+    def _debug(self):
+        for option, _ in self._options.items():
+            value = getattr(self, option)
+            print(option + ' ' + str(value) + ' ' + type(value).__name__)
+
+
+class SelectionConfig(ConfigNg):
+
+    @property
+    def source(self) -> str:
+        if hasattr(self, '_source'):
+            return self._source
+        return '.'
+
+    @property
+    def target(self) -> typing.Union[None, str]:
+        if hasattr(self, '_target'):
+            return self._target
+
+    @property
+    def source_as_target(self) -> bool:
+        if hasattr(self, '_source_as_target'):
+            return self._source_as_target
+        return False
 
 
 class OutputConfig(Config):
@@ -220,19 +266,32 @@ class FilterConfig(Config):
         self.extension = self.extension.split(',')
 
 
-class RenameConfig(Config):
-    backup_folder = None
-    best_format = True
-    move_action = 'move'
-    cleaning_action = 'do_nothing'
+class RenameConfig(ConfigNg):
 
-    def __init__(self, args: argparse.Namespace,
-                 config: configparser.ConfigParser,
-                 section: str, options: dict):
-        super().__init__(args, config, section, options)
-        if not self.backup_folder:
-            self.backup_folder = os.path.join(
-                os.getcwd(), '_audiorename_backups')
+    @property
+    def backup_folder(self) -> str:
+        if hasattr(self, '_backup_folder'):
+            return self._backup_folder
+        return os.path.join(os.getcwd(), '_audiorename_backups')
+
+    @property
+    def best_format(self) -> bool:
+        if hasattr(self, '_best_format'):
+            return self._best_format
+        return True
+
+    @property
+    def move_action(self) -> typing.Literal['move', 'copy', 'no_rename']:
+        if hasattr(self, '_move_action'):
+            return self._move_action
+        return 'move'
+
+    @property
+    def cleaning_action(self) -> typing.Literal['backup', 'delete',
+                                                'do_nothing']:
+        if hasattr(self, '_cleaning_action'):
+            return self._cleaning_action
+        return 'do_nothing'
 
 
 class Job:

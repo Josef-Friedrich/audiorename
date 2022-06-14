@@ -24,11 +24,6 @@ audiorename.batch module
 
 .. automodule:: audiorename.batch
 
-audiorename.config module
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: audiorename.config
-
 audiorename.job module
 ^^^^^^^^^^^^^^^^^^^^^^
 
