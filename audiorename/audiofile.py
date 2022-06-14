@@ -27,6 +27,7 @@ class AudioFile:
         base folder of your music collection. Used to shorten the path strings
         in the progress messaging.
     """
+
     def __init__(self, path: str, job: Job,
                  file_type: DestinationType = 'source',
                  prefix=None):
@@ -312,7 +313,7 @@ def do_job_on_audiofile(source_path: str, job: Job):
 
     source = AudioFile(source_path, job=job, prefix=os.getcwd(),
                        file_type='source')
-    if not job.output.mb_track_listing:
+    if not job.cli_output.mb_track_listing:
         job.msg.next_file(source)
 
     if not source.meta:
@@ -334,18 +335,18 @@ def do_job_on_audiofile(source_path: str, job: Job):
     if not source.meta:
         raise Exception('source.meta must not be empty.')
 
-    if job.output.mb_track_listing:
+    if job.cli_output.mb_track_listing:
         print(mb_track_listing.format_audiofile(source.meta.album,
                                                 source.meta.title,
                                                 source.meta.length))
         return
 
-    if job.output.debug:
+    if job.cli_output.debug:
         phrydy.print_debug(
             source.abspath,
             Meta,
             Meta.fields,
-            job.output.color,
+            job.cli_output.color,
         )
         return
 
@@ -368,7 +369,8 @@ def do_job_on_audiofile(source_path: str, job: Job):
         )
 
     if source.meta.genre is not None and \
-       getattr(source.meta, "genre", "").lower() in job.filter.genre_classical:
+       getattr(source.meta, "genre", "").lower() in \
+       job.filters.genre_classical:
 
         if not job.metadata_actions.remap_classical:
             action.metadata(
@@ -385,7 +387,7 @@ def do_job_on_audiofile(source_path: str, job: Job):
 
         if source.meta.genre is not None and \
            getattr(source.meta, "genre", "").lower() \
-           in job.filter.genre_classical:
+           in job.filters.genre_classical:
             format_string = job.format.classical
         elif source.meta.ar_combined_soundtrack:
             if job._args.no_soundtrack and source.meta.comp:
@@ -423,7 +425,7 @@ def do_job_on_audiofile(source_path: str, job: Job):
         # Search existing target
         target = False
         target_path = find_target_path(desired_target.abspath,
-                                       job.filter.extension)
+                                       job.filters.extension)
         if target_path:
             target = AudioFile(target_path, job=job, prefix=job.target,
                                file_type='target')

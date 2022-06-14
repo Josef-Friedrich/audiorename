@@ -26,18 +26,18 @@ def execute(*argv):
         job = Job(args)
         job.stats.counter.reset()
         job.stats.timer.start()
-        if job.output.job_info:
+        if job.cli_output.job_info:
             job_info(job)
         if job.dry_run:
             job.msg.output('Dry run')
         batch = Batch(job)
         batch.execute()
         job.stats.timer.stop()
-        if job.output.stats:
+        if job.cli_output.stats:
             stats(job)
     except KeyboardInterrupt:
         if job:
             job.stats.timer.stop()
-            if job.output.stats:
+            if job.cli_output.stats:
                 stats(job)
         sys.exit(0)

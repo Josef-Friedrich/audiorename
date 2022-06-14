@@ -25,21 +25,21 @@ class TestJob(unittest.TestCase):
     def test_filter_album_complete(self):
         self.args.album_complete = 19
         job = Job(self.args)
-        self.assertEqual(job.filter.album_min, False)
-        self.assertEqual(job.filter.album_complete, 19)
+        self.assertEqual(job.filters.album_min, False)
+        self.assertEqual(job.filters.album_complete, 19)
 
     # album_min
     def test_filter_album_min(self):
         self.args.album_min = 19
         job = Job(self.args)
-        self.assertEqual(job.filter.album_min, 19)
-        self.assertEqual(job.filter.album_complete, False)
+        self.assertEqual(job.filters.album_min, 19)
+        self.assertEqual(job.filters.album_complete, False)
 
     # extension
     def test_filter_extension(self):
         self.args.extension = 'lol'
         job = Job(self.args)
-        self.assertEqual(job.filter.extension, ['lol'])
+        self.assertEqual(job.filters.extension, ['lol'])
 
     ##
     # metadata_actions
@@ -65,43 +65,43 @@ class TestJob(unittest.TestCase):
     def test_output_color(self):
         self.args.color = True
         job = Job(self.args)
-        self.assertEqual(job.output.color, True)
+        self.assertEqual(job.cli_output.color, True)
 
     # debug
     def test_output_debug(self):
         self.args.debug = True
         job = Job(self.args)
-        self.assertEqual(job.output.debug, True)
+        self.assertEqual(job.cli_output.debug, True)
 
     # job_info
     def test_output_job_info(self):
         self.args.job_info = True
         job = Job(self.args)
-        self.assertEqual(job.output.job_info, True)
+        self.assertEqual(job.cli_output.job_info, True)
 
     # mb_track_listing
     def test_output_mb_track_listing(self):
         self.args.mb_track_listing = True
         job = Job(self.args)
-        self.assertEqual(job.output.mb_track_listing, True)
+        self.assertEqual(job.cli_output.mb_track_listing, True)
 
     # one_line
     def test_output_one_line(self):
         self.args.one_line = True
         job = Job(self.args)
-        self.assertEqual(job.output.one_line, True)
+        self.assertEqual(job.cli_output.one_line, True)
 
     # stats
     def test_output_stats(self):
         self.args.stats = True
         job = Job(self.args)
-        self.assertEqual(job.output.stats, True)
+        self.assertEqual(job.cli_output.stats, True)
 
     # verbose
     def test_output_verbose(self):
         self.args.verbose = True
         job = Job(self.args)
-        self.assertEqual(job.output.verbose, True)
+        self.assertEqual(job.cli_output.verbose, True)
 
     ##
     # rename

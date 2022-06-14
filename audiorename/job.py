@@ -243,13 +243,13 @@ class Job:
 
     _config = None
 
-    output = None
+    cli_output = None
 
     metadata_actions = None
 
     rename = None
 
-    filter = None
+    filters = None
 
     def __init__(self, args: ArgsDefault):
         self._args = args
@@ -263,17 +263,18 @@ class Job:
                 'remap_classical': 'boolean',
             })
 
-        self.output = OutputConfig(self._args, self._config, 'output', {
-            'color': 'boolean',
-            'debug': 'boolean',
-            'job_info': 'boolean',
-            'mb_track_listing': 'boolean',
-            'one_line': 'boolean',
-            'stats': 'boolean',
-            'verbose': 'boolean',
-        })
+        self.cli_output = OutputConfig(self._args, self._config, 'cli_output',
+                                       {
+                                           'color': 'boolean',
+                                           'debug': 'boolean',
+                                           'job_info': 'boolean',
+                                           'mb_track_listing': 'boolean',
+                                           'one_line': 'boolean',
+                                           'stats': 'boolean',
+                                           'verbose': 'boolean',
+                                       })
 
-        self.filter = FilterConfig(self._args, self._config, 'filter', {
+        self.filters = FilterConfig(self._args, self._config, 'filters', {
             'album_complete': 'boolean',
             'album_min': 'boolean',
             'extension': 'string',
@@ -292,7 +293,7 @@ class Job:
         self.dry_run = args.dry_run
         self.msg = Message(self)
 
-    def __read_config(file_path: str) -> configparser.ConfigParser:
+    def __read_config(self, file_path: str) -> configparser.ConfigParser:
         config = configparser.ConfigParser()
         config.read(file_path)
         return config

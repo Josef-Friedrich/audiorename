@@ -28,14 +28,15 @@ class Batch:
 
     def __init__(self, job: Job):
         self.job = job
-        self.bundle_filter = job.filter.album_complete or job.filter.album_min
+        self.bundle_filter = job.filters.album_complete or \
+            job.filters.album_min
 
     def check_extension(self, path: str) -> bool:
         """Check the extension of the track.
 
         :params str path: The path of the tracks.
         """
-        extension = self.job.filter.extension
+        extension = self.job.filters.extension
         extension = ['.' + e for e in extension]
         if path.lower().endswith(tuple(extension)):
             return True
@@ -46,7 +47,7 @@ class Batch:
         """Compare the number of tracks in an album with the minimal track
         threshold.
         """
-        if len(self.virtual_album) > int(self.job.filter.album_min):
+        if len(self.virtual_album) > int(self.job.filters.album_min):
             return True
         else:
             return False
@@ -67,9 +68,9 @@ class Batch:
         """Check an album for quantity and completeness."""
         quantity = True
         completeness = True
-        if self.job.filter.album_min and not self.check_quantity():
+        if self.job.filters.album_min and not self.check_quantity():
             quantity = False
-        if self.job.filter.album_complete and not self.check_completeness():
+        if self.job.filters.album_complete and not self.check_completeness():
             completeness = False
 
         if quantity and completeness:

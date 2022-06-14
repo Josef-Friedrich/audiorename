@@ -49,9 +49,9 @@ class Message:
     """
 
     def __init__(self, job):
-        self.color = job.output.color
-        self.verbose = job.output.verbose
-        self.one_line = job.output.one_line
+        self.color = job.cli_output.color
+        self.verbose = job.cli_output.verbose
+        self.one_line = job.cli_output.one_line
         self.max_field = self.max_fields_length()
         self.indent_width = 4
 
@@ -155,12 +155,12 @@ class Message:
 
 
 def job_info(job: 'Job') -> None:
-    versions = KeyValue(job.output.color)
+    versions = KeyValue(job.cli_output.color)
     versions.add('audiorename', audiorename.__version__)
     versions.add('phrydy', phrydy.__version__)
     versions.add('tmep', tmep.__version__)
 
-    info = KeyValue(job.output.color)
+    info = KeyValue(job.cli_output.color)
     info.add('Versions', versions.result_one_line())
     info.add('Action', job.rename.move_action)
     info.add('Source', job.source)
@@ -168,7 +168,7 @@ def job_info(job: 'Job') -> None:
     if job.rename.cleaning_action == 'backup':
         info.add('Backup folder', job.rename.backup_folder)
 
-    if job.output.verbose:
+    if job.cli_output.verbose:
         info.add('Default', job.format.default)
         info.add('Compilation', job.format.compilation)
         info.add('Soundtrack', job.format.soundtrack)
@@ -177,7 +177,7 @@ def job_info(job: 'Job') -> None:
 
 
 def stats(job: 'Job') -> None:
-    kv = KeyValue(job.output.color)
+    kv = KeyValue(job.cli_output.color)
 
     kv.add('Execution time', job.stats.timer.result())
     kv.add('Counter', job.stats.counter.result())
