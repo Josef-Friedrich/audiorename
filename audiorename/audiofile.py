@@ -221,9 +221,9 @@ class Action:
         self.job.stats.counter.count(counter_name)
 
     def cleanup(self, audio_file):
-        if self.job.rename.cleanup == 'backup':
+        if self.job.rename.cleaning_action == 'backup':
             self.backup(audio_file)
-        elif self.job.rename.cleanup == 'delete':
+        elif self.job.rename.cleaning_action == 'delete':
             self.delete(audio_file)
 
     def backup(self, audio_file):
@@ -381,7 +381,7 @@ def do_job_on_audiofile(source_path: str, job: Job):
     # Rename action
     ##
 
-    if job.rename.move != 'no_rename':
+    if job.rename.move_action != 'no_rename':
 
         if source.meta.genre is not None and \
            getattr(source.meta, "genre", "").lower() \
@@ -434,7 +434,7 @@ def do_job_on_audiofile(source_path: str, job: Job):
                 raise Exception('target.meta must not be empty.')
             best = detect_best_format(source.meta, target.meta, job)
 
-            if job.rename.cleanup:
+            if job.rename.cleaning_action:
 
                 # delete source
                 if not job.rename.best_format or \
@@ -452,9 +452,9 @@ def do_job_on_audiofile(source_path: str, job: Job):
             job.msg.status('Exists', status='error')
 
         # copy
-        elif job.rename.move == 'copy':
+        elif job.rename.move_action == 'copy':
             action.copy(source, desired_target)
 
         # move
-        elif job.rename.move == 'move':
+        elif job.rename.move_action == 'move':
             action.move(source, desired_target)

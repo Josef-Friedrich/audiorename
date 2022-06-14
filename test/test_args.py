@@ -136,9 +136,10 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.album_min, None)
         self.assertEqual(self.args.album_min, self.default.album_min)
 
-    def test_backup(self):
-        self.assertEqual(self.args.backup, None)
-        self.assertEqual(self.args.backup, self.default.backup)
+    def test_cleaning_action(self):
+        self.assertEqual(self.args.cleaning_action, None)
+        self.assertEqual(self.args.cleaning_action,
+                         self.default.cleaning_action)
 
     def test_backup_folder(self):
         self.assertEqual(self.args.backup_folder, None)
@@ -160,18 +161,9 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.compilation, None)
         self.assertEqual(self.args.compilation, self.default.compilation)
 
-    def test_copy(self):
-        self.assertEqual(self.args.copy, None)
-        self.assertEqual(self.args.copy, self.default.copy)
-
     def test_debug(self):
         self.assertEqual(self.args.debug, None)
         self.assertEqual(self.args.debug, self.default.debug)
-
-    def test_delete(self):
-        self.assertEqual(self.args.delete, None)
-        self.assertEqual(self.args.delete,
-                         self.default.delete)
 
     def test_dry_run(self):
         self.assertEqual(self.args.dry_run, None)
@@ -203,18 +195,14 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.job_info, None)
         self.assertEqual(self.args.job_info, self.default.job_info)
 
-    def test_no_rename(self):
-        self.assertEqual(self.args.no_rename, None)
-        self.assertEqual(self.args.no_rename, self.default.no_rename)
-
     def test_mb_track_listing(self):
         self.assertEqual(self.args.mb_track_listing, None)
         self.assertEqual(self.args.mb_track_listing,
                          self.default.mb_track_listing)
 
-    def test_move(self):
-        self.assertEqual(self.args.move, None)
-        self.assertEqual(self.args.move, self.default.move)
+    def test_move_action(self):
+        self.assertEqual(self.args.move_action, None)
+        self.assertEqual(self.args.move_action, self.default.move_action)
 
     def test_one_line(self):
         self.assertEqual(self.args.one_line, None)

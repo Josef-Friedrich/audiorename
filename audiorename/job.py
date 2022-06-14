@@ -1,6 +1,5 @@
 """Collect all informations about the current job in a class."""
 
-from collections import namedtuple
 import os
 import time
 import typing
@@ -152,49 +151,6 @@ class Format:
             self.soundtrack = defaults.soundtrack
 
 
-class RenameAction:
-
-    def __init__(self, args: ArgsDefault):
-        self._args = args
-        self.best_format = args.best_format
-
-    @property
-    def backup_folder(self):
-        if self._args.backup_folder:
-            return self._args.backup_folder
-        else:
-            return os.path.join(os.getcwd(), '_audiorename_backups')
-
-    @property
-    def cleanup(self):
-        if self._args.backup:
-            return 'backup'
-        elif self._args.delete:
-            return 'delete'
-        else:
-            return False
-
-    @property
-    def move(self):
-        """
-        :return:
-
-        :rtype: string
-
-        * copy
-        * move
-        * no_rename
-        """
-        if self._args.copy:
-            return 'copy'
-        elif self._args.move:
-            return 'move'
-        elif self._args.no_rename:
-            return 'no_rename'
-        else:
-            return 'move'
-
-
 class Config:
 
     _options = None
@@ -258,6 +214,21 @@ class FilterConfig(Config):
         self.extension = self.extension.split(',')
 
 
+class RenameConfig(Config):
+    backup_folder = None
+    best_format = True
+    move_action = 'move'
+    cleaning_action = 'do_nothing'
+
+    def __init__(self, args: argparse.Namespace,
+                 config: configparser.ConfigParser,
+                 section: str, options: dict):
+        super().__init__(args, config, section, options)
+        if not self.backup_folder:
+            self.backup_folder = os.path.join(
+                os.getcwd(), '_audiorename_backups')
+
+
 class Job:
     """Holds informations of one job which can handle multiple files.
 
@@ -275,6 +246,8 @@ class Job:
     output = None
 
     metadata_actions = None
+
+    rename = None
 
     filter = None
 
@@ -305,12 +278,17 @@ class Job:
             'album_min': 'boolean',
             'extension': 'string',
             'genre_classical': 'string',
+        })
 
+        self.rename = RenameConfig(self._args, self._config, 'rename', {
+            'backup_folder': 'string',
+            'best_format': 'boolean',
+            'move_action': 'string',
+            'cleaning_action': 'string',
         })
 
         self.field_skip = args.field_skip
         self.shell_friendly = args.shell_friendly
-        self.rename = RenameAction(args)
         self.dry_run = args.dry_run
         self.msg = Message(self)
 

@@ -165,15 +165,8 @@ class ArgsDefault():
     # rename
     backup_folder = None
     best_format = None
-
-    # move actions
-    copy = None
-    move = None
-    no_rename = None
-
-    # cleaning_actions
-    backup = None
-    delete = None
+    move_action = None
+    cleaning_action = None
 
     # filters
     album_complete = None
@@ -351,28 +344,31 @@ def parse_args(argv):
     exclusive_rename_move.add_argument(
         '-C',
         '--copy',
+        dest='move_action',
         help='Copy files instead of rename / move.',
-        action='store_true',
-        default=None,
+        action='store_const',
+        const='copy',
     )
 
     # move
     exclusive_rename_move.add_argument(
         '-M',
         '--move',
+        dest='move_action',
         help='Move / rename a file. This is the default action. The option \
         can be omitted.',
-        action='store_true',
-        default=None,
+        action='store_const',
+        const='move',
     )
 
     # no_rename
     exclusive_rename_move.add_argument(
         '-n',
         '--no-rename',
+        dest='move_action',
         help='Don’t rename, move, copy or perform a dry run. Do nothing.',
-        action='store_true',
-        default=None,
+        action='store_const',
+        const='no_rename',
     )
 
 ##
@@ -390,19 +386,21 @@ def parse_args(argv):
     exclusive_rename_cleaning.add_argument(
         '-A',
         '--backup',
+        dest='cleaning_action',
         help='Backup the audio files instead of deleting them. The backup \
         directory can be specified with the --backup-folder option.',
-        action='store_true',
-        default=None,
+        action='store_const',
+        const='backup',
     )
 
     # delete
     exclusive_rename_cleaning.add_argument(
         '-D',
         '--delete',
+        dest='cleaning_action',
         help='Delete the audio files instead of creating a backup.',
-        action='store_true',
-        default=None,
+        action='store_const',
+        const='delete',
     )
 
 ###############################################################################
