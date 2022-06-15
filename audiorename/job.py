@@ -312,13 +312,13 @@ class PathTemplatesConfig(Config):
     can be accessed under the attibute path_templates of the Job class."""
 
     def _is_classical(self) -> bool:
-        self._job.template_settings.classical
+        return self._job.template_settings.classical
 
     @property
     def default(self) -> str:
         """Get the default path template."""
         if self._is_classical:
-            return self.classical
+            return self.format_classical
         if hasattr(self, '_default'):
             return self._default
         return '$ar_initial_artist/' \
@@ -331,8 +331,7 @@ class PathTemplatesConfig(Config):
     def compilation(self) -> str:
         """Get the path template for compilations."""
         if self._is_classical:
-            return self.classical
-
+            return self.format_classical
         if hasattr(self, '_compilation'):
             return self._compilation
         return '_compilations/' \
@@ -345,7 +344,7 @@ class PathTemplatesConfig(Config):
     def soundtrack(self) -> str:
         """Get the path template for soundtracks."""
         if self._is_classical:
-            return self.classical
+            return self.format_classical
         if self._job.template_settings.no_soundtrack:
             return self.default
         if hasattr(self, '_soundtrack'):
@@ -357,8 +356,10 @@ class PathTemplatesConfig(Config):
             '${ar_combined_disctrack}_${artist}_%shorten{$title}'
 
     @property
-    def classical(self) -> str:
+    def format_classical(self) -> str:
         """Get the path template for classical music."""
+        if hasattr(self, '_format_classical'):
+            return self._format_classical
         return '$ar_initial_composer/$ar_combined_composer/' \
             '%shorten{$ar_combined_work_top,48}' \
             '_[%shorten{$ar_classical_performer,32}]/' \
@@ -500,7 +501,7 @@ class Job:
             'default': 'string',
             'compilation': 'string',
             'soundtrack': 'string',
-            'classical': 'string',
+            'format_classical': 'string',
         })
 
     @property
