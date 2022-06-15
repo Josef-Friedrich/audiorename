@@ -175,47 +175,10 @@ class Config:
                     pass
 
             if attr is not None:
-                setattr(self, option, attr)
-
-    def _debug(self):
-        for option, data_type in self._options.items():
-            value = getattr(self, option)
-            print(option + ' ' + str(value) + ' ' + type(value).__name__)
-
-
-class ConfigNg:
-
-    _options = None
-
-    def __init__(self, args: argparse.Namespace,
-                 config: configparser.ConfigParser,
-                 section: str, options: dict):
-        self._options = options
-        for option, data_type in options.items():
-            attr = None
-            if getattr(args, option) is not None:
-                attr = getattr(args, option)
-            elif config:
-                try:
-                    if data_type == 'boolean':
-                        attr = config.getboolean(section, option)
-                    elif data_type == 'integer':
-                        attr = config.getint(section, option)
-                    else:
-                        attr = config.get(section, option)
-                except configparser.NoOptionError:
-                    pass
-
-            if attr is not None:
                 setattr(self, '_' + option, attr)
 
-    def _debug(self):
-        for option, _ in self._options.items():
-            value = getattr(self, option)
-            print(option + ' ' + str(value) + ' ' + type(value).__name__)
 
-
-class SelectionConfig(ConfigNg):
+class SelectionConfig(Config):
 
     @property
     def source(self) -> str:
@@ -235,62 +198,52 @@ class SelectionConfig(ConfigNg):
         return False
 
 
-class OutputConfig(Config):
-    color = True
-    debug = False
-    job_info = False
-    mb_track_listing = False
-    one_line = False
-    stats = False
-    verbose = False
+class CliOutputConfig(Config):
+
+    @property
+    def color(self) -> bool:
+        if hasattr(self, '_color'):
+            return self._color
+        return True
+
+    @property
+    def debug(self) -> bool:
+        if hasattr(self, '_debug'):
+            return self._debug
+        return False
+
+    @property
+    def job_info(self) -> bool:
+        if hasattr(self, '_job_info'):
+            return self._job_info
+        return False
+
+    @property
+    def mb_track_listing(self) -> bool:
+        if hasattr(self, '_mb_track_listing'):
+            return self._mb_track_listing
+        return False
+
+    @property
+    def one_line(self) -> bool:
+        if hasattr(self, '_one_line'):
+            return self._one_line
+        return False
+
+    @property
+    def stats(self) -> bool:
+        if hasattr(self, '_stats'):
+            return self._stats
+        return False
+
+    @property
+    def verbose(self) -> bool:
+        if hasattr(self, '_verbose'):
+            return self._verbose
+        return False
 
 
-# class OutputConfig(ConfigNg):
-
-#     @property
-#     def color(self) -> bool:
-#         if hasattr(self, '_color'):
-#             return self._color
-#         return True
-
-#     @property
-#     def debug(self) -> bool:
-#         if hasattr(self, '_debug'):
-#             return self._debug
-#         return False
-
-#     @property
-#     def job_info(self) -> bool:
-#         if hasattr(self, '_job_info'):
-#             return self._job_info
-#         return False
-
-#     @property
-#     def mb_track_listing(self) -> bool:
-#         if hasattr(self, '_mb_track_listing'):
-#             return self._mb_track_listing
-#         return False
-
-#     @property
-#     def one_line(self) -> bool:
-#         if hasattr(self, '_one_line'):
-#             return self._one_line
-#         return False
-
-#     @property
-#     def stats(self) -> bool:
-#         if hasattr(self, '_stats'):
-#             return self._stats
-#         return False
-
-#     @property
-#     def verbose(self) -> bool:
-#         if hasattr(self, '_verbose'):
-#             return self._verbose
-#         return False
-
-
-class MetadataActionsConfig(ConfigNg):
+class MetadataActionsConfig(Config):
 
     @property
     def enrich_metadata(self) -> bool:
@@ -305,7 +258,7 @@ class MetadataActionsConfig(ConfigNg):
         return False
 
 
-class FilterConfig(ConfigNg):
+class FilterConfig(Config):
 
     @property
     def album_complete(self) -> bool:
@@ -339,7 +292,7 @@ class FilterConfig(ConfigNg):
                    genre_classical.lower().split(',')))
 
 
-class RenameConfig(ConfigNg):
+class RenameConfig(Config):
 
     @property
     def backup_folder(self) -> str:
@@ -429,17 +382,17 @@ class Job:
         return Format(self._args)
 
     @property
-    def cli_output(self) -> OutputConfig:
-        return OutputConfig(self._args, self._config, 'cli_output',
-                            {
-                                'color': 'boolean',
-                                'debug': 'boolean',
-                                'job_info': 'boolean',
-                                'mb_track_listing': 'boolean',
-                                'one_line': 'boolean',
-                                'stats': 'boolean',
-                                'verbose': 'boolean',
-                            })
+    def cli_output(self) -> CliOutputConfig:
+        return CliOutputConfig(self._args, self._config, 'cli_output',
+                               {
+                                   'color': 'boolean',
+                                   'debug': 'boolean',
+                                   'job_info': 'boolean',
+                                   'mb_track_listing': 'boolean',
+                                   'one_line': 'boolean',
+                                   'stats': 'boolean',
+                                   'verbose': 'boolean',
+                               })
 
     @property
     def metadata_actions(self) -> MetadataActionsConfig:
