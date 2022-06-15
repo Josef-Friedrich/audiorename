@@ -175,12 +175,13 @@ class ArgsDefault():
     genre_classical = None
     field_skip = None
 
-    # format_settings
+    # [template_settings]
     classical = None
     shell_friendly = None
+    no_soundtrack = None
 
-    # format_strings
-    format = None
+    # [path_templates]
+    default = None
     soundtrack = None
     compilation = None
     format_classical = None
@@ -457,10 +458,10 @@ def parse_args(argv):
 # formats
 ###############################################################################
 
-    formats = parser.add_argument_group('formats')
+    template_settings = parser.add_argument_group('[template_settings]')
 
     # classical
-    formats.add_argument(
+    template_settings.add_argument(
         '-k',
         '--classical',
         help='Use the default format for classical music. If you use this \
@@ -471,12 +472,21 @@ def parse_args(argv):
     )
 
     # shell_friendly
-    formats.add_argument(
+    template_settings.add_argument(
         '-S',
         '--shell-friendly',
         help='Rename audio files “shell friendly”, this means without \
         whitespaces, parentheses etc.',
         action='store_true',
+        default=None,
+    )
+
+    # no_soundtrack
+    template_settings.add_argument(
+        '--no-soundtrack',
+        action='store_true',
+        help='Do not use the path template for soundtracks. Use instead the \
+        default path template.',
         default=None,
     )
 
@@ -499,8 +509,10 @@ def parse_args(argv):
     # format
     path_templates.add_argument(
         '-f',
+        '--default',
         '--format',
         metavar='PATH_TEMPLATE',
+        dest='default',
         help='The default path template for audio files that are not \
         compilations or compilations. Use metadata fields and functions to \
         build the path template.',
@@ -513,15 +525,6 @@ def parse_args(argv):
         metavar='PATH_TEMPLATE',
         help='Path template for a soundtrack audio file. Use metadata fields \
         and functions to build the path template.',
-        default=None,
-    )
-
-    # no_soundtrack
-    path_templates.add_argument(
-        '--no-soundtrack',
-        action='store_true',
-        help='Do not use the path template for soundtracks. Use instead the \
-        default path template.',
         default=None,
     )
 

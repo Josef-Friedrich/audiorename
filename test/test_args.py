@@ -183,8 +183,8 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.field_skip, self.default.field_skip)
 
     def test_format(self):
-        self.assertEqual(self.args.format, None)
-        self.assertEqual(self.args.format, self.default.format)
+        self.assertEqual(self.args.default, None)
+        self.assertEqual(self.args.default, self.default.default)
 
     def test_format_classical(self):
         self.assertEqual(self.args.format_classical, None)

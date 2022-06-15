@@ -123,8 +123,8 @@ class Format:
     def __init__(self, args: ArgsDefault):
         defaults = DefaultFormat()
 
-        if args.format:
-            defaults.default = args.format
+        if args.default:
+            defaults.default = args.default
 
         if args.compilation:
             defaults.compilation = args.compilation
