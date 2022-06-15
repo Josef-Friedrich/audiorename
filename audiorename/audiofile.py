@@ -388,16 +388,16 @@ def do_job_on_audiofile(source_path: str, job: Job):
         if source.meta.genre is not None and \
            getattr(source.meta, "genre", "").lower() \
            in job.filters.genre_classical:
-            format_string = job.format.classical
+            format_string = job.path_templates.classical
         elif source.meta.ar_combined_soundtrack:
             if job._args.no_soundtrack and source.meta.comp:
-                format_string = job.format.compilation
+                format_string = job.path_templates.compilation
             else:
-                format_string = job.format.soundtrack
+                format_string = job.path_templates.soundtrack
         elif source.meta.comp:
-            format_string = job.format.compilation
+            format_string = job.path_templates.compilation
         else:
-            format_string = job.format.default
+            format_string = job.path_templates.default
 
         meta_dict = source.meta.export_dict()
 

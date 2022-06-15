@@ -473,7 +473,7 @@ class TestSkipIfEmpty(unittest.TestCase):
         self.assertTrue(helper.has(self.compilation, 'Dry run'))
 
 
-# --classical_format string
+# --classical_path template
 class TestClassicalFormat(unittest.TestCase):
 
     def assertDryRun(self, folder, track, test):
@@ -490,7 +490,7 @@ class TestClassicalFormat(unittest.TestCase):
         )
 
 
-# --classical_format string
+# --classical_path template
 class TestGenreClassical(unittest.TestCase):
 
     def assertDryRun(self, folder, track, test):

@@ -169,9 +169,9 @@ def job_info(job: 'Job') -> None:
         info.add('Backup folder', job.rename.backup_folder)
 
     if job.cli_output.verbose:
-        info.add('Default', job.format.default)
-        info.add('Compilation', job.format.compilation)
-        info.add('Soundtrack', job.format.soundtrack)
+        info.add('Default', job.path_templates.default)
+        info.add('Compilation', job.path_templates.compilation)
+        info.add('Soundtrack', job.path_templates.soundtrack)
 
     print(info.result())
 

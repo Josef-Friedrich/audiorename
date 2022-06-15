@@ -242,52 +242,52 @@ def parse_args(*argv):
     )
 
 ###############################################################################
-# formats_strings
+# path_templates
 ###############################################################################
 
-    format_strings = parser.add_argument_group('format strings')
+    format_strings = parser.add_argument_group('path templates')
 
     # compilation
     format_strings.add_argument(
         '-c',
         '--compilation',
-        metavar='FORMAT_STRING',
-        help='Format string for compilations. Use metadata fields and \
-        functions to build the format string.',
+        metavar='PATH_TEMPLATE',
+        help='Path template for compilations. Use metadata fields and \
+        functions to build the path template.',
     )
 
     # format
     format_strings.add_argument(
         '-f',
         '--format',
-        metavar='FORMAT_STRING',
-        help='The default format string for audio files that are not \
+        metavar='PATH_TEMPLATE',
+        help='The default path template for audio files that are not \
         compilations or compilations. Use metadata fields and functions to \
-        build the format string.',
+        build the path template.',
     )
 
     # soundtrack
     format_strings.add_argument(
         '--soundtrack',
-        metavar='FORMAT_STRING',
-        help='Format string for a soundtrack audio file. Use metadata fields \
-        and functions to build the format string.',
+        metavar='PATH_TEMPLATE',
+        help='Path template for a soundtrack audio file. Use metadata fields \
+        and functions to build the path template.',
     )
 
     # no_soundtrack
     format_strings.add_argument(
         '--no-soundtrack',
         action='store_true',
-        help='Do not use the format string for soundtracks. Use instead the \
-        default format string.',
+        help='Do not use the path template for soundtracks. Use instead the \
+        default path template.',
     )
 
     # classical
     format_strings.add_argument(
         '--format-classical',
-        metavar='FORMAT_STRING',
-        help='Format string for classical audio file. Use metadata fields \
-        and functions to build the format string.',
+        metavar='PATH_TEMPLATE',
+        help='Path template for classical audio file. Use metadata fields \
+        and functions to build the path template.',
     )
 
 ###############################################################################

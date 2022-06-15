@@ -78,7 +78,7 @@ class Statistic:
 
 
 class DefaultFormat:
-    """A class to store the default format strings."""
+    """A class to store the default path templates."""
 
     default = '$ar_initial_artist/' \
               '%shorten{$ar_combined_artist_sort}/' \
@@ -106,20 +106,20 @@ class DefaultFormat:
 
 
 class Format:
-    """A class to store the selected or configured format strings. This class
+    """A class to store the selected or configured path templates. This class
     can be accessed under the attibute format of the Job class."""
 
     default: str = ''
-    """Store the default format string."""
+    """Store the default path template."""
 
     compilation: str = ''
-    """Store the format string for compilations."""
+    """Store the path template for compilations."""
 
     soundtrack: str = ''
-    """Store the format string for soundtracks."""
+    """Store the path template for soundtracks."""
 
     classical: str = ''
-    """Store the format string for classical music."""
+    """Store the path template for classical music."""
 
     def __init__(self, args: ArgsDefault):
         defaults = DefaultFormat()
@@ -404,7 +404,7 @@ class Job:
         })
 
     @property
-    def format(self) -> Format:
+    def path_templates(self) -> Format:
         return Format(self._args)
 
     @property
