@@ -311,9 +311,16 @@ class PathTemplatesConfig(Config):
     """A class to store the selected or configured path templates. This class
     can be accessed under the attibute path_templates of the Job class."""
 
+    def _is_classical(self) -> bool:
+        self._job.template_settings.classical
+
     @property
     def default(self) -> str:
         """Get the default path template."""
+        if self._is_classical:
+            return self.classical
+        if hasattr(self, '_default'):
+            return self._default
         return '$ar_initial_artist/' \
             '%shorten{$ar_combined_artist_sort}/' \
             '%shorten{$ar_combined_album}' \
@@ -323,6 +330,11 @@ class PathTemplatesConfig(Config):
     @property
     def compilation(self) -> str:
         """Get the path template for compilations."""
+        if self._is_classical:
+            return self.classical
+
+        if hasattr(self, '_compilation'):
+            return self._compilation
         return '_compilations/' \
             '$ar_initial_album/' \
             '%shorten{$ar_combined_album}' \
@@ -332,6 +344,12 @@ class PathTemplatesConfig(Config):
     @property
     def soundtrack(self) -> str:
         """Get the path template for soundtracks."""
+        if self._is_classical:
+            return self.classical
+        if self._job.template_settings.no_soundtrack:
+            return self.default
+        if hasattr(self, '_soundtrack'):
+            return self._soundtrack
         return '_soundtrack/' \
             '$ar_initial_album/' \
             '%shorten{$ar_combined_album}' \
@@ -475,6 +493,15 @@ class Job:
     @property
     def path_templates(self) -> Format:
         return Format(self._args)
+
+    @property
+    def path_templates_ng(self) -> PathTemplatesConfig:
+        return PathTemplatesConfig(self, 'path_templates', {
+            'default': 'string',
+            'compilation': 'string',
+            'soundtrack': 'string',
+            'classical': 'string',
+        })
 
     @property
     def cli_output(self) -> CliOutputConfig:
