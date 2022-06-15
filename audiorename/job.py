@@ -160,12 +160,15 @@ class Config:
     leading underscore. The subclass provide  for each private property a
     getter method (@property)"""
 
-    def __init__(self, args: argparse.Namespace,
+    _job: 'Job'
+
+    def __init__(self, job: 'Job', args: argparse.Namespace,
                  config: configparser.ConfigParser,
                  section: str,
                  options: typing.Dict[str, typing.Literal['boolean',
                                                           'integer',
                                                           'string']]):
+        self._job = job
         for option, data_type in options.items():
             attr = None
             if getattr(args, option) is not None:
@@ -286,6 +289,47 @@ class FiltersConfig(Config):
                    genre_classical.lower().split(',')))
 
 
+class PathTemplatesConfig(Config):
+    """A class to store the selected or configured path templates. This class
+    can be accessed under the attibute path_templates of the Job class."""
+
+    @property
+    def default(self) -> str:
+        """Get the default path template."""
+        return '$ar_initial_artist/' \
+            '%shorten{$ar_combined_artist_sort}/' \
+            '%shorten{$ar_combined_album}' \
+            '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
+            '${ar_combined_disctrack}_%shorten{$title}'
+
+    @property
+    def compilation(self) -> str:
+        """Get the path template for compilations."""
+        return '_compilations/' \
+            '$ar_initial_album/' \
+            '%shorten{$ar_combined_album}' \
+            '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
+            '${ar_combined_disctrack}_%shorten{$title}'
+
+    @property
+    def soundtrack(self) -> str:
+        """Get the path template for soundtracks."""
+        return '_soundtrack/' \
+            '$ar_initial_album/' \
+            '%shorten{$ar_combined_album}' \
+            '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
+            '${ar_combined_disctrack}_${artist}_%shorten{$title}'
+
+    @property
+    def classical(self) -> str:
+        """Get the path template for classical music."""
+        return '$ar_initial_composer/$ar_combined_composer/' \
+            '%shorten{$ar_combined_work_top,48}' \
+            '_[%shorten{$ar_classical_performer,32}]/' \
+            '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}' \
+            '%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}'
+
+
 class CliOutputConfig(Config):
 
     @property
@@ -377,17 +421,17 @@ class Job:
 
     @property
     def selection(self) -> SelectionConfig:
-        return SelectionConfig(
-            self._args, self._config,
-            'selection', {
-                'source': 'string',
-                'target': 'string',
-                'source_as_target': 'string'
-            })
+        return SelectionConfig(self,
+                               self._args, self._config,
+                               'selection', {
+                                   'source': 'string',
+                                   'target': 'string',
+                                   'source_as_target': 'string'
+                               })
 
     @property
     def rename(self) -> RenameConfig:
-        return RenameConfig(self._args, self._config, 'rename', {
+        return RenameConfig(self, self._args, self._config, 'rename', {
             'backup_folder': 'string',
             'best_format': 'boolean',
             'move_action': 'string',
@@ -396,7 +440,7 @@ class Job:
 
     @property
     def filters(self) -> FiltersConfig:
-        return FiltersConfig(self._args, self._config, 'filters', {
+        return FiltersConfig(self, self._args, self._config, 'filters', {
             'album_complete': 'boolean',
             'album_min': 'boolean',
             'extension': 'string',
@@ -409,7 +453,7 @@ class Job:
 
     @property
     def cli_output(self) -> CliOutputConfig:
-        return CliOutputConfig(self._args, self._config, 'cli_output',
+        return CliOutputConfig(self, self._args, self._config, 'cli_output',
                                {
                                    'color': 'boolean',
                                    'debug': 'boolean',
@@ -422,9 +466,9 @@ class Job:
 
     @property
     def metadata_actions(self) -> MetadataActionsConfig:
-        return MetadataActionsConfig(
-            self._args, self._config,
-            'metadata_actions', {
-                'enrich_metadata': 'boolean',
-                'remap_classical': 'boolean',
-            })
+        return MetadataActionsConfig(self,
+                                     self._args, self._config,
+                                     'metadata_actions', {
+                                         'enrich_metadata': 'boolean',
+                                         'remap_classical': 'boolean',
+                                     })
