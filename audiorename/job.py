@@ -245,6 +245,51 @@ class OutputConfig(Config):
     verbose = False
 
 
+# class OutputConfig(ConfigNg):
+
+#     @property
+#     def color(self) -> bool:
+#         if hasattr(self, '_color'):
+#             return self._color
+#         return True
+
+#     @property
+#     def debug(self) -> bool:
+#         if hasattr(self, '_debug'):
+#             return self._debug
+#         return False
+
+#     @property
+#     def job_info(self) -> bool:
+#         if hasattr(self, '_job_info'):
+#             return self._job_info
+#         return False
+
+#     @property
+#     def mb_track_listing(self) -> bool:
+#         if hasattr(self, '_mb_track_listing'):
+#             return self._mb_track_listing
+#         return False
+
+#     @property
+#     def one_line(self) -> bool:
+#         if hasattr(self, '_one_line'):
+#             return self._one_line
+#         return False
+
+#     @property
+#     def stats(self) -> bool:
+#         if hasattr(self, '_stats'):
+#             return self._stats
+#         return False
+
+#     @property
+#     def verbose(self) -> bool:
+#         if hasattr(self, '_verbose'):
+#             return self._verbose
+#         return False
+
+
 class MetadataActionsConfig(ConfigNg):
 
     @property
