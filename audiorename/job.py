@@ -152,13 +152,20 @@ class Format:
 
 
 class Config:
-
-    _options = None
+    """The class ``Config`` is used to combine the two sources of settings
+    (command line arguments and INI configuration file). The command line
+    arguments override the values of the configuration file. This class is to
+    be inherited by subclasses. Each subclass corresponds to a section of the
+    INI configuration file. All settings are saved as private properties with
+    leading underscore. The subclass provide  for each private property a
+    getter method (@property)"""
 
     def __init__(self, args: argparse.Namespace,
                  config: configparser.ConfigParser,
-                 section: str, options: dict):
-        self._options = options
+                 section: str,
+                 options: typing.Dict[str, typing.Literal['boolean',
+                                                          'integer',
+                                                          'string']]):
         for option, data_type in options.items():
             attr = None
             if getattr(args, option) is not None:
