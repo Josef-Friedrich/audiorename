@@ -4,7 +4,6 @@ import os
 import time
 import typing
 import configparser
-import argparse
 
 from .message import Message
 from .args import ArgsDefault
@@ -162,25 +161,23 @@ class Config:
 
     _job: 'Job'
 
-    def __init__(self, job: 'Job', args: argparse.Namespace,
-                 config: configparser.ConfigParser,
-                 section: str,
+    def __init__(self, job: 'Job', section: str,
                  options: typing.Dict[str, typing.Literal['boolean',
                                                           'integer',
                                                           'string']]):
         self._job = job
         for option, data_type in options.items():
             attr = None
-            if getattr(args, option) is not None:
-                attr = getattr(args, option)
-            elif config:
+            if getattr(job._args, option) is not None:
+                attr = getattr(job._args, option)
+            elif job._config:
                 try:
                     if data_type == 'boolean':
-                        attr = config.getboolean(section, option)
+                        attr = job._config.getboolean(section, option)
                     elif data_type == 'integer':
-                        attr = config.getint(section, option)
+                        attr = job._config.getint(section, option)
                     else:
-                        attr = config.get(section, option)
+                        attr = job._config.get(section, option)
                 except configparser.NoOptionError:
                     pass
 
@@ -287,6 +284,27 @@ class FiltersConfig(Config):
         return list(
             filter(str.strip,
                    genre_classical.lower().split(',')))
+
+
+class TemplateSettingsConfig(Config):
+
+    @property
+    def classical(self) -> bool:
+        if hasattr(self, '_classical'):
+            return self._classical
+        return False
+
+    @property
+    def shell_friendly(self) -> bool:
+        if hasattr(self, '_shell_friendly'):
+            return self._shell_friendly
+        return False
+
+    @property
+    def no_soundtrack(self) -> bool:
+        if hasattr(self, '_no_soundtrack'):
+            return self._no_soundtrack
+        return False
 
 
 class PathTemplatesConfig(Config):
@@ -402,7 +420,8 @@ class Job:
 
     stats = Statistic()
 
-    _config = None
+    _args: ArgsDefault
+    _config: configparser.ConfigParser = None
 
     def __init__(self, args: ArgsDefault):
         self._args = args
@@ -421,17 +440,15 @@ class Job:
 
     @property
     def selection(self) -> SelectionConfig:
-        return SelectionConfig(self,
-                               self._args, self._config,
-                               'selection', {
-                                   'source': 'string',
-                                   'target': 'string',
-                                   'source_as_target': 'string'
-                               })
+        return SelectionConfig(self, 'selection', {
+            'source': 'string',
+            'target': 'string',
+            'source_as_target': 'string'
+        })
 
     @property
     def rename(self) -> RenameConfig:
-        return RenameConfig(self, self._args, self._config, 'rename', {
+        return RenameConfig(self, 'rename', {
             'backup_folder': 'string',
             'best_format': 'boolean',
             'move_action': 'string',
@@ -440,11 +457,19 @@ class Job:
 
     @property
     def filters(self) -> FiltersConfig:
-        return FiltersConfig(self, self._args, self._config, 'filters', {
+        return FiltersConfig(self, 'filters', {
             'album_complete': 'boolean',
             'album_min': 'boolean',
             'extension': 'string',
             'genre_classical': 'string',
+        })
+
+    @property
+    def template_settings(self) -> TemplateSettingsConfig:
+        return TemplateSettingsConfig(self, 'template_settings', {
+            'classical': 'boolean',
+            'shell_friendly': 'boolean',
+            'no_soundtrack': 'boolean',
         })
 
     @property
@@ -453,22 +478,19 @@ class Job:
 
     @property
     def cli_output(self) -> CliOutputConfig:
-        return CliOutputConfig(self, self._args, self._config, 'cli_output',
-                               {
-                                   'color': 'boolean',
-                                   'debug': 'boolean',
-                                   'job_info': 'boolean',
-                                   'mb_track_listing': 'boolean',
-                                   'one_line': 'boolean',
-                                   'stats': 'boolean',
-                                   'verbose': 'boolean',
-                               })
+        return CliOutputConfig(self, 'cli_output', {
+            'color': 'boolean',
+            'debug': 'boolean',
+            'job_info': 'boolean',
+            'mb_track_listing': 'boolean',
+            'one_line': 'boolean',
+            'stats': 'boolean',
+            'verbose': 'boolean',
+        })
 
     @property
     def metadata_actions(self) -> MetadataActionsConfig:
-        return MetadataActionsConfig(self,
-                                     self._args, self._config,
-                                     'metadata_actions', {
-                                         'enrich_metadata': 'boolean',
-                                         'remap_classical': 'boolean',
-                                     })
+        return MetadataActionsConfig(self, 'metadata_actions', {
+            'enrich_metadata': 'boolean',
+            'remap_classical': 'boolean',
+        })
