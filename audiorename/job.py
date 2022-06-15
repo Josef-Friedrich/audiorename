@@ -250,20 +250,38 @@ class MetadataActionsConfig(Config):
     remap_classical = False
 
 
-class FilterConfig(Config):
-    album_complete = False
-    album_min = False
-    extension = 'mp3,m4a,flac,wma'
-    genre_classical = ','
+class FilterConfig(ConfigNg):
 
-    def __init__(self, args: argparse.Namespace,
-                 config: configparser.ConfigParser,
-                 section: str, options: dict):
-        super().__init__(args, config, section, options)
-        self.genre_classical = list(
+    @property
+    def album_complete(self) -> bool:
+        if hasattr(self, '_album_complete'):
+            return self._album_complete
+        return False
+
+    @property
+    def album_min(self) -> typing.Union[int, None]:
+        if hasattr(self, '_album_min'):
+            return self._album_min
+
+    @property
+    def extension(self) -> typing.List[str]:
+        extension: str
+        if hasattr(self, '_extension'):
+            extension = self._extension
+        else:
+            extension = 'mp3,m4a,flac,wma'
+        return extension.split(',')
+
+    @property
+    def genre_classical(self) -> typing.List[str]:
+        genre_classical: str
+        if hasattr(self, '_genre_classical'):
+            genre_classical = self._genre_classical
+        else:
+            genre_classical = ','
+        return list(
             filter(str.strip,
-                   self.genre_classical.lower().split(',')))
-        self.extension = self.extension.split(',')
+                   genre_classical.lower().split(',')))
 
 
 class RenameConfig(ConfigNg):
@@ -312,24 +330,12 @@ class Job:
 
     metadata_actions = None
 
-    rename = None
-
     filters = None
-
-    selection = None
 
     def __init__(self, args: ArgsDefault):
         self._args = args
         if args.config is not None:
             self._config = self.__read_config(args.config)
-
-        self.selection = SelectionConfig(
-            self._args, self._config,
-            'selection', {
-                'source': 'string',
-                'target': 'string',
-                'source_as_target': 'string'
-            })
 
         self.metadata_actions = MetadataActionsConfig(
             self._args, self._config,
@@ -356,13 +362,6 @@ class Job:
             'genre_classical': 'string',
         })
 
-        self.rename = RenameConfig(self._args, self._config, 'rename', {
-            'backup_folder': 'string',
-            'best_format': 'boolean',
-            'move_action': 'string',
-            'cleaning_action': 'string',
-        })
-
         self.field_skip = args.field_skip
         self.shell_friendly = args.shell_friendly
         self.dry_run = args.dry_run
@@ -372,6 +371,25 @@ class Job:
         config = configparser.ConfigParser()
         config.read(file_path)
         return config
+
+    @property
+    def selection(self) -> SelectionConfig:
+        return SelectionConfig(
+            self._args, self._config,
+            'selection', {
+                'source': 'string',
+                'target': 'string',
+                'source_as_target': 'string'
+            })
+
+    @property
+    def rename(self) -> RenameConfig:
+        return RenameConfig(self._args, self._config, 'rename', {
+            'backup_folder': 'string',
+            'best_format': 'boolean',
+            'move_action': 'string',
+            'cleaning_action': 'string',
+        })
 
     @property
     def format(self) -> Format:
