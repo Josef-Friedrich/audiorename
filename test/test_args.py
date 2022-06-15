@@ -175,7 +175,7 @@ class TestArgsDefault(unittest.TestCase):
                          self.default.enrich_metadata)
 
     def test_extension(self):
-        self.assertEqual(self.args.extension, 'mp3,m4a,flac,wma')
+        self.assertEqual(self.args.extension, None)
         self.assertEqual(self.args.extension, self.default.extension)
 
     def test_field_skip(self):

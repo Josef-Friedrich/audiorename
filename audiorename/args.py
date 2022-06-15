@@ -158,13 +158,9 @@ class ArgsDefault():
     dry_run = None
 
     # [selection]
-    source = '.'
+    source = None
     source_as_target = None
     target = None
-
-    # [metadata_actions]
-    enrich_metadata = None
-    remap_classical = None
 
     # [rename]
     backup_folder = None
@@ -175,8 +171,8 @@ class ArgsDefault():
     # [filters]
     album_complete = None
     album_min = None
-    extension = 'mp3,m4a,flac,wma'
-    genre_classical = ','
+    extension = None
+    genre_classical = None
     field_skip = None
 
     # format_settings
@@ -198,6 +194,10 @@ class ArgsDefault():
     one_line = None
     stats = None
     verbose = None
+
+    # [metadata_actions]
+    enrich_metadata = None
+    remap_classical = None
 
 
 def description():
@@ -304,36 +304,6 @@ def parse_args(argv):
         '--version',
         action='version',
         version='%(prog)s {version}'.format(version=get_versions()['version'])
-    )
-
-###############################################################################
-# Metadata actions
-###############################################################################
-
-    metadata_actions = parser.add_argument_group('[metadata_actions]')
-
-    # enrich_metadata
-    metadata_actions.add_argument(
-        '-E',
-        '--enrich-metadata',
-        help='Fetch the tag fields “work” and “mb_workid” from Musicbrainz \
-        and save this fields into the audio file. The audio file must have \
-        the tag field “mb_trackid”. The give audio file is not renamed.',
-        action='store_true',
-        default=None,
-    )
-
-    # remap_classical
-    metadata_actions.add_argument(
-        '-r',
-        '--remap-classical',
-        help='Remap some fields to fit better for classical music: \
-        “composer” becomes “artist”, “work” becomes “album”, from the \
-        “title” the work prefix is removed (“Symphonie No. 9: I. Allegro” \
-        -> “I. Allegro”) and “track” becomes the movement number. All \
-        overwritten fields are safed in the “comments” field.',
-        action='store_true',
-        default=None,
     )
 
 ###############################################################################
@@ -444,7 +414,7 @@ def parse_args(argv):
     )
 
     # field_skip
-    parser.add_argument(
+    filters.add_argument(
         '-s',
         '--field-skip',
         help='Skip renaming if field is empty.',
@@ -473,7 +443,7 @@ def parse_args(argv):
         '-e',
         '--extension',
         help='Extensions to rename.',
-        default='mp3,m4a,flac,wma'
+        default=None
     )
 
     # genre classical
@@ -648,6 +618,36 @@ def parse_args(argv):
         '-V',
         '--verbose',
         help='Make the command line output more verbose.',
+        action='store_true',
+        default=None,
+    )
+
+###############################################################################
+# Metadata actions
+###############################################################################
+
+    metadata_actions = parser.add_argument_group('[metadata_actions]')
+
+    # enrich_metadata
+    metadata_actions.add_argument(
+        '-E',
+        '--enrich-metadata',
+        help='Fetch the tag fields “work” and “mb_workid” from Musicbrainz \
+        and save this fields into the audio file. The audio file must have \
+        the tag field “mb_trackid”. The give audio file is not renamed.',
+        action='store_true',
+        default=None,
+    )
+
+    # remap_classical
+    metadata_actions.add_argument(
+        '-r',
+        '--remap-classical',
+        help='Remap some fields to fit better for classical music: \
+        “composer” becomes “artist”, “work” becomes “album”, from the \
+        “title” the work prefix is removed (“Symphonie No. 9: I. Allegro” \
+        -> “I. Allegro”) and “track” becomes the movement number. All \
+        overwritten fields are safed in the “comments” field.',
         action='store_true',
         default=None,
     )

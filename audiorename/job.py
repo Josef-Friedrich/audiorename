@@ -198,6 +198,68 @@ class SelectionConfig(Config):
         return False
 
 
+class RenameConfig(Config):
+
+    @property
+    def backup_folder(self) -> str:
+        if hasattr(self, '_backup_folder'):
+            return self._backup_folder
+        return os.path.join(os.getcwd(), '_audiorename_backups')
+
+    @property
+    def best_format(self) -> bool:
+        if hasattr(self, '_best_format'):
+            return self._best_format
+        return True
+
+    @property
+    def move_action(self) -> typing.Literal['move', 'copy', 'no_rename']:
+        if hasattr(self, '_move_action'):
+            return self._move_action
+        return 'move'
+
+    @property
+    def cleaning_action(self) -> typing.Literal['backup', 'delete',
+                                                'do_nothing']:
+        if hasattr(self, '_cleaning_action'):
+            return self._cleaning_action
+        return 'do_nothing'
+
+
+class FiltersConfig(Config):
+
+    @property
+    def album_complete(self) -> bool:
+        if hasattr(self, '_album_complete'):
+            return self._album_complete
+        return False
+
+    @property
+    def album_min(self) -> typing.Union[int, None]:
+        if hasattr(self, '_album_min'):
+            return self._album_min
+
+    @property
+    def extension(self) -> typing.List[str]:
+        extension: str
+        if hasattr(self, '_extension'):
+            extension = self._extension
+        else:
+            extension = 'mp3,m4a,flac,wma'
+        return extension.split(',')
+
+    @property
+    def genre_classical(self) -> typing.List[str]:
+        genre_classical: str
+        if hasattr(self, '_genre_classical'):
+            genre_classical = self._genre_classical
+        else:
+            genre_classical = ','
+        return list(
+            filter(str.strip,
+                   genre_classical.lower().split(',')))
+
+
 class CliOutputConfig(Config):
 
     @property
@@ -258,68 +320,6 @@ class MetadataActionsConfig(Config):
         return False
 
 
-class FilterConfig(Config):
-
-    @property
-    def album_complete(self) -> bool:
-        if hasattr(self, '_album_complete'):
-            return self._album_complete
-        return False
-
-    @property
-    def album_min(self) -> typing.Union[int, None]:
-        if hasattr(self, '_album_min'):
-            return self._album_min
-
-    @property
-    def extension(self) -> typing.List[str]:
-        extension: str
-        if hasattr(self, '_extension'):
-            extension = self._extension
-        else:
-            extension = 'mp3,m4a,flac,wma'
-        return extension.split(',')
-
-    @property
-    def genre_classical(self) -> typing.List[str]:
-        genre_classical: str
-        if hasattr(self, '_genre_classical'):
-            genre_classical = self._genre_classical
-        else:
-            genre_classical = ','
-        return list(
-            filter(str.strip,
-                   genre_classical.lower().split(',')))
-
-
-class RenameConfig(Config):
-
-    @property
-    def backup_folder(self) -> str:
-        if hasattr(self, '_backup_folder'):
-            return self._backup_folder
-        return os.path.join(os.getcwd(), '_audiorename_backups')
-
-    @property
-    def best_format(self) -> bool:
-        if hasattr(self, '_best_format'):
-            return self._best_format
-        return True
-
-    @property
-    def move_action(self) -> typing.Literal['move', 'copy', 'no_rename']:
-        if hasattr(self, '_move_action'):
-            return self._move_action
-        return 'move'
-
-    @property
-    def cleaning_action(self) -> typing.Literal['backup', 'delete',
-                                                'do_nothing']:
-        if hasattr(self, '_cleaning_action'):
-            return self._cleaning_action
-        return 'do_nothing'
-
-
 class Job:
     """Holds informations of one job which can handle multiple files.
 
@@ -369,8 +369,8 @@ class Job:
         })
 
     @property
-    def filters(self) -> FilterConfig:
-        return FilterConfig(self._args, self._config, 'filters', {
+    def filters(self) -> FiltersConfig:
+        return FiltersConfig(self._args, self._config, 'filters', {
             'album_complete': 'boolean',
             'album_min': 'boolean',
             'extension': 'string',
