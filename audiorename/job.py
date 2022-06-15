@@ -245,9 +245,19 @@ class OutputConfig(Config):
     verbose = False
 
 
-class MetadataActionsConfig(Config):
-    enrich_metadata = False
-    remap_classical = False
+class MetadataActionsConfig(ConfigNg):
+
+    @property
+    def enrich_metadata(self) -> bool:
+        if hasattr(self, '_enrich_metadata'):
+            return self._enrich_metadata
+        return False
+
+    @property
+    def remap_classical(self) -> bool:
+        if hasattr(self, '_remap_classical'):
+            return self._remap_classical
+        return False
 
 
 class FilterConfig(ConfigNg):
