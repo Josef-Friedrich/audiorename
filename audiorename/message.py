@@ -163,8 +163,8 @@ def job_info(job: 'Job') -> None:
     info = KeyValue(job.cli_output.color)
     info.add('Versions', versions.result_one_line())
     info.add('Action', job.rename.move_action)
-    info.add('Source', job.source)
-    info.add('Target', job.target)
+    info.add('Source', job.selection.source)
+    info.add('Target', job.selection.target)
     if job.rename.cleaning_action == 'backup':
         info.add('Backup folder', job.rename.backup_folder)
 

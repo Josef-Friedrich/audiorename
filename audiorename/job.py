@@ -189,14 +189,33 @@ class SelectionConfig(Config):
 
     @property
     def source(self) -> str:
+        """The source path as an absolute path. It maybe a directory or a
+        file."""
+        source: str
         if hasattr(self, '_source'):
-            return self._source
-        return '.'
+            source = self._source
+        else:
+            source = '.'
+        return os.path.abspath(source)
 
     @property
     def target(self) -> typing.Union[None, str]:
+        """The path of the target as an absolute path. It is always a
+        directory.
+        """
+        target: typing.Union[None, str] = None
         if hasattr(self, '_target'):
-            return self._target
+            target = self._target
+
+        if self.source_as_target:
+            if os.path.isdir(self.source):
+                return os.path.abspath(self.source)
+            else:
+                return os.path.abspath(os.path.dirname(self.source))
+        elif target:
+            return os.path.abspath(target)
+        else:
+            return os.getcwd()
 
     @property
     def source_as_target(self) -> bool:
@@ -409,24 +428,3 @@ class Job:
                 'enrich_metadata': 'boolean',
                 'remap_classical': 'boolean',
             })
-
-    @property
-    def source(self) -> str:
-        """The source path as an absolute path. It maybe a directory or a
-        file."""
-        return os.path.abspath(self.selection.source)
-
-    @property
-    def target(self) -> str:
-        """The path of the target as an absolute path. It is always a
-        directory.
-        """
-        if self.selection.source_as_target:
-            if os.path.isdir(self.source):
-                return os.path.abspath(self.source)
-            else:
-                return os.path.abspath(os.path.dirname(self.source))
-        elif self.selection.target:
-            return os.path.abspath(self.selection.target)
-        else:
-            return os.getcwd()

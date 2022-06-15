@@ -409,12 +409,13 @@ def do_job_on_audiofile(source_path: str, job: Job):
         desired_target_path = re.sub(r'^' + os.path.sep + r'+', '',
                                      desired_target_path)
         desired_target_path = os.path.join(
-            job.target,
+            job.selection.target,
             desired_target_path + '.' + source.extension
         )
 
         desired_target = AudioFile(desired_target_path, job=job,
-                                   prefix=job.target, file_type='target')
+                                   prefix=job.selection.target,
+                                   file_type='target')
 
         # Do nothing
         if source.abspath == desired_target.abspath:
@@ -427,7 +428,8 @@ def do_job_on_audiofile(source_path: str, job: Job):
         target_path = find_target_path(desired_target.abspath,
                                        job.filters.extension)
         if target_path:
-            target = AudioFile(target_path, job=job, prefix=job.target,
+            target = AudioFile(target_path, job=job,
+                               prefix=job.selection.target,
                                file_type='target')
 
         # Both file exist

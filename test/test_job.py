@@ -144,15 +144,15 @@ class TestJob(unittest.TestCase):
     def test_target(self):
         self.args.path = '.'
         job = Job(self.args)
-        self.assertEqual(job.target, os.getcwd())
+        self.assertEqual(job.selection.target, os.getcwd())
 
         self.args.target = 'test'
         job = Job(self.args)
-        self.assertEqual(job.target, os.path.abspath('test'))
+        self.assertEqual(job.selection.target, os.path.abspath('test'))
 
         self.args.source_as_target = True
         job = Job(self.args)
-        self.assertEqual(job.target, os.getcwd())
+        self.assertEqual(job.selection.target, os.getcwd())
 
     # shell_friendly
     def test_shell_friendly(self):
@@ -170,7 +170,7 @@ class TestJob(unittest.TestCase):
     def test_source(self):
         self.args.path = '.'
         job = Job(self.args)
-        self.assertEqual(job.source, os.path.abspath('.'))
+        self.assertEqual(job.selection.source, os.path.abspath('.'))
 
 
 class TestTimer(unittest.TestCase):

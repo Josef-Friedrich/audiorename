@@ -105,8 +105,8 @@ class Batch:
         """Process all files of a given path or process a single file."""
 
         mb_track_listing.counter = 0
-        if os.path.isdir(self.job.source):
-            for path, dirs, files in os.walk(self.job.source):
+        if os.path.isdir(self.job.selection.source):
+            for path, dirs, files in os.walk(self.job.selection.source):
                 dirs.sort()
                 files.sort()
                 for file_name in files:
@@ -122,6 +122,6 @@ class Batch:
                 self.make_bundles()
 
         else:
-            p = self.job.source
+            p = self.job.selection.source
             if self.check_extension(p):
                 do_job_on_audiofile(p, job=self.job)
