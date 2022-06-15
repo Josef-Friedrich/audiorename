@@ -538,12 +538,12 @@ def parse_args(argv):
 # cli_output
 ###############################################################################
 
-    output = parser.add_argument_group(
+    cli_output = parser.add_argument_group(
         title='[cli_output]',
         description='This group contains all options that affect the output '
         'on the command line interface (cli).')
 
-    output_color = output.add_mutually_exclusive_group()
+    output_color = cli_output.add_mutually_exclusive_group()
 
     # color
     output_color.add_argument(
@@ -564,7 +564,7 @@ def parse_args(argv):
     )
 
     # debug
-    output.add_argument(
+    cli_output.add_argument(
         '-b',
         '--debug',
         help='Print debug informations about the single metadata fields.',
@@ -573,7 +573,7 @@ def parse_args(argv):
     )
 
     # job_info
-    output.add_argument(
+    cli_output.add_argument(
         '-j',
         '--job-info',
         help='Display informations about the current job. This informations \
@@ -583,7 +583,7 @@ def parse_args(argv):
     )
 
     # mb_track_listing
-    output.add_argument(
+    cli_output.add_argument(
         '-l',
         '--mb-track-listing',
         help='Print track listing for Musicbrainz website: Format: track. \
@@ -595,7 +595,7 @@ def parse_args(argv):
     )
 
     # one_line
-    output.add_argument(
+    cli_output.add_argument(
         '-o',
         '--one-line',
         help='Display the rename / copy action status on one line instead of \
@@ -605,7 +605,7 @@ def parse_args(argv):
     )
 
     # stats
-    output.add_argument(
+    cli_output.add_argument(
         '-T',
         '--stats',
         help='Show statistics at the end of the execution.',
@@ -614,7 +614,7 @@ def parse_args(argv):
     )
 
     # verbose
-    output.add_argument(
+    cli_output.add_argument(
         '-V',
         '--verbose',
         help='Make the command line output more verbose.',
