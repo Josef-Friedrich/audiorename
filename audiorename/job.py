@@ -336,19 +336,10 @@ class Job:
 
     _config = None
 
-    metadata_actions = None
-
     def __init__(self, args: ArgsDefault):
         self._args = args
         if args.config is not None:
             self._config = self.__read_config(args.config)
-
-        self.metadata_actions = MetadataActionsConfig(
-            self._args, self._config,
-            'metadata_actions', {
-                'enrich_metadata': 'boolean',
-                'remap_classical': 'boolean',
-            })
 
         self.field_skip = args.field_skip
         self.shell_friendly = args.shell_friendly
@@ -404,6 +395,15 @@ class Job:
                                 'stats': 'boolean',
                                 'verbose': 'boolean',
                             })
+
+    @property
+    def metadata_actions(self) -> MetadataActionsConfig:
+        return MetadataActionsConfig(
+            self._args, self._config,
+            'metadata_actions', {
+                'enrich_metadata': 'boolean',
+                'remap_classical': 'boolean',
+            })
 
     @property
     def source(self) -> str:
