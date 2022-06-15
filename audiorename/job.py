@@ -336,11 +336,7 @@ class Job:
 
     _config = None
 
-    cli_output = None
-
     metadata_actions = None
-
-    filters = None
 
     def __init__(self, args: ArgsDefault):
         self._args = args
@@ -353,24 +349,6 @@ class Job:
                 'enrich_metadata': 'boolean',
                 'remap_classical': 'boolean',
             })
-
-        self.cli_output = OutputConfig(self._args, self._config, 'cli_output',
-                                       {
-                                           'color': 'boolean',
-                                           'debug': 'boolean',
-                                           'job_info': 'boolean',
-                                           'mb_track_listing': 'boolean',
-                                           'one_line': 'boolean',
-                                           'stats': 'boolean',
-                                           'verbose': 'boolean',
-                                       })
-
-        self.filters = FilterConfig(self._args, self._config, 'filters', {
-            'album_complete': 'boolean',
-            'album_min': 'boolean',
-            'extension': 'string',
-            'genre_classical': 'string',
-        })
 
         self.field_skip = args.field_skip
         self.shell_friendly = args.shell_friendly
@@ -402,8 +380,30 @@ class Job:
         })
 
     @property
+    def filters(self) -> FilterConfig:
+        return FilterConfig(self._args, self._config, 'filters', {
+            'album_complete': 'boolean',
+            'album_min': 'boolean',
+            'extension': 'string',
+            'genre_classical': 'string',
+        })
+
+    @property
     def format(self) -> Format:
         return Format(self._args)
+
+    @property
+    def cli_output(self) -> OutputConfig:
+        return OutputConfig(self._args, self._config, 'cli_output',
+                            {
+                                'color': 'boolean',
+                                'debug': 'boolean',
+                                'job_info': 'boolean',
+                                'mb_track_listing': 'boolean',
+                                'one_line': 'boolean',
+                                'stats': 'boolean',
+                                'verbose': 'boolean',
+                            })
 
     @property
     def source(self) -> str:
