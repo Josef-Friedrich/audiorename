@@ -1,6 +1,8 @@
 """Rename audio files from metadata tags."""
 
 import sys
+import typing
+
 from .args import parse_args, fields  # noqa: F401
 from .batch import Batch
 from .job import Job
@@ -12,7 +14,7 @@ __version__ = get_versions()['version']
 del get_versions
 
 
-def execute(*argv):
+def execute(*argv: str):
     """Main function
 
     :param list argv: The command line arguments specified as a list: e. g

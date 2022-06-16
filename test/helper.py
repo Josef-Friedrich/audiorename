@@ -8,6 +8,8 @@ import audiorename
 import audiorename.meta
 import audiorename.audiofile
 import musicbrainzngs.musicbrainz
+import typing
+
 from audiorename import Job
 from audiorename.args import ArgsDefault
 from audiorename.musicbrainz import set_useragent, query
@@ -29,16 +31,16 @@ path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
 path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
 
 
-def get_testfile(*path_list) -> str:
+def get_testfile(*path_list: str) -> str:
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files',
                         *path_list)
 
 
-def get_meta(*path_list):
+def get_meta(*path_list: str) -> audiorename.meta.Meta:
     return audiorename.meta.Meta(get_testfile(*path_list), False)
 
 
-def copy_to_tmp(*path_list) -> str:
+def copy_to_tmp(*path_list: str) -> str:
     orig = get_testfile(*path_list)
 
     tmp = os.path.join(tempfile.mkdtemp(), os.path.basename(orig))
@@ -46,13 +48,14 @@ def copy_to_tmp(*path_list) -> str:
     return tmp
 
 
-def get_tmp_file_object(*path_list):
+def get_tmp_file_object(*path_list: str):
     return audiorename.audiofile.AudioFile(copy_to_tmp(*path_list),
                                            job=get_job())
 
 
-def gen_file_list(files, path, extension='mp3'):
-    output = []
+def gen_file_list(files: typing.List[str], path: str,
+                  extension: str = 'mp3') -> typing.List[str]:
+    output: typing.List[str] = []
     for f in files:
         if extension:
             f = f + '.' + extension
@@ -67,7 +70,7 @@ def get_job(**arguments):
     return Job(args)
 
 
-def has(list, search):
+def has(list: typing.List[str], search: str) -> bool:
     """Check of a string is in list
 
     :param list list: A list to search in.
@@ -76,7 +79,7 @@ def has(list, search):
     return any(search in string for string in list)
 
 
-def is_file(path):
+def is_file(path: str) -> bool:
     """Check if file exists
 
     :param list path: Path of the file as a list
@@ -84,11 +87,11 @@ def is_file(path):
     return os.path.isfile(path)
 
 
-def join(output_list):
+def join(output_list: typing.List[str]) -> str:
     return ' '.join(output_list)
 
 
-def dry_run(options):
+def dry_run(options: typing.List[str]):
     """Exectue the audiorename command in the ”dry” mode and capture the
     output to get the renamed file path.
 
@@ -108,22 +111,22 @@ def dry_run(options):
     return re.sub(r'.* to: ', '', join(output)).strip()
 
 
-def filter_source(output):
-    filtered = []
+def filter_source(output: typing.List[str]) -> typing.List[str]:
+    filtered: typing.List[str] = []
     for line in output:
         if line and line[0] == os.path.sep:
             filtered.append(line)
     return filtered
 
 
-def call_bin(*args):
+def call_bin(*args: str) -> typing.List[str]:
     args = ('audiorenamer',) + args
     command = ' '.join(args)
     audiorename = subprocess.Popen(command, shell=True,
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.STDOUT)
     audiorename.wait()
-    out = []
+    out: typing.List[str] = []
     if audiorename.stdout:
         for line in audiorename.stdout.readlines():
             out.append(line.decode('utf-8'))

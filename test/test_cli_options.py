@@ -29,15 +29,15 @@ class TestBestFormat(unittest.TestCase):
         except OSError:
             pass
 
-    def move(self, source, *args):
+    def move(self, source: str, *args: str):
         audiorename.execute('--best-format', '--one-line', '--target',
                             self.target, '--format', 'test-file',
                             source, *args)
 
-    def backup_path(self, file_name):
+    def backup_path(self, file_name: str):
         return os.path.join(self.backup_cwd, file_name)
 
-    def get_quality(self, filename):
+    def get_quality(self, filename: str) -> str:
         return helper.copy_to_tmp('quality', filename)
 
     def test_delete_source(self):
@@ -112,7 +112,7 @@ class TestBestFormat(unittest.TestCase):
 # --classical
 class TestClassical(unittest.TestCase):
 
-    def assertDryRun(self, folder, track, test):
+    def assertDryRun(self, folder: str, track: str, test: str):
         self.assertEqual(helper.dry_run([
             '--classical',
             helper.get_testfile('classical', folder, track)
