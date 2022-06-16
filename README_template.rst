@@ -96,7 +96,7 @@ Run a single test
 
 ::
 
-    tox -e py38 -- test/test_audiofile.py:TestUnicodeUnittest.test_rename
+    tox -e quick -- -s test test_job.TestJobWithConfigParser.test_source
 
 
 Publish a new version

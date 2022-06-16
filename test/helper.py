@@ -32,6 +32,13 @@ path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
 
 
 def get_testfile(*path_list: str) -> str:
+    """
+    Get absolute path of a test file.
+
+    :param path_list: Path segments relative to the /test/files directory.
+
+    :return An absolute path:
+    """
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files',
                         *path_list)
 

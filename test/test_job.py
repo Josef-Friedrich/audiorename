@@ -4,9 +4,10 @@ from audiorename.job import Job, Timer, Counter
 from audiorename.args import ArgsDefault
 import unittest
 import os
+import helper
 
 
-class TestJob(unittest.TestCase):
+class TestJobWithArgParser(unittest.TestCase):
 
     def setUp(self):
         self.args = ArgsDefault()
@@ -173,12 +174,26 @@ class TestJob(unittest.TestCase):
         self.assertEqual(job.selection.source, os.path.abspath('.'))
 
 
+class TestJobWithConfigParser(unittest.TestCase):
+
+    def get_job(self, *config_file: str) -> Job:
+        args = ArgsDefault()
+        args.config = helper.get_testfile(*config_file)
+        return Job(args)
+
+    def test_section_selection(self):
+        job = self.get_job('config', 'all-true.ini')
+        self.assertEqual(job.selection.source, '/tmp')
+        self.assertEqual(job.selection.target, '/tmp')
+        self.assertEqual(job.selection.source_as_target, True)
+
+
 class TestTimer(unittest.TestCase):
 
     def setUp(self):
         self.timer = Timer()
 
-    def get_result(self, begin, end):
+    def get_result(self, begin: float, end: float) -> str:
         self.timer.begin = begin
         self.timer.end = end
         return self.timer.result()

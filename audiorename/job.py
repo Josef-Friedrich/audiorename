@@ -11,9 +11,9 @@ from .args import ArgsDefault
 
 class Timer:
 
-    begin = 0
+    begin: float = 0
 
-    end = 0
+    end: float = 0
 
     def start(self):
         self.begin = time.time()
@@ -21,7 +21,7 @@ class Timer:
     def stop(self):
         self.end = time.time()
 
-    def result(self):
+    def result(self) -> str:
         return '{:.1f}s'.format(self.end - self.begin)
 
 
@@ -430,7 +430,7 @@ class Job:
         return SelectionConfig(self, 'selection', {
             'source': 'string',
             'target': 'string',
-            'source_as_target': 'string'
+            'source_as_target': 'boolean'
         })
 
     @property

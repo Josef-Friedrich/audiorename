@@ -742,8 +742,8 @@ Example configuration file
 .. code-block:: ini
 
     [selection]
-    source = '.'
-    target = False
+    source = /home/user/source
+    target = /home/user/target
     source_as_target = False
     
     [rename]
@@ -771,10 +771,10 @@ Example configuration file
     no_soundtrack = False
     
     [path_templates]
-    default_template = '$ar_initial_artist/%shorten{$ar_combined_artist_sort}/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}'
-    compilation_template = '_compilations/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}'
-    soundtrack_template = '_soundtrack/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_${artist}_%shorten{$title}'
-    classical_template = '$ar_initial_composer/$ar_combined_composer/%shorten{$ar_combined_work_top,48}_[%shorten{$ar_classical_performer,32}]/${ar_combined_disctrack}_%shorten{$ar_classical_title,64}%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}'
+    default_template = $ar_initial_artist/%shorten{$ar_combined_artist_sort}/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}
+    compilation_template = _compilations/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}
+    soundtrack_template = _soundtrack/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_${artist}_%shorten{$title}
+    classical_template = $ar_initial_composer/$ar_combined_composer/%shorten{$ar_combined_work_top,48}_[%shorten{$ar_classical_performer,32}]/${ar_combined_disctrack}_%shorten{$ar_classical_title,64}%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}
     
     [cli_output]
     ; see --color or --no-color
@@ -1221,7 +1221,7 @@ Run a single test
 
 ::
 
-    tox -e py38 -- test/test_audiofile.py:TestUnicodeUnittest.test_rename
+    tox -e quick -- -s test test_job.TestJobWithConfigParser.test_source
 
 
 Publish a new version

@@ -576,7 +576,7 @@ class TestJobInfo(unittest.TestCase):
 # --mb-track-listing
 class TestMbTrackListing(unittest.TestCase):
 
-    def mb_track_listing(self, folder: str, track: str):
+    def mb_track_listing(self, folder: str, track: str) -> str:
         with helper.Capturing() as output:
             audiorename.execute(
                 '--mb-track-listing',

@@ -346,7 +346,7 @@ class Meta(MediaFileExtended):
             return self._find_initials(self.ar_combined_album)
 
     @property
-    def ar_initial_artist(self):
+    def ar_initial_artist(self) -> str:
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_combined_artist_sort`
@@ -369,6 +369,7 @@ class Meta(MediaFileExtended):
         * ``phrydy.mediafile.MediaFile.albumartist_sort``
         * ``phrydy.mediafile.MediaFile.artist_sort``
         """
+        out: str = ''
         if self.albumartist:
             out = self.albumartist
         elif self.artist:
@@ -398,7 +399,7 @@ class Meta(MediaFileExtended):
         * ``phrydy.mediafile.MediaFile.albumartist_credit``
         * ``phrydy.mediafile.MediaFile.artist_credit``
         """
-        out = ''
+        out: str = ''
         if self.albumartist_sort:
             out = self.albumartist_sort
         elif self.artist_sort:
@@ -436,6 +437,7 @@ class Meta(MediaFileExtended):
         * ``phrydy.mediafile.MediaFile.composer``
         * :class:`audiorename.meta.Meta.ar_combined_artist`
         """
+        out: str = ''
         if self.composer_sort:
             out = self.composer_sort
         elif self.composer:
@@ -488,12 +490,12 @@ class Meta(MediaFileExtended):
         return out
 
     @property
-    def ar_performer(self):
+    def ar_performer(self) -> str:
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_performer_raw`
         """
-        out = ''
+        out: str = ''
         for ar_performer in self.ar_performer_raw:
             out = out + ', ' + ar_performer[1]
 
@@ -502,7 +504,7 @@ class Meta(MediaFileExtended):
         return out
 
     @property
-    def ar_classical_performer(self):
+    def ar_classical_performer(self) -> str:
         """http://musicbrainz.org/doc/Style/Classical/Release/Artist
 
         Uses:
