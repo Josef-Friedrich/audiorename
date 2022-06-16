@@ -311,6 +311,7 @@ class PathTemplatesConfig(Config):
     """A class to store the selected or configured path templates. This class
     can be accessed under the attibute path_templates of the Job class."""
 
+    @property
     def _is_classical(self) -> bool:
         return self._job.template_settings.classical
 
@@ -492,11 +493,11 @@ class Job:
         })
 
     @property
-    def path_templates(self) -> Format:
+    def path_templates_old(self) -> Format:
         return Format(self._args)
 
     @property
-    def path_templates_ng(self) -> PathTemplatesConfig:
+    def path_templates(self) -> PathTemplatesConfig:
         return PathTemplatesConfig(self, 'path_templates', {
             'default': 'string',
             'compilation': 'string',
