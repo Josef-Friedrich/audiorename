@@ -63,7 +63,7 @@ def gen_file_list(files: typing.List[str], path: str,
     return output
 
 
-def get_job(**arguments):
+def get_job(**arguments: str) -> Job:
     args = ArgsDefault()
     for key in arguments:
         setattr(args, key, arguments[key])

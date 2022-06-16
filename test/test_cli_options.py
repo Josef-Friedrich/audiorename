@@ -268,7 +268,7 @@ class TestClassical(unittest.TestCase):
 # --compilation
 class TestCompilation(unittest.TestCase):
 
-    def assertDryRun(self, rel_path, test):
+    def assertDryRun(self, rel_path: str, test: str):
         self.assertEqual(helper.dry_run([
             helper.get_testfile('real-world', '_compilations', rel_path)
         ]), test)
@@ -476,7 +476,7 @@ class TestSkipIfEmpty(unittest.TestCase):
 # --classical_path template
 class TestClassicalFormat(unittest.TestCase):
 
-    def assertDryRun(self, folder, track, test):
+    def assertDryRun(self, folder: str, track: str, test: str):
         self.assertEqual(helper.dry_run([
             '--classical', '--format-classical', '$ar_combined_composer/'
             '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}',
@@ -493,7 +493,7 @@ class TestClassicalFormat(unittest.TestCase):
 # --classical_path template
 class TestGenreClassical(unittest.TestCase):
 
-    def assertDryRun(self, folder, track, test):
+    def assertDryRun(self, folder: str, track: str, test: str):
         self.assertEqual(helper.dry_run([
             '--genre-classical', 'classical,', '--format-classical',
             '$ar_combined_composer/'
@@ -542,7 +542,7 @@ class TestCustomFormats(unittest.TestCase):
 # --job-info
 class TestJobInfo(unittest.TestCase):
 
-    def get_job_info(self, *args):
+    def get_job_info(self, *args: str):
         with helper.Capturing() as output:
             audiorename.execute('--dry-run', '--job-info',
                                 helper.get_testfile('mixed_formats'), *args)
@@ -576,7 +576,7 @@ class TestJobInfo(unittest.TestCase):
 # --mb-track-listing
 class TestMbTrackListing(unittest.TestCase):
 
-    def mb_track_listing(self, folder, track):
+    def mb_track_listing(self, folder: str, track: str):
         with helper.Capturing() as output:
             audiorename.execute(
                 '--mb-track-listing',
@@ -619,7 +619,7 @@ class TestMbTrackListing(unittest.TestCase):
 # --no-soundtrack
 class TestSoundtrack(unittest.TestCase):
 
-    def assertDryRun(self, folder, track, test):
+    def assertDryRun(self, folder: str, track: str, test: str):
         self.assertEqual(helper.dry_run([
             '--soundtrack',
             '$ar_initial_album/'

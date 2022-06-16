@@ -15,11 +15,13 @@ if typing.TYPE_CHECKING:
 
 class KeyValue:
 
+    kv: "OrderedDict[str, str]"
+
     def __init__(self, color: bool = False):
         self.color = color
         self.kv = OrderedDict()
 
-    def add(self, key, value) -> None:
+    def add(self, key: str, value: str) -> None:
         self.kv[key] = value
 
     def result(self) -> str:
@@ -48,7 +50,11 @@ class Message:
     :type job: audiorename.job.Job
     """
 
-    def __init__(self, job):
+    color: bool
+    verbose: bool
+    one_line: bool
+
+    def __init__(self, job: "Job"):
         self.color = job.cli_output.color
         self.verbose = job.cli_output.verbose
         self.one_line = job.cli_output.one_line
@@ -59,7 +65,7 @@ class Message:
     def max_fields_length() -> int:
         return phrydy.doc_generator.get_max_field_length(all_fields)
 
-    def output(self, text='') -> None:
+    def output(self, text: str = '') -> None:
         if self.one_line:
             print(text.strip(), end=' ')
         else:
@@ -68,7 +74,8 @@ class Message:
     def template_indent(self, level: int = 1) -> str:
         return (' ' * self.indent_width) * level
 
-    def template_path(self, audio_file: 'AudioFile'):
+    def template_path(self, audio_file: 'AudioFile') -> str:
+        path: str
         if self.verbose:
             path = audio_file.abspath
         else:
@@ -104,8 +111,8 @@ class Message:
         self.output(self.template_indent(2) + 'to:')
         self.output(self.template_indent(2) + self.template_path(target))
 
-    def best_format(self, best, attr, source: 'Meta',
-                    target: 'Meta') -> None:
+    def best_format(self, best: typing.Literal['target', 'source'], attr: str,
+                    source: 'Meta', target: 'Meta') -> None:
         source_attr = getattr(source, attr)
         target_attr = getattr(target, attr)
 
@@ -119,13 +126,13 @@ class Message:
                 'target: ' + str(target_attr) + ')'
             )
 
-    def diff(self, key, value1, value2):
+    def diff(self, key: str, value1: str, value2: str):
         key_width = self.max_field + 2
         value2_indent = self.indent_width + key_width
         key += ':'
         key = key.ljust(self.max_field + 2)
 
-        def quote(value):
+        def quote(value: typing.Any):
             return '“' + str(value) + '”'
 
         value1 = quote(value1)

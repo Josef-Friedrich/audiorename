@@ -228,7 +228,7 @@ Functions
 ''' + tmep.doc.Doc().get()
 
 
-def parse_args(argv):
+def parse_args(argv: typing.List[str]) -> ArgsDefault:
     """Parse the command line arguments using the python library `argparse`.
 
     :param list argv: The command line arguments specified as a list: e. g
