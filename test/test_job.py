@@ -203,6 +203,30 @@ class TestJobWithConfigParser(unittest.TestCase):
         self.assertEqual(self.job.filters.genre_classical, ['sonata', 'opera'])
         self.assertEqual(self.job.filters.field_skip, 'comment')
 
+    def test_section_template_settings(self):
+        self.assertEqual(self.job.template_settings.classical, True)
+        self.assertEqual(self.job.template_settings.shell_friendly, True)
+        self.assertEqual(self.job.template_settings.no_soundtrack, True)
+
+    def test_section_path_templates(self):
+        self.assertEqual(self.job.path_templates.default, 'classical')
+        self.assertEqual(self.job.path_templates.compilation, 'classical')
+        self.assertEqual(self.job.path_templates.soundtrack, 'classical')
+        self.assertEqual(self.job.path_templates.classical, 'classical')
+
+    def test_section_cli_output(self):
+        self.assertEqual(self.job.cli_output.color, True)
+        self.assertEqual(self.job.cli_output.debug, True)
+        self.assertEqual(self.job.cli_output.job_info, True)
+        self.assertEqual(self.job.cli_output.mb_track_listing, True)
+        self.assertEqual(self.job.cli_output.one_line, True)
+        self.assertEqual(self.job.cli_output.stats, True)
+        self.assertEqual(self.job.cli_output.verbose, True)
+
+    def test_section_metadata_actions(self):
+        self.assertEqual(self.job.metadata_actions.enrich_metadata, True)
+        self.assertEqual(self.job.metadata_actions.remap_classical, True)
+
 
 class TestTimer(unittest.TestCase):
 
