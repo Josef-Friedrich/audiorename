@@ -34,7 +34,7 @@ class KeyValue:
         return out
 
     def result_one_line(self) -> str:
-        out = []
+        out: typing.List[str] = []
         for key, value in self.kv.items():
             if self.color:
                 key = ansicolor.green(key)
