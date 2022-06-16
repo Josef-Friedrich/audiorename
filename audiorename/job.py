@@ -113,8 +113,8 @@ class Config:
 
 class SelectionConfig(Config):
 
-    _source: typing.Union[str, None]
-    _target: typing.Union[str, None]
+    _source: typing.Optional[str]
+    _target: typing.Optional[str]
     _source_as_target: typing.Optional[bool]
 
     @property
@@ -129,7 +129,7 @@ class SelectionConfig(Config):
         return os.path.abspath(source)
 
     @property
-    def target(self) -> typing.Union[str, None]:
+    def target(self) -> typing.Optional[str]:
         """The path of the target as an absolute path. It is always a
         directory.
         """
@@ -163,6 +163,7 @@ class RenameConfig(Config):
 
     _backup_folder: typing.Optional[str]
     _best_format: typing.Optional[bool]
+    _dry_run: typing.Optional[bool]
     _move_action: typing.Optional[MoveAction]
     _cleaning_action: typing.Optional[CleaningAction]
 
@@ -179,6 +180,13 @@ class RenameConfig(Config):
                 isinstance(self._best_format, bool):
             return self._best_format
         return True
+
+    @property
+    def dry_run(self) -> bool:
+        if hasattr(self, '_dry_run') and \
+                isinstance(self._dry_run, bool):
+            return self._dry_run
+        return False
 
     @property
     def move_action(self) -> MoveAction:
@@ -198,10 +206,10 @@ class RenameConfig(Config):
 class FiltersConfig(Config):
 
     _album_complete: typing.Optional[bool]
-    _album_min: typing.Union[int, None]
-    _extension: typing.Union[str, None]
-    _genre_classical: typing.Union[str, None]
-    _field_skip: typing.Union[str, None]
+    _album_min: typing.Optional[int]
+    _extension: typing.Optional[str]
+    _genre_classical: typing.Optional[str]
+    _field_skip: typing.Optional[str]
 
     @property
     def album_complete(self) -> bool:
@@ -211,7 +219,7 @@ class FiltersConfig(Config):
         return False
 
     @property
-    def album_min(self) -> typing.Union[int, None]:
+    def album_min(self) -> typing.Optional[int]:
         if hasattr(self, '_album_min') and isinstance(self._album_min, int):
             return self._album_min
 
@@ -274,10 +282,10 @@ class PathTemplatesConfig(Config):
     """A class to store the selected or configured path templates. This class
     can be accessed under the attibute path_templates of the Job class."""
 
-    _default_template: typing.Union[str, None]
-    _compilation_template: typing.Union[str, None]
-    _soundtrack_template: typing.Union[str, None]
-    _classical_template: typing.Union[str, None]
+    _default_template: typing.Optional[str]
+    _compilation_template: typing.Optional[str]
+    _soundtrack_template: typing.Optional[str]
+    _classical_template: typing.Optional[str]
 
     @property
     def _is_classical(self) -> bool:
@@ -434,7 +442,6 @@ class Job:
         if args.config is not None:
             self.config = self.__read_config(args.config)
 
-        self.dry_run = args.dry_run
         self.msg = Message(self)
 
     def __read_config(self, file_path: str) -> configparser.ConfigParser:
@@ -455,6 +462,7 @@ class Job:
         return RenameConfig(self, 'rename', {
             'backup_folder': 'string',
             'best_format': 'boolean',
+            'dry_run': 'boolean',
             'move_action': 'string',
             'cleaning_action': 'string',
         })

@@ -216,7 +216,7 @@ class Action:
 
     def __init__(self, job):
         self.job = job
-        self.dry_run = job.dry_run
+        self.dry_run = job.rename.dry_run
 
     def count(self, counter_name):
         self.job.stats.counter.count(counter_name)

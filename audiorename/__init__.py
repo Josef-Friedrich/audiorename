@@ -29,7 +29,7 @@ def execute(*argv: str):
         job.stats.timer.start()
         if job.cli_output.job_info:
             job_info(job)
-        if job.dry_run:
+        if job.rename.dry_run:
             job.msg.output('Dry run')
         batch = Batch(job)
         batch.execute()

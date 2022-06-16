@@ -16,7 +16,7 @@ class TestJobWithArgParser(unittest.TestCase):
     def test_rename_action_dry_run(self):
         self.args.dry_run = True
         job = Job(self.args)
-        self.assertEqual(job.dry_run, True)
+        self.assertEqual(job.rename.dry_run, True)
 
     ##
     # filter

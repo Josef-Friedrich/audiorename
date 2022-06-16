@@ -154,17 +154,17 @@ class ArgsDefault():
     """
 
     # default
-    config: typing.Union[str, None] = None
-    dry_run: typing.Optional[bool] = None
+    config: typing.Optional[str] = None
 
     # [selection]
-    source: typing.Union[str, None] = None
+    source: typing.Optional[str] = None
     source_as_target: typing.Optional[bool] = None
-    target: typing.Union[str, None] = None
+    target: typing.Optional[str] = None
 
     # [rename]
-    backup_folder: typing.Union[str, None] = None
+    backup_folder: typing.Optional[str] = None
     best_format: typing.Optional[bool] = None
+    dry_run: typing.Optional[bool] = None
     move_action: typing.Union[
         typing.Literal['move', 'copy', 'no_rename'], None] = None
     cleaning_action: typing.Union[typing.Literal['backup', 'delete',
@@ -172,9 +172,9 @@ class ArgsDefault():
 
     # [filters]
     album_complete: typing.Optional[bool] = None
-    album_min: typing.Union[int, None] = None
-    extension: typing.Union[str, None] = None
-    genre_classical: typing.Union[str, None] = None
+    album_min: typing.Optional[int] = None
+    extension: typing.Optional[str] = None
+    genre_classical: typing.Optional[str] = None
     field_skip: typing.Optional[bool] = None
 
     # [template_settings]
@@ -183,10 +183,10 @@ class ArgsDefault():
     no_soundtrack: typing.Optional[bool] = None
 
     # [path_templates]
-    default_template: typing.Union[str, None] = None
-    soundtrack_template: typing.Union[str, None] = None
-    compilation_template: typing.Union[str, None] = None
-    classical_template: typing.Union[str, None] = None
+    default_template: typing.Optional[str] = None
+    soundtrack_template: typing.Optional[str] = None
+    compilation_template: typing.Optional[str] = None
+    classical_template: typing.Optional[str] = None
 
     # [cli_output]
     color: typing.Optional[bool] = None
@@ -291,15 +291,6 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         default=None,
     )
 
-    # dry_run
-    parser.add_argument(
-        '-d',
-        '--dry-run',
-        help='Don’t rename or copy the audio files.',
-        action='store_true',
-        default=None,
-    )
-
     # version
     parser.add_argument(
         '-v',
@@ -331,6 +322,15 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         the two audio files (source and target). The tool first examines the \
         format. For example a FLAC file wins over a MP3 file. Then \
         `audiorename` checks the bitrate.',
+        action='store_true',
+        default=None,
+    )
+
+    # dry_run
+    rename.add_argument(
+        '-d',
+        '--dry-run',
+        help='Don’t rename or copy the audio files.',
         action='store_true',
         default=None,
     )
