@@ -5,8 +5,11 @@ import argparse
 import typing
 import phrydy
 import tmep
+import os
 
-fields: phrydy.FieldDocCollection = {
+from .utils import indent, read_file
+
+fields: phrydy.field_docs.FieldDocCollection = {
     'ar_classical_album': {
         'description': 'The field “work” without the movement suffix. '
                        'For example: “Horn Concerto: I. Allegro” -> '
@@ -145,7 +148,8 @@ fields: phrydy.FieldDocCollection = {
 }
 """Documentation of the extra fields."""
 
-all_fields = phrydy.merge_fields(phrydy.fields, fields)
+all_fields = phrydy.doc_generator.merge_fields(
+    phrydy.field_docs.fields, fields)
 
 
 class ArgsDefault():
@@ -202,6 +206,13 @@ class ArgsDefault():
     remap_classical: typing.Optional[bool] = None
 
 
+def read_configuration_file() -> str:
+    content = read_file(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                     'example-config.ini'))
+    return indent(content)
+
+
 def description() -> str:
     """Build the description string."""
     return '''\
@@ -225,7 +236,12 @@ Metadata fields
 Functions
 =========
 
-''' + tmep.doc.Doc().get()
+''' + tmep.doc.Doc().get() + '''
+
+Configuration file
+==================
+
+''' + read_configuration_file()
 
 
 def parse_args(argv: typing.List[str]) -> ArgsDefault:

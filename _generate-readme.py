@@ -3,39 +3,35 @@
 
 import subprocess
 import os
-import re
 import phrydy
 import audiorename
+import audiorename.utils
 
 
-def path(*path_segments):
+def path(*path_segments: str) -> str:
     return os.path.join(os.getcwd(), *path_segments)
 
 
-def open_file(*path_segments):
+def open_file(*path_segments: str):
     file_path = path(*path_segments)
     open(file_path, 'w').close()
     return open(file_path, 'a')
 
 
-def indent(text: str) -> str:
-    return '    ' + re.sub(r'\n', '\n    ', text)
-
-
 template = open(path('README_template.rst'), 'r').read()
-
 
 # cli help
 process = subprocess.run('audiorenamer --help', capture_output=True,
                          shell=True)
 stdout = process.stdout.decode('utf-8')
-stdout = indent(stdout)
+print(stdout)
+stdout = audiorename.utils.indent(stdout)
 stdout = phrydy.doc_generator.remove_color(stdout)
 template = template.replace('<< cli help >>', stdout)
 
 # config file
-config = open(path('example-config.ini'), 'r').read()
-config = indent(config)
+config = open(path('audiorename', 'example-config.ini'), 'r').read()
+config = audiorename.utils.indent(config)
 template = template.replace('<< config file >>', config)
 
 # fields documentation
