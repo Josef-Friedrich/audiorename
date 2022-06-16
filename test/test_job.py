@@ -163,9 +163,9 @@ class TestJobWithArgParser(unittest.TestCase):
 
     # field_skip
     def test_field_skip(self):
-        self.args.field_skip = True
+        self.args.field_skip = 'album'
         job = Job(self.args)
-        self.assertEqual(job.field_skip, True)
+        self.assertEqual(job.filters.field_skip, 'album')
 
     # source
     def test_source(self):

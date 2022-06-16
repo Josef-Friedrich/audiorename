@@ -350,8 +350,9 @@ def do_job_on_audiofile(source_path: str, job: Job):
         )
         return
 
-    if job.field_skip and (not hasattr(source.meta,
-       job.field_skip) or not getattr(source.meta, job.field_skip)):
+    if job.filters.field_skip and (not hasattr(source.meta,
+       job.filters.field_skip) or not getattr(source.meta,
+       job.filters.field_skip)):
         job.msg.status('No field', status='error')
         count('no_field')
         return

@@ -189,6 +189,7 @@ class FiltersConfig(Config):
     _album_min: typing.Union[int, None]
     _extension: typing.Union[str, None]
     _genre_classical: typing.Union[str, None]
+    _field_skip: typing.Union[str, None]
 
     @property
     def album_complete(self) -> bool:
@@ -222,6 +223,12 @@ class FiltersConfig(Config):
         return list(
             filter(str.strip,
                    genre_classical.lower().split(',')))
+
+    @property
+    def field_skip(self) -> typing.Optional[str]:
+        if hasattr(self, '_field_skip') and \
+                isinstance(self._field_skip, str):
+            return self._field_skip
 
 
 class TemplateSettingsConfig(Config):
@@ -415,7 +422,6 @@ class Job:
         if args.config is not None:
             self._config = self.__read_config(args.config)
 
-        self.field_skip = args.field_skip
         self.dry_run = args.dry_run
         self.msg = Message(self)
 
@@ -448,6 +454,7 @@ class Job:
             'album_min': 'boolean',
             'extension': 'string',
             'genre_classical': 'string',
+            'field_skip': 'string'
         })
 
     @property
