@@ -245,7 +245,7 @@ class PathTemplatesConfig(Config):
     def default(self) -> str:
         """Get the default path template."""
         if self._is_classical:
-            return self.format_classical
+            return self.classical
         if hasattr(self, '_default'):
             return self._default
         return '$ar_initial_artist/' \
@@ -258,7 +258,7 @@ class PathTemplatesConfig(Config):
     def compilation(self) -> str:
         """Get the path template for compilations."""
         if self._is_classical:
-            return self.format_classical
+            return self.classical
         if hasattr(self, '_compilation'):
             return self._compilation
         return '_compilations/' \
@@ -271,7 +271,7 @@ class PathTemplatesConfig(Config):
     def soundtrack(self) -> str:
         """Get the path template for soundtracks."""
         if self._is_classical:
-            return self.format_classical
+            return self.classical
         if self._job.template_settings.no_soundtrack:
             return self.default
         if hasattr(self, '_soundtrack'):
@@ -283,7 +283,7 @@ class PathTemplatesConfig(Config):
             '${ar_combined_disctrack}_${artist}_%shorten{$title}'
 
     @property
-    def format_classical(self) -> str:
+    def classical(self) -> str:
         """Get the path template for classical music."""
         if hasattr(self, '_format_classical'):
             return self._format_classical
