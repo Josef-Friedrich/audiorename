@@ -391,7 +391,7 @@ def do_job_on_audiofile(source_path: str, job: Job):
            in job.filters.genre_classical:
             format_string = job.path_templates.classical
         elif source.meta.ar_combined_soundtrack:
-            if job._args.no_soundtrack and source.meta.comp:
+            if job.args.no_soundtrack and source.meta.comp:
                 format_string = job.path_templates.compilation
             else:
                 format_string = job.path_templates.soundtrack

@@ -94,16 +94,16 @@ class Config:
         self._job = job
         for option, data_type in options.items():
             attr = None
-            if getattr(job._args, option) is not None:
-                attr = getattr(job._args, option)
-            elif job._config:
+            if getattr(job.args, option) is not None:
+                attr = getattr(job.args, option)
+            elif job.config:
                 try:
                     if data_type == 'boolean':
-                        attr = job._config.getboolean(section, option)
+                        attr = job.config.getboolean(section, option)
                     elif data_type == 'integer':
-                        attr = job._config.getint(section, option)
+                        attr = job.config.getint(section, option)
                     else:
-                        attr = job._config.get(section, option)
+                        attr = job.config.get(section, option)
                 except configparser.NoOptionError:
                     pass
 
@@ -115,7 +115,7 @@ class SelectionConfig(Config):
 
     _source: typing.Union[str, None]
     _target: typing.Union[str, None]
-    _source_as_target: typing.Union[bool, None]
+    _source_as_target: typing.Optional[bool]
 
     @property
     def source(self) -> str:
@@ -155,37 +155,49 @@ class SelectionConfig(Config):
         return False
 
 
+MoveAction = typing.Literal['move', 'copy', 'no_rename']
+CleaningAction = typing.Literal['backup', 'delete', 'do_nothing']
+
+
 class RenameConfig(Config):
+
+    _backup_folder: typing.Optional[str]
+    _best_format: typing.Optional[bool]
+    _move_action: typing.Optional[MoveAction]
+    _cleaning_action: typing.Optional[CleaningAction]
 
     @property
     def backup_folder(self) -> str:
-        if hasattr(self, '_backup_folder'):
+        if hasattr(self, '_backup_folder') and \
+                isinstance(self._backup_folder, str):
             return self._backup_folder
         return os.path.join(os.getcwd(), '_audiorename_backups')
 
     @property
     def best_format(self) -> bool:
-        if hasattr(self, '_best_format'):
+        if hasattr(self, '_best_format') and \
+                isinstance(self._best_format, bool):
             return self._best_format
         return True
 
     @property
-    def move_action(self) -> typing.Literal['move', 'copy', 'no_rename']:
-        if hasattr(self, '_move_action'):
+    def move_action(self) -> MoveAction:
+        if hasattr(self, '_move_action') and \
+                self._move_action in ['move', 'copy', 'no_rename']:
             return self._move_action
         return 'move'
 
     @property
-    def cleaning_action(self) -> typing.Literal['backup', 'delete',
-                                                'do_nothing']:
-        if hasattr(self, '_cleaning_action'):
+    def cleaning_action(self) -> CleaningAction:
+        if hasattr(self, '_cleaning_action') and \
+                self._cleaning_action in ['backup', 'delete', 'do_nothing']:
             return self._cleaning_action
         return 'do_nothing'
 
 
 class FiltersConfig(Config):
 
-    _album_complete: typing.Union[bool, None]
+    _album_complete: typing.Optional[bool]
     _album_min: typing.Union[int, None]
     _extension: typing.Union[str, None]
     _genre_classical: typing.Union[str, None]
@@ -233,9 +245,9 @@ class FiltersConfig(Config):
 
 class TemplateSettingsConfig(Config):
 
-    _classical: typing.Union[bool, None]
-    _shell_friendly: typing.Union[bool, None]
-    _no_soundtrack: typing.Union[bool, None]
+    _classical: typing.Optional[bool]
+    _shell_friendly: typing.Optional[bool]
+    _no_soundtrack: typing.Optional[bool]
 
     @property
     def classical(self) -> bool:
@@ -330,13 +342,13 @@ class PathTemplatesConfig(Config):
 
 class CliOutputConfig(Config):
 
-    _color: typing.Union[bool, None]
-    _debug: typing.Union[bool, None]
-    _job_info: typing.Union[bool, None]
-    _mb_track_listing: typing.Union[bool, None]
-    _one_line: typing.Union[bool, None]
-    _stats: typing.Union[bool, None]
-    _verbose: typing.Union[bool, None]
+    _color: typing.Optional[bool]
+    _debug: typing.Optional[bool]
+    _job_info: typing.Optional[bool]
+    _mb_track_listing: typing.Optional[bool]
+    _one_line: typing.Optional[bool]
+    _stats: typing.Optional[bool]
+    _verbose: typing.Optional[bool]
 
     @property
     def color(self) -> bool:
@@ -384,8 +396,8 @@ class CliOutputConfig(Config):
 
 class MetadataActionsConfig(Config):
 
-    _enrich_metadata: typing.Union[bool, None]
-    _remap_classical: typing.Union[bool, None]
+    _enrich_metadata: typing.Optional[bool]
+    _remap_classical: typing.Optional[bool]
 
     @property
     def enrich_metadata(self) -> bool:
@@ -414,13 +426,13 @@ class Job:
 
     stats = Statistic()
 
-    _args: ArgsDefault
-    _config: typing.Union[configparser.ConfigParser, None] = None
+    args: ArgsDefault
+    config: typing.Optional[configparser.ConfigParser] = None
 
     def __init__(self, args: ArgsDefault):
-        self._args = args
+        self.args = args
         if args.config is not None:
-            self._config = self.__read_config(args.config)
+            self.config = self.__read_config(args.config)
 
         self.dry_run = args.dry_run
         self.msg = Message(self)

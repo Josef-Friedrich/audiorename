@@ -155,32 +155,32 @@ class ArgsDefault():
 
     # default
     config: typing.Union[str, None] = None
-    dry_run: typing.Union[bool, None] = None
+    dry_run: typing.Optional[bool] = None
 
     # [selection]
     source: typing.Union[str, None] = None
-    source_as_target: typing.Union[bool, None] = None
+    source_as_target: typing.Optional[bool] = None
     target: typing.Union[str, None] = None
 
     # [rename]
     backup_folder: typing.Union[str, None] = None
-    best_format: typing.Union[bool, None] = None
+    best_format: typing.Optional[bool] = None
     move_action: typing.Union[
         typing.Literal['move', 'copy', 'no_rename'], None] = None
     cleaning_action: typing.Union[typing.Literal['backup', 'delete',
                                                  'do_nothing'], None] = None
 
     # [filters]
-    album_complete: typing.Union[bool, None] = None
+    album_complete: typing.Optional[bool] = None
     album_min: typing.Union[int, None] = None
     extension: typing.Union[str, None] = None
     genre_classical: typing.Union[str, None] = None
-    field_skip: typing.Union[bool, None] = None
+    field_skip: typing.Optional[bool] = None
 
     # [template_settings]
-    classical: typing.Union[bool, None] = None
-    shell_friendly: typing.Union[bool, None] = None
-    no_soundtrack: typing.Union[bool, None] = None
+    classical: typing.Optional[bool] = None
+    shell_friendly: typing.Optional[bool] = None
+    no_soundtrack: typing.Optional[bool] = None
 
     # [path_templates]
     default_template: typing.Union[str, None] = None
@@ -189,17 +189,17 @@ class ArgsDefault():
     classical_template: typing.Union[str, None] = None
 
     # [cli_output]
-    color: typing.Union[bool, None] = None
-    debug: typing.Union[bool, None] = None
-    job_info: typing.Union[bool, None] = None
-    mb_track_listing: typing.Union[bool, None] = None
-    one_line: typing.Union[bool, None] = None
-    stats: typing.Union[bool, None] = None
-    verbose: typing.Union[bool, None] = None
+    color: typing.Optional[bool] = None
+    debug: typing.Optional[bool] = None
+    job_info: typing.Optional[bool] = None
+    mb_track_listing: typing.Optional[bool] = None
+    one_line: typing.Optional[bool] = None
+    stats: typing.Optional[bool] = None
+    verbose: typing.Optional[bool] = None
 
     # [metadata_actions]
-    enrich_metadata: typing.Union[bool, None] = None
-    remap_classical: typing.Union[bool, None] = None
+    enrich_metadata: typing.Optional[bool] = None
+    remap_classical: typing.Optional[bool] = None
 
 
 def description() -> str:
@@ -415,14 +415,6 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         'renamed according to certain rules.'
     )
 
-    # field_skip
-    filters.add_argument(
-        '-s',
-        '--field-skip',
-        help='Skip renaming if field is empty.',
-        default=None
-    )
-
     # album_complete
     filters.add_argument(
         '-F',
@@ -454,6 +446,14 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         '--genre-classical',
         help='List of genres to be classical.',
         default=','
+    )
+
+    # field_skip
+    filters.add_argument(
+        '-s',
+        '--field-skip',
+        help='Skip renaming if field is empty.',
+        default=None
     )
 
 ###############################################################################
