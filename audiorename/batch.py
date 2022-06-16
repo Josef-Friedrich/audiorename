@@ -20,7 +20,7 @@ class Batch:
     virtual_album: typing.List[str] = []
     """Storage of a list of files belonging to an album."""
 
-    current_album_title = ''
+    current_album_title: str = ''
     """Storage for the album title of the current audio file."""
 
     job: Job
@@ -28,9 +28,10 @@ class Batch:
     bundle_filter: bool
 
     def __init__(self, job: Job):
+
         self.job = job
         self.bundle_filter = job.filters.album_complete or \
-            job.filters.album_min
+            isinstance(job.filters.album_min, int)
 
     def check_extension(self, path: str) -> bool:
         """Check the extension of the track.
@@ -48,7 +49,8 @@ class Batch:
         """Compare the number of tracks in an album with the minimal track
         threshold.
         """
-        if len(self.virtual_album) > int(self.job.filters.album_min):
+        if isinstance(self.job.filters.album_min, int) and \
+                len(self.virtual_album) > int(self.job.filters.album_min):
             return True
         else:
             return False
