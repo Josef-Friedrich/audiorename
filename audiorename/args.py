@@ -201,7 +201,7 @@ class ArgsDefault():
     remap_classical = None
 
 
-def description():
+def description() -> str:
     """Build the description string."""
     return '''\
     Rename audio files from metadata tags.

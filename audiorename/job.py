@@ -113,19 +113,23 @@ class Config:
 
 class SelectionConfig(Config):
 
+    _source: typing.Union[str, None]
+    _target: typing.Union[str, None]
+    _source_as_target: typing.Union[bool, None]
+
     @property
     def source(self) -> str:
         """The source path as an absolute path. It maybe a directory or a
         file."""
         source: str
-        if hasattr(self, '_source'):
+        if hasattr(self, '_source') and self._source:
             source = self._source
         else:
             source = '.'
         return os.path.abspath(source)
 
     @property
-    def target(self) -> typing.Union[None, str]:
+    def target(self) -> typing.Union[str, None]:
         """The path of the target as an absolute path. It is always a
         directory.
         """
@@ -145,7 +149,8 @@ class SelectionConfig(Config):
 
     @property
     def source_as_target(self) -> bool:
-        if hasattr(self, '_source_as_target'):
+        if hasattr(self, '_source_as_target') and \
+           isinstance(self._source_as_target, bool):
             return self._source_as_target
         return False
 
@@ -296,27 +301,33 @@ class PathTemplatesConfig(Config):
 
 class CliOutputConfig(Config):
 
+    _color: typing.Union[bool, None]
+    _debug: typing.Union[bool, None]
+    _job_info: typing.Union[bool, None]
+    _mb_track_listing: typing.Union[bool, None]
+
     @property
     def color(self) -> bool:
-        if hasattr(self, '_color'):
+        if hasattr(self, '_color') and isinstance(self._color, bool):
             return self._color
         return True
 
     @property
     def debug(self) -> bool:
-        if hasattr(self, '_debug'):
+        if hasattr(self, '_debug') and isinstance(self._debug, bool):
             return self._debug
         return False
 
     @property
     def job_info(self) -> bool:
-        if hasattr(self, '_job_info'):
+        if hasattr(self, '_job_info') and isinstance(self._job_info, bool):
             return self._job_info
         return False
 
     @property
     def mb_track_listing(self) -> bool:
-        if hasattr(self, '_mb_track_listing'):
+        if hasattr(self, '_mb_track_listing') and \
+           isinstance(self._mb_track_listing, bool):
             return self._mb_track_listing
         return False
 

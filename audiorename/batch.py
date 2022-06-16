@@ -1,6 +1,7 @@
 """Batch processing of the audio files."""
 
 import os
+import typing
 
 from phrydy import MediaFile
 
@@ -16,7 +17,7 @@ class Batch:
     `album_min`.
     """
 
-    virtual_album = []
+    virtual_album: typing.List[str] = []
     """Storage of a list of files belonging to an album."""
 
     current_album_title = ''
