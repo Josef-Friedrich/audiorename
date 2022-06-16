@@ -76,80 +76,6 @@ class Statistic:
     timer = Timer()
 
 
-class DefaultFormat:
-    """A class to store the default path templates."""
-
-    default = '$ar_initial_artist/' \
-              '%shorten{$ar_combined_artist_sort}/' \
-              '%shorten{$ar_combined_album}' \
-              '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
-              '${ar_combined_disctrack}_%shorten{$title}'
-
-    compilation = '_compilations/' \
-                  '$ar_initial_album/' \
-                  '%shorten{$ar_combined_album}' \
-                  '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
-                  '${ar_combined_disctrack}_%shorten{$title}'
-
-    soundtrack = '_soundtrack/' \
-                 '$ar_initial_album/' \
-                 '%shorten{$ar_combined_album}' \
-                 '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
-                 '${ar_combined_disctrack}_${artist}_%shorten{$title}'
-
-    classical = '$ar_initial_composer/$ar_combined_composer/' \
-                '%shorten{$ar_combined_work_top,48}' \
-                '_[%shorten{$ar_classical_performer,32}]/' \
-                '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}' \
-                '%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}'
-
-
-class Format:
-    """A class to store the selected or configured path templates. This class
-    can be accessed under the attibute format of the Job class."""
-
-    default: str = ''
-    """Store the default path template."""
-
-    compilation: str = ''
-    """Store the path template for compilations."""
-
-    soundtrack: str = ''
-    """Store the path template for soundtracks."""
-
-    classical: str = ''
-    """Store the path template for classical music."""
-
-    def __init__(self, args: ArgsDefault):
-        defaults = DefaultFormat()
-
-        if args.default:
-            defaults.default = args.default
-
-        if args.compilation:
-            defaults.compilation = args.compilation
-
-        if args.soundtrack:
-            defaults.soundtrack = args.soundtrack
-
-        if args.no_soundtrack:
-            defaults.soundtrack = defaults.default
-
-        if args.format_classical:
-            defaults.classical = args.format_classical
-
-        self.classical = defaults.classical
-
-        if args.classical:
-            self.default = defaults.classical
-            self.compilation = defaults.classical
-            self.soundtrack = defaults.classical
-        else:
-            self.default = defaults.default
-            self.compilation = defaults.compilation
-            self.soundtrack = defaults.soundtrack
-
-
 class Config:
     """The class ``Config`` is used to combine the two sources of settings
     (command line arguments and INI configuration file). The command line
@@ -491,10 +417,6 @@ class Job:
             'shell_friendly': 'boolean',
             'no_soundtrack': 'boolean',
         })
-
-    @property
-    def path_templates_old(self) -> Format:
-        return Format(self._args)
 
     @property
     def path_templates(self) -> PathTemplatesConfig:
