@@ -175,7 +175,7 @@ class ArgsDefault():
     album_min: typing.Optional[int] = None
     extension: typing.Optional[str] = None
     genre_classical: typing.Optional[str] = None
-    field_skip: typing.Optional[bool] = None
+    field_skip: typing.Optional[str] = None
 
     # [template_settings]
     classical: typing.Optional[bool] = None

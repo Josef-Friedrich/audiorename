@@ -471,7 +471,7 @@ class Job:
     def filters(self) -> FiltersConfig:
         return FiltersConfig(self, 'filters', {
             'album_complete': 'boolean',
-            'album_min': 'boolean',
+            'album_min': 'integer',
             'extension': 'string',
             'genre_classical': 'string',
             'field_skip': 'string'

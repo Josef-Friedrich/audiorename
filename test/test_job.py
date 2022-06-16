@@ -143,7 +143,7 @@ class TestJobWithArgParser(unittest.TestCase):
 
     # target
     def test_target(self):
-        self.args.path = '.'
+        self.args.source = '.'
         job = Job(self.args)
         self.assertEqual(job.selection.target, os.getcwd())
 
@@ -169,7 +169,7 @@ class TestJobWithArgParser(unittest.TestCase):
 
     # source
     def test_source(self):
-        self.args.path = '.'
+        self.args.source = '.'
         job = Job(self.args)
         self.assertEqual(job.selection.source, os.path.abspath('.'))
 
@@ -181,11 +181,27 @@ class TestJobWithConfigParser(unittest.TestCase):
         args.config = helper.get_testfile(*config_file)
         return Job(args)
 
+    def setUp(self):
+        self.job = self.get_job('config', 'all-true.ini')
+
     def test_section_selection(self):
-        job = self.get_job('config', 'all-true.ini')
-        self.assertEqual(job.selection.source, '/tmp')
-        self.assertEqual(job.selection.target, '/tmp')
-        self.assertEqual(job.selection.source_as_target, True)
+        self.assertEqual(self.job.selection.source, '/tmp')
+        self.assertEqual(self.job.selection.target, '/tmp')
+        self.assertEqual(self.job.selection.source_as_target, True)
+
+    def test_section_rename(self):
+        self.assertEqual(self.job.rename.backup_folder, '/tmp/backup')
+        self.assertEqual(self.job.rename.best_format, True)
+        self.assertEqual(self.job.rename.dry_run, True)
+        self.assertEqual(self.job.rename.move_action, 'copy')
+        self.assertEqual(self.job.rename.cleaning_action, 'delete')
+
+    def test_section_filters(self):
+        self.assertEqual(self.job.filters.album_complete, True)
+        self.assertEqual(self.job.filters.album_min, 42)
+        self.assertEqual(self.job.filters.extension, ['wave', 'aiff'])
+        self.assertEqual(self.job.filters.genre_classical, ['sonata', 'opera'])
+        self.assertEqual(self.job.filters.field_skip, 'comment')
 
 
 class TestTimer(unittest.TestCase):
