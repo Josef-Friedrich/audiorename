@@ -185,21 +185,27 @@ class RenameConfig(Config):
 
 class FiltersConfig(Config):
 
+    _album_complete: typing.Union[bool, None]
+    _album_min: typing.Union[int, None]
+    _extension: typing.Union[str, None]
+    _genre_classical: typing.Union[str, None]
+
     @property
     def album_complete(self) -> bool:
-        if hasattr(self, '_album_complete'):
+        if hasattr(self, '_album_complete') and \
+                isinstance(self._album_complete, bool):
             return self._album_complete
         return False
 
     @property
     def album_min(self) -> typing.Union[int, None]:
-        if hasattr(self, '_album_min'):
+        if hasattr(self, '_album_min') and isinstance(self._album_min, int):
             return self._album_min
 
     @property
     def extension(self) -> typing.List[str]:
         extension: str
-        if hasattr(self, '_extension'):
+        if hasattr(self, '_extension') and isinstance(self._extension, str):
             extension = self._extension
         else:
             extension = 'mp3,m4a,flac,wma'
@@ -208,7 +214,8 @@ class FiltersConfig(Config):
     @property
     def genre_classical(self) -> typing.List[str]:
         genre_classical: str
-        if hasattr(self, '_genre_classical'):
+        if hasattr(self, '_genre_classical') and \
+                isinstance(self._genre_classical, str):
             genre_classical = self._genre_classical
         else:
             genre_classical = ','
@@ -219,21 +226,27 @@ class FiltersConfig(Config):
 
 class TemplateSettingsConfig(Config):
 
+    _classical: typing.Union[bool, None]
+    _shell_friendly: typing.Union[bool, None]
+    _no_soundtrack: typing.Union[bool, None]
+
     @property
     def classical(self) -> bool:
-        if hasattr(self, '_classical'):
+        if hasattr(self, '_classical') and isinstance(self._classical, bool):
             return self._classical
         return False
 
     @property
     def shell_friendly(self) -> bool:
-        if hasattr(self, '_shell_friendly'):
+        if hasattr(self, '_shell_friendly') and \
+                isinstance(self._shell_friendly, bool):
             return self._shell_friendly
         return False
 
     @property
     def no_soundtrack(self) -> bool:
-        if hasattr(self, '_no_soundtrack'):
+        if hasattr(self, '_no_soundtrack') and \
+                isinstance(self._no_soundtrack, bool):
             return self._no_soundtrack
         return False
 
@@ -241,6 +254,11 @@ class TemplateSettingsConfig(Config):
 class PathTemplatesConfig(Config):
     """A class to store the selected or configured path templates. This class
     can be accessed under the attibute path_templates of the Job class."""
+
+    _default_template: typing.Union[str, None]
+    _compilation_template: typing.Union[str, None]
+    _soundtrack_template: typing.Union[str, None]
+    _classical_template: typing.Union[str, None]
 
     @property
     def _is_classical(self) -> bool:
@@ -251,7 +269,8 @@ class PathTemplatesConfig(Config):
         """Get the default path template."""
         if self._is_classical:
             return self.classical
-        if hasattr(self, '_default_template'):
+        if hasattr(self, '_default_template') and \
+                isinstance(self._default_template, str):
             return self._default_template
         return '$ar_initial_artist/' \
             '%shorten{$ar_combined_artist_sort}/' \
@@ -264,7 +283,8 @@ class PathTemplatesConfig(Config):
         """Get the path template for compilations."""
         if self._is_classical:
             return self.classical
-        if hasattr(self, '_compilation_template'):
+        if hasattr(self, '_compilation_template') and \
+                isinstance(self._compilation_template, str):
             return self._compilation_template
         return '_compilations/' \
             '$ar_initial_album/' \
@@ -279,7 +299,8 @@ class PathTemplatesConfig(Config):
             return self.classical
         if self._job.template_settings.no_soundtrack:
             return self.default
-        if hasattr(self, '_soundtrack_template'):
+        if hasattr(self, '_soundtrack_template') and \
+                isinstance(self._soundtrack_template, str):
             return self._soundtrack_template
         return '_soundtrack/' \
             '$ar_initial_album/' \
@@ -290,7 +311,8 @@ class PathTemplatesConfig(Config):
     @property
     def classical(self) -> str:
         """Get the path template for classical music."""
-        if hasattr(self, '_classical_template'):
+        if hasattr(self, '_classical_template') and \
+                isinstance(self._classical_template, str):
             return self._classical_template
         return '$ar_initial_composer/$ar_combined_composer/' \
             '%shorten{$ar_combined_work_top,48}' \
@@ -305,6 +327,9 @@ class CliOutputConfig(Config):
     _debug: typing.Union[bool, None]
     _job_info: typing.Union[bool, None]
     _mb_track_listing: typing.Union[bool, None]
+    _one_line: typing.Union[bool, None]
+    _stats: typing.Union[bool, None]
+    _verbose: typing.Union[bool, None]
 
     @property
     def color(self) -> bool:
@@ -333,34 +358,39 @@ class CliOutputConfig(Config):
 
     @property
     def one_line(self) -> bool:
-        if hasattr(self, '_one_line'):
+        if hasattr(self, '_one_line') and isinstance(self._one_line, bool):
             return self._one_line
         return False
 
     @property
     def stats(self) -> bool:
-        if hasattr(self, '_stats'):
+        if hasattr(self, '_stats') and isinstance(self._stats, bool):
             return self._stats
         return False
 
     @property
     def verbose(self) -> bool:
-        if hasattr(self, '_verbose'):
+        if hasattr(self, '_verbose') and isinstance(self._verbose, bool):
             return self._verbose
         return False
 
 
 class MetadataActionsConfig(Config):
 
+    _enrich_metadata: typing.Union[bool, None]
+    _remap_classical: typing.Union[bool, None]
+
     @property
     def enrich_metadata(self) -> bool:
-        if hasattr(self, '_enrich_metadata'):
+        if hasattr(self, '_enrich_metadata') and \
+                isinstance(self._enrich_metadata, bool):
             return self._enrich_metadata
         return False
 
     @property
     def remap_classical(self) -> bool:
-        if hasattr(self, '_remap_classical'):
+        if hasattr(self, '_remap_classical') and \
+                isinstance(self._remap_classical, bool):
             return self._remap_classical
         return False
 
@@ -378,7 +408,7 @@ class Job:
     stats = Statistic()
 
     _args: ArgsDefault
-    _config: configparser.ConfigParser = None
+    _config: typing.Union[configparser.ConfigParser, None] = None
 
     def __init__(self, args: ArgsDefault):
         self._args = args

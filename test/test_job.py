@@ -23,10 +23,10 @@ class TestJob(unittest.TestCase):
 
     # album_complete
     def test_filter_album_complete(self):
-        self.args.album_complete = 19
+        self.args.album_complete = True
         job = Job(self.args)
         self.assertEqual(job.filters.album_min, None)
-        self.assertEqual(job.filters.album_complete, 19)
+        self.assertEqual(job.filters.album_complete, True)
 
     # album_min
     def test_filter_album_min(self):

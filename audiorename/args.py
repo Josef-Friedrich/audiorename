@@ -2,6 +2,7 @@
 
 from ._version import get_versions
 import argparse
+import typing
 import phrydy
 import tmep
 
@@ -148,57 +149,57 @@ all_fields = phrydy.merge_fields(phrydy.fields, fields)
 
 
 class ArgsDefault():
-    """To document the return
-    value of the :func:`audiorename.args.parse_args`. It can also be used to
-    mock the args object for testing purposes.
+    """To document the return value of the :func:`audiorename.args.parse_args`.
+    It can also be used to mock the args object for testing purposes.
     """
 
     # default
-    config = None
-    dry_run = None
+    config: typing.Union[str, None] = None
+    dry_run: typing.Union[bool, None] = None
 
     # [selection]
-    source = None
-    source_as_target = None
-    target = None
+    source: typing.Union[str, None] = None
+    source_as_target: typing.Union[bool, None] = None
+    target: typing.Union[str, None] = None
 
     # [rename]
-    backup_folder = None
-    best_format = None
-    move_action = None
-    cleaning_action = None
+    backup_folder: typing.Union[str, None] = None
+    best_format: typing.Union[bool, None] = None
+    move_action: typing.Union[
+        typing.Literal['move', 'copy', 'no_rename'], None] = None
+    cleaning_action: typing.Union[typing.Literal['backup', 'delete',
+                                                 'do_nothing'], None] = None
 
     # [filters]
-    album_complete = None
-    album_min = None
-    extension = None
-    genre_classical = None
-    field_skip = None
+    album_complete: typing.Union[bool, None] = None
+    album_min: typing.Union[int, None] = None
+    extension: typing.Union[str, None] = None
+    genre_classical: typing.Union[str, None] = None
+    field_skip: typing.Union[bool, None] = None
 
     # [template_settings]
-    classical = None
-    shell_friendly = None
-    no_soundtrack = None
+    classical: typing.Union[bool, None] = None
+    shell_friendly: typing.Union[bool, None] = None
+    no_soundtrack: typing.Union[bool, None] = None
 
     # [path_templates]
-    default_template = None
-    soundtrack_template = None
-    compilation_template = None
-    classical_template = None
+    default_template: typing.Union[str, None] = None
+    soundtrack_template: typing.Union[str, None] = None
+    compilation_template: typing.Union[str, None] = None
+    classical_template: typing.Union[str, None] = None
 
     # [cli_output]
-    color = None
-    debug = None
-    job_info = None
-    no_soundtrack = None
-    mb_track_listing = None
-    one_line = None
-    stats = None
-    verbose = None
+    color: typing.Union[bool, None] = None
+    debug: typing.Union[bool, None] = None
+    job_info: typing.Union[bool, None] = None
+    mb_track_listing: typing.Union[bool, None] = None
+    one_line: typing.Union[bool, None] = None
+    stats: typing.Union[bool, None] = None
+    verbose: typing.Union[bool, None] = None
 
     # [metadata_actions]
-    enrich_metadata = None
-    remap_classical = None
+    enrich_metadata: typing.Union[bool, None] = None
+    remap_classical: typing.Union[bool, None] = None
 
 
 def description() -> str:
@@ -435,6 +436,7 @@ def parse_args(argv):
     filters.add_argument(
         '-m',
         '--album-min',
+        type=int,
         help='Rename only albums containing at least X files.',
         default=None
     )
