@@ -181,10 +181,10 @@ class ArgsDefault():
     no_soundtrack = None
 
     # [path_templates]
-    default = None
-    soundtrack = None
-    compilation = None
-    format_classical = None
+    default_template = None
+    soundtrack_template = None
+    compilation_template = None
+    classical_template = None
 
     # [cli_output]
     color = None
@@ -496,26 +496,27 @@ def parse_args(argv):
 
     path_templates = parser.add_argument_group('[path_templates]')
 
-    # compilation
-    path_templates.add_argument(
-        '-c',
-        '--compilation',
-        metavar='PATH_TEMPLATE',
-        help='Path template for compilations. Use metadata fields and \
-        functions to build the path template.',
-        default=None,
-    )
-
-    # format
+    # default
     path_templates.add_argument(
         '-f',
         '--default',
         '--format',
         metavar='PATH_TEMPLATE',
-        dest='default',
+        dest='default_template',
         help='The default path template for audio files that are not \
         compilations or compilations. Use metadata fields and functions to \
         build the path template.',
+        default=None,
+    )
+
+    # compilation
+    path_templates.add_argument(
+        '-c',
+        '--compilation',
+        metavar='PATH_TEMPLATE',
+        dest='compilation_template',
+        help='Path template for compilations. Use metadata fields and \
+        functions to build the path template.',
         default=None,
     )
 
@@ -523,6 +524,7 @@ def parse_args(argv):
     path_templates.add_argument(
         '--soundtrack',
         metavar='PATH_TEMPLATE',
+        dest='soundtrack_template',
         help='Path template for a soundtrack audio file. Use metadata fields \
         and functions to build the path template.',
         default=None,
@@ -532,6 +534,7 @@ def parse_args(argv):
     path_templates.add_argument(
         '--format-classical',
         metavar='PATH_TEMPLATE',
+        dest='classical_template',
         help='Path template for classical audio file. Use metadata fields \
         and functions to build the path template.',
         default=None,

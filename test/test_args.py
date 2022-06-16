@@ -158,8 +158,9 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.color, self.default.color)
 
     def test_compilation(self):
-        self.assertEqual(self.args.compilation, None)
-        self.assertEqual(self.args.compilation, self.default.compilation)
+        self.assertEqual(self.args.compilation_template, None)
+        self.assertEqual(self.args.compilation_template,
+                         self.default.compilation_template)
 
     def test_debug(self):
         self.assertEqual(self.args.debug, None)
@@ -183,13 +184,14 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.field_skip, self.default.field_skip)
 
     def test_format(self):
-        self.assertEqual(self.args.default, None)
-        self.assertEqual(self.args.default, self.default.default)
+        self.assertEqual(self.args.default_template, None)
+        self.assertEqual(self.args.default_template,
+                         self.default.default_template)
 
     def test_format_classical(self):
-        self.assertEqual(self.args.format_classical, None)
-        self.assertEqual(self.args.format_classical,
-                         self.default.format_classical)
+        self.assertEqual(self.args.classical_template, None)
+        self.assertEqual(self.args.classical_template,
+                         self.default.classical_template)
 
     def test_job_info(self):
         self.assertEqual(self.args.job_info, None)
@@ -218,8 +220,9 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.shell_friendly, self.default.shell_friendly)
 
     def test_soundtrack(self):
-        self.assertEqual(self.args.soundtrack, None)
-        self.assertEqual(self.args.soundtrack, self.default.soundtrack)
+        self.assertEqual(self.args.soundtrack_template, None)
+        self.assertEqual(self.args.soundtrack_template,
+                         self.default.soundtrack_template)
 
     def test_source_as_target(self):
         self.assertEqual(self.args.source_as_target, None)

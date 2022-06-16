@@ -246,8 +246,8 @@ class PathTemplatesConfig(Config):
         """Get the default path template."""
         if self._is_classical:
             return self.classical
-        if hasattr(self, '_default'):
-            return self._default
+        if hasattr(self, '_default_template'):
+            return self._default_template
         return '$ar_initial_artist/' \
             '%shorten{$ar_combined_artist_sort}/' \
             '%shorten{$ar_combined_album}' \
@@ -259,8 +259,8 @@ class PathTemplatesConfig(Config):
         """Get the path template for compilations."""
         if self._is_classical:
             return self.classical
-        if hasattr(self, '_compilation'):
-            return self._compilation
+        if hasattr(self, '_compilation_template'):
+            return self._compilation_template
         return '_compilations/' \
             '$ar_initial_album/' \
             '%shorten{$ar_combined_album}' \
@@ -274,8 +274,8 @@ class PathTemplatesConfig(Config):
             return self.classical
         if self._job.template_settings.no_soundtrack:
             return self.default
-        if hasattr(self, '_soundtrack'):
-            return self._soundtrack
+        if hasattr(self, '_soundtrack_template'):
+            return self._soundtrack_template
         return '_soundtrack/' \
             '$ar_initial_album/' \
             '%shorten{$ar_combined_album}' \
@@ -285,8 +285,8 @@ class PathTemplatesConfig(Config):
     @property
     def classical(self) -> str:
         """Get the path template for classical music."""
-        if hasattr(self, '_format_classical'):
-            return self._format_classical
+        if hasattr(self, '_classical_template'):
+            return self._classical_template
         return '$ar_initial_composer/$ar_combined_composer/' \
             '%shorten{$ar_combined_work_top,48}' \
             '_[%shorten{$ar_classical_performer,32}]/' \
@@ -421,10 +421,10 @@ class Job:
     @property
     def path_templates(self) -> PathTemplatesConfig:
         return PathTemplatesConfig(self, 'path_templates', {
-            'default': 'string',
-            'compilation': 'string',
-            'soundtrack': 'string',
-            'format_classical': 'string',
+            'default_template': 'string',
+            'compilation_template': 'string',
+            'soundtrack_template': 'string',
+            'classical_template': 'string',
         })
 
     @property
