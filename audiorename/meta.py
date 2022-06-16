@@ -8,9 +8,12 @@ import typing
 
 import audiorename.musicbrainz as musicbrainz
 
+Diff = typing.List[typing.Tuple[str,
+                                typing.Optional[str], typing.Optional[str]]]
+
 
 def compare_dicts(first: typing.Dict[str, str],
-                  second: typing.Dict[str, str]) -> typing.List[str]:
+                  second: typing.Dict[str, str]) -> Diff:
     """Compare two dictionaries for differenes.
 
     :param first: First dictionary to diff.
@@ -18,7 +21,7 @@ def compare_dicts(first: typing.Dict[str, str],
 
     :return: As list of key entries whose values differ.
     """
-    diff = []
+    diff: Diff = []
     for key, _ in sorted(first.items()):
         if key not in second:
             diff.append((key, first[key], None))
@@ -27,7 +30,7 @@ def compare_dicts(first: typing.Dict[str, str],
         if key not in first:
             diff.append((key, None, second[key]))
 
-    all_keys = set()
+    all_keys: set[str] = set()
     for key, _ in first.items():
         all_keys.add(key)
     for key, _ in second.items():
@@ -603,7 +606,7 @@ class Meta(MediaFileExtended):
     @property
     def ar_combined_soundtrack(self):
         if (self.releasegroup_types and 'soundtrack'
-           in self.releasegroup_types.lower()) or \
+            in self.releasegroup_types.lower()) or \
            (self.albumtype and 'soundtrack' in self.albumtype.lower()):
             return True
         else:
