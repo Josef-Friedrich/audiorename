@@ -245,6 +245,27 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         description=description()
     )
 
+    ##
+    # Options without section. These options have no equivalent in the
+    # configuration file
+    ##
+
+    # config
+    parser.add_argument(
+        '--config',
+        help='Load a configuration file in INI format.',
+        default=None,
+    )
+
+    # version
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='version',
+        version='%(prog)s {version}'.format(version=get_versions()['version'])
+    )
+
+
 ###############################################################################
 # [selection]
 ###############################################################################
@@ -255,6 +276,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         'files.'
     )
 
+    # source
     selection.add_argument(
         'source',
         help='A folder containing audio files or a single audio file. If you '
@@ -280,30 +302,15 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         default=None,
     )
 
-    ##
-    # Options (sorted alphabetically)
-    ##
-
-    # config
-    parser.add_argument(
-        '--config',
-        help='Load a configuration file in INI format.',
-        default=None,
-    )
-
-    # version
-    parser.add_argument(
-        '-v',
-        '--version',
-        action='version',
-        version='%(prog)s {version}'.format(version=get_versions()['version'])
-    )
 
 ###############################################################################
 # Rename
 ###############################################################################
 
-    rename = parser.add_argument_group('[rename]')
+    rename = parser.add_argument_group(
+        title='[rename]',
+        description='These options configure the actual renaming process.'
+    )
 
     # backup_folder
     rename.add_argument(
@@ -342,7 +349,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
     rename_move = parser.add_argument_group('move action')
     exclusive_rename_move = rename_move.add_mutually_exclusive_group()
 
-    # copy
+    # move_action: copy
     exclusive_rename_move.add_argument(
         '-C',
         '--copy',
@@ -352,7 +359,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         const='copy',
     )
 
-    # move
+    # move_action: move
     exclusive_rename_move.add_argument(
         '-M',
         '--move',
@@ -363,7 +370,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         const='move',
     )
 
-    # no_rename
+    # move_action: no_rename
     exclusive_rename_move.add_argument(
         '-n',
         '--no-rename',
@@ -384,7 +391,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
     )
     exclusive_rename_cleaning = rename_cleaning.add_mutually_exclusive_group()
 
-    # backup
+    # cleaning_action: backup
     exclusive_rename_cleaning.add_argument(
         '-A',
         '--backup',
@@ -395,7 +402,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         const='backup',
     )
 
-    # delete
+    # cleaning_action: delete
     exclusive_rename_cleaning.add_argument(
         '-D',
         '--delete',
@@ -467,7 +474,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         '-k',
         '--classical',
         help='Use the default format for classical music. If you use this \
-        option, both parameters (--format and --compilation) have no \
+        option, both parameters (--default and --compilation) have no \
         effect. Classical music is sorted by the lastname of the composer.',
         action='store_true',
         default=None,
@@ -496,9 +503,13 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
 # path_templates
 ###############################################################################
 
-    path_templates = parser.add_argument_group('[path_templates]')
+    path_templates = parser.add_argument_group(
+        title='[path_templates]',
+        description='audiorename provides default path templates. '
+        'You can specify your own path templates using the following options.',
+    )
 
-    # default
+    # default_template
     path_templates.add_argument(
         '-f',
         '--default',
@@ -511,7 +522,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         default=None,
     )
 
-    # compilation
+    # compilation_template
     path_templates.add_argument(
         '-c',
         '--compilation',
@@ -522,7 +533,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         default=None,
     )
 
-    # soundtrack
+    # soundtrack_template
     path_templates.add_argument(
         '--soundtrack',
         metavar='PATH_TEMPLATE',
@@ -532,7 +543,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         default=None,
     )
 
-    # classical
+    # classical_template
     path_templates.add_argument(
         '--format-classical',
         metavar='PATH_TEMPLATE',

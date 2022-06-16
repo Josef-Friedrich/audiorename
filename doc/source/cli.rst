@@ -3,12 +3,12 @@ Comande line interface
 
 .. code-block:: text
 
-    usage: audiorenamer [-h] [-t TARGET] [-a] [--config CONFIG] [-d] [-v]
-                        [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A | -D]
-                        [-s FIELD_SKIP] [-F] [-m ALBUM_MIN] [-e EXTENSION]
-                        [--genre-classical GENRE_CLASSICAL] [-k] [-S]
-                        [--no-soundtrack] [-f PATH_TEMPLATE] [-c PATH_TEMPLATE]
-                        [--soundtrack PATH_TEMPLATE]
+    usage: audiorenamer [-h] [--config CONFIG] [-v] [-t TARGET] [-a]
+                        [-p BACKUP_FOLDER] [-B] [-d] [-C | -M | -n] [-A | -D] [-F]
+                        [-m ALBUM_MIN] [-e EXTENSION]
+                        [--genre-classical GENRE_CLASSICAL] [-s FIELD_SKIP] [-k]
+                        [-S] [--no-soundtrack] [-f PATH_TEMPLATE]
+                        [-c PATH_TEMPLATE] [--soundtrack PATH_TEMPLATE]
                         [--format-classical PATH_TEMPLATE] [-K | --no-color] [-b]
                         [-j] [-l] [-o] [-T] [-V] [-E] [-r]
                         source
@@ -557,7 +557,6 @@ Comande line interface
     optional arguments:
       -h, --help            show this help message and exit
       --config CONFIG       Load a configuration file in INI format.
-      -d, --dry-run         Don’t rename or copy the audio files.
       -v, --version         show program's version number and exit
     
     [selection]:
@@ -574,6 +573,8 @@ Comande line interface
                             Use specified source folder as target directory
     
     [rename]:
+      These options configure the actual renaming process.
+    
       -p BACKUP_FOLDER, --backup-folder BACKUP_FOLDER
                             Folder to store the backup files in.
       -B, --best-format     Use the best format. This option only takes effect if
@@ -582,6 +583,7 @@ Comande line interface
                             target). The tool first examines the format. For
                             example a FLAC file wins over a MP3 file. Then
                             `audiorename` checks the bitrate.
+      -d, --dry-run         Don’t rename or copy the audio files.
     
     move action:
       -C, --copy            Copy files instead of rename / move.
@@ -601,8 +603,6 @@ Comande line interface
     [filters]:
       The following options filter the music files that are renamed according to certain rules.
     
-      -s FIELD_SKIP, --field-skip FIELD_SKIP
-                            Skip renaming if field is empty.
       -F, --album-complete  Rename only complete albums.
       -m ALBUM_MIN, --album-min ALBUM_MIN
                             Rename only albums containing at least X files.
@@ -610,10 +610,12 @@ Comande line interface
                             Extensions to rename.
       --genre-classical GENRE_CLASSICAL
                             List of genres to be classical.
+      -s FIELD_SKIP, --field-skip FIELD_SKIP
+                            Skip renaming if field is empty.
     
     [template_settings]:
       -k, --classical       Use the default format for classical music. If you use
-                            this option, both parameters (--format and
+                            this option, both parameters (--default and
                             --compilation) have no effect. Classical music is
                             sorted by the lastname of the composer.
       -S, --shell-friendly  Rename audio files “shell friendly”, this means
@@ -622,6 +624,8 @@ Comande line interface
                             instead the default path template.
     
     [path_templates]:
+      audiorename provides default path templates. You can specify your own path templates using the following options.
+    
       -f PATH_TEMPLATE, --default PATH_TEMPLATE, --format PATH_TEMPLATE
                             The default path template for audio files that are not
                             compilations or compilations. Use metadata fields and
