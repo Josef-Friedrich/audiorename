@@ -416,7 +416,6 @@ class Job:
             self._config = self.__read_config(args.config)
 
         self.field_skip = args.field_skip
-        self.shell_friendly = args.shell_friendly
         self.dry_run = args.dry_run
         self.msg = Message(self)
 

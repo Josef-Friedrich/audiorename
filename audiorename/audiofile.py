@@ -42,7 +42,7 @@ class AudioFile:
         if not self.job:
             return True
         else:
-            return self.job.shell_friendly
+            return self.job.template_settings.shell_friendly
 
     @property
     def meta(self) -> typing.Optional[Meta]:
@@ -401,8 +401,10 @@ def do_job_on_audiofile(source_path: str, job: Job):
 
         meta_dict = source.meta.export_dict()
 
-        desired_target_path = process_target_path(meta_dict, format_string,
-                                                  job.shell_friendly)
+        desired_target_path = process_target_path(
+            meta_dict, format_string,
+            job.template_settings.shell_friendly
+        )
 
         # Remove the leading path separator to prevent the audio files from
         # ending up in a folder other than the target folder.

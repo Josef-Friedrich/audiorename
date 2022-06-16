@@ -1,4 +1,4 @@
-"""Test the code in the __init__ file."""
+"""Test the file job.py."""
 
 from audiorename.job import Job, Timer, Counter
 from audiorename.args import ArgsDefault
@@ -159,7 +159,7 @@ class TestJobWithArgParser(unittest.TestCase):
     def test_shell_friendly(self):
         self.args.shell_friendly = True
         job = Job(self.args)
-        self.assertEqual(job.shell_friendly, True)
+        self.assertEqual(job.template_settings.shell_friendly, True)
 
     # field_skip
     def test_field_skip(self):
