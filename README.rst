@@ -70,8 +70,8 @@ Usage
                         [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A | -D]
                         [-s FIELD_SKIP] [-F] [-m ALBUM_MIN] [-e EXTENSION]
                         [--genre-classical GENRE_CLASSICAL] [-k] [-S]
-                        [-c PATH_TEMPLATE] [-f PATH_TEMPLATE]
-                        [--soundtrack PATH_TEMPLATE] [--no-soundtrack]
+                        [--no-soundtrack] [-f PATH_TEMPLATE] [-c PATH_TEMPLATE]
+                        [--soundtrack PATH_TEMPLATE]
                         [--format-classical PATH_TEMPLATE] [-K | --no-color] [-b]
                         [-j] [-l] [-o] [-T] [-V] [-E] [-r]
                         source
@@ -674,28 +674,28 @@ Usage
       --genre-classical GENRE_CLASSICAL
                             List of genres to be classical.
     
-    formats:
+    [template_settings]:
       -k, --classical       Use the default format for classical music. If you use
                             this option, both parameters (--format and
                             --compilation) have no effect. Classical music is
                             sorted by the lastname of the composer.
       -S, --shell-friendly  Rename audio files “shell friendly”, this means
                             without whitespaces, parentheses etc.
+      --no-soundtrack       Do not use the path template for soundtracks. Use
+                            instead the default path template.
     
     [path_templates]:
-      -c PATH_TEMPLATE, --compilation PATH_TEMPLATE
-                            Path template for compilations. Use metadata fields
-                            and functions to build the path template.
-      -f PATH_TEMPLATE, --format PATH_TEMPLATE
+      -f PATH_TEMPLATE, --default PATH_TEMPLATE, --format PATH_TEMPLATE
                             The default path template for audio files that are not
                             compilations or compilations. Use metadata fields and
                             functions to build the path template.
+      -c PATH_TEMPLATE, --compilation PATH_TEMPLATE
+                            Path template for compilations. Use metadata fields
+                            and functions to build the path template.
       --soundtrack PATH_TEMPLATE
                             Path template for a soundtrack audio file. Use
                             metadata fields and functions to build the path
                             template.
-      --no-soundtrack       Do not use the path template for soundtracks. Use
-                            instead the default path template.
       --format-classical PATH_TEMPLATE
                             Path template for classical audio file. Use metadata
                             fields and functions to build the path template.
@@ -765,16 +765,16 @@ Example configuration file
     genre_classical = False
     field_skip = False
     
-    [format_settings]
+    [template_settings]
     classical = False
-    shell-friendly = False
+    shell_friendly = False
     no_soundtrack = False
     
     [path_templates]
-    format = '$ar_initial_artist/%shorten{$ar_combined_artist_sort}/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}'
-    compilation = '_compilations/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}'
-    soundtrack = '_soundtrack/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_${artist}_%shorten{$title}'
-    format_classical = '$ar_initial_composer/$ar_combined_composer/%shorten{$ar_combined_work_top,48}_[%shorten{$ar_classical_performer,32}]/${ar_combined_disctrack}_%shorten{$ar_classical_title,64}%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}'
+    default_template = '$ar_initial_artist/%shorten{$ar_combined_artist_sort}/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}'
+    compilation_template = '_compilations/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}'
+    soundtrack_template = '_soundtrack/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_${artist}_%shorten{$title}'
+    classical_template = '$ar_initial_composer/$ar_combined_composer/%shorten{$ar_combined_work_top,48}_[%shorten{$ar_classical_performer,32}]/${ar_combined_disctrack}_%shorten{$ar_classical_title,64}%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}'
     
     [cli_output]
     ; see --color or --no-color

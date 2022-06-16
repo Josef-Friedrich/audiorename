@@ -7,8 +7,8 @@ Comande line interface
                         [-p BACKUP_FOLDER] [-B] [-C | -M | -n] [-A | -D]
                         [-s FIELD_SKIP] [-F] [-m ALBUM_MIN] [-e EXTENSION]
                         [--genre-classical GENRE_CLASSICAL] [-k] [-S]
-                        [-c PATH_TEMPLATE] [-f PATH_TEMPLATE]
-                        [--soundtrack PATH_TEMPLATE] [--no-soundtrack]
+                        [--no-soundtrack] [-f PATH_TEMPLATE] [-c PATH_TEMPLATE]
+                        [--soundtrack PATH_TEMPLATE]
                         [--format-classical PATH_TEMPLATE] [-K | --no-color] [-b]
                         [-j] [-l] [-o] [-T] [-V] [-E] [-r]
                         source
@@ -611,28 +611,28 @@ Comande line interface
       --genre-classical GENRE_CLASSICAL
                             List of genres to be classical.
     
-    formats:
+    [template_settings]:
       -k, --classical       Use the default format for classical music. If you use
                             this option, both parameters (--format and
                             --compilation) have no effect. Classical music is
                             sorted by the lastname of the composer.
       -S, --shell-friendly  Rename audio files “shell friendly”, this means
                             without whitespaces, parentheses etc.
+      --no-soundtrack       Do not use the path template for soundtracks. Use
+                            instead the default path template.
     
     [path_templates]:
-      -c PATH_TEMPLATE, --compilation PATH_TEMPLATE
-                            Path template for compilations. Use metadata fields
-                            and functions to build the path template.
-      -f PATH_TEMPLATE, --format PATH_TEMPLATE
+      -f PATH_TEMPLATE, --default PATH_TEMPLATE, --format PATH_TEMPLATE
                             The default path template for audio files that are not
                             compilations or compilations. Use metadata fields and
                             functions to build the path template.
+      -c PATH_TEMPLATE, --compilation PATH_TEMPLATE
+                            Path template for compilations. Use metadata fields
+                            and functions to build the path template.
       --soundtrack PATH_TEMPLATE
                             Path template for a soundtrack audio file. Use
                             metadata fields and functions to build the path
                             template.
-      --no-soundtrack       Do not use the path template for soundtracks. Use
-                            instead the default path template.
       --format-classical PATH_TEMPLATE
                             Path template for classical audio file. Use metadata
                             fields and functions to build the path template.
