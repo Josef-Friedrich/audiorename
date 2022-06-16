@@ -3,10 +3,22 @@
 import os
 import typing
 
-from phrydy import MediaFile
+from phrydy import MediaFileExtended
 
 from .job import Job
 from .audiofile import do_job_on_audiofile, mb_track_listing
+
+
+class VirtualAlbum:
+
+    title: str
+    track: int
+    path: str
+
+    def __init__(self, title: str, track: int, path: str) -> None:
+        self.title = title
+        self.track = track
+        self.path = path
 
 
 class Batch:
@@ -17,7 +29,7 @@ class Batch:
     `album_min`.
     """
 
-    virtual_album: typing.List[str] = []
+    virtual_album: typing.List[VirtualAlbum] = []
     """Storage of a list of files belonging to an album."""
 
     current_album_title: str = ''
@@ -58,9 +70,9 @@ class Batch:
     def check_completeness(self):
         """Check if the album is complete"""
         max_track = 0
-        for record in self.virtual_album:
-            if record['track'] > max_track:
-                max_track = record['track']
+        for album in self.virtual_album:
+            if album.track > max_track:
+                max_track = album.track
 
         if len(self.virtual_album) == max_track:
             return True
@@ -77,12 +89,12 @@ class Batch:
             completeness = False
 
         if quantity and completeness:
-            for p in self.virtual_album:
-                do_job_on_audiofile(p['path'], job=self.job)
+            for album in self.virtual_album:
+                do_job_on_audiofile(album.path, job=self.job)
 
         self.virtual_album = []
 
-    def make_bundles(self, path=''):
+    def make_bundles(self, path: str = ''):
         """
         :params str path: The path of the tracks.
         """
@@ -91,16 +103,13 @@ class Batch:
             return
 
         try:
-            media = MediaFile(path)
-            record = {}
-            record['title'] = media.album
-            record['track'] = media.track
-            record['path'] = path
+            media = MediaFileExtended(path)
+            album = VirtualAlbum(media.album, media.track, path)
             if not self.current_album_title or \
                     self.current_album_title != media.album:
                 self.current_album_title = media.album
                 self.process_album()
-            self.virtual_album.append(record)
+            self.virtual_album.append(album)
         except Exception:
             pass
 
