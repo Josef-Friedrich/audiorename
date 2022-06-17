@@ -814,8 +814,6 @@ file.
 
     audiorenamer --config /home/user/my-config.ini
 
-.. code-block:: Shell
-
 It is also possible to load several configuration files. Values of the
 latter file overwrite the values of the first files.
 
