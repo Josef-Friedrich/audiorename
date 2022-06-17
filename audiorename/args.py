@@ -152,7 +152,7 @@ all_fields = phrydy.doc_generator.merge_fields(
     phrydy.field_docs.fields, fields)
 
 
-class ArgsDefault():
+class ArgsDefault:
     """To document the return value of the :func:`audiorename.args.parse_args`.
     It can also be used to mock the args object for testing purposes.
     """
@@ -204,6 +204,10 @@ class ArgsDefault():
     # [metadata_actions]
     enrich_metadata: typing.Optional[bool] = None
     remap_classical: typing.Optional[bool] = None
+
+    def __init__(self, **kwargs: typing.Any):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
 
 def read_configuration_file() -> str:

@@ -1,5 +1,6 @@
 """Test the file job.py."""
 
+import typing
 from audiorename.job import Job, Timer, Counter
 from audiorename.args import ArgsDefault
 import unittest
@@ -7,171 +8,114 @@ import os
 import helper
 
 
+def job(**kwargs: typing.Any) -> Job:
+    return Job(ArgsDefault(**kwargs))
+
+
 class TestJobWithArgParser(unittest.TestCase):
 
-    def setUp(self):
-        self.args = ArgsDefault()
-
-    # dry_run
-    def test_rename_action_dry_run(self):
-        self.args.dry_run = True
-        job = Job(self.args)
-        self.assertEqual(job.rename.dry_run, True)
-
     ##
-    # filter
+    # [selection]
     ##
 
-    # album_complete
-    def test_filter_album_complete(self):
-        self.args.album_complete = True
-        job = Job(self.args)
-        self.assertEqual(job.filters.album_min, None)
-        self.assertEqual(job.filters.album_complete, True)
-
-    # album_min
-    def test_filter_album_min(self):
-        self.args.album_min = 19
-        job = Job(self.args)
-        self.assertEqual(job.filters.album_min, 19)
-        self.assertEqual(job.filters.album_complete, False)
-
-    # extension
-    def test_filter_extension(self):
-        self.args.extension = 'lol'
-        job = Job(self.args)
-        self.assertEqual(job.filters.extension, ['lol'])
-
-    ##
-    # metadata_actions
-    ##
-
-    # enrich_metadata
-    def test_metadata_actions_enrich_metadata(self):
-        self.args.enrich_metadata = True
-        job = Job(self.args)
-        self.assertEqual(job.metadata_actions.enrich_metadata, True)
-
-    # remap_classical
-    def test_metadata_actions_remap_classical(self):
-        self.args.remap_classical = True
-        job = Job(self.args)
-        self.assertEqual(job.metadata_actions.remap_classical, True)
-
-    ##
-    # output
-    ##
-
-    # color
-    def test_output_color(self):
-        self.args.color = True
-        job = Job(self.args)
-        self.assertEqual(job.cli_output.color, True)
-
-    # debug
-    def test_output_debug(self):
-        self.args.debug = True
-        job = Job(self.args)
-        self.assertEqual(job.cli_output.debug, True)
-
-    # job_info
-    def test_output_job_info(self):
-        self.args.job_info = True
-        job = Job(self.args)
-        self.assertEqual(job.cli_output.job_info, True)
-
-    # mb_track_listing
-    def test_output_mb_track_listing(self):
-        self.args.mb_track_listing = True
-        job = Job(self.args)
-        self.assertEqual(job.cli_output.mb_track_listing, True)
-
-    # one_line
-    def test_output_one_line(self):
-        self.args.one_line = True
-        job = Job(self.args)
-        self.assertEqual(job.cli_output.one_line, True)
-
-    # stats
-    def test_output_stats(self):
-        self.args.stats = True
-        job = Job(self.args)
-        self.assertEqual(job.cli_output.stats, True)
-
-    # verbose
-    def test_output_verbose(self):
-        self.args.verbose = True
-        job = Job(self.args)
-        self.assertEqual(job.cli_output.verbose, True)
-
-    ##
-    # rename
-    ##
-
-    # move_action default
-    def test_rename_move_action_default(self):
-        job = Job(self.args)
-        self.assertEqual(job.rename.move_action, 'move')
-
-    # move_action set value
-    def test_rename_move_action_set(self):
-        self.args.move_action = 'copy'
-        job = Job(self.args)
-        self.assertEqual(job.rename.move_action, 'copy')
-
-    # best_format
-    def test_rename_best_format(self):
-        self.args.best_format = True
-        job = Job(self.args)
-        self.assertEqual(job.rename.best_format, True)
-
-    # backup_folder
-    def test_rename_backup_folder(self):
-        self.args.backup_folder = '/tmp'
-        job = Job(self.args)
-        self.assertEqual(job.rename.backup_folder, '/tmp')
-
-    # backup
-    def test_rename_cleanup_backup(self):
-        self.args.cleaning_action = 'backup'
-        job = Job(self.args)
-        self.assertEqual(job.rename.cleaning_action, 'backup')
-
-    ##
-    # end rename
-    ##
-
-    # target
-    def test_target(self):
-        self.args.source = '.'
-        job = Job(self.args)
-        self.assertEqual(job.selection.target, os.getcwd())
-
-        self.args.target = 'test'
-        job = Job(self.args)
-        self.assertEqual(job.selection.target, os.path.abspath('test'))
-
-        self.args.source_as_target = True
-        job = Job(self.args)
-        self.assertEqual(job.selection.target, os.getcwd())
-
-    # shell_friendly
-    def test_shell_friendly(self):
-        self.args.shell_friendly = True
-        job = Job(self.args)
-        self.assertEqual(job.template_settings.shell_friendly, True)
-
-    # field_skip
-    def test_field_skip(self):
-        self.args.field_skip = 'album'
-        job = Job(self.args)
-        self.assertEqual(job.filters.field_skip, 'album')
-
-    # source
     def test_source(self):
-        self.args.source = '.'
-        job = Job(self.args)
-        self.assertEqual(job.selection.source, os.path.abspath('.'))
+        self.assertEqual(job(source='.').selection.source,
+                         os.path.abspath('.'))
+
+    def test_target_default(self):
+        self.assertEqual(job(source='.').selection.target, os.getcwd())
+
+    def test_target(self):
+        self.assertEqual(job(target='test').selection.target,
+                         os.path.abspath('test'))
+
+    def test_source_as_target(self):
+        self.assertEqual(job(source_as_target=True).selection.target,
+                         os.getcwd())
+
+    ##
+    # [rename]
+    ##
+
+    def test_backup_folder(self):
+        self.assertEqual(job(backup_folder='/tmp').rename.backup_folder,
+                         '/tmp')
+
+    def test_best_format(self):
+        self.assertEqual(job(best_format=True).rename.best_format, True)
+
+    def test_dry_run(self):
+        self.assertEqual(job(dry_run=True).rename.dry_run, True)
+
+    def test_move_action(self):
+        self.assertEqual(job(move_action='copy').rename.move_action, 'copy')
+
+    def test_cleaning_action(self):
+        self.assertEqual(
+            job(cleaning_action='backup').rename.cleaning_action, 'backup')
+
+    ##
+    # [filters]
+    ##
+
+    def test_album_complete(self):
+        self.assertEqual(job(album_complete=True).filters.album_min, None)
+        self.assertEqual(job(album_complete=True).filters.album_complete, True)
+
+    def test_album_min(self):
+        self.assertEqual(job(album_min=19).filters.album_min, 19)
+        self.assertEqual(job(album_min=19).filters.album_complete, False)
+
+    def test_extension(self):
+        self.assertEqual(job(extension='lol').filters.extension, ['lol'])
+
+    def test_field_skip(self):
+        self.assertEqual(job(field_skip='album').filters.field_skip, 'album')
+    ##
+    # [template_settings]
+    ##
+
+    def test_shell_friendly(self):
+        self.assertEqual(
+            job(shell_friendly=True).template_settings.shell_friendly, True)
+
+    ##
+    # [cli_output]
+    ##
+
+    def test_color(self):
+        self.assertEqual(job(color=True).cli_output.color, True)
+
+    def test_debug(self):
+        self.assertEqual(job(debug=True).cli_output.debug, True)
+
+    def test_job_info(self):
+        self.assertEqual(job(job_info=True).cli_output.job_info, True)
+
+    def test_mb_track_listing(self):
+        self.assertEqual(
+            job(mb_track_listing=True).cli_output.mb_track_listing, True)
+
+    def test_one_line(self):
+        self.assertEqual(job(one_line=True).cli_output.one_line, True)
+
+    def test_stats(self):
+        self.assertEqual(job(stats=True).cli_output.stats, True)
+
+    def test_verbose(self):
+        self.assertEqual(job(verbose=True).cli_output.verbose, True)
+
+    ##
+    # [metadata_actions]
+    ##
+
+    def test_enrich_metadata(self):
+        self.assertEqual(
+            job(enrich_metadata=True).metadata_actions.enrich_metadata, True)
+
+    def test_remap_classical(self):
+        self.assertEqual(
+            job(remap_classical=True).metadata_actions.remap_classical, True)
 
 
 class TestJobWithConfigParser(unittest.TestCase):
