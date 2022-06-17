@@ -223,7 +223,7 @@ class TestPropertyAlbumClean(unittest.TestCase):
 
 
 # ar_combined_artist (integration)
-class TestPropertyArtistSafe(unittest.TestCase):
+class TestPropertyArCombinedArtist(unittest.TestCase):
 
     def test_artist(self):
         meta = get_meta('meta', 'artist.mp3')
@@ -236,6 +236,14 @@ class TestPropertyArtistSafe(unittest.TestCase):
     def test_albumartist(self):
         meta = get_meta('meta', 'albumartist.mp3')
         self.assertEqual(meta.ar_combined_artist, 'albumartist')
+
+    def test_removal_feat_vs(self):
+        meta = get_meta(
+            'real-world', 'f', 'Fatboy-Slim',
+            'Song-For-Shelter-Pete-Heller_2001',
+            '01_Song-for-Shelter-Pete-Hellers.mp3')
+        self.assertEqual(meta.ar_combined_artist, 'Fatboy Slim')
+        self.assertEqual(meta.ar_combined_artist_sort, 'Fatboy Slim')
 
 
 # ar_combined_artist (unit)

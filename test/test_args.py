@@ -82,11 +82,11 @@ class TestHelp(unittest.TestCase):
 
     def test_field_ar_combined_artist(self):
         self.assertTrue('ar_combined_artist' in self.output)
-        self.assertTrue('The first available' in self.output)
+        self.assertTrue('The first non-empty value' in self.output)
 
     def test_field_ar_combined_artist_sort(self):
         self.assertTrue('ar_combined_artist_sort' in self.output)
-        self.assertTrue('The first available' in self.output)
+        self.assertTrue('The first non-empty value' in self.output)
 
     # composer
     def test_field_ar_initial_composer(self):

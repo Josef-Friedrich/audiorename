@@ -51,18 +51,30 @@ fields: phrydy.field_docs.FieldDocCollection = {
                      'Die Meistersinger von Nürnberg'],
     },
     'ar_combined_artist': {
-        'description': 'The first available value of this metatag order: '
+        'description': 'The first non-empty value of the following list of '
+                       'fields: '
                        '“albumartist” -> “artist” -> “albumartist_credit” '
-                       '-> “artist_credit”',
+                       '-> “artist_credit” -> “albumartist_sort” -> '
+                       '“artist_sort”. '
+                       'If no value could be determined, then “Unknown” is '
+                       'assigned. '
+                       'The second artist after “feat.”, “ft.” or “vs.” '
+                       'is removed.',
         'category': 'common',
         'examples': ['a-ha',
                      'Richard Wagner; René Kollo, Helen Donath, ...'],
         'data_type': 'str',
     },
     'ar_combined_artist_sort': {
-        'description': 'The first available value of this metatag order: '
+        'description': 'The first non-empty value of the following list of '
+                       'fields: '
                        '“albumartist_sort” -> “artist_sort” -> '
-                       '“ar_combined_artist”',
+                       '“albumartist” -> “artist” -> “albumartist_credit” -> '
+                       '“artist_credit”. '
+                       'If no value could be determined, then “Unknown” is '
+                       'assigned. '
+                       'The second artist after “feat.”, “ft.” or “vs.” '
+                       'is removed.',
         'category': 'common',
         'examples': ['a-ha', 'Wagner, Richard; Kollo, René, Donath, Helen...'],
         'data_type': 'str',

@@ -361,6 +361,13 @@ class Meta(MediaFileExtended):
         """
         return self._find_initials(self.ar_combined_artist_sort)
 
+    @staticmethod
+    def __remove_feat_vs_second_artist(artist: str) -> str:
+        """Give only the first artist, remove the second after ``feat.``,
+        ``ft.`` or ``vs.``"""
+        return re.sub(r'\s+(feat|ft|vs)\.?\s.*', '', artist,
+                      flags=re.IGNORECASE)
+
     @property
     def ar_combined_artist(self) -> str:
         """Uses:
@@ -371,8 +378,10 @@ class Meta(MediaFileExtended):
         * ``phrydy.mediafile.MediaFile.artist_credit``
         * ``phrydy.mediafile.MediaFile.albumartist_sort``
         * ``phrydy.mediafile.MediaFile.artist_sort``
+
+        Removes the second artist after ``feat.``, ``ft.`` or ``vs.``.
         """
-        out: str = ''
+        out: str
         if self.albumartist:
             out = self.albumartist
         elif self.artist:
@@ -389,7 +398,7 @@ class Meta(MediaFileExtended):
         else:
             out = 'Unknown'
 
-        return out
+        return Meta.__remove_feat_vs_second_artist(out)
 
     @property
     def ar_combined_artist_sort(self) -> str:
@@ -401,8 +410,10 @@ class Meta(MediaFileExtended):
         * ``phrydy.mediafile.MediaFile.artist``
         * ``phrydy.mediafile.MediaFile.albumartist_credit``
         * ``phrydy.mediafile.MediaFile.artist_credit``
+
+        Removes the second artist after ``feat.``, ``ft.`` or ``vs.``.
         """
-        out: str = ''
+        out: str
         if self.albumartist_sort:
             out = self.albumartist_sort
         elif self.artist_sort:
@@ -418,6 +429,8 @@ class Meta(MediaFileExtended):
             out = self.artist_credit
         else:
             out = 'Unknown'
+
+        out = Meta.__remove_feat_vs_second_artist(out)
 
         if self.shell_friendly:
             out = out.replace(', ', '_')
