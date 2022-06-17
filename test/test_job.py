@@ -118,9 +118,13 @@ class TestJobWithArgParser(unittest.TestCase):
             job(remap_classical=True).metadata_actions.remap_classical, True)
 
 
+def get_config_path(config_file: str) -> str:
+    return helper.get_testfile('config', config_file)
+
+
 def make_job_with_config(config_file: str) -> Job:
     args = ArgsDefault()
-    args.config = helper.get_testfile('config', config_file)
+    args.config = [get_config_path(config_file)]
     return Job(args)
 
 
@@ -132,6 +136,25 @@ class TestJobWithConfigParser(unittest.TestCase):
     def test_minimal_config_file(self):
         job = make_job_with_config('minimal.ini')
         self.assertEqual(job.rename.backup_folder, '/tmp/minimal')
+
+    def test_multiple_config_files(self):
+        args = ArgsDefault()
+        args.config = [
+            get_config_path('all-true.ini'),
+            get_config_path('minimal.ini'),
+        ]
+        job = Job(args)
+        self.assertEqual(job.rename.backup_folder, '/tmp/minimal')
+        self.assertEqual(job.filters.genre_classical, ['sonata', 'opera'])
+
+    def test_multiple_config_file_different_order(self):
+        args = ArgsDefault()
+        args.config = [
+            get_config_path('minimal.ini'),
+            get_config_path('all-true.ini'),
+        ]
+        job = Job(args)
+        self.assertEqual(job.rename.backup_folder, '/tmp/backup')
 
     def test_section_selection(self):
         self.assertEqual(self.job.selection.source, '/tmp')

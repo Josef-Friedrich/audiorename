@@ -158,7 +158,7 @@ class ArgsDefault:
     """
 
     # default
-    config: typing.Optional[str] = None
+    config: typing.Optional[typing.List[str]] = None
 
     # [selection]
     source: typing.Optional[str] = None
@@ -274,6 +274,7 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
     parser.add_argument(
         '--config',
         help='Load a configuration file in INI format.',
+        action='append',
         default=None,
     )
 

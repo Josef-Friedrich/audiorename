@@ -76,6 +76,9 @@ class Statistic:
     timer = Timer()
 
 
+IniDataTypes = typing.Literal['boolean', 'integer', 'string']
+
+
 class Config:
     """The class ``Config`` is used to combine the two sources of settings
     (command line arguments and INI configuration file). The command line
@@ -88,28 +91,37 @@ class Config:
     _job: 'Job'
 
     def __init__(self, job: 'Job', section: str,
-                 options: typing.Dict[str, typing.Literal['boolean',
-                                                          'integer',
-                                                          'string']]):
+                 options: typing.Dict[str, IniDataTypes]):
         self._job = job
-        for option, data_type in options.items():
-            attr = None
-            if getattr(job.args, option) is not None:
-                attr = getattr(job.args, option)
+        for key, data_type in options.items():
+            value = None
+            if getattr(job.args, key) is not None:
+                value = getattr(job.args, key)
             elif job.config:
-                try:
-                    if data_type == 'boolean':
-                        attr = job.config.getboolean(section, option)
-                    elif data_type == 'integer':
-                        attr = job.config.getint(section, option)
-                    else:
-                        attr = job.config.get(section, option)
-                except (configparser.NoOptionError,
-                        configparser.NoSectionError):
-                    pass
+                for config in job.config:
+                    result = self.__get_value_from_config(
+                        config, section, key, data_type)
+                    if result is not None:
+                        value = result
 
-            if attr is not None:
-                setattr(self, '_' + option, attr)
+            if value is not None:
+                setattr(self, '_' + key, value)
+
+    def __get_value_from_config(
+        self, config: configparser.ConfigParser,
+        section: str, key: str,
+        data_type: IniDataTypes
+    ) -> typing.Optional[typing.Any]:
+        try:
+            if data_type == 'boolean':
+                return config.getboolean(section, key)
+            elif data_type == 'integer':
+                return config.getint(section, key)
+            else:
+                return config.get(section, key)
+        except (configparser.NoOptionError,
+                configparser.NoSectionError):
+            pass
 
 
 class SelectionConfig(Config):
@@ -436,7 +448,7 @@ class Job:
     stats = Statistic()
 
     args: ArgsDefault
-    config: typing.Optional[configparser.ConfigParser] = None
+    config: typing.Optional[typing.List[configparser.ConfigParser]] = None
 
     def __init__(self, args: ArgsDefault):
         self.args = args
@@ -445,10 +457,16 @@ class Job:
 
         self.msg = Message(self)
 
-    def __read_config(self, file_path: str) -> configparser.ConfigParser:
-        config = configparser.ConfigParser()
-        config.read(file_path)
-        return config
+    def __read_config(
+        self,
+        file_paths: typing.List[str]
+    ) -> typing.List[configparser.ConfigParser]:
+        configs: typing.List[configparser.ConfigParser] = []
+        for file_path in file_paths:
+            config = configparser.ConfigParser()
+            config.read(file_path)
+            configs.append(config)
+        return configs
 
     @property
     def selection(self) -> SelectionConfig:

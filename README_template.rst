@@ -68,8 +68,8 @@ Usage
 
 << cli help >>
 
-Example configuration file
-==========================
+Configuration files
+===================
 
 Use the ``--config`` option to load a configuration file. The command
 line arguments overwrite the corresponding options of the configuration
@@ -78,6 +78,13 @@ file.
 .. code-block:: Shell
 
     audiorenamer --config /home/user/my-config.ini
+
+.. code-block:: Shell
+
+It is also possible to load several configuration files. Values of the
+latter file overwrite the values of the first files.
+
+    audiorenamer --config base.ini --config overload.ini
 
 Almost all command line arguments have a corresponding option in the
 configuration file. ``audiorename`` implements a basic configuration
