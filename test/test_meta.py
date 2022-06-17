@@ -1166,3 +1166,57 @@ class TestClassical(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+# f/Fatboy-Slim-Feat-Clark_Roland/Song-For-Shelter-Pete-Heller_2001/01_Song-for-Shelter-Pete-Hellers.mp3
+# f/Fatboy-Slim-Feat-Clark_Roland/Song-For-Shelter-Pete-Heller_2001/02_Song-for-Shelter-Pete-Hellers.mp3
+# f/Fatboy-Slim-Feat-Clark_Roland/Song-For-Shelter-Pete-Heller_2001/03_Song-for-Shelter-Pete-Hellers.mp3
+# o/OutKast-feat-Kelis/Speakerboxxx-The-Love-Below_2003/2-16_Draculas-Wedding.mp3
+# o/OutKast-feat-Jones_Norah/Speakerboxxx-The-Love-Below_2003/2-18_Take-Off-Your-Cool.mp3
+# o/OutKast-feat-Dawson_Rosario/Speakerboxxx-The-Love-Below_2003/2-08_She-Lives-in-My-Lap.mp3
+# 0/20-Fingers-feat-Roula/Lick-It_1994/01_Lick-It-20-Fingers-radio-mix.mp3
+# 0/20-Fingers-feat-Roula/Lick-It_1994/02_Lick-It-20-Fingers-club-mix.mp3
+# 0/20-Fingers-feat-Roula/Lick-It_1994/03_Lick-It-a-cappella.mp3
+# 0/20-Fingers-feat-Roula/Lick-It_1994/04_Lick-It-JJs-Underground-mix.mp3
+# 0/20-Fingers-feat-Roula/Lick-It_1994/05_Lick-It-Onofrio-club-mix.mp3
+# 0/20-Fingers-feat-Roula/Lick-It_1994/06_Lick-It-JJs-Bass-radio-mix.mp3
+# 0/20-Fingers-feat-Gillette/Mr-Personality_1995/01_Mr-Personality-radio-mix.mp3
+# 0/20-Fingers-feat-Gillette/Mr-Personality_1995/02_Mr-Personality-Euro-edit.mp3
+# 0/20-Fingers-feat-Gillette/Mr-Personality_1995/03_Mr-Personality-Ugly-mix.mp3
+# 0/20-Fingers-feat-Gillette/Mr-Personality_1995/04_Mr-Personality-Ugly.mp3
+# 0/20-Fingers-feat-Gillette/Mr-Personality_1995/05_Mr-Personality-Gumbo-mix.mp3
+# 0/20-Fingers-feat-Gillette/Mr-Personality_1995/06_Mr-Personality.mp3
+# 0/20-Fingers-feat-Gillette/Short-Dick-Man_1994/01_Short-Dick-Man-radio-mix.mp3
+# 0/20-Fingers-feat-Gillette/Short-Dick-Man_1994/02_Short-Dick-Man-bass-mix.mp3
+# 0/20-Fingers-feat-Gillette/Short-Dick-Man_1994/03_Short-Dick-Man-jazzy-mix.mp3
+# 0/20-Fingers-feat-Gillette/Short-Dick-Man_1994/04_Short-Dick-Man-acapella.mp3
+# 0/20-Fingers-feat-Gillette/Short-Dick-Man_1994/05_Short-Dick-Man-club-mix.mp3
+# 0/20-Fingers-feat-Gillette/Short-Dick-Man_1994/06_Short-Dick-Man-JJ-energy-mix.mp3
+# 0/20-Fingers-feat-Gillette/Short-Dick-Man_1994/07_Short-Dick-Man-insane-mix.mp3
+# 0/20-Fingers-feat-Gillette/Short-Dick-Man_1994/08_Short-Dick-Man-dub-mix.mp3
+# g/Guetta_David-feat-McDonald_Tara/Delirious_2008/01_Delirious-original-extended.m4a
+# g/Guetta_David-feat-McDonald_Tara/Delirious_2008/02_Delirious-Laidback-Luke-remix.m4a
+# g/Guetta_David-feat-McDonald_Tara/Delirious_2008/03_Delirious-Arno-Cost-Norman.m4a
+# g/Guetta_David-feat-McDonald_Tara/Delirious_2008/04_Delirious-Fred-Rister-remix.m4a
+# g/Gabriel_Peter-feat-Bush_Kate/So_1986/03_Dont-Give-Up.mp3
+# m/Madonna-feat-Elliott_Missy/Remixed-Revisited_2003/06_Into-the-Hollywood-Groove-The.mp3
+# m/Madonna-feat-Aguilera_Christina/Remixed-Revisited_2003/05_Like-a-Virgin-Hollywood-Medley.mp3
+
+# l/Le-Grand_Fedde-vs-Fatboy-Slim/Praise-You-2009_2009/01_Praise-You-2009-Fatboy-Slim-vs.mp3
+# l/Le-Grand_Fedde-vs-Fatboy-Slim/Praise-You-2009_2009/02_Praise-You-2009-Fatboy-Slim-vs.mp3
+# l/Leftfield-vs-Fatboy-Slim/Planet-of-the-Phatbird_2002/01_Planet-of-the-Phatbird-edit.mp3
+# l/Leftfield-vs-Fatboy-Slim/Planet-of-the-Phatbird_2002/02_Planet-of-the-Phatbird-full.mp3
+# f/Fatboy-Slim-vs-Groeneveld_Koen/Rockafeller-Skank_2009/01_Rockafeller-Skank-original-mix.mp3
+# f/Fatboy-Slim-vs-Groeneveld_Koen/Rockafeller-Skank_2009/02_Rockafeller-Skank-original-dub.mp3
+# f/Fatboy-Slim-vs-Funkagenda/What-the-Fuck_2007/01_What-the-Fuck-Funkagenda-remix.mp3
+# f/Fatboy-Slim-vs-Funkagenda/What-the-Fuck_2007/02_What-the-Fuck-Funkagenda.mp3
+# f/Fatboy-Slim-vs-Funkagenda/What-the-Fuck_2007/03_What-the-Fuck-Kim-Fai-remix.mp3
+# f/Fatboy-Slim-vs-Funkagenda/What-the-Fuck_2007/04_What-the-Fuck-Maxie-Devine.mp3
+# m/Massive-Attack-vs-Mad-Professor/No-Protection_1995/01_Radiation-Ruling-the-Nation.mp3
+# m/Massive-Attack-vs-Mad-Professor/No-Protection_1995/02_Bumper-Ball-Dub-Karmacoma.mp3
+# m/Massive-Attack-vs-Mad-Professor/No-Protection_1995/03_Trinity-Dub-Three.mp3
+# m/Massive-Attack-vs-Mad-Professor/No-Protection_1995/04_Cool-Monsoon-Weather-Storm.mp3
+# m/Massive-Attack-vs-Mad-Professor/No-Protection_1995/05_Eternal-Feedback-Sly.mp3
+# m/Massive-Attack-vs-Mad-Professor/No-Protection_1995/06_Moving-Dub-Better-Things.mp3
+# m/Massive-Attack-vs-Mad-Professor/No-Protection_1995/07_I-Spy-Spying-Glass.mp3
+# m/Massive-Attack-vs-Mad-Professor/No-Protection_1995/08_Backward-Sucking-Heat-Miser.mp3
