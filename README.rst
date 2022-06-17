@@ -798,6 +798,21 @@ Usage
 Example configuration file
 ==========================
 
+Use the ``--config`` option to load a configuration file. The command
+line arguments overwrite the corresponding options of the configuration
+file.
+
+.. code-block:: Shell
+
+    audiorenamer --config /home/user/my-config.ini
+
+Almost all command line arguments have a corresponding option in the
+configuration file. ``audiorename`` implements a basic configuration
+language which provides a structure similar to what’s found in Microsoft
+Windows `INI
+<https://docs.python.org/3/library/configparser.html#supported-ini-file-structure>`_
+files:
+
 .. code-block:: ini
 
     [selection]
