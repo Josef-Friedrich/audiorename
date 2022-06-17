@@ -104,7 +104,8 @@ class Config:
                         attr = job.config.getint(section, option)
                     else:
                         attr = job.config.get(section, option)
-                except configparser.NoOptionError:
+                except (configparser.NoOptionError,
+                        configparser.NoSectionError):
                     pass
 
             if attr is not None:

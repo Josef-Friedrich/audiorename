@@ -118,15 +118,20 @@ class TestJobWithArgParser(unittest.TestCase):
             job(remap_classical=True).metadata_actions.remap_classical, True)
 
 
+def make_job_with_config(config_file: str) -> Job:
+    args = ArgsDefault()
+    args.config = helper.get_testfile('config', config_file)
+    return Job(args)
+
+
 class TestJobWithConfigParser(unittest.TestCase):
 
-    def get_job(self, *config_file: str) -> Job:
-        args = ArgsDefault()
-        args.config = helper.get_testfile(*config_file)
-        return Job(args)
-
     def setUp(self):
-        self.job = self.get_job('config', 'all-true.ini')
+        self.job = make_job_with_config('all-true.ini')
+
+    def test_minimal_config_file(self):
+        job = make_job_with_config('minimal.ini')
+        self.assertEqual(job.rename.backup_folder, '/tmp/minimal')
 
     def test_section_selection(self):
         self.assertEqual(self.job.selection.source, '/tmp')
