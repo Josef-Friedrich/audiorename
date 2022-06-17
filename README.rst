@@ -819,6 +819,8 @@ file.
 It is also possible to load several configuration files. Values of the
 latter file overwrite the values of the first files.
 
+.. code-block:: Shell
+
     audiorenamer --config base.ini --config overload.ini
 
 Almost all command line arguments have a corresponding option in the
