@@ -46,19 +46,19 @@ class InvalidSearchFieldError(UsageError):
 class InvalidIncludeError(UsageError):
      def __init__(self, msg=..., reason=...) -> None:
           ...
-     
+
      def __str__(self) -> str:
           ...
-     
+
 
 
 class InvalidFilterError(UsageError):
      def __init__(self, msg=..., reason=...) -> None:
           ...
-     
+
      def __str__(self) -> str:
           ...
-     
+
 
 
 class WebServiceError(MusicBrainzError):
@@ -68,10 +68,10 @@ class WebServiceError(MusicBrainzError):
 		exception.
 		"""
           ...
-     
+
      def __str__(self) -> str:
           ...
-     
+
 
 
 class NetworkError(WebServiceError):
@@ -100,7 +100,7 @@ def auth(u, p): # -> None:
 	"""
      ...
 
-def set_useragent(app, version, contact=...): # -> None:
+def set_useragent(app: str, version: str, contact: str=...) -> None:
      """Set the User-Agent to be used for requests to the MusicBrainz webservice.
     This must be set before requests are made."""
      ...
@@ -140,41 +140,41 @@ class _rate_limit:
     """
      def __init__(self, fun) -> None:
           ...
-     
+
      def __call__(self, *args, **kwargs):
           ...
-     
+
 
 
 class _RedirectPasswordMgr(compat.HTTPPasswordMgr):
      def __init__(self) -> None:
           ...
-     
+
      def find_user_password(self, realm, uri): # -> tuple[None, None]:
           ...
-     
+
      def add_password(self, realm, uri, username, password): # -> None:
           ...
-     
+
 
 
 class _DigestAuthHandler(compat.HTTPDigestAuthHandler):
      def get_authorization(self, req, chal): # -> str:
           ...
-     
+
      def get_algorithm_impls(self, algorithm): # -> tuple[((x: Unknown) -> str) | Unbound, (s: Unknown, d: Unknown) -> str]:
           ...
-     
+
 
 
 class _MusicbrainzHttpRequest(compat.Request):
      """ A custom request handler that allows DELETE and PUT"""
      def __init__(self, method, url, data=...) -> None:
           ...
-     
+
      def get_method(self): # -> str | None:
           ...
-     
+
 
 
 if hasattr(etree, 'ParseError'):
@@ -608,4 +608,3 @@ def remove_releases_from_collection(collection, releases=...):
     Collection and releases should be identified by their MBIDs
     """
      ...
-

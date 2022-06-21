@@ -27,10 +27,15 @@ class AudioFile:
         base folder of your music collection. Used to shorten the path strings
         in the progress messaging.
     """
+    __path: str
+
+    type: DestinationType
+    job: Job
+    __prefix: typing.Optional[str]
 
     def __init__(self, path: str, job: Job,
                  file_type: DestinationType = 'source',
-                 prefix=None):
+                 prefix: typing.Optional[str] = None):
         self.__path = path
         self.type = file_type
         self.job = job
@@ -101,7 +106,7 @@ class MBTrackListing:
     def __init__(self):
         self.counter = 0
 
-    def format_audiofile(self, album, title, length):
+    def format_audiofile(self, album: str, title: str, length: int) -> str:
         self.counter += 1
 
         m, s = divmod(length, 60)
@@ -185,7 +190,8 @@ def detect_best_format(source: Meta, target: Meta,
         return best
 
 
-def process_target_path(meta, format_string, shell_friendly=True):
+def process_target_path(meta: Meta, format_string: str,
+                        shell_friendly: bool = True):
     """
     :param dict meta: The to a dictionary converted attributes of a
         meta object :class:`audiorename.meta.Meta`.
@@ -214,20 +220,22 @@ class Action:
     :type job: audiorename.job.Job
     """
 
-    def __init__(self, job):
+    job: Job
+
+    def __init__(self, job: Job):
         self.job = job
         self.dry_run = job.rename.dry_run
 
-    def count(self, counter_name):
+    def count(self, counter_name: str):
         self.job.stats.counter.count(counter_name)
 
-    def cleanup(self, audio_file):
+    def cleanup(self, audio_file: AudioFile):
         if self.job.rename.cleaning_action == 'backup':
             self.backup(audio_file)
         elif self.job.rename.cleaning_action == 'delete':
             self.delete(audio_file)
 
-    def backup(self, audio_file):
+    def backup(self, audio_file: AudioFile):
         backup_file = AudioFile(
             os.path.join(
                 self.job.rename.backup_folder,
@@ -241,14 +249,14 @@ class Action:
             self.create_dir(backup_file)
             shutil.move(audio_file.abspath, backup_file.abspath)
 
-    def copy(self, source, target):
+    def copy(self, source: AudioFile, target: AudioFile):
         self.job.msg.action_two_path('Copy', source, target)
         self.count('copy')
         if not self.dry_run:
             self.create_dir(target)
             shutil.copy2(source.abspath, target.abspath)
 
-    def create_dir(self, audio_file):
+    def create_dir(self, audio_file: AudioFile):
         path = os.path.dirname(audio_file.abspath)
 
         try:
@@ -257,13 +265,13 @@ class Action:
             if exception.errno != errno.EEXIST:
                 raise
 
-    def delete(self, audio_file):
+    def delete(self, audio_file: AudioFile):
         self.job.msg.action_one_path('Delete', audio_file)
         self.count('delete')
         if not self.dry_run:
             os.remove(audio_file.abspath)
 
-    def move(self, source, target):
+    def move(self, source: AudioFile, target: AudioFile):
         self.job.msg.action_two_path('Move', source, target)
         self.count('move')
         if not self.dry_run:
@@ -305,7 +313,7 @@ class Action:
 
 
 def do_job_on_audiofile(source_path: str, job: Job):
-    def count(key):
+    def count(key: str):
         job.stats.counter.count(key)
     skip = False
 
@@ -350,9 +358,9 @@ def do_job_on_audiofile(source_path: str, job: Job):
         )
         return
 
-    if job.filters.field_skip and (not hasattr(source.meta,
-       job.filters.field_skip) or not getattr(source.meta,
-       job.filters.field_skip)):
+    if job.filters.field_skip and \
+        (not hasattr(source.meta, job.filters.field_skip) or not
+         getattr(source.meta, job.filters.field_skip)):
         job.msg.status('No field', status='error')
         count('no_field')
         return
