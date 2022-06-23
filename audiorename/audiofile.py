@@ -10,6 +10,7 @@ import typing
 
 import phrydy
 from tmep import Functions, Template
+from tmep.format import asciify, delchars, replchars, deldupchars
 
 from .job import Job
 from .meta import Meta, compare_dicts
@@ -204,13 +205,13 @@ def process_target_path(meta: Meta, format_string: str,
 
     if isinstance(target, str):
         if shell_friendly:
-            target = Functions.tmpl_asciify(target)
-            target = Functions.tmpl_delchars(target, '().,!"\'’')
-            target = Functions.tmpl_replchars(target, '-', ' ')
+            target = asciify(target)
+            target = delchars(target, '().,!"\'’')
+            target = replchars(target, '-', ' ')
         # asciify generates new characters which must be sanitzed, e. g.:
         # ¿ -> ?
-        target = Functions.tmpl_delchars(target, ':*?"<>|\\~&{}')
-        target = Functions.tmpl_deldupchars(target)
+        target = delchars(target, ':*?"<>|\\~&{}')
+        target = deldupchars(target)
     return re.sub(r'\.$', '', target)
 
 
