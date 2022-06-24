@@ -1,15 +1,16 @@
 """Extend the class ``MediaFile`` of the package ``phrydy``.
 """
 
-from phrydy import MediaFileExtended
+from phrydy.mediafile_extended import MediaFileExtended
 from tmep import Functions
 import re
 import typing
+from typing import Any, List, Tuple, Optional, Dict
 
 import audiorename.musicbrainz as musicbrainz
 
-Diff = typing.List[typing.Tuple[str,
-                                typing.Optional[str], typing.Optional[str]]]
+Diff = List[Tuple[str, Optional[str], Optional[str]]]
+PerformerRaw = List[List[str]]
 
 
 def compare_dicts(first: typing.Dict[str, str],
@@ -44,7 +45,7 @@ def compare_dicts(first: typing.Dict[str, str],
 
 class Meta(MediaFileExtended):
 
-    def __init__(self, path, shell_friendly: bool = False):
+    def __init__(self, path: str, shell_friendly: bool = False):
         super(Meta, self).__init__(path, False)
         self.shell_friendly = shell_friendly
 
@@ -52,14 +53,14 @@ class Meta(MediaFileExtended):
 # Public methods
 ###############################################################################
 
-    def export_dict(self, sanitize: bool = True) -> typing.Dict[str, str]:
+    def export_dict(self, sanitize: bool = True) -> Dict[str, str]:
         """
         Export all fields into a dictionary.
 
         :param sanitize: Set the parameter to true to trigger the sanitize
           function.
         """
-        out = {}
+        out: Dict[str, str] = {}
         for field in self.fields_sorted():
             value = getattr(self, field)
             if value:
@@ -91,7 +92,7 @@ class Meta(MediaFileExtended):
                 types.append(release_group['primary-type'])
             if 'secondary-type-list' in release_group:
                 types = types + release_group['secondary-type-list']
-            types = self._unify_list(types)
+            types = self._uniquify_list(types)
             self.releasegroup_types = '/'.join(types).lower()
 
         work_id = ''
@@ -176,7 +177,7 @@ class Meta(MediaFileExtended):
 
     @classmethod
     def fields_audiorename(cls):
-        for prop, descriptor in sorted(cls.__dict__.items()):
+        for prop, _ in sorted(cls.__dict__.items()):
             if isinstance(getattr(cls, prop), property):
                 if isinstance(prop, bytes):
                     # On Python 2, class field names are bytes. This method
@@ -271,9 +272,9 @@ class Meta(MediaFileExtended):
         return result
 
     @staticmethod
-    def _sanitize(value) -> str:
+    def _sanitize(value: typing.Any) -> str:
         if isinstance(value, str) or isinstance(value, bytes):
-            value = Functions.tmpl_sanitize(value)
+            value = Functions.tmpl_sanitize(str(value))
             value = re.sub(r'\s{2,}', ' ', str(value))
         else:
             value = ''
@@ -297,11 +298,15 @@ class Meta(MediaFileExtended):
         return out[len(separator):]
 
     @staticmethod
-    def _unify_list(seq):
+    def _uniquify_list(sequence: List[Any]) -> List[Any]:
         """https://www.peterbe.com/plog/uniqifiers-benchmark"""
-        noDupes = []
-        [noDupes.append(i) for i in seq if not noDupes.count(i)]
-        return noDupes
+        unique: List[Any] = []
+
+        for element in sequence:
+            if not unique.count(element):
+                unique.append(element)
+
+        return unique
 
 ###############################################################################
 # Properties
@@ -538,7 +543,7 @@ class Meta(MediaFileExtended):
         return out
 
     @property
-    def ar_performer_raw(self):
+    def ar_performer_raw(self) -> PerformerRaw:
         """Generate a unifed ar_performer list.
 
         Picard doesn’t store ar_performer values in m4a, alac.m4a, wma, wav,
@@ -557,7 +562,7 @@ class Meta(MediaFileExtended):
 
         * ``phrydy.mediafile.MediaFile.mgfile``
         """
-        out = []
+        out: PerformerRaw = []
 
         if (self.format == 'FLAC' or self.format == 'OGG') and \
                 'performer' in self.mgfile:
@@ -581,7 +586,7 @@ class Meta(MediaFileExtended):
         else:
             out = []
 
-        return self._unify_list(out)
+        return self._uniquify_list(out)
 
     @property
     def ar_performer_short(self):
@@ -589,10 +594,10 @@ class Meta(MediaFileExtended):
 
         * ``phrydy.mediafile.MediaFile.ar_performer_raw``
         """
-        out = []
+        out: List[str] = []
 
         performers = self.ar_performer_raw
-        picked = []
+        picked: PerformerRaw = []
         for performer in performers:
             if performer[0] == 'conductor' or performer[0] == 'orchestra':
                 picked.append(performer)

@@ -647,11 +647,11 @@ class TestStaticMethodUnifyList(unittest.TestCase):
         self.meta = get_meta('files', 'album.mp3')
 
     def test_unify_numbers(self):
-        seq = self.meta._unify_list([1, 1, 2, 2, 1, 1, 3])
+        seq = self.meta._uniquify_list([1, 1, 2, 2, 1, 1, 3])
         self.assertEqual(seq, [1, 2, 3])
 
     def test_unify_list(self):
-        seq = self.meta._unify_list([
+        seq = self.meta._uniquify_list([
             ['conductor', 'Herbert von Karajan'],
             ['orchestra', 'Staatskapelle Dresden'],
             ['orchestra', 'Staatskapelle Dresden']
