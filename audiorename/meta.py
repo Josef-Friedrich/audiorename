@@ -117,8 +117,8 @@ class Meta(MediaFileExtended):
                             break
                 self.mb_workid = work_bottom['id']
                 self.work = work_bottom['title']
-                wh_titles = []
-                wh_ids = []
+                wh_titles: List[str] = []
+                wh_ids: List[str] = []
                 for work in work_hierarchy:
                     wh_titles.append(work['title'])
                     wh_ids.append(work['id'])

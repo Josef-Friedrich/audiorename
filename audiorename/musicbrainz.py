@@ -163,14 +163,11 @@ WorkChild = TypedDict('Work', {
     'title': str,
 })
 
-WorkRelation = TypedDict(
-    'WorkRelation', {
-        'work': WorkChild,
-        'direction': Literal['backward'],
-        'type': Literal['parts']
-    }
-)
-
+WorkRelation = TypedDict('WorkRelation', {
+    'work': WorkChild,
+    'direction': Literal['backward'],
+    'type': Literal['parts']
+})
 
 Work = TypedDict('Work', {
     'id': str,
