@@ -1,17 +1,17 @@
 """Rename audio files from metadata tags."""
 
 import sys
-from typing import cast
 
-from .args import parse_args, fields  # noqa: F401
+from .args import parse_args, fields
 from .batch import Batch
 from .job import Job
 from .message import stats, job_info
 
 from ._version import get_versions
 
+fields
 
-__version__: str = cast(str, get_versions()['version'])
+__version__: str = get_versions()['version']
 del get_versions
 
 
