@@ -169,11 +169,23 @@ WorkRelation = TypedDict('WorkRelation', {
     'type': Literal['parts']
 })
 
+Artist = TypedDict('Artist', {
+    'name': str,
+    'sort-name': str
+})
+
+ArtistRelation = TypedDict('ArtistRelation', {
+    'artist': Artist,
+    'direction': Literal['backward'],
+    'type': Literal['composer']
+})
+
 Work = TypedDict('Work', {
     'id': str,
     'language': str,
     'title': str,
-    'work-relation-list': List[WorkRelation]
+    'work-relation-list': List[WorkRelation],
+    'artist-relation-list': List[ArtistRelation]
 })
 """
 ``get_work_by_id`` with ``work-rels``

@@ -69,5 +69,9 @@
   "python.testing.unittestEnabled": true,
   "esbonio.sphinx.confDir": "",
   "python.analysis.typeCheckingMode": "strict",
-  "restructuredtext.syntaxHighlighting.disabled": true
+  "restructuredtext.syntaxHighlighting.disabled": true,
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportPrivateImportUsage":"none"
+  }
+
 }

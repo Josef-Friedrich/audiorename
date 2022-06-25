@@ -246,7 +246,7 @@ def description() -> str:
 Metadata fields
 ===============
 
-''' + phrydy.doc_generator.format_fields_as_txt(
+''' + phrydy.format_fields_as_txt(
         additional_fields=fields, color=True,
         field_prefix='$') + '''
 
