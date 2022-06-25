@@ -1,10 +1,10 @@
 """Extend the class ``MediaFile`` of the package ``phrydy``.
 """
 
-from phrydy.mediafile_extended import MediaFileExtended
+from phrydy import MediaFileExtended
 from tmep import Functions
 import re
-import typing
+# import typing
 from typing import Any, List, Tuple, Optional, Dict
 
 import audiorename.musicbrainz as musicbrainz
@@ -13,8 +13,8 @@ Diff = List[Tuple[str, Optional[str], Optional[str]]]
 PerformerRaw = List[List[str]]
 
 
-def compare_dicts(first: typing.Dict[str, str],
-                  second: typing.Dict[str, str]) -> Diff:
+def compare_dicts(first: Dict[str, str],
+                  second: Dict[str, str]) -> Diff:
     """Compare two dictionaries for differenes.
 
     :param first: First dictionary to diff.
@@ -85,7 +85,7 @@ class Meta(MediaFileExtended):
             release = musicbrainz.query('release', self.mb_albumid)
         if release and 'release-group' in release:
             release_group = release['release-group']
-            types = []
+            types: List[str] = []
             if 'type' in release_group:
                 types.append(release_group['type'])
             if 'primary-type' in release_group:
@@ -134,7 +134,7 @@ class Meta(MediaFileExtended):
         properties (like ``ar_combined_composer``) are used and therefore some
         code duplications are done on purpose to avoid circular endless loops.
         """
-        safe = []
+        safe: List[List[str]] = []
 
         if self.title:
             safe.append(['title', self.title])
@@ -142,7 +142,7 @@ class Meta(MediaFileExtended):
 
             roman = re.findall(r'^([IVXLCDM]*)\.', self.title)
             if roman:
-                safe.append(['track', self.track])
+                safe.append(['track', str(self.track)])
                 self.track = str(self._roman_to_int(roman[0])).zfill(2)
 
         if self.composer:
@@ -229,9 +229,9 @@ class Meta(MediaFileExtended):
 
     @staticmethod
     def _normalize_performer(
-            ar_performer: typing.List[str]) -> typing.List[typing.List[str]]:
+            ar_performer: List[str]) -> PerformerRaw:
         """
-        :param list ar_performer: A list of raw ar_performer strings like
+        :param ar_performer: A list of raw ar_performer strings like
 
         .. code-block:: python
 
@@ -246,7 +246,7 @@ class Meta(MediaFileExtended):
                 ['drums', 'Ringo Starr'],
             ]
         """
-        out = []
+        out: PerformerRaw = []
         if isinstance(ar_performer, list):
             for value in ar_performer:
                 value = value[:-1]
@@ -272,7 +272,7 @@ class Meta(MediaFileExtended):
         return result
 
     @staticmethod
-    def _sanitize(value: typing.Any) -> str:
+    def _sanitize(value: Any) -> str:
         if isinstance(value, str) or isinstance(value, bytes):
             value = Functions.tmpl_sanitize(str(value))
             value = re.sub(r'\s{2,}', ' ', str(value))
@@ -313,7 +313,7 @@ class Meta(MediaFileExtended):
 ###############################################################################
 
     @property
-    def ar_classical_album(self) -> typing.Optional[str]:
+    def ar_classical_album(self) -> Optional[str]:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.work``
@@ -327,7 +327,7 @@ class Meta(MediaFileExtended):
             return re.sub(r':.*$', '', (str(self.work)))
 
     @property
-    def ar_combined_album(self) -> typing.Optional[str]:
+    def ar_combined_album(self) -> Optional[str]:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.album``
@@ -340,7 +340,7 @@ class Meta(MediaFileExtended):
             return re.sub(r' ?\([dD]is[ck].*\)$', '', str(self.album))
 
     @property
-    def ar_initial_album(self) -> typing.Optional[str]:
+    def ar_initial_album(self) -> Optional[str]:
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_combined_album`
@@ -473,7 +473,7 @@ class Meta(MediaFileExtended):
         return re.sub(r' ?/.*', '', out)
 
     @property
-    def ar_combined_disctrack(self) -> typing.Optional[str]:
+    def ar_combined_disctrack(self) -> Optional[str]:
         """
         Generate a combination of track and disc number, e. g.: ``1-04``,
         ``3-06``.
@@ -631,7 +631,7 @@ class Meta(MediaFileExtended):
             return False
 
     @property
-    def ar_classical_title(self) -> typing.Optional[str]:
+    def ar_classical_title(self) -> Optional[str]:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.title``
@@ -644,7 +644,7 @@ class Meta(MediaFileExtended):
             return re.sub(r'^[^:]*: ?', '', self.title)
 
     @property
-    def ar_classical_track(self) -> typing.Optional[str]:
+    def ar_classical_track(self) -> Optional[str]:
         """Uses:
 
         * :class:`audiorename.meta.Meta.ar_classical_title`
@@ -659,7 +659,7 @@ class Meta(MediaFileExtended):
             return self.ar_combined_disctrack
 
     @property
-    def ar_combined_work_top(self) -> typing.Optional[str]:
+    def ar_combined_work_top(self) -> Optional[str]:
         """Uses:
 
         * ``phrydy.mediafile.MediaFile.work_hierarchy``
