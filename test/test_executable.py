@@ -4,12 +4,13 @@ import unittest
 import subprocess
 from subprocess import Popen
 
+
 class TestExectutable(unittest.TestCase):
 
     @staticmethod
     def call(shell_string: str):
         ar = Popen(shell_string, shell=True, stdout=subprocess.PIPE,
-                              stderr=subprocess.STDOUT)
+                   stderr=subprocess.STDOUT)
         ar.wait()
         return ar
 

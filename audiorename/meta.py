@@ -253,7 +253,6 @@ class Meta(MediaFileExtended):
                 out.append([value[1], value[0]])
         return out
 
-
     @staticmethod
     def _roman_to_int(n: str) -> int:
         numeral_map = tuple(zip(
