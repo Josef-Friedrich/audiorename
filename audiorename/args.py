@@ -185,7 +185,7 @@ class ArgsDefault:
     move_action: Union[
         Literal['move', 'copy', 'no_rename'], None] = None
     cleaning_action: Union[Literal['backup', 'delete',
-                                                 'do_nothing'], None] = None
+                                   'do_nothing'], None] = None
 
     # [filters]
     album_complete: Optional[bool] = None

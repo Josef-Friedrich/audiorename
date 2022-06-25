@@ -6,7 +6,7 @@ import os
 import re
 import shutil
 import traceback
-import typing
+from typing import Any, Dict, List, Literal, Optional
 
 import phrydy
 from tmep import Functions, Template
@@ -16,7 +16,7 @@ from .job import Job
 from .meta import Meta, compare_dicts
 
 
-DestinationType = typing.Literal['source', 'target']
+DestinationType = Literal['source', 'target']
 
 
 class AudioFile:
@@ -32,11 +32,11 @@ class AudioFile:
 
     type: DestinationType
     job: Job
-    __prefix: typing.Optional[str]
+    __prefix: Optional[str]
 
     def __init__(self, path: str, job: Job,
                  file_type: DestinationType = 'source',
-                 prefix: typing.Optional[str] = None):
+                 prefix: Optional[str] = None):
         self.__path = path
         self.type = file_type
         self.job = job
@@ -51,7 +51,7 @@ class AudioFile:
             return self.job.template_settings.shell_friendly
 
     @property
-    def meta(self) -> typing.Optional[Meta]:
+    def meta(self) -> Optional[Meta]:
         if self.exists:
             try:
                 return Meta(self.abspath, self.shell_friendly)
@@ -122,7 +122,7 @@ mb_track_listing = MBTrackListing()
 
 
 def find_target_path(target: str,
-                     extensions: typing.List[str]) -> typing.Optional[str]:
+                     extensions: List[str]) -> Optional[str]:
     """Get the path of a existing audio file target. Search for audio files
     with different extensions.
     """
@@ -142,7 +142,7 @@ def detect_best_format(source: Meta, target: Meta,
 
     :return: Either the string `source` or the string `target`
     """
-    def get_highest(dictionary: typing.Dict[typing.Any, DestinationType]
+    def get_highest(dictionary: Dict[Any, DestinationType]
                     ) -> DestinationType:
         out: DestinationType = 'target'
         for _, value in sorted(dictionary.items()):
@@ -150,7 +150,7 @@ def detect_best_format(source: Meta, target: Meta,
         return out
 
     if source.format == target.format:
-        bitrates = {}
+        bitrates: Dict[int, Literal['source', 'target']] = {}
         bitrates[source.bitrate] = 'source'
         bitrates[target.bitrate] = 'target'
         best = get_highest(bitrates)
@@ -287,8 +287,8 @@ class Action:
         pre = meta.export_dict(sanitize=False)
 
         def single_action(meta: Meta,
-                          method_name: typing.Literal['enrich_metadata',
-                                                      'remap_classical'],
+                          method_name: Literal['enrich_metadata',
+                                               'remap_classical'],
                           message: str):
             pre = meta.export_dict(sanitize=False)
             method = getattr(meta, method_name)
