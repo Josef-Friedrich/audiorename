@@ -4,7 +4,6 @@
 from phrydy import MediaFileExtended
 from tmep import Functions
 import re
-# import typing
 from typing import Any, List, Tuple, Optional, Dict
 
 import audiorename.musicbrainz as musicbrainz
@@ -143,7 +142,7 @@ class Meta(MediaFileExtended):
             roman = re.findall(r'^([IVXLCDM]*)\.', self.title)
             if roman:
                 safe.append(['track', str(self.track)])
-                self.track = str(self._roman_to_int(roman[0])).zfill(2)
+                self.track = self._roman_to_int(roman[0])
 
         if self.composer:
             safe.append(['artist', self.artist])
@@ -247,15 +246,13 @@ class Meta(MediaFileExtended):
             ]
         """
         out: PerformerRaw = []
-        if isinstance(ar_performer, list):
-            for value in ar_performer:
-                value = value[:-1]
-                value = value.split(' (')
-                if isinstance(value, list) and len(value) == 2:
-                    out.append([value[1], value[0]])
-            return out
-        else:
-            return []
+        for value in ar_performer:
+            value = value[:-1]
+            value = value.split(' (')
+            if len(value) == 2:
+                out.append([value[1], value[0]])
+        return out
+
 
     @staticmethod
     def _roman_to_int(n: str) -> int:
@@ -575,7 +572,7 @@ class Meta(MediaFileExtended):
                 out = self.mgfile['TMCL'].people
             # 4.2.2 TIPL Involved people list
             # TIPL is used for producer
-            elif 'TIPL' in self.mgfile:
+            if 'TIPL' in self.mgfile:
                 out = self.mgfile['TIPL'].people
 
             # 4.2.2 TPE3 Conductor/ar_performer refinement
