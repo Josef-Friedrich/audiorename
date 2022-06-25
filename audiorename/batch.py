@@ -3,7 +3,7 @@
 import os
 import typing
 
-from phrydy import MediaFileExtended
+from phrydy.mediafile_extended import MediaFileExtended
 
 from .job import Job
 from .audiofile import do_job_on_audiofile, mb_track_listing
