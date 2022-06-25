@@ -199,7 +199,7 @@ class TestPropertyAlbumClean(unittest.TestCase):
     def setUp(self):
         self.meta = get_meta('files', 'album.mp3')
 
-    def assertAlbumClean(self, album,
+    def assertAlbumClean(self, album: str,
                          compare: typing.Optional[str] = 'Lorem ipsum'):
         self.meta.album = album
         self.assertEqual(self.meta.ar_combined_album, compare)
@@ -258,7 +258,7 @@ class TestPropertyArtistSafeUnit(unittest.TestCase):
         self.meta.artist_sort = ''
         self.meta.artist = ''
 
-    def assertArtistSort(self, key):
+    def assertArtistSort(self, key: str):
         setattr(self.meta, key, key)
         self.assertEqual(self.meta.ar_combined_artist, key)
         self.assertEqual(self.meta.ar_combined_artist_sort, key)
@@ -337,68 +337,68 @@ class TestPropertyDiskTrackUnit(unittest.TestCase):
 
     def setUp(self):
         self.meta = get_meta('files', 'album.mp3')
-        self.meta.track = ''
-        self.meta.tracktotal = ''
-        self.meta.disc = ''
-        self.meta.disctotal = ''
+        self.meta.track = None
+        self.meta.tracktotal = None
+        self.meta.disc = None
+        self.meta.disctotal = None
 
     def test_empty(self):
         self.assertEqual(self.meta.ar_combined_disctrack, None)
 
     def test_no_track(self):
-        self.meta.disc = '2'
-        self.meta.disctotal = '3'
-        self.meta.tracktotal = '36'
+        self.meta.disc = 2
+        self.meta.disctotal = 3
+        self.meta.tracktotal = 36
         self.assertEqual(self.meta.ar_combined_disctrack, None)
 
     def test_disc_track(self):
-        self.meta.disc = '2'
-        self.meta.track = '4'
+        self.meta.disc = 2
+        self.meta.track = 4
         self.assertEqual(self.meta.ar_combined_disctrack, '2-04')
 
     def test_disk_total_one(self):
-        self.meta.disc = '1'
-        self.meta.track = '4'
-        self.meta.disctotal = '1'
-        self.meta.tracktotal = '36'
+        self.meta.disc = 1
+        self.meta.track = 4
+        self.meta.disctotal = 1
+        self.meta.tracktotal = 36
         self.assertEqual(self.meta.ar_combined_disctrack, '04')
 
     def test_all_set(self):
-        self.meta.disc = '2'
-        self.meta.track = '4'
-        self.meta.disctotal = '3'
-        self.meta.tracktotal = '36'
+        self.meta.disc = 2
+        self.meta.track = 4
+        self.meta.disctotal = 3
+        self.meta.tracktotal = 36
         self.assertEqual(self.meta.ar_combined_disctrack, '2-04')
 
     def test_zfill_track(self):
-        self.meta.track = '4'
-        self.meta.tracktotal = '100'
+        self.meta.track = 4
+        self.meta.tracktotal = 100
         self.assertEqual(self.meta.ar_combined_disctrack, '004')
 
-        self.meta.tracktotal = '10'
+        self.meta.tracktotal = 10
         self.assertEqual(self.meta.ar_combined_disctrack, '04')
 
-        self.meta.tracktotal = '5'
+        self.meta.tracktotal = 5
         self.assertEqual(self.meta.ar_combined_disctrack, '04')
 
     def test_zfill_disc(self):
-        self.meta.track = '4'
-        self.meta.tracktotal = '10'
-        self.meta.disc = '2'
-        self.meta.disctotal = '10'
+        self.meta.track = 4
+        self.meta.tracktotal = 10
+        self.meta.disc = 2
+        self.meta.disctotal = 10
         self.assertEqual(self.meta.ar_combined_disctrack, '02-04')
 
-        self.meta.disctotal = '100'
+        self.meta.disctotal = 100
         self.assertEqual(self.meta.ar_combined_disctrack, '002-04')
 
 
 # ar_performer*
 class TestPropertyPerformerDifferentFormats(unittest.TestCase):
 
-    def getMeta(self, extension):
+    def getMeta(self, extension: str):
         return get_meta('performers', 'blank.' + extension)
 
-    def assertPerformer(self, meta):
+    def assertPerformer(self, meta: Meta):
         raw = meta.ar_performer_raw
         self.assertEqual(raw[0][0], 'conductor')
         self.assertEqual(raw[0][1], 'Fabio Luisi')
@@ -449,7 +449,7 @@ class TestPropertyTrackClassical(unittest.TestCase):
     def setUp(self):
         self.meta = get_meta('files', 'album.mp3')
 
-    def assertRoman(self, roman, arabic):
+    def assertRoman(self, roman: str, arabic: int):
         self.assertEqual(self.meta._roman_to_int(roman), arabic)
 
     def test_roman_to_int(self):
@@ -466,7 +466,7 @@ class TestPropertyTrackClassical(unittest.TestCase):
         self.assertRoman('XI', 11)
         self.assertRoman('XII', 12)
 
-    def assertTrack(self, title, compare):
+    def assertTrack(self, title: str, compare: str):
         self.meta.title = title
         self.assertEqual(self.meta.ar_classical_track, compare)
 
