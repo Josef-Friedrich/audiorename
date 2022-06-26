@@ -1,8 +1,9 @@
 """Create the command line interface using the package “argparse”."""
 
+from typing_extensions import Literal
 from ._version import get_versions
 import argparse
-import typing
+from typing import Any, List, Optional, Tuple, Union, cast
 import phrydy
 import tmep
 import os
@@ -170,54 +171,54 @@ class ArgsDefault:
     """
 
     # default
-    config: typing.Optional[typing.List[str]] = None
+    config: Optional[List[str]] = None
 
     # [selection]
-    source: typing.Optional[str] = None
-    source_as_target: typing.Optional[bool] = None
-    target: typing.Optional[str] = None
+    source: Optional[str] = None
+    source_as_target: Optional[bool] = None
+    target: Optional[str] = None
 
     # [rename]
-    backup_folder: typing.Optional[str] = None
-    best_format: typing.Optional[bool] = None
-    dry_run: typing.Optional[bool] = None
-    move_action: typing.Union[
-        typing.Literal['move', 'copy', 'no_rename'], None] = None
-    cleaning_action: typing.Union[typing.Literal['backup', 'delete',
-                                                 'do_nothing'], None] = None
+    backup_folder: Optional[str] = None
+    best_format: Optional[bool] = None
+    dry_run: Optional[bool] = None
+    move_action: Union[
+        Literal['move', 'copy', 'no_rename'], None] = None
+    cleaning_action: Union[Literal['backup', 'delete',
+                                   'do_nothing'], None] = None
 
     # [filters]
-    album_complete: typing.Optional[bool] = None
-    album_min: typing.Optional[int] = None
-    extension: typing.Optional[str] = None
-    genre_classical: typing.Optional[str] = None
-    field_skip: typing.Optional[str] = None
+    album_complete: Optional[bool] = None
+    album_min: Optional[int] = None
+    extension: Optional[str] = None
+    genre_classical: Optional[str] = None
+    field_skip: Optional[str] = None
 
     # [template_settings]
-    classical: typing.Optional[bool] = None
-    shell_friendly: typing.Optional[bool] = None
-    no_soundtrack: typing.Optional[bool] = None
+    classical: Optional[bool] = None
+    shell_friendly: Optional[bool] = None
+    no_soundtrack: Optional[bool] = None
 
     # [path_templates]
-    default_template: typing.Optional[str] = None
-    soundtrack_template: typing.Optional[str] = None
-    compilation_template: typing.Optional[str] = None
-    classical_template: typing.Optional[str] = None
+    default_template: Optional[str] = None
+    soundtrack_template: Optional[str] = None
+    compilation_template: Optional[str] = None
+    classical_template: Optional[str] = None
 
     # [cli_output]
-    color: typing.Optional[bool] = None
-    debug: typing.Optional[bool] = None
-    job_info: typing.Optional[bool] = None
-    mb_track_listing: typing.Optional[bool] = None
-    one_line: typing.Optional[bool] = None
-    stats: typing.Optional[bool] = None
-    verbose: typing.Optional[bool] = None
+    color: Optional[bool] = None
+    debug: Optional[bool] = None
+    job_info: Optional[bool] = None
+    mb_track_listing: Optional[bool] = None
+    one_line: Optional[bool] = None
+    stats: Optional[bool] = None
+    verbose: Optional[bool] = None
 
     # [metadata_actions]
-    enrich_metadata: typing.Optional[bool] = None
-    remap_classical: typing.Optional[bool] = None
+    enrich_metadata: Optional[bool] = None
+    remap_classical: Optional[bool] = None
 
-    def __init__(self, **kwargs: typing.Any):
+    def __init__(self, **kwargs: Any):
         for k, v in kwargs.items():
             setattr(self, k, v)
 
@@ -246,7 +247,7 @@ def description() -> str:
 Metadata fields
 ===============
 
-''' + phrydy.doc_generator.format_fields_as_txt(
+''' + phrydy.format_fields_as_txt(
         additional_fields=fields, color=True,
         field_prefix='$') + '''
 
@@ -261,7 +262,7 @@ Configuration file
 ''' + read_configuration_file()
 
 
-def parse_args(argv: typing.List[str]) -> ArgsDefault:
+def parse_args(argv: Optional[Tuple[str]]) -> ArgsDefault:
     """Parse the command line arguments using the python library `argparse`.
 
     :param list argv: The command line arguments specified as a list: e. g
@@ -705,4 +706,4 @@ def parse_args(argv: typing.List[str]) -> ArgsDefault:
         default=None,
     )
 
-    return parser.parse_args(argv)
+    return cast(ArgsDefault, parser.parse_args(argv))

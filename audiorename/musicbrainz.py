@@ -1,4 +1,5 @@
 import typing
+from typing import Literal, TypedDict, List, cast
 import musicbrainzngs as musicbrainz
 
 from ._version import get_versions
@@ -52,103 +53,6 @@ classical/Mozart_Horn-concertos/01.mp3
       }
     }
 
-``get_work_by_id`` with ``work-rels``
-
-.. code-block:: JSON
-
-    {
-      "work": {
-        "work-relation-list": [
-          {
-            "type-id": "ca8d3642-ce5f-49f8-91f2-125d72524e6a",
-            "direction": "backward",
-            "target": "5adc213f-700a-4435-9e95-831ed720f348",
-            "ordering-key": "3",
-            "work": {
-              "id": "5adc213f-700a-4435-9e95-831ed720f348",
-              "language": "deu",
-              "title": "Die Zauberfl\u00f6te, K. 620: Akt I"
-            },
-            "type": "parts"
-          },
-          {
-            "type-id": "51975ed8-bbfa-486b-9f28-5947f4370299",
-            "work": {
-              "disambiguation": "for piano, arr. Matthias",
-              "id": "798f4c25-0ab3-44ba-81b6-3d856aedf82a",
-              "language": "zxx",
-              "title": "Die Zauberfl\u00f6te, K. 620: Aria ..."
-            },
-            "type": "arrangement",
-            "target": "798f4c25-0ab3-44ba-81b6-3d856aedf82a"
-          }
-        ],
-        "type": "Aria",
-        "id": "eafec51f-47c5-3c66-8c36-a524246c85f8",
-        "language": "deu",
-        "title": "Die Zauberfl\u00f6te: Act I, Scene II. No. 2 Aria ..",
-        "artist-relation-list": [
-          {
-            "type-id": "7474ab81-486f-40b5-8685-3a4f8ea624cb",
-            "direction": "backward",
-            "type": "librettist",
-            "target": "86104c7c-cda4-4798-a4ab-104318c7ae9c",
-            "artist": {
-              "sort-name": "Schikaneder, Emanuel",
-              "id": "86104c7c-cda4-4798-a4ab-104318c7ae9c",
-              "name": "Emanuel Schikaneder"
-            }
-          },
-          {
-            "begin": "1791",
-            "end": "1791",
-            "target": "b972f589-fb0e-474e-b64a-803b0364fa75",
-            "artist": {
-              "sort-name": "Mozart, Wolfgang Amadeus",
-              "disambiguation": "classical composer",
-              "id": "b972f589-fb0e-474e-b64a-803b0364fa75",
-              "name": "Wolfgang Amadeus Mozart"
-            },
-            "direction": "backward",
-            "type-id": "d59d99ea-23d4-4a80-b066-edca32ee158f",
-            "ended": "true",
-            "type": "composer"
-          }
-        ]
-      }
-    }
-
-
-.. code-block:: JSON
-
-    {
-      "work": {
-        "work-relation-list": [
-          {
-            "type-id": "c1dca2cd-194c-36dd-93f8-6a359167e992",
-            "direction": "backward",
-            "work": {
-              "id": "70e53569-258c-463d-9505-5b69dcbf374a",
-              "title": "Can\u2019t Stop the Classics, Part 2"
-            },
-            "type": "medley",
-            "target": "70e53569-258c-463d-9505-5b69dcbf374a"
-          },
-          {
-            "type-id": "ca8d3642-ce5f-49f8-91f2-125d72524e6a",
-            "direction": "backward",
-            "target": "73663bd3-392f-45a7-b4ff-e75c01f5926a",
-            "ordering-key": "1",
-            "work": {
-              "id": "73663bd3-392f-45a7-b4ff-e75c01f5926a",
-              "language": "deu",
-              "title": "Die Meistersinger von N\u00fcrnberg, WWV 96: Akt I"
-            },
-            "type": "parts"
-          }
-        ]
-      }
-    }
 
 ``get_release_by_id`` with ``release-groups``
 
@@ -253,6 +157,136 @@ classical/Mozart_Horn-concertos/01.mp3
 
 """
 
+WorkChild = TypedDict('Work', {
+    'id': str,
+    'language': str,
+    'title': str,
+})
+
+WorkRelation = TypedDict('WorkRelation', {
+    'work': WorkChild,
+    'direction': Literal['backward'],
+    'type': Literal['parts']
+})
+
+Artist = TypedDict('Artist', {
+    'name': str,
+    'sort-name': str
+})
+
+ArtistRelation = TypedDict('ArtistRelation', {
+    'artist': Artist,
+    'direction': Literal['backward'],
+    'type': Literal['composer']
+})
+
+Work = TypedDict('Work', {
+    'id': str,
+    'language': str,
+    'title': str,
+    'work-relation-list': List[WorkRelation],
+    'artist-relation-list': List[ArtistRelation]
+})
+"""
+``get_work_by_id`` with ``work-rels``
+
+.. code-block:: JSON
+
+    {
+      "work": {
+        "work-relation-list": [
+          {
+            "type-id": "ca8d3642-ce5f-49f8-91f2-125d72524e6a",
+            "direction": "backward",
+            "target": "5adc213f-700a-4435-9e95-831ed720f348",
+            "ordering-key": "3",
+            "work": {
+              "id": "5adc213f-700a-4435-9e95-831ed720f348",
+              "language": "deu",
+              "title": "Die Zauberfl\u00f6te, K. 620: Akt I"
+            },
+            "type": "parts"
+          },
+          {
+            "type-id": "51975ed8-bbfa-486b-9f28-5947f4370299",
+            "work": {
+              "disambiguation": "for piano, arr. Matthias",
+              "id": "798f4c25-0ab3-44ba-81b6-3d856aedf82a",
+              "language": "zxx",
+              "title": "Die Zauberfl\u00f6te, K. 620: Aria ..."
+            },
+            "type": "arrangement",
+            "target": "798f4c25-0ab3-44ba-81b6-3d856aedf82a"
+          }
+        ],
+        "type": "Aria",
+        "id": "eafec51f-47c5-3c66-8c36-a524246c85f8",
+        "language": "deu",
+        "title": "Die Zauberfl\u00f6te: Act I, Scene II. No. 2 Aria ..",
+        "artist-relation-list": [
+          {
+            "type-id": "7474ab81-486f-40b5-8685-3a4f8ea624cb",
+            "direction": "backward",
+            "type": "librettist",
+            "target": "86104c7c-cda4-4798-a4ab-104318c7ae9c",
+            "artist": {
+              "sort-name": "Schikaneder, Emanuel",
+              "id": "86104c7c-cda4-4798-a4ab-104318c7ae9c",
+              "name": "Emanuel Schikaneder"
+            }
+          },
+          {
+            "begin": "1791",
+            "end": "1791",
+            "target": "b972f589-fb0e-474e-b64a-803b0364fa75",
+            "artist": {
+              "sort-name": "Mozart, Wolfgang Amadeus",
+              "disambiguation": "classical composer",
+              "id": "b972f589-fb0e-474e-b64a-803b0364fa75",
+              "name": "Wolfgang Amadeus Mozart"
+            },
+            "direction": "backward",
+            "type-id": "d59d99ea-23d4-4a80-b066-edca32ee158f",
+            "ended": "true",
+            "type": "composer"
+          }
+        ]
+      }
+    }
+
+
+.. code-block:: JSON
+
+    {
+      "work": {
+        "work-relation-list": [
+          {
+            "type-id": "c1dca2cd-194c-36dd-93f8-6a359167e992",
+            "direction": "backward",
+            "work": {
+              "id": "70e53569-258c-463d-9505-5b69dcbf374a",
+              "title": "Can\u2019t Stop the Classics, Part 2"
+            },
+            "type": "medley",
+            "target": "70e53569-258c-463d-9505-5b69dcbf374a"
+          },
+          {
+            "type-id": "ca8d3642-ce5f-49f8-91f2-125d72524e6a",
+            "direction": "backward",
+            "target": "73663bd3-392f-45a7-b4ff-e75c01f5926a",
+            "ordering-key": "1",
+            "work": {
+              "id": "73663bd3-392f-45a7-b4ff-e75c01f5926a",
+              "language": "deu",
+              "title": "Die Meistersinger von N\u00fcrnberg, WWV 96: Akt I"
+            },
+            "type": "parts"
+          }
+        ]
+      }
+    }
+"""
+
 
 def set_useragent() -> None:
     musicbrainz.set_useragent(
@@ -290,8 +324,9 @@ def query(
             print("Received bad response from the MusicBrainz server.")
 
 
-def query_works_recursively(work_id: str, works=[]):
-    work = query('work', work_id)
+def query_works_recursively(work_id: str,
+                            works: List[Work] = []) -> List[Work]:
+    work = cast(Work, query('work', work_id))
 
     if not work:
         return works

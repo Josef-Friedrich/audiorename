@@ -171,7 +171,8 @@ def job_info(job: 'Job') -> None:
     info.add('Versions', versions.result_one_line())
     info.add('Action', job.rename.move_action)
     info.add('Source', job.selection.source)
-    info.add('Target', job.selection.target)
+    if job.selection.target:
+        info.add('Target', job.selection.target)
     if job.rename.cleaning_action == 'backup':
         info.add('Backup folder', job.rename.backup_folder)
 

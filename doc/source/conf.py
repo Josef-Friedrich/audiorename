@@ -25,8 +25,6 @@ pygments_style = 'sphinx'
 
 autodoc_default_options = {
     'members': True,
-    'private-members': True,
-    'undoc-members': True,
     'show-inheritance': True
 }
 

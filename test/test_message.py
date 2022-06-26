@@ -4,6 +4,7 @@ import unittest
 import helper
 from audiorename import audiofile
 from audiorename.message import Message
+from typing import Any
 
 
 class TestClassMessage(unittest.TestCase):
@@ -18,7 +19,7 @@ class TestClassMessage(unittest.TestCase):
         )
 
     @staticmethod
-    def get_message(**kwargs):
+    def get_message(**kwargs: Any) -> Message:
         return Message(helper.get_job(**kwargs))
 
     def test_attributes(self):
