@@ -1,13 +1,15 @@
 """Create the command line interface using the package “argparse”."""
 
-from typing_extensions import Literal
-from ._version import get_versions
 import argparse
+import os
 from typing import Any, List, Optional, Tuple, Union, cast
+
+from typing_extensions import Literal
+
 import phrydy
 import tmep
-import os
 
+from ._version import get_versions
 from .utils import indent, read_file
 
 fields: phrydy.field_docs.FieldDocCollection = {

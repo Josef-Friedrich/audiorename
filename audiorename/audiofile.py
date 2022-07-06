@@ -10,11 +10,10 @@ from typing import Any, Dict, List, Literal, Optional
 
 import phrydy
 from tmep import Functions, Template
-from tmep.format import asciify, delchars, replchars, deldupchars
+from tmep.format import asciify, delchars, deldupchars, replchars
 
 from .job import Job
 from .meta import Meta, compare_dicts
-
 
 DestinationType = Literal['source', 'target']
 

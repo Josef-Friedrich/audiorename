@@ -1,5 +1,6 @@
 import typing
-from typing import Literal, TypedDict, List, cast
+from typing import List, Literal, TypedDict, cast
+
 import musicbrainzngs as musicbrainz
 
 from ._version import get_versions

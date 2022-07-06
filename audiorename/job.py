@@ -1,12 +1,12 @@
 """Collect all informations about the current job in a class."""
 
+import configparser
 import os
 import time
 import typing
-import configparser
 
-from .message import Message
 from .args import ArgsDefault
+from .message import Message
 
 
 class Timer:

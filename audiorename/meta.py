@@ -1,12 +1,12 @@
 """Extend the class ``MediaFile`` of the package ``phrydy``.
 """
 
-from phrydy import MediaFileExtended
-from tmep import Functions
 import re
-from typing import Any, List, Tuple, Optional, Dict
+from typing import Any, Dict, List, Optional, Tuple
 
 import audiorename.musicbrainz as musicbrainz
+from phrydy import MediaFileExtended
+from tmep import Functions
 
 Diff = List[Tuple[str, Optional[str], Optional[str]]]
 PerformerRaw = List[List[str]]

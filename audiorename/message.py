@@ -1,15 +1,19 @@
 """Print messages on the command line."""
 
-from .args import all_fields
+import typing
 from collections import OrderedDict
+
 import ansicolor
+
 import audiorename
 import phrydy
 import tmep
-import typing
+
+from .args import all_fields
+
 if typing.TYPE_CHECKING:
-    from .job import Job
     from .audiofile import AudioFile
+    from .job import Job
     from .meta import Meta
 
 

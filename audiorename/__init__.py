@@ -2,12 +2,11 @@
 
 import sys
 
-from .args import parse_args, fields
+from ._version import get_versions
+from .args import fields, parse_args
 from .batch import Batch
 from .job import Job
-from .message import stats, job_info
-
-from ._version import get_versions
+from .message import job_info, stats
 
 fields
 

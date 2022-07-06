@@ -1,6 +1,5 @@
 from typing import TypedDict
 
-
 Version = TypedDict('Version', {
     'version': str,
     'full-revisionid': str,
