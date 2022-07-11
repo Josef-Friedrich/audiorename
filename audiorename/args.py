@@ -9,7 +9,6 @@ from typing_extensions import Literal
 import phrydy
 import tmep
 
-from ._version import get_versions
 from .utils import indent, read_file
 
 fields: phrydy.field_docs.FieldDocCollection = {
@@ -299,7 +298,7 @@ def parse_args(argv: Optional[Tuple[str]]) -> ArgsDefault:
         '-v',
         '--version',
         action='version',
-        version='%(prog)s {version}'.format(version=get_versions()['version'])
+        version='%(prog)s {version}'.format(version='0.0.0')
     )
 
 

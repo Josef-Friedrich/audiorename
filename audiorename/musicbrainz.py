@@ -3,7 +3,6 @@ from typing import List, Literal, TypedDict, cast
 
 import musicbrainzngs as musicbrainz
 
-from ._version import get_versions
 
 """Query the musicbrainz API using the library
 `musicbrainzngs <https://pypi.org/project/musicbrainzngs>`_.
@@ -292,7 +291,7 @@ Work = TypedDict('Work', {
 def set_useragent() -> None:
     musicbrainz.set_useragent(
         'audiorename',
-        get_versions()['version'],
+        '0.0.0',
         'https://github.com/Josef-Friedrich/audiorename',
     )
 

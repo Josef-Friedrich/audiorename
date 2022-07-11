@@ -1,7 +1,6 @@
 import os
 
 from setuptools import setup, find_packages
-import versioneer
 
 
 def read(file_name: str) -> str:
@@ -20,8 +19,7 @@ def read(file_name: str) -> str:
 
 setup(
     name='audiorename',
-    version=versioneer.get_version(),
-    cmdclass=versioneer.get_cmdclass(),
+    version='0.0.0',
     author='Josef Friedrich',
     author_email='josef@friedrich.rocks',
     description=('Rename audio files from metadata tags.'),

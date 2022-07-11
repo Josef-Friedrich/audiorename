@@ -2,7 +2,6 @@
 
 import sys
 
-from ._version import get_versions
 from .args import fields, parse_args
 from .batch import Batch
 from .job import Job
@@ -10,8 +9,7 @@ from .message import job_info, stats
 
 fields
 
-__version__: str = get_versions()['version']
-del get_versions
+__version__: str = '0.0.0'
 
 
 def execute(*argv: str):
