@@ -1,4 +1,0 @@
-phrydy==3.2.0
-tmep==2.3.0
-ansicolor==0.3.2
-musicbrainzngs==0.7.1

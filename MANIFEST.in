@@ -1,5 +1,0 @@
-include LICENSE
-include versioneer.py
-include audiorename/_version.py
-include audiorename/example-config.ini
-prune test

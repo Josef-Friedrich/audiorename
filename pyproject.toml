@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "audiorename"
+version = "3.3.0"
+description = "Rename audio files from metadata tags."
+authors = ["Josef Friedrich <josef@friedrich.rocks>"]
+readme = "README.rst"
+license = "MIT"
+repository = 'https://github.com/Josef-Friedrich/audiorename'
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+phrydy = "3.2.0"
+tmep = "2.3.0"
+ansicolor = "0.3.2"
+musicbrainzngs = "0.7.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.1.2"
+
+[build-system]
+requires = ["poetry>=1.2.0b2"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry.scripts]
+audiorenamer = "audiorename:execute"

@@ -230,7 +230,7 @@ Usage
                                      Examples: ['Beatles, The', 'White, Jack']
     
         $artists:                    artists
-                                     Examples: [['a-ha']]
+                                     Examples: [['a-ha'], ['Anouk', 'Remon Stotijn']]
     
         $asin:                       Amazon Standard Identification Number
                                      Examples: ['B000002UAL']
@@ -279,6 +279,7 @@ Usage
         $copyright:                  copyright
     
         $country:                    The country the release was issued in.
+                                     Examples: ['NL']
     
         $date:                       The release data of the specific release.
                                      Examples: ['1996-01-01']
@@ -309,8 +310,10 @@ Usage
                                      Examples: ['MP3', 'FLAC']
     
         $genre:                      genre
+                                     Examples: ['Rock']
     
         $genres:                     genres
+                                     Examples: [['Rock']]
     
         $grouping:                   A content group, which is a collection of
                                      media items such as a CD boxed set.
@@ -1029,7 +1032,7 @@ Metadata fields
    * - artists
      - common
      - artists
-     - ``['a-ha']``
+     - ``['a-ha']``, ``['Anouk', 'Remon Stotijn']``
    * - asin
      - common
      - Amazon Standard Identification Number
@@ -1085,7 +1088,7 @@ Metadata fields
    * - country
      - common
      - The country the release was issued in.
-     - 
+     - ``NL``
    * - date
      - date
      - The release data of the specific release.
@@ -1125,11 +1128,11 @@ Metadata fields
    * - genre
      - common
      - genre
-     - 
+     - ``Rock``
    * - genres
      - common
      - genres
-     - 
+     - ``['Rock']``
    * - grouping
      - common
      - A content group, which is a collection of media items such as a CD boxed set.
