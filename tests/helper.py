@@ -35,7 +35,7 @@ def get_testfile(*path_list: str) -> str:
     """
     Get absolute path of a test file.
 
-    :param path_list: Path segments relative to the /test/files directory.
+    :param path_list: Path segments relative to the /tests/files directory.
 
     :return An absolute path:
     """

@@ -9,7 +9,7 @@
       "type": "python",
       "request": "launch",
       "program": "bin/audiorenamer",
-      "args": ["--dry-run", "test/files/real-world" ],
+      "args": ["--dry-run", "tests/files/real-world" ],
       "justMyCode": true
     }
   ]

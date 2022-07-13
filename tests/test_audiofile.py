@@ -65,7 +65,7 @@ class TestClassAudioFile(unittest.TestCase):
         self.assertEqual(result.exists, True)
         self.assertEqual(result.extension, 'mp3')
         self.assertEqual(result.meta.path, abspath)
-        self.assertEqual(result.short, '[…]test/files/files/album.mp3')
+        self.assertEqual(result.short, '[…]tests/files/files/album.mp3')
         self.assertEqual(result.prefix, prefix + os.path.sep)
 
 
