@@ -63,8 +63,6 @@ Very advanced example:
 Usage
 =====
 
-.. code-block:: text
-
 :: 
 
     usage: audiorenamer [-h] [--config CONFIG] [-v] [-t TARGET] [-a]
@@ -832,7 +830,58 @@ files:
 
 .. code-block:: ini
 
-<< config file >>
+.. code-block:: ini
+
+    [selection]
+    source = /home/user/source
+    target = /home/user/target
+    source_as_target = False
+
+    [rename]
+    backup_folder = /tmp/backup
+    best_format = True
+    dry_run = False
+
+    ; see --move, --copy or --no-rename
+    ; “move”, “copy” or “no_rename”
+    move_action = move
+
+    ; see --backup, --delete
+    ; “backup”, “delete” or “do_nothing”
+    cleaning_action = do_nothing
+
+    [filters]
+    album_complete = False
+    album_min = 7
+    extension = mp3,m4a,flac,wma
+    genre_classical = Classical music,Opera,Symphony
+    field_skip = title
+
+    [template_settings]
+    classical = False
+    shell_friendly = False
+    no_soundtrack = False
+
+    [path_templates]
+    default_template = $ar_initial_artist/%shorten{$ar_combined_artist_sort}/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}
+    compilation_template = _compilations/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_%shorten{$title}
+    soundtrack_template = _soundtrack/$ar_initial_album/%shorten{$ar_combined_album}%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/${ar_combined_disctrack}_${artist}_%shorten{$title}
+    classical_template = $ar_initial_composer/$ar_combined_composer/%shorten{$ar_combined_work_top,48}_[%shorten{$ar_classical_performer,32}]/${ar_combined_disctrack}_%shorten{$ar_classical_title,64}%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}
+
+    [cli_output]
+    ; see --color or --no-color
+    color = True
+
+    debug = False
+    job_info = False
+    mb_track_listing = False
+    one_line = False
+    stats = True
+    verbose = False
+
+    [metadata_actions]
+    enrich_metadata = False
+    remap_classical = False
 
 Metadata fields
 ===============
