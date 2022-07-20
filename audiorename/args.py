@@ -708,3 +708,8 @@ def parse_args(argv: Optional[Tuple[str]]) -> ArgsDefault:
     )
 
     return cast(ArgsDefault, parser.parse_args(argv))
+
+
+def format_fields_as_rst_table() -> str:
+    return phrydy.doc_generator.format_fields_as_rst_table(
+        additional_fields=fields)

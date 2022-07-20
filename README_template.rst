@@ -1,14 +1,8 @@
-.. image:: http://img.shields.io/pypi/v/audiorename.svg
-    :target: https://pypi.python.org/pypi/audiorename
-    :alt: This package on the Python Package Index
+{{ badge.pypi }}
 
-.. image:: https://github.com/Josef-Friedrich/audiorename/actions/workflows/test.yml/badge.svg
-    :target: https://github.com/Josef-Friedrich/audiorename/actions/workflows/test.yml
-    :alt: Tests
+{{ badge.github_workflow() }}
 
-.. image:: https://readthedocs.org/projects/audiorename/badge/?version=latest
-    :target: https://audiorename.readthedocs.io/en/latest/?badge=latest
-    :alt: Documentation Status
+{{ badge.readthedocs }}
 
 ***********
 audiorename
@@ -64,9 +58,7 @@ Very advanced example:
 Usage
 =====
 
-.. code-block:: text
-
-<< cli help >>
+{{ cli('audiorenamer --help') | literal }}
 
 Configuration files
 ===================
@@ -100,7 +92,7 @@ files:
 Metadata fields
 ===============
 
-<< fields documentation >>
+{{ func('audiorename.args.format_fields_as_rst_table') }}
 
 Development
 ===========
