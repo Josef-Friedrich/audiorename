@@ -69,5 +69,9 @@
     "reportUnusedImport": "information",
     "reportUnusedExpression": "information",
     "reportImportCycles": "information"
-  }
+  },
+  "python.formatting.provider": "black",
+  "[python]": {
+    "editor.rulers": [79, 80, 88]
+  },
 }
