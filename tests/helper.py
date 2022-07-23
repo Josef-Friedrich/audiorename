@@ -1,34 +1,35 @@
 """Helper module for all tests."""
 
 import os
-import shutil
-import tempfile
 import re
-import audiorename
-import audiorename.meta
-import audiorename.audiofile
-import musicbrainzngs.musicbrainz
+import shutil
+import subprocess
+import tempfile
 import typing
 
+import musicbrainzngs
+import musicbrainzngs.musicbrainz
+from jflib import Capturing
+
+import audiorename
+import audiorename.audiofile
+import audiorename.meta
 from audiorename import Job
 from audiorename.args import ArgsDefault
-from audiorename.musicbrainz import set_useragent, query
-import musicbrainzngs
-import subprocess
-from jflib import Capturing
+from audiorename.musicbrainz import query, set_useragent
 
 SKIP_API_CALLS = False
 try:
     set_useragent()
-    query('recording', '0480672d-4d88-4824-a06b-917ff408eabe')
+    query("recording", "0480672d-4d88-4824-a06b-917ff408eabe")
 except musicbrainzngs.musicbrainz.NetworkError:
     SKIP_API_CALLS = True
 
-SKIP_QUICK = 'QUICK' in os.environ
+SKIP_QUICK = "QUICK" in os.environ
 
 dir_cwd = os.getcwd()
-path_album = '/t/the album artist/the album_2001/4-02_full.mp3'
-path_compilation = '/_compilations/t/the album_2001/4-02_full.mp3'
+path_album = "/t/the album artist/the album_2001/4-02_full.mp3"
+path_compilation = "/_compilations/t/the album_2001/4-02_full.mp3"
 
 
 def get_testfile(*path_list: str) -> str:
@@ -39,8 +40,7 @@ def get_testfile(*path_list: str) -> str:
 
     :return An absolute path:
     """
-    return os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files',
-                        *path_list)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "files", *path_list)
 
 
 def get_meta(*path_list: str) -> audiorename.meta.Meta:
@@ -56,16 +56,16 @@ def copy_to_tmp(*path_list: str) -> str:
 
 
 def get_tmp_file_object(*path_list: str):
-    return audiorename.audiofile.AudioFile(copy_to_tmp(*path_list),
-                                           job=get_job())
+    return audiorename.audiofile.AudioFile(copy_to_tmp(*path_list), job=get_job())
 
 
-def gen_file_list(files: typing.List[str], path: str,
-                  extension: str = 'mp3') -> typing.List[str]:
+def gen_file_list(
+    files: typing.List[str], path: str, extension: str = "mp3"
+) -> typing.List[str]:
     output: typing.List[str] = []
     for f in files:
         if extension:
-            f = f + '.' + extension
+            f = f + "." + extension
         output.append(os.path.join(path, f))
     return output
 
@@ -95,7 +95,7 @@ def is_file(path: str) -> bool:
 
 
 def join(output_list: typing.List[str]) -> str:
-    return ' '.join(output_list)
+    return " ".join(output_list)
 
 
 def dry_run(options: typing.List[str]):
@@ -109,13 +109,16 @@ def dry_run(options: typing.List[str]):
     """
     with Capturing() as output:
         audiorename.execute(
-            '--target', '/',
-            '--dry-run',
-            '--one-line',
-            '--verbose',
-            '--shell-friendly', *options)
+            "--target",
+            "/",
+            "--dry-run",
+            "--one-line",
+            "--verbose",
+            "--shell-friendly",
+            *options
+        )
 
-    return re.sub(r'.* to: ', '', join(output)).strip()
+    return re.sub(r".* to: ", "", join(output)).strip()
 
 
 def filter_source(output: typing.List[str]) -> typing.List[str]:
@@ -127,14 +130,14 @@ def filter_source(output: typing.List[str]) -> typing.List[str]:
 
 
 def call_bin(*args: str) -> typing.List[str]:
-    args = ('audiorenamer',) + args
-    command = ' '.join(args)
-    audiorename = subprocess.Popen(command, shell=True,
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.STDOUT)
+    args = ("audiorenamer",) + args
+    command = " ".join(args)
+    audiorename = subprocess.Popen(
+        command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
     audiorename.wait()
     out: typing.List[str] = []
     if audiorename.stdout:
         for line in audiorename.stdout.readlines():
-            out.append(line.decode('utf-8'))
+            out.append(line.decode("utf-8"))
     return out

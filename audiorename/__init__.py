@@ -10,7 +10,7 @@ from .message import job_info, stats
 
 fields
 
-__version__: str = metadata.version('audiorename')
+__version__: str = metadata.version("audiorename")
 
 
 def execute(*argv: str):
@@ -30,7 +30,7 @@ def execute(*argv: str):
         if job.cli_output.job_info:
             job_info(job)
         if job.rename.dry_run:
-            job.msg.output('Dry run')
+            job.msg.output("Dry run")
         batch = Batch(job)
         batch.execute()
         job.stats.timer.stop()

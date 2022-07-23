@@ -4,16 +4,16 @@
 import re
 from typing import Any, Dict, List, Optional, Tuple
 
-import audiorename.musicbrainz as musicbrainz
 from phrydy import MediaFileExtended
 from tmep import Functions
+
+import audiorename.musicbrainz as musicbrainz
 
 Diff = List[Tuple[str, Optional[str], Optional[str]]]
 PerformerRaw = List[List[str]]
 
 
-def compare_dicts(first: Dict[str, str],
-                  second: Dict[str, str]) -> Diff:
+def compare_dicts(first: Dict[str, str], second: Dict[str, str]) -> Diff:
     """Compare two dictionaries for differenes.
 
     :param first: First dictionary to diff.
@@ -43,14 +43,13 @@ def compare_dicts(first: Dict[str, str],
 
 
 class Meta(MediaFileExtended):
-
     def __init__(self, path: str, shell_friendly: bool = False):
         super(Meta, self).__init__(path, False)
         self.shell_friendly = shell_friendly
 
-###############################################################################
-# Public methods
-###############################################################################
+    ###############################################################################
+    # Public methods
+    ###############################################################################
 
     def export_dict(self, sanitize: bool = True) -> Dict[str, str]:
         """
@@ -74,32 +73,32 @@ class Meta(MediaFileExtended):
         musicbrainz.set_useragent()
 
         if self.mb_trackid:
-            recording = musicbrainz.query('recording', self.mb_trackid)
+            recording = musicbrainz.query("recording", self.mb_trackid)
         else:
-            print('No music brainz track id found.')
+            print("No music brainz track id found.")
             return
 
         release = None
         if self.mb_albumid:
-            release = musicbrainz.query('release', self.mb_albumid)
-        if release and 'release-group' in release:
-            release_group = release['release-group']
+            release = musicbrainz.query("release", self.mb_albumid)
+        if release and "release-group" in release:
+            release_group = release["release-group"]
             types: List[str] = []
-            if 'type' in release_group:
-                types.append(release_group['type'])
-            if 'primary-type' in release_group:
-                types.append(release_group['primary-type'])
-            if 'secondary-type-list' in release_group:
-                types = types + release_group['secondary-type-list']
+            if "type" in release_group:
+                types.append(release_group["type"])
+            if "primary-type" in release_group:
+                types.append(release_group["primary-type"])
+            if "secondary-type-list" in release_group:
+                types = types + release_group["secondary-type-list"]
             types = self._uniquify_list(types)
-            self.releasegroup_types = '/'.join(types).lower()
+            self.releasegroup_types = "/".join(types).lower()
 
-        work_id = ''
+        work_id = ""
         if self.mb_workid:
             work_id = self.mb_workid
         elif recording:
             try:
-                work_id = recording['work-relation-list'][0]['work']['id']
+                work_id = recording["work-relation-list"][0]["work"]["id"]
             except KeyError:
                 pass
         if work_id:
@@ -107,22 +106,24 @@ class Meta(MediaFileExtended):
             if work_hierarchy:
                 work_hierarchy.reverse()
                 work_bottom = work_hierarchy[-1]
-                if 'artist-relation-list' in work_bottom:
-                    for artist in work_bottom['artist-relation-list']:
-                        if artist['direction'] == 'backward' and \
-                           artist['type'] == 'composer':
-                            self.composer = artist['artist']['name']
-                            self.composer_sort = artist['artist']['sort-name']
+                if "artist-relation-list" in work_bottom:
+                    for artist in work_bottom["artist-relation-list"]:
+                        if (
+                            artist["direction"] == "backward"
+                            and artist["type"] == "composer"
+                        ):
+                            self.composer = artist["artist"]["name"]
+                            self.composer_sort = artist["artist"]["sort-name"]
                             break
-                self.mb_workid = work_bottom['id']
-                self.work = work_bottom['title']
+                self.mb_workid = work_bottom["id"]
+                self.work = work_bottom["title"]
                 wh_titles: List[str] = []
                 wh_ids: List[str] = []
                 for work in work_hierarchy:
-                    wh_titles.append(work['title'])
-                    wh_ids.append(work['id'])
-                self.work_hierarchy = ' -> '.join(wh_titles)
-                self.mb_workhierarchy_ids = '/'.join(wh_ids)
+                    wh_titles.append(work["title"])
+                    wh_ids.append(work["id"])
+                self.work_hierarchy = " -> ".join(wh_titles)
+                self.mb_workhierarchy_ids = "/".join(wh_ids)
 
     def remap_classical(self) -> None:
         """Remap some fields to fit better for classical music:
@@ -136,38 +137,36 @@ class Meta(MediaFileExtended):
         safe: List[List[str]] = []
 
         if self.title:
-            safe.append(['title', self.title])
-            self.title = re.sub(r'^[^:]*: ?', '', self.title)
+            safe.append(["title", self.title])
+            self.title = re.sub(r"^[^:]*: ?", "", self.title)
 
-            roman = re.findall(r'^([IVXLCDM]*)\.', self.title)
+            roman = re.findall(r"^([IVXLCDM]*)\.", self.title)
             if roman:
-                safe.append(['track', str(self.track)])
+                safe.append(["track", str(self.track)])
                 self.track = self._roman_to_int(roman[0])
 
         if self.composer:
-            safe.append(['artist', self.artist])
+            safe.append(["artist", self.artist])
             self.artist = self.composer
 
         if self.ar_combined_work_top:
-            safe.append(['album', self.album])
+            safe.append(["album", self.album])
             self.ar_performer_short
             album = self.ar_combined_work_top
             if self.ar_performer_short:
-                album += ' (' + self.ar_performer_short + ')'
+                album += " (" + self.ar_performer_short + ")"
             self.album = album
 
         if safe:
-            comments = 'Original metadata: '
+            comments = "Original metadata: "
             for safed in safe:
-                comments = comments + \
-                    str(safed[0]) + ': ' + \
-                    str(safed[1]) + '; '
+                comments = comments + str(safed[0]) + ": " + str(safed[1]) + "; "
 
             self.comments = comments
 
-###############################################################################
-# Class methods
-###############################################################################
+    ###############################################################################
+    # Class methods
+    ###############################################################################
 
     @classmethod
     def fields_phrydy(cls):
@@ -181,7 +180,7 @@ class Meta(MediaFileExtended):
                 if isinstance(prop, bytes):
                     # On Python 2, class field names are bytes. This method
                     # produces text strings.
-                    yield prop.decode('utf8', 'ignore')
+                    yield prop.decode("utf8", "ignore")
                 else:
                     yield prop
 
@@ -197,9 +196,9 @@ class Meta(MediaFileExtended):
         for field in sorted(cls.fields()):
             yield field
 
-###############################################################################
-# Static methods
-###############################################################################
+    ###############################################################################
+    # Static methods
+    ###############################################################################
 
     @staticmethod
     def _find_initials(value: str) -> str:
@@ -215,20 +214,19 @@ class Meta(MediaFileExtended):
         # To avoid ae -> a
         value = Functions.tmpl_asciify(value)
         # To avoid “!K7-Compilations” -> “!”
-        value = re.sub(r'^\W*', '', value)
+        value = re.sub(r"^\W*", "", value)
         initial = value[0:1].lower()
 
-        if re.match(r'\d', initial):
-            return '0'
+        if re.match(r"\d", initial):
+            return "0"
 
-        if initial == '':
-            return '_'
+        if initial == "":
+            return "_"
 
         return initial
 
     @staticmethod
-    def _normalize_performer(
-            ar_performer: List[str]) -> PerformerRaw:
+    def _normalize_performer(ar_performer: List[str]) -> PerformerRaw:
         """
         :param ar_performer: A list of raw ar_performer strings like
 
@@ -248,21 +246,22 @@ class Meta(MediaFileExtended):
         out: PerformerRaw = []
         for value in ar_performer:
             value = value[:-1]
-            value = value.split(' (')
+            value = value.split(" (")
             if len(value) == 2:
                 out.append([value[1], value[0]])
         return out
 
     @staticmethod
     def _roman_to_int(n: str) -> int:
-        numeral_map = tuple(zip(
-            (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
-            ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV',
-             'I')
-        ))
+        numeral_map = tuple(
+            zip(
+                (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
+                ("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"),
+            )
+        )
         i = result = 0
         for integer, numeral in numeral_map:
-            while n[i:i + len(numeral)] == numeral:
+            while n[i : i + len(numeral)] == numeral:
                 result += integer
                 i += len(numeral)
         return result
@@ -271,18 +270,21 @@ class Meta(MediaFileExtended):
     def _sanitize(value: Any) -> str:
         if isinstance(value, str) or isinstance(value, bytes):
             value = Functions.tmpl_sanitize(str(value))
-            value = re.sub(r'\s{2,}', ' ', str(value))
+            value = re.sub(r"\s{2,}", " ", str(value))
         else:
-            value = ''
+            value = ""
         return value
 
     @staticmethod
-    def _shorten_performer(ar_performer: str, length: int = 3,
-                           separator: str = ' ',
-                           abbreviation: str = '.') -> str:
-        out = ''
+    def _shorten_performer(
+        ar_performer: str,
+        length: int = 3,
+        separator: str = " ",
+        abbreviation: str = ".",
+    ) -> str:
+        out = ""
         count = 0
-        for s in ar_performer.split(' '):
+        for s in ar_performer.split(" "):
             if count < 3:
                 if len(s) > length:
                     part = s[:length] + abbreviation
@@ -291,7 +293,7 @@ class Meta(MediaFileExtended):
                 out = out + separator + part
             count = count + 1
 
-        return out[len(separator):]
+        return out[len(separator) :]
 
     @staticmethod
     def _uniquify_list(sequence: List[Any]) -> List[Any]:
@@ -304,9 +306,9 @@ class Meta(MediaFileExtended):
 
         return unique
 
-###############################################################################
-# Properties
-###############################################################################
+    ###############################################################################
+    # Properties
+    ###############################################################################
 
     @property
     def ar_classical_album(self) -> Optional[str]:
@@ -320,7 +322,7 @@ class Meta(MediaFileExtended):
         * ``Die Meistersinger von Nürnberg``
         """
         if self.work:
-            return re.sub(r':.*$', '', (str(self.work)))
+            return re.sub(r":.*$", "", (str(self.work)))
 
     @property
     def ar_combined_album(self) -> Optional[str]:
@@ -333,7 +335,7 @@ class Meta(MediaFileExtended):
         * ``Just Friends (Disc 2)`` → ``Just Friends``
         """
         if self.album:
-            return re.sub(r' ?\([dD]is[ck].*\)$', '', str(self.album))
+            return re.sub(r" ?\([dD]is[ck].*\)$", "", str(self.album))
 
     @property
     def ar_initial_album(self) -> Optional[str]:
@@ -366,8 +368,7 @@ class Meta(MediaFileExtended):
     def __remove_feat_vs_second_artist(artist: str) -> str:
         """Give only the first artist, remove the second after ``feat.``,
         ``ft.`` or ``vs.``"""
-        return re.sub(r'\s+(feat|ft|vs)\.?\s.*', '', artist,
-                      flags=re.IGNORECASE)
+        return re.sub(r"\s+(feat|ft|vs)\.?\s.*", "", artist, flags=re.IGNORECASE)
 
     @property
     def ar_combined_artist(self) -> str:
@@ -397,7 +398,7 @@ class Meta(MediaFileExtended):
         elif self.artist_sort:
             out = self.artist_sort
         else:
-            out = 'Unknown'
+            out = "Unknown"
 
         return Meta.__remove_feat_vs_second_artist(out)
 
@@ -429,12 +430,12 @@ class Meta(MediaFileExtended):
         elif self.artist_credit:
             out = self.artist_credit
         else:
-            out = 'Unknown'
+            out = "Unknown"
 
         out = Meta.__remove_feat_vs_second_artist(out)
 
         if self.shell_friendly:
-            out = out.replace(', ', '_')
+            out = out.replace(", ", "_")
 
         return out
 
@@ -454,7 +455,7 @@ class Meta(MediaFileExtended):
         * ``phrydy.mediafile.MediaFile.composer``
         * :class:`audiorename.meta.Meta.ar_combined_artist`
         """
-        out: str = ''
+        out: str = ""
         if self.composer_sort:
             out = self.composer_sort
         elif self.composer:
@@ -463,10 +464,10 @@ class Meta(MediaFileExtended):
             out = self.ar_combined_artist
 
         if self.shell_friendly:
-            out = out.replace(', ', '_')
+            out = out.replace(", ", "_")
 
         # e. g. 'Mozart, Wolfgang Amadeus/Süßmeyer, Franz Xaver'
-        return re.sub(r' ?/.*', '', out)
+        return re.sub(r" ?/.*", "", out)
 
     @property
     def ar_combined_disctrack(self) -> Optional[str]:
@@ -498,9 +499,9 @@ class Meta(MediaFileExtended):
             track = str(self.track).zfill(2)
 
         if self.disc and self.disctotal and int(self.disctotal) > 1:
-            out = disk + '-' + track
+            out = disk + "-" + track
         elif self.disc and not self.disctotal:
-            out = disk + '-' + track
+            out = disk + "-" + track
         else:
             out = track
 
@@ -512,9 +513,9 @@ class Meta(MediaFileExtended):
 
         * :class:`audiorename.meta.Meta.ar_performer_raw`
         """
-        out: str = ''
+        out: str = ""
         for ar_performer in self.ar_performer_raw:
-            out = out + ', ' + ar_performer[1]
+            out = out + ", " + ar_performer[1]
 
         out = out[2:]
 
@@ -532,9 +533,9 @@ class Meta(MediaFileExtended):
         if len(self.ar_performer_short) > 0:
             out = self.ar_performer_short
         elif self.albumartist:
-            out = re.sub(r'^.*; ?', '', self.albumartist)
+            out = re.sub(r"^.*; ?", "", self.albumartist)
         else:
-            out = ''
+            out = ""
 
         return out
 
@@ -560,24 +561,24 @@ class Meta(MediaFileExtended):
         """
         out: PerformerRaw = []
 
-        if (self.format == 'FLAC' or self.format == 'OGG') and \
-                'performer' in self.mgfile:
-            out = self._normalize_performer(self.mgfile['performer'])
-            if 'conductor' in self.mgfile:
-                out.insert(0, ['conductor', self.mgfile['conductor'][0]])
-        elif self.format == 'MP3':
+        if (
+            self.format == "FLAC" or self.format == "OGG"
+        ) and "performer" in self.mgfile:
+            out = self._normalize_performer(self.mgfile["performer"])
+            if "conductor" in self.mgfile:
+                out.insert(0, ["conductor", self.mgfile["conductor"][0]])
+        elif self.format == "MP3":
             # 4.2.2 TMCL Musician credits list
-            if 'TMCL' in self.mgfile:
-                out = self.mgfile['TMCL'].people
+            if "TMCL" in self.mgfile:
+                out = self.mgfile["TMCL"].people
             # 4.2.2 TIPL Involved people list
             # TIPL is used for producer
-            if 'TIPL' in self.mgfile:
-                out = self.mgfile['TIPL'].people
+            if "TIPL" in self.mgfile:
+                out = self.mgfile["TIPL"].people
 
             # 4.2.2 TPE3 Conductor/ar_performer refinement
-            if len(out) > 0 and 'conductor' not in out[0] \
-                    and 'TPE3' in self.mgfile:
-                out.insert(0, ['conductor', self.mgfile['TPE3'].text[0]])
+            if len(out) > 0 and "conductor" not in out[0] and "TPE3" in self.mgfile:
+                out.insert(0, ["conductor", self.mgfile["TPE3"].text[0]])
 
         else:
             out = []
@@ -595,7 +596,7 @@ class Meta(MediaFileExtended):
         performers = self.ar_performer_raw
         picked: PerformerRaw = []
         for performer in performers:
-            if performer[0] == 'conductor' or performer[0] == 'orchestra':
+            if performer[0] == "conductor" or performer[0] == "orchestra":
                 picked.append(performer)
 
         if len(picked) > 0:
@@ -603,25 +604,30 @@ class Meta(MediaFileExtended):
 
         for performer in performers:
 
-            if performer[0] == 'producer' or \
-                    performer[0] == 'executive producer' or \
-                    performer[0] == 'balance engineer':
+            if (
+                performer[0] == "producer"
+                or performer[0] == "executive producer"
+                or performer[0] == "balance engineer"
+            ):
                 pass
-            elif performer[0] == 'orchestra' or \
-                    performer[0] == 'choir vocals' or \
-                    performer[0] == 'string quartet':
-                out.append(self._shorten_performer(performer[1], separator='',
-                                                   abbreviation=''))
+            elif (
+                performer[0] == "orchestra"
+                or performer[0] == "choir vocals"
+                or performer[0] == "string quartet"
+            ):
+                out.append(
+                    self._shorten_performer(performer[1], separator="", abbreviation="")
+                )
             else:
-                out.append(performer[1].split(' ')[-1])
+                out.append(performer[1].split(" ")[-1])
 
-        return ', '.join(out)
+        return ", ".join(out)
 
     @property
     def ar_combined_soundtrack(self):
-        if (self.releasegroup_types and 'soundtrack'
-            in self.releasegroup_types.lower()) or \
-           (self.albumtype and 'soundtrack' in self.albumtype.lower()):
+        if (
+            self.releasegroup_types and "soundtrack" in self.releasegroup_types.lower()
+        ) or (self.albumtype and "soundtrack" in self.albumtype.lower()):
             return True
         else:
             return False
@@ -637,7 +643,7 @@ class Meta(MediaFileExtended):
         * ``Horn Concerto: I. Allegro``
         """
         if self.title:
-            return re.sub(r'^[^:]*: ?', '', self.title)
+            return re.sub(r"^[^:]*: ?", "", self.title)
 
     @property
     def ar_classical_track(self) -> Optional[str]:
@@ -648,7 +654,7 @@ class Meta(MediaFileExtended):
         """
         roman = None
         if self.ar_classical_title:
-            roman = re.findall(r'^([IVXLCDM]*)\.', self.ar_classical_title)
+            roman = re.findall(r"^([IVXLCDM]*)\.", self.ar_classical_title)
         if roman:
             return str(self._roman_to_int(roman[0])).zfill(2)
         elif self.ar_combined_disctrack:
@@ -663,7 +669,7 @@ class Meta(MediaFileExtended):
 
         """
         if self.work_hierarchy:
-            return self.work_hierarchy.split(' -> ')[0]
+            return self.work_hierarchy.split(" -> ")[0]
         elif self.ar_classical_album:
             return self.ar_classical_album
 

@@ -32,7 +32,7 @@ class Batch:
     virtual_album: typing.List[VirtualAlbum] = []
     """Storage of a list of files belonging to an album."""
 
-    current_album_title: str = ''
+    current_album_title: str = ""
     """Storage for the album title of the current audio file."""
 
     job: Job
@@ -42,8 +42,9 @@ class Batch:
     def __init__(self, job: Job):
 
         self.job = job
-        self.bundle_filter = job.filters.album_complete or \
-            isinstance(job.filters.album_min, int)
+        self.bundle_filter = job.filters.album_complete or isinstance(
+            job.filters.album_min, int
+        )
 
     def check_extension(self, path: str) -> bool:
         """Check the extension of the track.
@@ -51,7 +52,7 @@ class Batch:
         :params str path: The path of the tracks.
         """
         extension = self.job.filters.extension
-        extension = ['.' + e for e in extension]
+        extension = ["." + e for e in extension]
         if path.lower().endswith(tuple(extension)):
             return True
         else:
@@ -61,8 +62,9 @@ class Batch:
         """Compare the number of tracks in an album with the minimal track
         threshold.
         """
-        if isinstance(self.job.filters.album_min, int) and \
-                len(self.virtual_album) > int(self.job.filters.album_min):
+        if isinstance(self.job.filters.album_min, int) and len(
+            self.virtual_album
+        ) > int(self.job.filters.album_min):
             return True
         else:
             return False
@@ -94,7 +96,7 @@ class Batch:
 
         self.virtual_album = []
 
-    def make_bundles(self, path: str = ''):
+    def make_bundles(self, path: str = ""):
         """
         :params str path: The path of the tracks.
         """
@@ -105,8 +107,7 @@ class Batch:
         try:
             media = MediaFileExtended(path)
             album = VirtualAlbum(media.album, media.track, path)
-            if not self.current_album_title or \
-                    self.current_album_title != media.album:
+            if not self.current_album_title or self.current_album_title != media.album:
                 self.current_album_title = media.album
                 self.process_album()
             self.virtual_album.append(album)

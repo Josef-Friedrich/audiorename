@@ -22,11 +22,10 @@ class Timer:
         self.end = time.time()
 
     def result(self) -> str:
-        return '{:.1f}s'.format(self.end - self.begin)
+        return "{:.1f}s".format(self.end - self.begin)
 
 
 class Counter:
-
     def __init__(self):
         self._counters: typing.Dict[str, int] = {}
 
@@ -62,12 +61,12 @@ class Counter:
     def result(self) -> str:
         out: typing.List[str] = []
         for counter, value in sorted(self._counters.items()):
-            out.append(counter + '=' + str(value))
+            out.append(counter + "=" + str(value))
 
         if out:
-            return ' '.join(out)
+            return " ".join(out)
         else:
-            return 'Nothing to count!'
+            return "Nothing to count!"
 
 
 class Statistic:
@@ -76,7 +75,7 @@ class Statistic:
     timer = Timer()
 
 
-IniDataTypes = typing.Literal['boolean', 'integer', 'string']
+IniDataTypes = typing.Literal["boolean", "integer", "string"]
 
 
 class Config:
@@ -88,10 +87,11 @@ class Config:
     leading underscore. The subclass provide  for each private property a
     getter method (@property)"""
 
-    _job: 'Job'
+    _job: "Job"
 
-    def __init__(self, job: 'Job', section: str,
-                 options: typing.Dict[str, IniDataTypes]):
+    def __init__(
+        self, job: "Job", section: str, options: typing.Dict[str, IniDataTypes]
+    ):
         self._job = job
         for key, data_type in options.items():
             value = None
@@ -100,27 +100,29 @@ class Config:
             elif job.config:
                 for config in job.config:
                     result = self.__get_value_from_config(
-                        config, section, key, data_type)
+                        config, section, key, data_type
+                    )
                     if result is not None:
                         value = result
 
             if value is not None:
-                setattr(self, '_' + key, value)
+                setattr(self, "_" + key, value)
 
     def __get_value_from_config(
-        self, config: configparser.ConfigParser,
-        section: str, key: str,
-        data_type: IniDataTypes
+        self,
+        config: configparser.ConfigParser,
+        section: str,
+        key: str,
+        data_type: IniDataTypes,
     ) -> typing.Optional[typing.Any]:
         try:
-            if data_type == 'boolean':
+            if data_type == "boolean":
                 return config.getboolean(section, key)
-            elif data_type == 'integer':
+            elif data_type == "integer":
                 return config.getint(section, key)
             else:
                 return config.get(section, key)
-        except (configparser.NoOptionError,
-                configparser.NoSectionError):
+        except (configparser.NoOptionError, configparser.NoSectionError):
             pass
 
 
@@ -135,10 +137,10 @@ class SelectionConfig(Config):
         """The source path as an absolute path. It maybe a directory or a
         file."""
         source: str
-        if hasattr(self, '_source') and self._source:
+        if hasattr(self, "_source") and self._source:
             source = self._source
         else:
-            source = '.'
+            source = "."
         return os.path.abspath(source)
 
     @property
@@ -147,7 +149,7 @@ class SelectionConfig(Config):
         directory.
         """
         target: typing.Union[None, str] = None
-        if hasattr(self, '_target'):
+        if hasattr(self, "_target"):
             target = self._target
 
         if self.source_as_target:
@@ -162,14 +164,15 @@ class SelectionConfig(Config):
 
     @property
     def source_as_target(self) -> bool:
-        if hasattr(self, '_source_as_target') and \
-           isinstance(self._source_as_target, bool):
+        if hasattr(self, "_source_as_target") and isinstance(
+            self._source_as_target, bool
+        ):
             return self._source_as_target
         return False
 
 
-MoveAction = typing.Literal['move', 'copy', 'no_rename']
-CleaningAction = typing.Literal['backup', 'delete', 'do_nothing']
+MoveAction = typing.Literal["move", "copy", "no_rename"]
+CleaningAction = typing.Literal["backup", "delete", "do_nothing"]
 
 
 class RenameConfig(Config):
@@ -182,38 +185,41 @@ class RenameConfig(Config):
 
     @property
     def backup_folder(self) -> str:
-        if hasattr(self, '_backup_folder') and \
-                isinstance(self._backup_folder, str):
+        if hasattr(self, "_backup_folder") and isinstance(self._backup_folder, str):
             return self._backup_folder
-        return os.path.join(os.getcwd(), '_audiorename_backups')
+        return os.path.join(os.getcwd(), "_audiorename_backups")
 
     @property
     def best_format(self) -> bool:
-        if hasattr(self, '_best_format') and \
-                isinstance(self._best_format, bool):
+        if hasattr(self, "_best_format") and isinstance(self._best_format, bool):
             return self._best_format
         return True
 
     @property
     def dry_run(self) -> bool:
-        if hasattr(self, '_dry_run') and \
-                isinstance(self._dry_run, bool):
+        if hasattr(self, "_dry_run") and isinstance(self._dry_run, bool):
             return self._dry_run
         return False
 
     @property
     def move_action(self) -> MoveAction:
-        if hasattr(self, '_move_action') and \
-                self._move_action in ['move', 'copy', 'no_rename']:
+        if hasattr(self, "_move_action") and self._move_action in [
+            "move",
+            "copy",
+            "no_rename",
+        ]:
             return self._move_action
-        return 'move'
+        return "move"
 
     @property
     def cleaning_action(self) -> CleaningAction:
-        if hasattr(self, '_cleaning_action') and \
-                self._cleaning_action in ['backup', 'delete', 'do_nothing']:
+        if hasattr(self, "_cleaning_action") and self._cleaning_action in [
+            "backup",
+            "delete",
+            "do_nothing",
+        ]:
             return self._cleaning_action
-        return 'do_nothing'
+        return "do_nothing"
 
 
 class FiltersConfig(Config):
@@ -226,41 +232,36 @@ class FiltersConfig(Config):
 
     @property
     def album_complete(self) -> bool:
-        if hasattr(self, '_album_complete') and \
-                isinstance(self._album_complete, bool):
+        if hasattr(self, "_album_complete") and isinstance(self._album_complete, bool):
             return self._album_complete
         return False
 
     @property
     def album_min(self) -> typing.Optional[int]:
-        if hasattr(self, '_album_min') and isinstance(self._album_min, int):
+        if hasattr(self, "_album_min") and isinstance(self._album_min, int):
             return self._album_min
 
     @property
     def extension(self) -> typing.List[str]:
         extension: str
-        if hasattr(self, '_extension') and isinstance(self._extension, str):
+        if hasattr(self, "_extension") and isinstance(self._extension, str):
             extension = self._extension
         else:
-            extension = 'mp3,m4a,flac,wma'
-        return extension.split(',')
+            extension = "mp3,m4a,flac,wma"
+        return extension.split(",")
 
     @property
     def genre_classical(self) -> typing.List[str]:
         genre_classical: str
-        if hasattr(self, '_genre_classical') and \
-                isinstance(self._genre_classical, str):
+        if hasattr(self, "_genre_classical") and isinstance(self._genre_classical, str):
             genre_classical = self._genre_classical
         else:
-            genre_classical = ','
-        return list(
-            filter(str.strip,
-                   genre_classical.lower().split(',')))
+            genre_classical = ","
+        return list(filter(str.strip, genre_classical.lower().split(",")))
 
     @property
     def field_skip(self) -> typing.Optional[str]:
-        if hasattr(self, '_field_skip') and \
-                isinstance(self._field_skip, str):
+        if hasattr(self, "_field_skip") and isinstance(self._field_skip, str):
             return self._field_skip
 
 
@@ -272,21 +273,19 @@ class TemplateSettingsConfig(Config):
 
     @property
     def classical(self) -> bool:
-        if hasattr(self, '_classical') and isinstance(self._classical, bool):
+        if hasattr(self, "_classical") and isinstance(self._classical, bool):
             return self._classical
         return False
 
     @property
     def shell_friendly(self) -> bool:
-        if hasattr(self, '_shell_friendly') and \
-                isinstance(self._shell_friendly, bool):
+        if hasattr(self, "_shell_friendly") and isinstance(self._shell_friendly, bool):
             return self._shell_friendly
         return False
 
     @property
     def no_soundtrack(self) -> bool:
-        if hasattr(self, '_no_soundtrack') and \
-                isinstance(self._no_soundtrack, bool):
+        if hasattr(self, "_no_soundtrack") and isinstance(self._no_soundtrack, bool):
             return self._no_soundtrack
         return False
 
@@ -309,28 +308,34 @@ class PathTemplatesConfig(Config):
         """Get the default path template."""
         if self._is_classical:
             return self.classical
-        if hasattr(self, '_default_template') and \
-                isinstance(self._default_template, str):
+        if hasattr(self, "_default_template") and isinstance(
+            self._default_template, str
+        ):
             return self._default_template
-        return '$ar_initial_artist/' \
-            '%shorten{$ar_combined_artist_sort}/' \
-            '%shorten{$ar_combined_album}' \
-            '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
-            '${ar_combined_disctrack}_%shorten{$title}'
+        return (
+            "$ar_initial_artist/"
+            "%shorten{$ar_combined_artist_sort}/"
+            "%shorten{$ar_combined_album}"
+            "%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/"
+            "${ar_combined_disctrack}_%shorten{$title}"
+        )
 
     @property
     def compilation(self) -> str:
         """Get the path template for compilations."""
         if self._is_classical:
             return self.classical
-        if hasattr(self, '_compilation_template') and \
-                isinstance(self._compilation_template, str):
+        if hasattr(self, "_compilation_template") and isinstance(
+            self._compilation_template, str
+        ):
             return self._compilation_template
-        return '_compilations/' \
-            '$ar_initial_album/' \
-            '%shorten{$ar_combined_album}' \
-            '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
-            '${ar_combined_disctrack}_%shorten{$title}'
+        return (
+            "_compilations/"
+            "$ar_initial_album/"
+            "%shorten{$ar_combined_album}"
+            "%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/"
+            "${ar_combined_disctrack}_%shorten{$title}"
+        )
 
     @property
     def soundtrack(self) -> str:
@@ -339,26 +344,32 @@ class PathTemplatesConfig(Config):
             return self.classical
         if self._job.template_settings.no_soundtrack:
             return self.default
-        if hasattr(self, '_soundtrack_template') and \
-                isinstance(self._soundtrack_template, str):
+        if hasattr(self, "_soundtrack_template") and isinstance(
+            self._soundtrack_template, str
+        ):
             return self._soundtrack_template
-        return '_soundtrack/' \
-            '$ar_initial_album/' \
-            '%shorten{$ar_combined_album}' \
-            '%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/' \
-            '${ar_combined_disctrack}_${artist}_%shorten{$title}'
+        return (
+            "_soundtrack/"
+            "$ar_initial_album/"
+            "%shorten{$ar_combined_album}"
+            "%ifdefnotempty{ar_combined_year,_${ar_combined_year}}/"
+            "${ar_combined_disctrack}_${artist}_%shorten{$title}"
+        )
 
     @property
     def classical(self) -> str:
         """Get the path template for classical music."""
-        if hasattr(self, '_classical_template') and \
-                isinstance(self._classical_template, str):
+        if hasattr(self, "_classical_template") and isinstance(
+            self._classical_template, str
+        ):
             return self._classical_template
-        return '$ar_initial_composer/$ar_combined_composer/' \
-            '%shorten{$ar_combined_work_top,48}' \
-            '_[%shorten{$ar_classical_performer,32}]/' \
-            '${ar_combined_disctrack}_%shorten{$ar_classical_title,64}' \
-            '%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}'
+        return (
+            "$ar_initial_composer/$ar_combined_composer/"
+            "%shorten{$ar_combined_work_top,48}"
+            "_[%shorten{$ar_classical_performer,32}]/"
+            "${ar_combined_disctrack}_%shorten{$ar_classical_title,64}"
+            "%ifdefnotempty{acoustid_id,_%shorten{$acoustid_id,8}}"
+        )
 
 
 class CliOutputConfig(Config):
@@ -373,44 +384,45 @@ class CliOutputConfig(Config):
 
     @property
     def color(self) -> bool:
-        if hasattr(self, '_color') and isinstance(self._color, bool):
+        if hasattr(self, "_color") and isinstance(self._color, bool):
             return self._color
         return True
 
     @property
     def debug(self) -> bool:
-        if hasattr(self, '_debug') and isinstance(self._debug, bool):
+        if hasattr(self, "_debug") and isinstance(self._debug, bool):
             return self._debug
         return False
 
     @property
     def job_info(self) -> bool:
-        if hasattr(self, '_job_info') and isinstance(self._job_info, bool):
+        if hasattr(self, "_job_info") and isinstance(self._job_info, bool):
             return self._job_info
         return False
 
     @property
     def mb_track_listing(self) -> bool:
-        if hasattr(self, '_mb_track_listing') and \
-           isinstance(self._mb_track_listing, bool):
+        if hasattr(self, "_mb_track_listing") and isinstance(
+            self._mb_track_listing, bool
+        ):
             return self._mb_track_listing
         return False
 
     @property
     def one_line(self) -> bool:
-        if hasattr(self, '_one_line') and isinstance(self._one_line, bool):
+        if hasattr(self, "_one_line") and isinstance(self._one_line, bool):
             return self._one_line
         return False
 
     @property
     def stats(self) -> bool:
-        if hasattr(self, '_stats') and isinstance(self._stats, bool):
+        if hasattr(self, "_stats") and isinstance(self._stats, bool):
             return self._stats
         return False
 
     @property
     def verbose(self) -> bool:
-        if hasattr(self, '_verbose') and isinstance(self._verbose, bool):
+        if hasattr(self, "_verbose") and isinstance(self._verbose, bool):
             return self._verbose
         return False
 
@@ -422,15 +434,17 @@ class MetadataActionsConfig(Config):
 
     @property
     def enrich_metadata(self) -> bool:
-        if hasattr(self, '_enrich_metadata') and \
-                isinstance(self._enrich_metadata, bool):
+        if hasattr(self, "_enrich_metadata") and isinstance(
+            self._enrich_metadata, bool
+        ):
             return self._enrich_metadata
         return False
 
     @property
     def remap_classical(self) -> bool:
-        if hasattr(self, '_remap_classical') and \
-                isinstance(self._remap_classical, bool):
+        if hasattr(self, "_remap_classical") and isinstance(
+            self._remap_classical, bool
+        ):
             return self._remap_classical
         return False
 
@@ -458,8 +472,7 @@ class Job:
         self.msg = Message(self)
 
     def __read_config(
-        self,
-        file_paths: typing.List[str]
+        self, file_paths: typing.List[str]
     ) -> typing.List[configparser.ConfigParser]:
         configs: typing.List[configparser.ConfigParser] = []
         for file_path in file_paths:
@@ -470,64 +483,88 @@ class Job:
 
     @property
     def selection(self) -> SelectionConfig:
-        return SelectionConfig(self, 'selection', {
-            'source': 'string',
-            'target': 'string',
-            'source_as_target': 'boolean'
-        })
+        return SelectionConfig(
+            self,
+            "selection",
+            {"source": "string", "target": "string", "source_as_target": "boolean"},
+        )
 
     @property
     def rename(self) -> RenameConfig:
-        return RenameConfig(self, 'rename', {
-            'backup_folder': 'string',
-            'best_format': 'boolean',
-            'dry_run': 'boolean',
-            'move_action': 'string',
-            'cleaning_action': 'string',
-        })
+        return RenameConfig(
+            self,
+            "rename",
+            {
+                "backup_folder": "string",
+                "best_format": "boolean",
+                "dry_run": "boolean",
+                "move_action": "string",
+                "cleaning_action": "string",
+            },
+        )
 
     @property
     def filters(self) -> FiltersConfig:
-        return FiltersConfig(self, 'filters', {
-            'album_complete': 'boolean',
-            'album_min': 'integer',
-            'extension': 'string',
-            'genre_classical': 'string',
-            'field_skip': 'string'
-        })
+        return FiltersConfig(
+            self,
+            "filters",
+            {
+                "album_complete": "boolean",
+                "album_min": "integer",
+                "extension": "string",
+                "genre_classical": "string",
+                "field_skip": "string",
+            },
+        )
 
     @property
     def template_settings(self) -> TemplateSettingsConfig:
-        return TemplateSettingsConfig(self, 'template_settings', {
-            'classical': 'boolean',
-            'shell_friendly': 'boolean',
-            'no_soundtrack': 'boolean',
-        })
+        return TemplateSettingsConfig(
+            self,
+            "template_settings",
+            {
+                "classical": "boolean",
+                "shell_friendly": "boolean",
+                "no_soundtrack": "boolean",
+            },
+        )
 
     @property
     def path_templates(self) -> PathTemplatesConfig:
-        return PathTemplatesConfig(self, 'path_templates', {
-            'default_template': 'string',
-            'compilation_template': 'string',
-            'soundtrack_template': 'string',
-            'classical_template': 'string',
-        })
+        return PathTemplatesConfig(
+            self,
+            "path_templates",
+            {
+                "default_template": "string",
+                "compilation_template": "string",
+                "soundtrack_template": "string",
+                "classical_template": "string",
+            },
+        )
 
     @property
     def cli_output(self) -> CliOutputConfig:
-        return CliOutputConfig(self, 'cli_output', {
-            'color': 'boolean',
-            'debug': 'boolean',
-            'job_info': 'boolean',
-            'mb_track_listing': 'boolean',
-            'one_line': 'boolean',
-            'stats': 'boolean',
-            'verbose': 'boolean',
-        })
+        return CliOutputConfig(
+            self,
+            "cli_output",
+            {
+                "color": "boolean",
+                "debug": "boolean",
+                "job_info": "boolean",
+                "mb_track_listing": "boolean",
+                "one_line": "boolean",
+                "stats": "boolean",
+                "verbose": "boolean",
+            },
+        )
 
     @property
     def metadata_actions(self) -> MetadataActionsConfig:
-        return MetadataActionsConfig(self, 'metadata_actions', {
-            'enrich_metadata': 'boolean',
-            'remap_classical': 'boolean',
-        })
+        return MetadataActionsConfig(
+            self,
+            "metadata_actions",
+            {
+                "enrich_metadata": "boolean",
+                "remap_classical": "boolean",
+            },
+        )

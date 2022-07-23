@@ -1,11 +1,13 @@
 """Test the file job.py."""
 
-import typing
-from audiorename.job import Job, Timer, Counter
-from audiorename.args import ArgsDefault
-import unittest
 import os
+import typing
+import unittest
+
 import helper
+
+from audiorename.args import ArgsDefault
+from audiorename.job import Counter, Job, Timer
 
 
 def job(**kwargs: typing.Any) -> Job:
@@ -19,27 +21,23 @@ class TestJobWithArgParser(unittest.TestCase):
     ##
 
     def test_source(self):
-        self.assertEqual(job(source='.').selection.source,
-                         os.path.abspath('.'))
+        self.assertEqual(job(source=".").selection.source, os.path.abspath("."))
 
     def test_target_default(self):
-        self.assertEqual(job(source='.').selection.target, os.getcwd())
+        self.assertEqual(job(source=".").selection.target, os.getcwd())
 
     def test_target(self):
-        self.assertEqual(job(target='test').selection.target,
-                         os.path.abspath('test'))
+        self.assertEqual(job(target="test").selection.target, os.path.abspath("test"))
 
     def test_source_as_target(self):
-        self.assertEqual(job(source_as_target=True).selection.target,
-                         os.getcwd())
+        self.assertEqual(job(source_as_target=True).selection.target, os.getcwd())
 
     ##
     # [rename]
     ##
 
     def test_backup_folder(self):
-        self.assertEqual(job(backup_folder='/tmp').rename.backup_folder,
-                         '/tmp')
+        self.assertEqual(job(backup_folder="/tmp").rename.backup_folder, "/tmp")
 
     def test_best_format(self):
         self.assertEqual(job(best_format=True).rename.best_format, True)
@@ -48,11 +46,10 @@ class TestJobWithArgParser(unittest.TestCase):
         self.assertEqual(job(dry_run=True).rename.dry_run, True)
 
     def test_move_action(self):
-        self.assertEqual(job(move_action='copy').rename.move_action, 'copy')
+        self.assertEqual(job(move_action="copy").rename.move_action, "copy")
 
     def test_cleaning_action(self):
-        self.assertEqual(
-            job(cleaning_action='backup').rename.cleaning_action, 'backup')
+        self.assertEqual(job(cleaning_action="backup").rename.cleaning_action, "backup")
 
     ##
     # [filters]
@@ -67,17 +64,19 @@ class TestJobWithArgParser(unittest.TestCase):
         self.assertEqual(job(album_min=19).filters.album_complete, False)
 
     def test_extension(self):
-        self.assertEqual(job(extension='lol').filters.extension, ['lol'])
+        self.assertEqual(job(extension="lol").filters.extension, ["lol"])
 
     def test_field_skip(self):
-        self.assertEqual(job(field_skip='album').filters.field_skip, 'album')
+        self.assertEqual(job(field_skip="album").filters.field_skip, "album")
+
     ##
     # [template_settings]
     ##
 
     def test_shell_friendly(self):
         self.assertEqual(
-            job(shell_friendly=True).template_settings.shell_friendly, True)
+            job(shell_friendly=True).template_settings.shell_friendly, True
+        )
 
     ##
     # [cli_output]
@@ -93,8 +92,7 @@ class TestJobWithArgParser(unittest.TestCase):
         self.assertEqual(job(job_info=True).cli_output.job_info, True)
 
     def test_mb_track_listing(self):
-        self.assertEqual(
-            job(mb_track_listing=True).cli_output.mb_track_listing, True)
+        self.assertEqual(job(mb_track_listing=True).cli_output.mb_track_listing, True)
 
     def test_one_line(self):
         self.assertEqual(job(one_line=True).cli_output.one_line, True)
@@ -111,15 +109,17 @@ class TestJobWithArgParser(unittest.TestCase):
 
     def test_enrich_metadata(self):
         self.assertEqual(
-            job(enrich_metadata=True).metadata_actions.enrich_metadata, True)
+            job(enrich_metadata=True).metadata_actions.enrich_metadata, True
+        )
 
     def test_remap_classical(self):
         self.assertEqual(
-            job(remap_classical=True).metadata_actions.remap_classical, True)
+            job(remap_classical=True).metadata_actions.remap_classical, True
+        )
 
 
 def get_config_path(config_file: str) -> str:
-    return helper.get_testfile('config', config_file)
+    return helper.get_testfile("config", config_file)
 
 
 def make_job_with_config(config_file: str) -> Job:
@@ -129,51 +129,50 @@ def make_job_with_config(config_file: str) -> Job:
 
 
 class TestJobWithConfigParser(unittest.TestCase):
-
     def setUp(self):
-        self.job = make_job_with_config('all-true.ini')
+        self.job = make_job_with_config("all-true.ini")
 
     def test_minimal_config_file(self):
-        job = make_job_with_config('minimal.ini')
-        self.assertEqual(job.rename.backup_folder, '/tmp/minimal')
+        job = make_job_with_config("minimal.ini")
+        self.assertEqual(job.rename.backup_folder, "/tmp/minimal")
 
     def test_multiple_config_files(self):
         args = ArgsDefault()
         args.config = [
-            get_config_path('all-true.ini'),
-            get_config_path('minimal.ini'),
+            get_config_path("all-true.ini"),
+            get_config_path("minimal.ini"),
         ]
         job = Job(args)
-        self.assertEqual(job.rename.backup_folder, '/tmp/minimal')
-        self.assertEqual(job.filters.genre_classical, ['sonata', 'opera'])
+        self.assertEqual(job.rename.backup_folder, "/tmp/minimal")
+        self.assertEqual(job.filters.genre_classical, ["sonata", "opera"])
 
     def test_multiple_config_file_different_order(self):
         args = ArgsDefault()
         args.config = [
-            get_config_path('minimal.ini'),
-            get_config_path('all-true.ini'),
+            get_config_path("minimal.ini"),
+            get_config_path("all-true.ini"),
         ]
         job = Job(args)
-        self.assertEqual(job.rename.backup_folder, '/tmp/backup')
+        self.assertEqual(job.rename.backup_folder, "/tmp/backup")
 
     def test_section_selection(self):
-        self.assertEqual(self.job.selection.source, '/tmp')
-        self.assertEqual(self.job.selection.target, '/tmp')
+        self.assertEqual(self.job.selection.source, "/tmp")
+        self.assertEqual(self.job.selection.target, "/tmp")
         self.assertEqual(self.job.selection.source_as_target, True)
 
     def test_section_rename(self):
-        self.assertEqual(self.job.rename.backup_folder, '/tmp/backup')
+        self.assertEqual(self.job.rename.backup_folder, "/tmp/backup")
         self.assertEqual(self.job.rename.best_format, True)
         self.assertEqual(self.job.rename.dry_run, True)
-        self.assertEqual(self.job.rename.move_action, 'copy')
-        self.assertEqual(self.job.rename.cleaning_action, 'delete')
+        self.assertEqual(self.job.rename.move_action, "copy")
+        self.assertEqual(self.job.rename.cleaning_action, "delete")
 
     def test_section_filters(self):
         self.assertEqual(self.job.filters.album_complete, True)
         self.assertEqual(self.job.filters.album_min, 42)
-        self.assertEqual(self.job.filters.extension, ['wave', 'aiff'])
-        self.assertEqual(self.job.filters.genre_classical, ['sonata', 'opera'])
-        self.assertEqual(self.job.filters.field_skip, 'comment')
+        self.assertEqual(self.job.filters.extension, ["wave", "aiff"])
+        self.assertEqual(self.job.filters.genre_classical, ["sonata", "opera"])
+        self.assertEqual(self.job.filters.field_skip, "comment")
 
     def test_section_template_settings(self):
         self.assertEqual(self.job.template_settings.classical, True)
@@ -181,10 +180,10 @@ class TestJobWithConfigParser(unittest.TestCase):
         self.assertEqual(self.job.template_settings.no_soundtrack, True)
 
     def test_section_path_templates(self):
-        self.assertEqual(self.job.path_templates.default, 'classical')
-        self.assertEqual(self.job.path_templates.compilation, 'classical')
-        self.assertEqual(self.job.path_templates.soundtrack, 'classical')
-        self.assertEqual(self.job.path_templates.classical, 'classical')
+        self.assertEqual(self.job.path_templates.default, "classical")
+        self.assertEqual(self.job.path_templates.compilation, "classical")
+        self.assertEqual(self.job.path_templates.soundtrack, "classical")
+        self.assertEqual(self.job.path_templates.classical, "classical")
 
     def test_section_cli_output(self):
         self.assertEqual(self.job.cli_output.color, True)
@@ -201,7 +200,6 @@ class TestJobWithConfigParser(unittest.TestCase):
 
 
 class TestTimer(unittest.TestCase):
-
     def setUp(self):
         self.timer = Timer()
 
@@ -219,40 +217,37 @@ class TestTimer(unittest.TestCase):
         self.assertTrue(self.timer.end > 0)
 
     def test_method_result(self):
-        self.assertEqual(self.get_result(10.3475, 14.594), '4.2s')
+        self.assertEqual(self.get_result(10.3475, 14.594), "4.2s")
 
     def test_method_result_large(self):
-        self.assertEqual(self.get_result(10, 145), '135.0s')
+        self.assertEqual(self.get_result(10, 145), "135.0s")
 
     def test_method_result_small(self):
-        self.assertEqual(self.get_result(10.00001, 10.00002), '0.0s')
+        self.assertEqual(self.get_result(10.00001, 10.00002), "0.0s")
 
 
 class TestCounter(unittest.TestCase):
-
     def setUp(self):
         self.counter = Counter()
 
     def test_reset(self):
-        self.counter.count('lol')
+        self.counter.count("lol")
         self.counter.reset()
-        self.assertEqual(self.counter.get('lol'), 0)
+        self.assertEqual(self.counter.get("lol"), 0)
 
     def test_count(self):
-        self.counter.count('rename')
-        self.assertEqual(self.counter.get('rename'), 1)
-        self.counter.count('rename')
-        self.assertEqual(self.counter.get('rename'), 2)
+        self.counter.count("rename")
+        self.assertEqual(self.counter.get("rename"), 1)
+        self.counter.count("rename")
+        self.assertEqual(self.counter.get("rename"), 2)
 
     def test_result(self):
-        self.counter.count('rename')
-        self.assertEqual(self.counter.result(),
-                         'rename=1')
+        self.counter.count("rename")
+        self.assertEqual(self.counter.result(), "rename=1")
 
-        self.counter.count('no_field')
-        self.assertEqual(self.counter.result(),
-                         'no_field=1 rename=1')
+        self.counter.count("no_field")
+        self.assertEqual(self.counter.result(), "no_field=1 rename=1")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

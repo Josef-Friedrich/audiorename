@@ -15,7 +15,7 @@ from tmep.format import asciify, delchars, deldupchars, replchars
 from .job import Job
 from .meta import Meta, compare_dicts
 
-DestinationType = Literal['source', 'target']
+DestinationType = Literal["source", "target"]
 
 
 class AudioFile:
@@ -27,20 +27,25 @@ class AudioFile:
         base folder of your music collection. Used to shorten the path strings
         in the progress messaging.
     """
+
     __path: str
 
     type: DestinationType
     job: Job
     __prefix: Optional[str]
 
-    def __init__(self, path: str, job: Job,
-                 file_type: DestinationType = 'source',
-                 prefix: Optional[str] = None):
+    def __init__(
+        self,
+        path: str,
+        job: Job,
+        file_type: DestinationType = "source",
+        prefix: Optional[str] = None,
+    ):
         self.__path = path
         self.type = file_type
         self.job = job
         self.__prefix = prefix
-        self.shorten_symbol = '[…]'
+        self.shorten_symbol = "[…]"
 
     @property
     def shell_friendly(self):
@@ -56,7 +61,7 @@ class AudioFile:
                 return Meta(self.abspath, self.shell_friendly)
             except Exception as e:
                 tb = traceback.TracebackException.from_exception(e)
-                print(''.join(tb.stack.format()))
+                print("".join(tb.stack.format()))
 
     @property
     def abspath(self) -> str:
@@ -78,12 +83,12 @@ class AudioFile:
     @property
     def extension(self) -> str:
         """The file extension of the audio file."""
-        return self.abspath.split('.')[-1].lower()
+        return self.abspath.split(".")[-1].lower()
 
     @property
     def short(self) -> str:
         if self.prefix:
-            short = self.abspath.replace(self.prefix, '')
+            short = self.abspath.replace(self.prefix, "")
         else:
             short = os.path.basename(self.abspath)
 
@@ -102,7 +107,6 @@ class AudioFile:
 
 
 class MBTrackListing:
-
     def __init__(self):
         self.counter = 0
 
@@ -110,30 +114,27 @@ class MBTrackListing:
         self.counter += 1
 
         m, s = divmod(length, 60)
-        mmss = '{:d}:{:02d}'.format(int(m), int(s))
-        output = '{:d}. {:s}: {:s} ({:s})'.format(self.counter, album,
-                                                  title, mmss)
-        output = output.replace('Op.', 'op.')
-        return output.replace('- ', '')
+        mmss = "{:d}:{:02d}".format(int(m), int(s))
+        output = "{:d}. {:s}: {:s} ({:s})".format(self.counter, album, title, mmss)
+        output = output.replace("Op.", "op.")
+        return output.replace("- ", "")
 
 
 mb_track_listing = MBTrackListing()
 
 
-def find_target_path(target: str,
-                     extensions: List[str]) -> Optional[str]:
+def find_target_path(target: str, extensions: List[str]) -> Optional[str]:
     """Get the path of a existing audio file target. Search for audio files
     with different extensions.
     """
     target = os.path.splitext(target)[0]
     for extension in extensions:
-        audio_file = target + '.' + extension
+        audio_file = target + "." + extension
         if os.path.exists(audio_file):
             return audio_file
 
 
-def detect_best_format(source: Meta, target: Meta,
-                       job: Job) -> DestinationType:
+def detect_best_format(source: Meta, target: Meta, job: Job) -> DestinationType:
     """
     :param source: The metadata object of the source file.
     :param target: The metadata object of the target file.
@@ -141,19 +142,19 @@ def detect_best_format(source: Meta, target: Meta,
 
     :return: Either the string `source` or the string `target`
     """
-    def get_highest(dictionary: Dict[Any, DestinationType]
-                    ) -> DestinationType:
-        out: DestinationType = 'target'
+
+    def get_highest(dictionary: Dict[Any, DestinationType]) -> DestinationType:
+        out: DestinationType = "target"
         for _, value in sorted(dictionary.items()):
             out = value
         return out
 
     if source.format == target.format:
-        bitrates: Dict[int, Literal['source', 'target']] = {}
-        bitrates[source.bitrate] = 'source'
-        bitrates[target.bitrate] = 'target'
+        bitrates: Dict[int, Literal["source", "target"]] = {}
+        bitrates[source.bitrate] = "source"
+        bitrates[target.bitrate] = "target"
         best = get_highest(bitrates)
-        job.msg.best_format(best, 'bitrate', source, target)
+        job.msg.best_format(best, "bitrate", source, target)
         return best
 
     else:
@@ -174,24 +175,23 @@ def detect_best_format(source: Meta, target: Meta,
         # 'wv': WavPack (losless)
 
         ranking = {
-            'flac': 10,
-            'alac': 9,
-            'aac': 8,
-            'mp3': 5,
-            'ogg': 2,
-            'wma': 1,
+            "flac": 10,
+            "alac": 9,
+            "aac": 8,
+            "mp3": 5,
+            "ogg": 2,
+            "wma": 1,
         }
 
         types = {}
-        types[ranking[source.type] if source.type in ranking else 0] = 'source'
-        types[ranking[target.type] if target.type in ranking else 0] = 'target'
+        types[ranking[source.type] if source.type in ranking else 0] = "source"
+        types[ranking[target.type] if target.type in ranking else 0] = "target"
         best = get_highest(types)
-        job.msg.best_format(best, 'type', source, target)
+        job.msg.best_format(best, "type", source, target)
         return best
 
 
-def process_target_path(meta: Meta, format_string: str,
-                        shell_friendly: bool = True):
+def process_target_path(meta: Meta, format_string: str, shell_friendly: bool = True):
     """
     :param dict meta: The to a dictionary converted attributes of a
         meta object :class:`audiorename.meta.Meta`.
@@ -205,13 +205,13 @@ def process_target_path(meta: Meta, format_string: str,
     if isinstance(target, str):
         if shell_friendly:
             target = asciify(target)
-            target = delchars(target, '().,!"\'’')
-            target = replchars(target, '-', ' ')
+            target = delchars(target, "().,!\"'’")
+            target = replchars(target, "-", " ")
         # asciify generates new characters which must be sanitzed, e. g.:
         # ¿ -> ?
         target = delchars(target, ':*?"<>|\\~&{}')
         target = deldupchars(target)
-    return re.sub(r'\.$', '', target)
+    return re.sub(r"\.$", "", target)
 
 
 class Action:
@@ -230,28 +230,29 @@ class Action:
         self.job.stats.counter.count(counter_name)
 
     def cleanup(self, audio_file: AudioFile):
-        if self.job.rename.cleaning_action == 'backup':
+        if self.job.rename.cleaning_action == "backup":
             self.backup(audio_file)
-        elif self.job.rename.cleaning_action == 'delete':
+        elif self.job.rename.cleaning_action == "delete":
             self.delete(audio_file)
 
     def backup(self, audio_file: AudioFile):
         backup_file = AudioFile(
             os.path.join(
-                self.job.rename.backup_folder,
-                os.path.basename(audio_file.abspath)
-            ), job=self.job, file_type='target'
+                self.job.rename.backup_folder, os.path.basename(audio_file.abspath)
+            ),
+            job=self.job,
+            file_type="target",
         )
 
-        self.job.msg.action_two_path('Backup', audio_file, backup_file)
-        self.count('backup')
+        self.job.msg.action_two_path("Backup", audio_file, backup_file)
+        self.count("backup")
         if not self.dry_run:
             self.create_dir(backup_file)
             shutil.move(audio_file.abspath, backup_file.abspath)
 
     def copy(self, source: AudioFile, target: AudioFile):
-        self.job.msg.action_two_path('Copy', source, target)
-        self.count('copy')
+        self.job.msg.action_two_path("Copy", source, target)
+        self.count("copy")
         if not self.dry_run:
             self.create_dir(target)
             shutil.copy2(source.abspath, target.abspath)
@@ -266,29 +267,31 @@ class Action:
                 raise
 
     def delete(self, audio_file: AudioFile):
-        self.job.msg.action_one_path('Delete', audio_file)
-        self.count('delete')
+        self.job.msg.action_one_path("Delete", audio_file)
+        self.count("delete")
         if not self.dry_run:
             os.remove(audio_file.abspath)
 
     def move(self, source: AudioFile, target: AudioFile):
-        self.job.msg.action_two_path('Move', source, target)
-        self.count('move')
+        self.job.msg.action_two_path("Move", source, target)
+        self.count("move")
         if not self.dry_run:
             self.create_dir(target)
             shutil.move(source.abspath, target.abspath)
 
-    def metadata(self, audio_file: AudioFile, enrich: bool = False,
-                 remap: bool = False) -> None:
+    def metadata(
+        self, audio_file: AudioFile, enrich: bool = False, remap: bool = False
+    ) -> None:
         if not audio_file.meta:
-            raise Exception('The given audio file has no meta property.')
+            raise Exception("The given audio file has no meta property.")
         meta = audio_file.meta
         pre = meta.export_dict(sanitize=False)
 
-        def single_action(meta: Meta,
-                          method_name: Literal['enrich_metadata',
-                                               'remap_classical'],
-                          message: str):
+        def single_action(
+            meta: Meta,
+            method_name: Literal["enrich_metadata", "remap_classical"],
+            message: str,
+        ):
             pre = meta.export_dict(sanitize=False)
             method = getattr(meta, method_name)
             method()
@@ -301,9 +304,9 @@ class Action:
                 self.job.msg.diff(change[0], change[1], change[2])
 
         if enrich:
-            single_action(meta, 'enrich_metadata', 'Enrich metadata')
+            single_action(meta, "enrich_metadata", "Enrich metadata")
         if remap:
-            single_action(meta, 'remap_classical', 'Remap classical')
+            single_action(meta, "remap_classical", "Remap classical")
 
         post = meta.export_dict(sanitize=False)
         diff = compare_dicts(pre, post)
@@ -315,12 +318,12 @@ class Action:
 def do_job_on_audiofile(source_path: str, job: Job):
     def count(key: str):
         job.stats.counter.count(key)
+
     skip = False
 
     action = Action(job)
 
-    source = AudioFile(source_path, job=job, prefix=os.getcwd(),
-                       file_type='source')
+    source = AudioFile(source_path, job=job, prefix=os.getcwd(), file_type="source")
     if not job.cli_output.mb_track_listing:
         job.msg.next_file(source)
 
@@ -332,8 +335,8 @@ def do_job_on_audiofile(source_path: str, job: Job):
     ##
 
     if skip:
-        job.msg.status('Broken file', status='error')
-        count('broken_file')
+        job.msg.status("Broken file", status="error")
+        count("broken_file")
         return
 
     ##
@@ -341,12 +344,14 @@ def do_job_on_audiofile(source_path: str, job: Job):
     ##
 
     if not source.meta:
-        raise Exception('source.meta must not be empty.')
+        raise Exception("source.meta must not be empty.")
 
     if job.cli_output.mb_track_listing:
-        print(mb_track_listing.format_audiofile(source.meta.album,
-                                                source.meta.title,
-                                                source.meta.length))
+        print(
+            mb_track_listing.format_audiofile(
+                source.meta.album, source.meta.title, source.meta.length
+            )
+        )
         return
 
     if job.cli_output.debug:
@@ -358,45 +363,43 @@ def do_job_on_audiofile(source_path: str, job: Job):
         )
         return
 
-    if job.filters.field_skip and \
-        (not hasattr(source.meta, job.filters.field_skip) or not
-         getattr(source.meta, job.filters.field_skip)):
-        job.msg.status('No field', status='error')
-        count('no_field')
+    if job.filters.field_skip and (
+        not hasattr(source.meta, job.filters.field_skip)
+        or not getattr(source.meta, job.filters.field_skip)
+    ):
+        job.msg.status("No field", status="error")
+        count("no_field")
         return
 
     ##
     # Metadata actions
     ##
 
-    if job.metadata_actions.remap_classical or \
-       job.metadata_actions.enrich_metadata:
+    if job.metadata_actions.remap_classical or job.metadata_actions.enrich_metadata:
         action.metadata(
             source,
             job.metadata_actions.enrich_metadata,
-            job.metadata_actions.remap_classical
+            job.metadata_actions.remap_classical,
         )
 
-    if source.meta.genre is not None and \
-       getattr(source.meta, "genre", "").lower() in \
-       job.filters.genre_classical:
+    if (
+        source.meta.genre is not None
+        and getattr(source.meta, "genre", "").lower() in job.filters.genre_classical
+    ):
 
         if not job.metadata_actions.remap_classical:
-            action.metadata(
-                source,
-                job.metadata_actions.enrich_metadata,
-                True
-            )
+            action.metadata(source, job.metadata_actions.enrich_metadata, True)
 
     ##
     # Rename action
     ##
 
-    if job.rename.move_action != 'no_rename':
+    if job.rename.move_action != "no_rename":
 
-        if source.meta.genre is not None and \
-           getattr(source.meta, "genre", "").lower() \
-           in job.filters.genre_classical:
+        if (
+            source.meta.genre is not None
+            and getattr(source.meta, "genre", "").lower() in job.filters.genre_classical
+        ):
             format_string = job.path_templates.classical
         elif source.meta.ar_combined_soundtrack:
             if job.args.no_soundtrack and source.meta.comp:
@@ -411,65 +414,65 @@ def do_job_on_audiofile(source_path: str, job: Job):
         meta_dict = source.meta.export_dict()
 
         desired_target_path = process_target_path(
-            meta_dict, format_string,
-            job.template_settings.shell_friendly
+            meta_dict, format_string, job.template_settings.shell_friendly
         )
 
         # Remove the leading path separator to prevent the audio files from
         # ending up in a folder other than the target folder.
-        desired_target_path = re.sub(r'^' + os.path.sep + r'+', '',
-                                     desired_target_path)
+        desired_target_path = re.sub(r"^" + os.path.sep + r"+", "", desired_target_path)
         desired_target_path = os.path.join(
-            job.selection.target,
-            desired_target_path + '.' + source.extension
+            job.selection.target, desired_target_path + "." + source.extension
         )
 
-        desired_target = AudioFile(desired_target_path, job=job,
-                                   prefix=job.selection.target,
-                                   file_type='target')
+        desired_target = AudioFile(
+            desired_target_path,
+            job=job,
+            prefix=job.selection.target,
+            file_type="target",
+        )
 
         # Do nothing
         if source.abspath == desired_target.abspath:
-            job.msg.status('Renamed', status='ok')
-            count('renamed')
+            job.msg.status("Renamed", status="ok")
+            count("renamed")
             return
 
         # Search existing target
         target = False
-        target_path = find_target_path(desired_target.abspath,
-                                       job.filters.extension)
+        target_path = find_target_path(desired_target.abspath, job.filters.extension)
         if target_path:
-            target = AudioFile(target_path, job=job,
-                               prefix=job.selection.target,
-                               file_type='target')
+            target = AudioFile(
+                target_path, job=job, prefix=job.selection.target, file_type="target"
+            )
 
         # Both file exist
         if target:
             if not target.meta:
-                raise Exception('target.meta must not be empty.')
+                raise Exception("target.meta must not be empty.")
             best = detect_best_format(source.meta, target.meta, job)
 
             if job.rename.cleaning_action:
 
                 # delete source
-                if not job.rename.best_format or \
-                   (job.rename.best_format and best == 'target'):
+                if not job.rename.best_format or (
+                    job.rename.best_format and best == "target"
+                ):
                     action.cleanup(source)
 
                 # delete target
-                if job.rename.best_format and best == 'source':
+                if job.rename.best_format and best == "source":
                     action.cleanup(target)
 
                     # Unset target object to trigger copy or move actions.
                     target = None
 
         if target:
-            job.msg.status('Exists', status='error')
+            job.msg.status("Exists", status="error")
 
         # copy
-        elif job.rename.move_action == 'copy':
+        elif job.rename.move_action == "copy":
             action.copy(source, desired_target)
 
         # move
-        elif job.rename.move_action == 'move':
+        elif job.rename.move_action == "move":
             action.move(source, desired_target)

@@ -620,7 +620,7 @@ Comande line interface
         remap_classical = False
         
     
-    optional arguments:
+    options:
       -h, --help            show this help message and exit
       --config CONFIG       Load a configuration file in INI format.
       -v, --version         show program's version number and exit

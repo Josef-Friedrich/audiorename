@@ -1,130 +1,128 @@
 """Test the submodule “args.py”."""
 
-import unittest
 import re
-import audiorename
+import unittest
+
 import helper
+
+import audiorename
 
 
 class TestCommandlineInterface(unittest.TestCase):
-
     def test_help_short(self):
         with self.assertRaises(SystemExit) as cm:
             with helper.Capturing():
-                audiorename.execute('-h')
+                audiorename.execute("-h")
         the_exception = cm.exception
-        self.assertEqual(str(the_exception), '0')
+        self.assertEqual(str(the_exception), "0")
 
     def test_help_long(self):
         with self.assertRaises(SystemExit) as cm:
             with helper.Capturing():
-                audiorename.execute('--help')
+                audiorename.execute("--help")
         the_exception = cm.exception
-        self.assertEqual(str(the_exception), '0')
+        self.assertEqual(str(the_exception), "0")
 
     def test_without_arguments(self):
         with self.assertRaises(SystemExit) as cm:
-            with helper.Capturing('stderr'):
+            with helper.Capturing("stderr"):
                 audiorename.execute()
         the_exception = cm.exception
-        self.assertEqual(str(the_exception), '2')
+        self.assertEqual(str(the_exception), "2")
 
     def test_without_mutually_exclusive(self):
         with self.assertRaises(SystemExit) as cm:
-            with helper.Capturing('stderr') as output:
-                audiorename.execute('--copy', '--move', '.')
+            with helper.Capturing("stderr") as output:
+                audiorename.execute("--copy", "--move", ".")
         the_exception = cm.exception
-        self.assertEqual(str(the_exception), '2')
-        self.assertTrue('not allowed with argument' in ' '.join(output))
+        self.assertEqual(str(the_exception), "2")
+        self.assertTrue("not allowed with argument" in " ".join(output))
 
 
 class TestVersion(unittest.TestCase):
-
     def test_version(self):
         with self.assertRaises(SystemExit):
             with helper.Capturing() as output:
-                audiorename.execute('--version')
+                audiorename.execute("--version")
 
-        result = re.search('[^ ]* [^ ]*', output[0])
+        result = re.search("[^ ]* [^ ]*", output[0])
         self.assertTrue(result)
 
 
 class TestHelp(unittest.TestCase):
-
     def setUp(self):
         with self.assertRaises(SystemExit):
             with helper.Capturing() as output:
-                audiorename.execute('--help')
-        self.output = '\n'.join(output)
+                audiorename.execute("--help")
+        self.output = "\n".join(output)
 
     def test_tmep(self):
-        self.assertTrue('%title{text}' in self.output)
+        self.assertTrue("%title{text}" in self.output)
 
     def test_phrydy(self):
-        self.assertTrue('mb_releasegroupid' in self.output)
+        self.assertTrue("mb_releasegroupid" in self.output)
 
     # album
     def test_field_ar_classical_album(self):
-        self.assertTrue('ar_classical_album' in self.output)
+        self.assertTrue("ar_classical_album" in self.output)
 
     def test_field_ar_combined_album(self):
-        self.assertTrue('ar_combined_album' in self.output)
-        self.assertTrue('“album” without' in self.output)
+        self.assertTrue("ar_combined_album" in self.output)
+        self.assertTrue("“album” without" in self.output)
 
     def test_field_ar_initial_album(self):
-        self.assertTrue('ar_initial_album' in self.output)
-        self.assertTrue('First character' in self.output)
+        self.assertTrue("ar_initial_album" in self.output)
+        self.assertTrue("First character" in self.output)
 
     # artist
     def test_field_ar_initial_artist(self):
-        self.assertTrue('ar_initial_artist' in self.output)
-        self.assertTrue('First character' in self.output)
+        self.assertTrue("ar_initial_artist" in self.output)
+        self.assertTrue("First character" in self.output)
 
     def test_field_ar_combined_artist(self):
-        self.assertTrue('ar_combined_artist' in self.output)
-        self.assertTrue('The first non-empty value' in self.output)
+        self.assertTrue("ar_combined_artist" in self.output)
+        self.assertTrue("The first non-empty value" in self.output)
 
     def test_field_ar_combined_artist_sort(self):
-        self.assertTrue('ar_combined_artist_sort' in self.output)
-        self.assertTrue('The first non-empty value' in self.output)
+        self.assertTrue("ar_combined_artist_sort" in self.output)
+        self.assertTrue("The first non-empty value" in self.output)
 
     # composer
     def test_field_ar_initial_composer(self):
-        self.assertTrue('ar_initial_composer' in self.output)
+        self.assertTrue("ar_initial_composer" in self.output)
 
     def test_field_ar_combined_composer(self):
-        self.assertTrue('ar_combined_composer' in self.output)
+        self.assertTrue("ar_combined_composer" in self.output)
 
     def test_field_ar_combined_disctrack(self):
-        self.assertTrue('ar_combined_disctrack' in self.output)
-        self.assertTrue('Combination of' in self.output)
+        self.assertTrue("ar_combined_disctrack" in self.output)
+        self.assertTrue("Combination of" in self.output)
 
     def test_field_ar_classical_performer(self):
-        self.assertTrue('ar_classical_performer' in self.output)
+        self.assertTrue("ar_classical_performer" in self.output)
 
     def test_field_ar_classical_title(self):
-        self.assertTrue('ar_classical_title' in self.output)
+        self.assertTrue("ar_classical_title" in self.output)
 
     def test_field_ar_classical_track(self):
-        self.assertTrue('ar_classical_track' in self.output)
+        self.assertTrue("ar_classical_track" in self.output)
 
     def test_field_ar_combined_year(self):
-        self.assertTrue('ar_combined_year' in self.output)
-        self.assertTrue('First “original_year”' in self.output)
+        self.assertTrue("ar_combined_year" in self.output)
+        self.assertTrue("First “original_year”" in self.output)
 
 
 class TestArgsDefault(unittest.TestCase):
-
     def setUp(self):
-        from audiorename.args import parse_args
-        from audiorename.args import ArgsDefault
+        from audiorename.args import ArgsDefault, parse_args
+
         self.default = ArgsDefault()
-        self.default.source = 'lol'
-        self.args = parse_args(['lol'])
+        self.default.source = "lol"
+        self.args = parse_args(["lol"])
 
     # positional arguments
     def test_source(self):
-        self.assertEqual(self.args.source, 'lol')
+        self.assertEqual(self.args.source, "lol")
         self.assertEqual(self.args.source, self.default.source)
 
     # optional arguments
@@ -138,8 +136,7 @@ class TestArgsDefault(unittest.TestCase):
 
     def test_cleaning_action(self):
         self.assertEqual(self.args.cleaning_action, None)
-        self.assertEqual(self.args.cleaning_action,
-                         self.default.cleaning_action)
+        self.assertEqual(self.args.cleaning_action, self.default.cleaning_action)
 
     def test_backup_folder(self):
         self.assertEqual(self.args.backup_folder, None)
@@ -159,8 +156,9 @@ class TestArgsDefault(unittest.TestCase):
 
     def test_compilation(self):
         self.assertEqual(self.args.compilation_template, None)
-        self.assertEqual(self.args.compilation_template,
-                         self.default.compilation_template)
+        self.assertEqual(
+            self.args.compilation_template, self.default.compilation_template
+        )
 
     def test_debug(self):
         self.assertEqual(self.args.debug, None)
@@ -172,8 +170,7 @@ class TestArgsDefault(unittest.TestCase):
 
     def test_enrich_metadata(self):
         self.assertEqual(self.args.enrich_metadata, None)
-        self.assertEqual(self.args.enrich_metadata,
-                         self.default.enrich_metadata)
+        self.assertEqual(self.args.enrich_metadata, self.default.enrich_metadata)
 
     def test_extension(self):
         self.assertEqual(self.args.extension, None)
@@ -185,13 +182,11 @@ class TestArgsDefault(unittest.TestCase):
 
     def test_format(self):
         self.assertEqual(self.args.default_template, None)
-        self.assertEqual(self.args.default_template,
-                         self.default.default_template)
+        self.assertEqual(self.args.default_template, self.default.default_template)
 
     def test_format_classical(self):
         self.assertEqual(self.args.classical_template, None)
-        self.assertEqual(self.args.classical_template,
-                         self.default.classical_template)
+        self.assertEqual(self.args.classical_template, self.default.classical_template)
 
     def test_job_info(self):
         self.assertEqual(self.args.job_info, None)
@@ -199,8 +194,7 @@ class TestArgsDefault(unittest.TestCase):
 
     def test_mb_track_listing(self):
         self.assertEqual(self.args.mb_track_listing, None)
-        self.assertEqual(self.args.mb_track_listing,
-                         self.default.mb_track_listing)
+        self.assertEqual(self.args.mb_track_listing, self.default.mb_track_listing)
 
     def test_move_action(self):
         self.assertEqual(self.args.move_action, None)
@@ -212,8 +206,7 @@ class TestArgsDefault(unittest.TestCase):
 
     def test_remap_classical(self):
         self.assertEqual(self.args.remap_classical, None)
-        self.assertEqual(self.args.remap_classical,
-                         self.default.remap_classical)
+        self.assertEqual(self.args.remap_classical, self.default.remap_classical)
 
     def test_shell_friendly(self):
         self.assertEqual(self.args.shell_friendly, None)
@@ -221,13 +214,13 @@ class TestArgsDefault(unittest.TestCase):
 
     def test_soundtrack(self):
         self.assertEqual(self.args.soundtrack_template, None)
-        self.assertEqual(self.args.soundtrack_template,
-                         self.default.soundtrack_template)
+        self.assertEqual(
+            self.args.soundtrack_template, self.default.soundtrack_template
+        )
 
     def test_source_as_target(self):
         self.assertEqual(self.args.source_as_target, None)
-        self.assertEqual(self.args.source_as_target,
-                         self.default.source_as_target)
+        self.assertEqual(self.args.source_as_target, self.default.source_as_target)
 
     def test_target(self):
         self.assertEqual(self.args.target, None)
@@ -242,5 +235,5 @@ class TestArgsDefault(unittest.TestCase):
         self.assertEqual(self.args.verbose, self.default.verbose)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

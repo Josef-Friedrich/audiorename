@@ -3,7 +3,6 @@ from typing import List, Literal, TypedDict, cast
 
 import musicbrainzngs as musicbrainz
 
-
 """Query the musicbrainz API using the library
 `musicbrainzngs <https://pypi.org/project/musicbrainzngs>`_.
 
@@ -157,36 +156,37 @@ classical/Mozart_Horn-concertos/01.mp3
 
 """
 
-WorkChild = TypedDict('Work', {
-    'id': str,
-    'language': str,
-    'title': str,
-})
+WorkChild = TypedDict(
+    "Work",
+    {
+        "id": str,
+        "language": str,
+        "title": str,
+    },
+)
 
-WorkRelation = TypedDict('WorkRelation', {
-    'work': WorkChild,
-    'direction': Literal['backward'],
-    'type': Literal['parts']
-})
+WorkRelation = TypedDict(
+    "WorkRelation",
+    {"work": WorkChild, "direction": Literal["backward"], "type": Literal["parts"]},
+)
 
-Artist = TypedDict('Artist', {
-    'name': str,
-    'sort-name': str
-})
+Artist = TypedDict("Artist", {"name": str, "sort-name": str})
 
-ArtistRelation = TypedDict('ArtistRelation', {
-    'artist': Artist,
-    'direction': Literal['backward'],
-    'type': Literal['composer']
-})
+ArtistRelation = TypedDict(
+    "ArtistRelation",
+    {"artist": Artist, "direction": Literal["backward"], "type": Literal["composer"]},
+)
 
-Work = TypedDict('Work', {
-    'id': str,
-    'language': str,
-    'title': str,
-    'work-relation-list': List[WorkRelation],
-    'artist-relation-list': List[ArtistRelation]
-})
+Work = TypedDict(
+    "Work",
+    {
+        "id": str,
+        "language": str,
+        "title": str,
+        "work-relation-list": List[WorkRelation],
+        "artist-relation-list": List[ArtistRelation],
+    },
+)
 """
 ``get_work_by_id`` with ``work-rels``
 
@@ -290,27 +290,27 @@ Work = TypedDict('Work', {
 
 def set_useragent() -> None:
     musicbrainz.set_useragent(
-        'audiorename',
-        '0.0.0',
-        'https://github.com/Josef-Friedrich/audiorename',
+        "audiorename",
+        "0.0.0",
+        "https://github.com/Josef-Friedrich/audiorename",
     )
 
 
 def query(
-        mb_type: typing.Literal['recording', 'work', 'release'],
-        mb_id: str) -> typing.Union[typing.Dict[str, typing.Any], None]:
-    method = 'get_' + mb_type + '_by_id'
+    mb_type: typing.Literal["recording", "work", "release"], mb_id: str
+) -> typing.Union[typing.Dict[str, typing.Any], None]:
+    method = "get_" + mb_type + "_by_id"
     query = getattr(musicbrainz, method)
 
-    if mb_type == 'recording' or mb_type == 'work':
-        mb_includes = ['work-rels']
-    elif mb_type == 'release':
-        mb_includes = ['release-groups']
+    if mb_type == "recording" or mb_type == "work":
+        mb_includes = ["work-rels"]
+    elif mb_type == "release":
+        mb_includes = ["release-groups"]
     else:
         mb_includes = []
 
-    if mb_type == 'work':
-        mb_includes.append('artist-rels')
+    if mb_type == "work":
+        mb_includes.append("artist-rels")
 
     try:
         result = query(mb_id, includes=mb_includes)
@@ -318,15 +318,16 @@ def query(
 
     except musicbrainz.ResponseError as err:
         if err.cause and err.cause.code == 404:
-            print('Item of type “' + mb_type + '” with the ID '
-                  '“' + mb_id + '” not found.')
+            print(
+                "Item of type “" + mb_type + "” with the ID "
+                "“" + mb_id + "” not found."
+            )
         else:
             print("Received bad response from the MusicBrainz server.")
 
 
-def query_works_recursively(work_id: str,
-                            works: List[Work] = []) -> List[Work]:
-    work = cast(Work, query('work', work_id))
+def query_works_recursively(work_id: str, works: List[Work] = []) -> List[Work]:
+    work = cast(Work, query("work", work_id))
 
     if not work:
         return works
@@ -334,15 +335,17 @@ def query_works_recursively(work_id: str,
     works.append(work)
 
     parent_work = False
-    if 'work-relation-list' in work:
-        for relation in work['work-relation-list']:
-            if 'direction' in relation and \
-                    relation['direction'] == 'backward' and \
-                    relation['type'] == 'parts':
+    if "work-relation-list" in work:
+        for relation in work["work-relation-list"]:
+            if (
+                "direction" in relation
+                and relation["direction"] == "backward"
+                and relation["type"] == "parts"
+            ):
                 parent_work = relation
                 break
 
     if parent_work:
-        query_works_recursively(parent_work['work']['id'], works)
+        query_works_recursively(parent_work["work"]["id"], works)
 
     return works
