@@ -9,7 +9,7 @@ import typing
 
 import musicbrainzngs
 import musicbrainzngs.musicbrainz
-from jflib import Capturing
+from stdout_stderr_capturing import Capturing
 
 import audiorename
 import audiorename.audiofile
