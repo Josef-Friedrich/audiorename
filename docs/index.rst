@@ -23,4 +23,4 @@ Indices and tables
 * :ref:`modindex`
 
 
-.. include:: ../../README.rst
+.. include:: ../README.rst
