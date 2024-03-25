@@ -15,7 +15,6 @@ def job(**kwargs: typing.Any) -> Job:
 
 
 class TestJobWithArgParser(unittest.TestCase):
-
     ##
     # [selection]
     ##

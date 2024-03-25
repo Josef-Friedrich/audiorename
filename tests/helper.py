@@ -115,7 +115,7 @@ def dry_run(options: typing.List[str]):
             "--one-line",
             "--verbose",
             "--shell-friendly",
-            *options
+            *options,
         )
 
     return re.sub(r".* to: ", "", join(output)).strip()

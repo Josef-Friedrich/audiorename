@@ -10,7 +10,6 @@ from .message import Message
 
 
 class Timer:
-
     begin: float = 0
 
     end: float = 0
@@ -70,7 +69,6 @@ class Counter:
 
 
 class Statistic:
-
     counter = Counter()
     timer = Timer()
 
@@ -127,7 +125,6 @@ class Config:
 
 
 class SelectionConfig(Config):
-
     _source: typing.Optional[str]
     _target: typing.Optional[str]
     _source_as_target: typing.Optional[bool]
@@ -176,7 +173,6 @@ CleaningAction = typing.Literal["backup", "delete", "do_nothing"]
 
 
 class RenameConfig(Config):
-
     _backup_folder: typing.Optional[str]
     _best_format: typing.Optional[bool]
     _dry_run: typing.Optional[bool]
@@ -223,7 +219,6 @@ class RenameConfig(Config):
 
 
 class FiltersConfig(Config):
-
     _album_complete: typing.Optional[bool]
     _album_min: typing.Optional[int]
     _extension: typing.Optional[str]
@@ -266,7 +261,6 @@ class FiltersConfig(Config):
 
 
 class TemplateSettingsConfig(Config):
-
     _classical: typing.Optional[bool]
     _shell_friendly: typing.Optional[bool]
     _no_soundtrack: typing.Optional[bool]
@@ -373,7 +367,6 @@ class PathTemplatesConfig(Config):
 
 
 class CliOutputConfig(Config):
-
     _color: typing.Optional[bool]
     _debug: typing.Optional[bool]
     _job_info: typing.Optional[bool]
@@ -428,7 +421,6 @@ class CliOutputConfig(Config):
 
 
 class MetadataActionsConfig(Config):
-
     _enrich_metadata: typing.Optional[bool]
     _remap_classical: typing.Optional[bool]
 

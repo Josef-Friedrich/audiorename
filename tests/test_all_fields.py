@@ -96,7 +96,6 @@ import helper
 
 
 class TestAllFields(unittest.TestCase):
-
     # Pop-Rock
     def test_Yesterday(self):
         meta = helper.get_meta("show-case", "Beatles_Yesterday.mp3")

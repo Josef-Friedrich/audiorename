@@ -1,5 +1,4 @@
-"""Extend the class ``MediaFile`` of the package ``phrydy``.
-"""
+"""Extend the class ``MediaFile`` of the package ``phrydy``."""
 
 import re
 from typing import Any, Dict, List, Optional, Tuple
@@ -603,7 +602,6 @@ class Meta(MediaFileExtended):
             performers = picked
 
         for performer in performers:
-
             if (
                 performer[0] == "producer"
                 or performer[0] == "executive producer"

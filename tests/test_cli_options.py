@@ -38,7 +38,7 @@ class TestBestFormat(unittest.TestCase):
             "--format",
             "test-file",
             source,
-            *args
+            *args,
         )
 
     def backup_path(self, file_name: str):

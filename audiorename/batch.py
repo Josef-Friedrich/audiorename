@@ -10,7 +10,6 @@ from .job import Job
 
 
 class VirtualAlbum:
-
     title: str
     track: int
     path: str
@@ -40,7 +39,6 @@ class Batch:
     bundle_filter: bool
 
     def __init__(self, job: Job):
-
         self.job = job
         self.bundle_filter = job.filters.album_complete or isinstance(
             job.filters.album_min, int

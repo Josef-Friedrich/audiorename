@@ -1,4 +1,5 @@
 """Envoke the exectutable from the command line."""
+
 from __future__ import annotations  # For ar: Popen
 
 import subprocess

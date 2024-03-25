@@ -18,7 +18,6 @@ if typing.TYPE_CHECKING:
 
 
 class KeyValue:
-
     kv: "OrderedDict[str, str]"
 
     def __init__(self, color: bool = False):

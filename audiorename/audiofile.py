@@ -1,5 +1,4 @@
-"""This module contains all functionality on the level of a single audio file.
-"""
+"""This module contains all functionality on the level of a single audio file."""
 
 import errno
 import os
@@ -158,7 +157,6 @@ def detect_best_format(source: Meta, target: Meta, job: Job) -> DestinationType:
         return best
 
     else:
-
         # All types:
         #
         # 'aac'
@@ -386,7 +384,6 @@ def do_job_on_audiofile(source_path: str, job: Job):
         source.meta.genre is not None
         and getattr(source.meta, "genre", "").lower() in job.filters.genre_classical
     ):
-
         if not job.metadata_actions.remap_classical:
             action.metadata(source, job.metadata_actions.enrich_metadata, True)
 
@@ -395,7 +392,6 @@ def do_job_on_audiofile(source_path: str, job: Job):
     ##
 
     if job.rename.move_action != "no_rename":
-
         if (
             source.meta.genre is not None
             and getattr(source.meta, "genre", "").lower() in job.filters.genre_classical
@@ -452,7 +448,6 @@ def do_job_on_audiofile(source_path: str, job: Job):
             best = detect_best_format(source.meta, target.meta, job)
 
             if job.rename.cleaning_action:
-
                 # delete source
                 if not job.rename.best_format or (
                     job.rename.best_format and best == "target"
