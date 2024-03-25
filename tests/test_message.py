@@ -1,6 +1,5 @@
 """Test the code in the __init__ file."""
 
-import unittest
 from typing import Any
 
 import helper
@@ -9,8 +8,8 @@ from audiorename import audiofile
 from audiorename.message import Message
 
 
-class TestClassMessage(unittest.TestCase):
-    def setUp(self):
+class TestClassMessage:
+    def setup_method(self):
         self.job = helper.get_job()
         self.prefix = helper.dir_cwd
         self.source = audiofile.AudioFile(
@@ -23,17 +22,17 @@ class TestClassMessage(unittest.TestCase):
 
     def test_attributes(self):
         msg = self.get_message()
-        self.assertEqual(msg.color, True)
-        self.assertEqual(msg.verbose, False)
-        self.assertEqual(msg.one_line, False)
-        self.assertEqual(msg.max_field, 23)
+        assert msg.color == True
+        assert msg.verbose == False
+        assert msg.one_line == False
+        assert msg.max_field == 23
 
     def test_diff(self):
         msg = self.get_message()
         with helper.Capturing() as output:
             msg.diff("title", "", "full")
-        self.assertEqual(output[0], "    title:                   “”")
-        self.assertEqual(output[1], "                             “full”")
+        assert output[0] == "    title:                   “”"
+        assert output[1] == "                             “full”"
 
     def test_output_one_line(self):
         msg = self.get_message(one_line=True)
@@ -41,16 +40,12 @@ class TestClassMessage(unittest.TestCase):
             msg.output("   lol     ")
             msg.output("   lol     ")
 
-        self.assertEqual(output[0], "lol lol ")
+        assert output[0] == "lol lol "
 
     def test_output_multilines(self):
         msg = self.get_message(one_line=False)
         with helper.Capturing() as output:
             msg.output("one")
             msg.output("two")
-        self.assertEqual(output[0], "one")
-        self.assertEqual(output[1], "two")
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert output[0] == "one"
+        assert output[1] == "two"

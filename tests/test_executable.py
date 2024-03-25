@@ -3,11 +3,10 @@
 from __future__ import annotations  # For ar: Popen
 
 import subprocess
-import unittest
 from subprocess import Popen
 
 
-class TestExectutable(unittest.TestCase):
+class TestExectutable:
     @staticmethod
     def call(shell_string: str):
         ar = Popen(
@@ -25,24 +24,20 @@ class TestExectutable(unittest.TestCase):
 
     def test_without_arguments(self):
         ar = self.call("audiorenamer")
-        self.assertTrue("usage: audiorenamer" in self.first_line(ar))
-        self.assertEqual(ar.returncode, 2)
+        assert "usage: audiorenamer" in self.first_line(ar)
+        assert ar.returncode == 2
 
     def test_version(self):
         ar = self.call("audiorenamer --version")
-        self.assertTrue("audiorenamer" in self.first_line(ar))
-        self.assertEqual(ar.returncode, 0)
+        assert "audiorenamer" in self.first_line(ar)
+        assert ar.returncode == 0
 
     def test_help(self):
         ar = self.call("audiorenamer --help")
-        self.assertTrue("usage: audiorenamer" in self.first_line(ar))
-        self.assertEqual(ar.returncode, 0)
+        assert "usage: audiorenamer" in self.first_line(ar)
+        assert ar.returncode == 0
 
     def test_unkown(self):
         ar = self.call("audioreamer --help")
-        self.assertFalse("usage: audiorenamer" in self.first_line(ar))
-        self.assertEqual(ar.returncode, 127)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert not "usage: audiorenamer" in self.first_line(ar)
+        assert ar.returncode == 127

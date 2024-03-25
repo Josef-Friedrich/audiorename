@@ -1,11 +1,9 @@
 """Test the integration of the python package “tmep”."""
 
-import unittest
-
 import helper
 
 
-class TestFunctions(unittest.TestCase):
+class TestFunctions:
     def test_ifdefempty_empty_existent_field(self):
         out = helper.call_bin(
             "--dry-run",
@@ -13,7 +11,7 @@ class TestFunctions(unittest.TestCase):
             "%ifdefempty{mb_workid,_empty_,_notempty_}",
             helper.get_testfile("files", "album.mp3"),
         )
-        self.assertTrue("_empty_" in str(out))
+        assert "_empty_" in str(out)
 
     def test_ifdefempty_empty_nonexistent_field(self):
         out = helper.call_bin(
@@ -22,7 +20,7 @@ class TestFunctions(unittest.TestCase):
             "%ifdefempty{xxx,_empty_,_notempty_}",
             helper.get_testfile("files", "album.mp3"),
         )
-        self.assertTrue("_empty_" in str(out))
+        assert "_empty_" in str(out)
 
     def test_ifdefempty_notempty(self):
         out = helper.call_bin(
@@ -31,8 +29,4 @@ class TestFunctions(unittest.TestCase):
             "%ifdefempty{title,_empty_,_notempty_}",
             helper.get_testfile("files", "album.mp3"),
         )
-        self.assertTrue("_notempty_" in str(out))
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert "_notempty_" in str(out)

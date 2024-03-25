@@ -6,6 +6,7 @@ import tempfile
 import unittest
 
 import helper
+import pytest
 
 import audiorename
 
@@ -14,8 +15,8 @@ import audiorename
 # --delete
 # --backup
 # --backup-folder
-class TestBestFormat(unittest.TestCase):
-    def setUp(self):
+class TestBestFormat:
+    def setup_method(self):
         self.target = tempfile.mkdtemp()
         self.high_quality = self.get_quality("flac.flac")
         self.low_quality = self.get_quality("mp3_320.mp3")
@@ -23,7 +24,7 @@ class TestBestFormat(unittest.TestCase):
         self.backup_folder = tempfile.mkdtemp()
         self.backup_args = ("--backup", "--backup-folder", self.backup_folder)
 
-    def tearDown(self):
+    def teardown_method(self):
         try:
             shutil.rmtree(self.backup_cwd)
         except OSError:
@@ -51,75 +52,75 @@ class TestBestFormat(unittest.TestCase):
         with helper.Capturing() as output:
             self.move(self.high_quality, "--delete")
             self.move(self.low_quality, "--delete")
-        self.assertTrue("Delete […]" + self.low_quality in helper.join(output))
-        self.assertFalse(os.path.exists(self.high_quality))
-        self.assertFalse(os.path.exists(self.low_quality))
+        assert "Delete […]" + self.low_quality in helper.join(output)
+        assert not os.path.exists(self.high_quality)
+        assert not os.path.exists(self.low_quality)
 
     def test_delete_target(self):
         with helper.Capturing() as output:
             self.move(self.low_quality, "--delete")
             self.move(self.high_quality, "--delete")
-        self.assertTrue("Delete […]test-file.mp3" in helper.join(output))
-        self.assertFalse(os.path.exists(self.high_quality))
-        self.assertFalse(os.path.exists(self.low_quality))
+        assert "Delete […]test-file.mp3" in helper.join(output)
+        assert not os.path.exists(self.high_quality)
+        assert not os.path.exists(self.low_quality)
 
     def test_backup_source(self):
         with helper.Capturing() as output:
             self.move(self.high_quality, "--backup")
             self.move(self.low_quality, "--backup")
-        self.assertTrue("Backup […]" + self.low_quality in helper.join(output))
-        self.assertFalse(os.path.exists(self.high_quality))
-        self.assertFalse(os.path.exists(self.low_quality))
+        assert "Backup […]" + self.low_quality in helper.join(output)
+        assert not os.path.exists(self.high_quality)
+        assert not os.path.exists(self.low_quality)
         backup_path = self.backup_path(os.path.basename(self.low_quality))
-        self.assertTrue(os.path.exists(backup_path))
+        assert os.path.exists(backup_path)
         os.remove(backup_path)
 
     def test_backup_target(self):
         with helper.Capturing() as output:
             self.move(self.low_quality, "--backup")
             self.move(self.high_quality, "--backup")
-        self.assertTrue("Backup […]test-file.mp3" in helper.join(output))
-        self.assertFalse(os.path.exists(self.high_quality))
-        self.assertFalse(os.path.exists(self.low_quality))
+        assert "Backup […]test-file.mp3" in helper.join(output)
+        assert not os.path.exists(self.high_quality)
+        assert not os.path.exists(self.low_quality)
         backup_path = self.backup_path("test-file.mp3")
-        self.assertTrue(os.path.exists(backup_path))
+        assert os.path.exists(backup_path)
         os.remove(backup_path)
 
     def test_backup_folder_source(self):
         with helper.Capturing() as output:
             self.move(self.high_quality, *self.backup_args)
             self.move(self.low_quality, *self.backup_args)
-        self.assertTrue("Backup […]" + self.low_quality in helper.join(output))
-        self.assertFalse(os.path.exists(self.high_quality))
-        self.assertFalse(os.path.exists(self.low_quality))
+        assert "Backup […]" + self.low_quality in helper.join(output)
+        assert not os.path.exists(self.high_quality)
+        assert not os.path.exists(self.low_quality)
         backup_file = os.path.join(
             self.backup_folder, os.path.basename(self.low_quality)
         )
-        self.assertTrue(os.path.exists(backup_file))
+        assert os.path.exists(backup_file)
         os.remove(backup_file)
 
     def test_backup_folder_target(self):
         with helper.Capturing() as output:
             self.move(self.low_quality, *self.backup_args)
             self.move(self.high_quality, *self.backup_args)
-        self.assertTrue("Backup […]test-file.mp3" in helper.join(output))
-        self.assertFalse(os.path.exists(self.high_quality))
-        self.assertFalse(os.path.exists(self.low_quality))
+        assert "Backup […]test-file.mp3" in helper.join(output)
+        assert not os.path.exists(self.high_quality)
+        assert not os.path.exists(self.low_quality)
         backup_file = os.path.join(
             self.backup_folder, os.path.basename("test-file.mp3")
         )
-        self.assertTrue(os.path.exists(backup_file))
+        assert os.path.exists(backup_file)
         os.remove(backup_file)
 
 
 # --classical
-class TestClassical(unittest.TestCase):
+class TestClassical:
     def assertDryRun(self, folder: str, track: str, test: str):
-        self.assertEqual(
+        assert (
             helper.dry_run(
                 ["--classical", helper.get_testfile("classical", folder, track)]
-            ),
-            test,
+            )
+            == test
         )
 
     d = "/d/Debussy_Claude/"
@@ -284,13 +285,13 @@ class TestClassical(unittest.TestCase):
 
 
 # --compilation
-class TestCompilation(unittest.TestCase):
+class TestCompilation:
     def assertDryRun(self, rel_path: str, test: str):
-        self.assertEqual(
+        assert (
             helper.dry_run(
                 [helper.get_testfile("real-world", "_compilations", rel_path)]
-            ),
-            test,
+            )
+            == test
         )
 
     def test_default(self):
@@ -304,8 +305,8 @@ class TestCompilation(unittest.TestCase):
 
 
 # --copy
-class TestBasicCopy(unittest.TestCase):
-    def setUp(self):
+class TestBasicCopy:
+    def setup_method(self):
         self.tmp_album = helper.copy_to_tmp("files", "album.mp3")
         with helper.Capturing():
             audiorename.execute("--copy", self.tmp_album)
@@ -314,58 +315,58 @@ class TestBasicCopy(unittest.TestCase):
             audiorename.execute("--copy", self.tmp_compilation)
 
     def test_album(self):
-        self.assertTrue(helper.is_file(self.tmp_album))
-        self.assertTrue(os.path.isfile(helper.dir_cwd + helper.path_album))
+        assert helper.is_file(self.tmp_album)
+        assert os.path.isfile(helper.dir_cwd + helper.path_album)
 
     def test_compilation(self):
-        self.assertTrue(os.path.isfile(self.tmp_compilation))
-        self.assertTrue(os.path.isfile(helper.dir_cwd + helper.path_compilation))
+        assert os.path.isfile(self.tmp_compilation)
+        assert os.path.isfile(helper.dir_cwd + helper.path_compilation)
 
-    def tearDown(self):
+    def teardown_method(self):
         shutil.rmtree(helper.dir_cwd + "/_compilations/")
         shutil.rmtree(helper.dir_cwd + "/t/")
 
 
 # --debug
-class TestDebug(unittest.TestCase):
+class TestDebug:
     def test_debug(self):
         tmp = helper.get_testfile("files", "album.mp3")
 
         with helper.Capturing() as output:
             audiorename.execute("--debug", tmp)
 
-        self.assertTrue("ar_combined_year       : 2001" in str(output))
+        assert "ar_combined_year       : 2001" in str(output)
 
 
 # --delete
-class TestDeleteExisting(unittest.TestCase):
+class TestDeleteExisting:
     def test_delete(self):
         tmp1 = helper.copy_to_tmp("files", "album.mp3")
         tmp2 = helper.copy_to_tmp("files", "album.mp3")
 
         target = tempfile.mkdtemp()
 
-        self.assertTrue(os.path.isfile(tmp1))
-        self.assertTrue(os.path.isfile(tmp2))
+        assert os.path.isfile(tmp1)
+        assert os.path.isfile(tmp2)
 
         with helper.Capturing() as output1:
             audiorename.execute("--delete", "--target", target, tmp1)
 
-        self.assertTrue("Move" in helper.join(output1))
-        self.assertFalse(os.path.isfile(tmp1))
-        self.assertTrue(os.path.isfile(tmp2))
+        assert "Move" in helper.join(output1)
+        assert not os.path.isfile(tmp1)
+        assert os.path.isfile(tmp2)
 
         with helper.Capturing() as output2:
             audiorename.execute("--delete", "--target", target, tmp2)
 
-        self.assertTrue("Delete" in helper.join(output2))
-        self.assertFalse(os.path.isfile(tmp1))
-        self.assertFalse(os.path.isfile(tmp2))
+        assert "Delete" in helper.join(output2)
+        assert not os.path.isfile(tmp1)
+        assert not os.path.isfile(tmp2)
 
 
 # --dry-run
-class TestDryRun(unittest.TestCase):
-    def setUp(self):
+class TestDryRun:
+    def setup_method(self):
         self.tmp_album = helper.copy_to_tmp("files", "album.mp3")
         with helper.Capturing() as self.output_album:
             audiorename.execute("--dry-run", self.tmp_album)
@@ -375,26 +376,26 @@ class TestDryRun(unittest.TestCase):
             audiorename.execute("--dry-run", self.tmp_compilation)
 
     def test_output_album(self):
-        self.assertTrue(helper.has(self.output_album, "Dry run"))
-        self.assertTrue(helper.has(self.output_album, self.tmp_album))
+        assert helper.has(self.output_album, "Dry run")
+        assert helper.has(self.output_album, self.tmp_album)
 
     def test_output_compilation(self):
-        self.assertTrue(helper.has(self.output_compilation, "Dry run"))
-        self.assertTrue(helper.has(self.output_compilation, self.tmp_compilation))
+        assert helper.has(self.output_compilation, "Dry run")
+        assert helper.has(self.output_compilation, self.tmp_compilation)
 
     def test_album(self):
-        self.assertTrue(helper.is_file(self.tmp_album))
-        self.assertFalse(os.path.isfile(helper.dir_cwd + helper.path_album))
+        assert helper.is_file(self.tmp_album)
+        assert not os.path.isfile(helper.dir_cwd + helper.path_album)
 
     def test_compilation(self):
-        self.assertTrue(helper.is_file(self.tmp_compilation))
-        self.assertFalse(os.path.isfile(helper.dir_cwd + helper.path_compilation))
+        assert helper.is_file(self.tmp_compilation)
+        assert not os.path.isfile(helper.dir_cwd + helper.path_compilation)
 
 
 # --enrich-metadata
-class TestEnrichMetadata(unittest.TestCase):
-    @unittest.skipIf(helper.SKIP_QUICK, "Ignored, as it has to be done quickly.")
-    @unittest.skipIf(helper.SKIP_API_CALLS, "Ignored if the API is not available.")
+class TestEnrichMetadata:
+    @pytest.mark.skipif(helper.SKIP_QUICK, "Ignored, as it has to be done quickly.")
+    @pytest.mark.skipif(helper.SKIP_API_CALLS, "Ignored if the API is not available.")
     def test_pass(self):
         tmp = helper.copy_to_tmp("classical", "without_work.mp3")
         from audiorename.meta import Meta
@@ -404,41 +405,37 @@ class TestEnrichMetadata(unittest.TestCase):
         orig.composer_sort = None
         orig.save()
         orig = Meta(tmp)
-        self.assertEqual(orig.composer_sort, None)
-        self.assertEqual(orig.composer, None)
-        self.assertEqual(orig.mb_workhierarchy_ids, None)
-        self.assertEqual(orig.mb_workid, None)
-        self.assertEqual(orig.work_hierarchy, None)
-        self.assertEqual(orig.work, None)
+        assert orig.composer_sort == None
+        assert orig.composer == None
+        assert orig.mb_workhierarchy_ids == None
+        assert orig.mb_workid == None
+        assert orig.work_hierarchy == None
+        assert orig.work == None
 
         with helper.Capturing() as output:
             audiorename.execute("--enrich-metadata", "--no-rename", tmp)
 
-        self.assertTrue("Enrich metadata" in helper.join(output))
+        assert "Enrich metadata" in helper.join(output)
 
         enriched = Meta(tmp)
-        self.assertEqual(enriched.composer_sort, "Wagner, Richard")
-        self.assertEqual(enriched.composer, "Richard Wagner")
-        self.assertEqual(
-            enriched.mb_workhierarchy_ids,
-            "4d644732-9876-4b0d-9c2c-b6a738d6530e/"
-            "6b198406-4fbf-3d61-82db-0b7ef195a7fe",
+        assert enriched.composer_sort == "Wagner, Richard"
+        assert enriched.composer == "Richard Wagner"
+        assert (
+            enriched.mb_workhierarchy_ids == "4d644732-9876-4b0d-9c2c-b6a738d6530e/"
+            "6b198406-4fbf-3d61-82db-0b7ef195a7fe"
         )
-        self.assertEqual(enriched.mb_workid, "6b198406-4fbf-3d61-82db-0b7ef195a7fe")
-        self.assertEqual(
-            enriched.work_hierarchy,
-            "Die Meistersinger von Nürnberg, WWV 96 -> "
+        assert enriched.mb_workid == "6b198406-4fbf-3d61-82db-0b7ef195a7fe"
+        assert (
+            enriched.work_hierarchy == "Die Meistersinger von Nürnberg, WWV 96 -> "
             "Die Meistersinger von Nürnberg, WWV 96: "
-            "Vorspiel",
+            "Vorspiel"
         )
-        self.assertEqual(
-            enriched.work, "Die Meistersinger von Nürnberg, WWV 96: " "Vorspiel"
-        )
+        assert enriched.work == "Die Meistersinger von Nürnberg, WWV 96: " "Vorspiel"
 
 
 # --field-skip
-class TestSkipIfEmpty(unittest.TestCase):
-    def setUp(self):
+class TestSkipIfEmpty:
+    def setup_method(self):
         with helper.Capturing() as self.album:
             audiorename.execute(
                 "--field-skip", "lol", helper.copy_to_tmp("files", "album.mp3")
@@ -454,16 +451,16 @@ class TestSkipIfEmpty(unittest.TestCase):
             )
 
     def test_album(self):
-        self.assertTrue(helper.has(self.album, "No field"))
+        assert helper.has(self.album, "No field")
 
     def test_compilation(self):
-        self.assertTrue(helper.has(self.compilation, "Dry run"))
+        assert helper.has(self.compilation, "Dry run")
 
 
 # --classical_path template
-class TestClassicalFormat(unittest.TestCase):
+class TestClassicalFormat:
     def assertDryRun(self, folder: str, track: str, test: str):
-        self.assertEqual(
+        assert (
             helper.dry_run(
                 [
                     "--classical",
@@ -472,8 +469,8 @@ class TestClassicalFormat(unittest.TestCase):
                     "${ar_combined_disctrack}_%shorten{$ar_classical_title,64}",
                     helper.get_testfile("classical", folder, track),
                 ]
-            ),
-            test,
+            )
+            == test
         )
 
     def test_debussy_01(self):
@@ -483,9 +480,9 @@ class TestClassicalFormat(unittest.TestCase):
 
 
 # --classical_path template
-class TestGenreClassical(unittest.TestCase):
+class TestGenreClassical:
     def assertDryRun(self, folder: str, track: str, test: str):
-        self.assertEqual(
+        assert (
             helper.dry_run(
                 [
                     "--genre-classical",
@@ -495,8 +492,8 @@ class TestGenreClassical(unittest.TestCase):
                     "${ar_combined_disctrack}_%shorten{$ar_classical_title,64}",
                     helper.get_testfile("classical", folder, track),
                 ]
-            ),
-            test,
+            )
+            == test
         )
 
     def test_debussy_01(self):
@@ -506,8 +503,8 @@ class TestGenreClassical(unittest.TestCase):
 
 
 # --format
-class TestCustomFormats(unittest.TestCase):
-    def setUp(self):
+class TestCustomFormats:
+    def setup_method(self):
         with helper.Capturing():
             audiorename.execute(
                 "--format",
@@ -522,19 +519,17 @@ class TestCustomFormats(unittest.TestCase):
             )
 
     def test_format(self):
-        self.assertTrue(os.path.isfile(helper.dir_cwd + "/tmp/full - the artist.mp3"))
+        assert os.path.isfile(helper.dir_cwd + "/tmp/full - the artist.mp3")
 
     def test_compilation(self):
-        self.assertTrue(
-            os.path.isfile(helper.dir_cwd + "/tmp/comp_full - the artist.mp3")
-        )
+        assert os.path.isfile(helper.dir_cwd + "/tmp/comp_full - the artist.mp3")
 
-    def tearDown(self):
+    def teardown_method(self):
         shutil.rmtree(helper.dir_cwd + "/tmp/")
 
 
 # --job-info
-class TestJobInfo(unittest.TestCase):
+class TestJobInfo:
     def get_job_info(self, *args: str):
         with helper.Capturing() as output:
             audiorename.execute(
@@ -544,31 +539,31 @@ class TestJobInfo(unittest.TestCase):
 
     def test_dry_run(self):
         output = self.get_job_info()
-        self.assertTrue("Versions: " in output)
-        self.assertTrue("audiorename=" in output)
-        self.assertTrue("phrydy=" in output)
-        self.assertTrue("tmep=" in output)
-        self.assertTrue("Source: " in output)
-        self.assertTrue("Target: " in output)
-        self.assertFalse("Backup folder: " in output)
+        assert "Versions: " in output
+        assert "audiorename=" in output
+        assert "phrydy=" in output
+        assert "tmep=" in output
+        assert "Source: " in output
+        assert "Target: " in output
+        assert not "Backup folder: " in output
 
     def test_verbose(self):
         output = self.get_job_info("--verbose")
-        self.assertTrue("Default: " in output)
-        self.assertTrue("Compilation: " in output)
-        self.assertTrue("Soundtrack: " in output)
+        assert "Default: " in output
+        assert "Compilation: " in output
+        assert "Soundtrack: " in output
 
     def test_backup(self):
         output = self.get_job_info("--backup")
-        self.assertTrue("_audiorename_backups" in output)
+        assert "_audiorename_backups" in output
 
     def test_backup_folder(self):
         output = self.get_job_info("--backup", "--backup-folder", "/tmp")
-        self.assertTrue("Backup folder: /tmp" in output)
+        assert "Backup folder: /tmp" in output
 
 
 # --mb-track-listing
-class TestMbTrackListing(unittest.TestCase):
+class TestMbTrackListing:
     def mb_track_listing(self, folder: str, track: str) -> str:
         with helper.Capturing() as output:
             audiorename.execute(
@@ -579,14 +574,13 @@ class TestMbTrackListing(unittest.TestCase):
     def test_debussy(self):
         audiorename.audiofile.counter = 0
         result = self.mb_track_listing("Debussy_Estampes-etc", "01.mp3")
-        self.assertEqual(
-            result, "1. Estampes/Images/Pour le Piano: Estampes: " "Pagodes (0:00)"
-        )
+        assert result == "1. Estampes/Images/Pour le Piano: Estampes: " "Pagodes (0:00)"
 
     def test_schubert(self):
-        self.assertEqual(
-            self.mb_track_listing("Schubert_Winterreise", "01.mp3"),
-            "1. Winterreise: Winterreise, D. 911: Gute Nacht " "(0:00)",
+        assert (
+            self.mb_track_listing("Schubert_Winterreise", "01.mp3")
+            == "1. Winterreise: Winterreise, D. 911: Gute Nacht "
+            "(0:00)"
         )
 
     def test_folder(self):
@@ -596,20 +590,18 @@ class TestMbTrackListing(unittest.TestCase):
                 helper.get_testfile("classical", "Schubert_Winterreise"),
             )
 
-        self.assertEqual(
-            output[0], "1. Winterreise: Winterreise, D. 911: Gute Nacht (0:00)"
-        )
+        assert output[0] == "1. Winterreise: Winterreise, D. 911: Gute Nacht (0:00)"
 
-        self.assertEqual(
-            output[23], "24. Winterreise: Winterreise, D. 911: Der Leiermann (0:00)"
+        assert (
+            output[23] == "24. Winterreise: Winterreise, D. 911: Der Leiermann (0:00)"
         )
 
 
 # --soundtrack
 # --no-soundtrack
-class TestSoundtrack(unittest.TestCase):
+class TestSoundtrack:
     def assertDryRun(self, folder: str, track: str, test: str):
-        self.assertEqual(
+        assert (
             helper.dry_run(
                 [
                     "--soundtrack",
@@ -619,28 +611,29 @@ class TestSoundtrack(unittest.TestCase):
                     "${ar_combined_disctrack}_${artist}_%shorten{$title}",
                     helper.get_testfile("soundtrack", folder, track),
                 ]
-            ),
-            test,
+            )
+            == test
         )
 
     def test_default(self):
-        self.assertEqual(
+        assert (
             helper.dry_run(
                 [helper.get_testfile("soundtrack", "Pulp-Fiction", "01.mp3")]
-            ),
-            "/_soundtrack/p/Pulp-Fiction_1994/01_[dialogue]_"
-            "Pumpkin-and-Honey-Bunny.mp3",
+            )
+            == "/_soundtrack/p/Pulp-Fiction_1994/01_[dialogue]_"
+            "Pumpkin-and-Honey-Bunny.mp3"
         )
 
     def test_no_soundtrack(self):
-        self.assertEqual(
+        assert (
             helper.dry_run(
                 [
                     "--no-soundtrack",
                     helper.get_testfile("soundtrack", "Pulp-Fiction", "01.mp3"),
                 ]
-            ),
-            "/_compilations/p/Pulp-Fiction_1994/" "01_Pumpkin-and-Honey-Bunny.mp3",
+            )
+            == "/_compilations/p/Pulp-Fiction_1994/"
+            "01_Pumpkin-and-Honey-Bunny.mp3"
         )
 
     def test_pulp_01(self):
@@ -715,8 +708,8 @@ class TestSoundtrack(unittest.TestCase):
 
 
 # --source-as-target
-class TestSourceAsTarget(unittest.TestCase):
-    def setUp(self):
+class TestSourceAsTarget:
+    def setup_method(self):
         self.tmp_album = helper.copy_to_tmp("files", "album.mp3")
         self.dir_album = os.path.dirname(self.tmp_album)
         with helper.Capturing():
@@ -727,31 +720,31 @@ class TestSourceAsTarget(unittest.TestCase):
             audiorename.execute("--source-as-target", "-c", "c", self.tmp_compilation)
 
     def test_album(self):
-        self.assertTrue(helper.is_file(self.dir_album + "/a.mp3"))
+        assert helper.is_file(self.dir_album + "/a.mp3")
 
 
 # --stats
-class TestStats(unittest.TestCase):
+class TestStats:
     def test_dry_run(self):
         with helper.Capturing() as output:
             audiorename.execute(
                 "--dry-run", "--stats", helper.get_testfile("mixed_formats")
             )
 
-        self.assertTrue("Execution time:" in helper.join(output))
-        self.assertTrue("Counter: move=3" in helper.join(output))
+        assert "Execution time:" in helper.join(output)
+        assert "Counter: move=3" in helper.join(output)
 
     def test_no_counts(self):
         tmp = tempfile.mkdtemp()
         with helper.Capturing() as output:
             audiorename.execute("--dry-run", "--stats", tmp)
-        self.assertTrue("Counter: Nothing to count!" in helper.join(output))
+        assert "Counter: Nothing to count!" in helper.join(output)
         shutil.rmtree(tmp)
 
 
 # --target
-class TestTarget(unittest.TestCase):
-    def setUp(self):
+class TestTarget:
+    def setup_method(self):
         self.tmp_dir = tempfile.mkdtemp()
         self.tmp_album = helper.copy_to_tmp("files", "album.mp3")
         with helper.Capturing():
@@ -764,17 +757,17 @@ class TestTarget(unittest.TestCase):
             )
 
     def test_album(self):
-        self.assertTrue(helper.is_file(self.tmp_dir + "/album.mp3"))
+        assert helper.is_file(self.tmp_dir + "/album.mp3")
 
     def test_compilation(self):
-        self.assertTrue(helper.is_file(self.tmp_dir + "/compilation.mp3"))
+        assert helper.is_file(self.tmp_dir + "/compilation.mp3")
 
-    def tearDown(self):
+    def teardown_method(self):
         shutil.rmtree(self.tmp_dir)
 
 
 # --verbose
-class TestVerbose(unittest.TestCase):
+class TestVerbose:
     def test_verbose(self):
         tmp = helper.copy_to_tmp("files", "album.mp3")
 
@@ -787,7 +780,7 @@ class TestVerbose(unittest.TestCase):
         # '            -> /tmp/tmpcwqxsfgx/t/the album artist/the
         # album_2001/4-02_full.mp3']
 
-        self.assertTrue(target in helper.join(output))
+        assert target in helper.join(output)
 
     def test_non_verbose(self):
         tmp = helper.copy_to_tmp("files", "album.mp3")
@@ -799,8 +792,4 @@ class TestVerbose(unittest.TestCase):
         # '[Copy:       ] /tmp/tmpycwB06/album.mp3'
         # '            -> /t/the album artist/the album_2001/4-02_full.mp3'
 
-        self.assertFalse(target in output[1])
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert not target in output[1]
