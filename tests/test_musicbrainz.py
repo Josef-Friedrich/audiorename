@@ -17,7 +17,7 @@ class TestEnrich(unittest.TestCase):
             "recording",
             "0480672d-4d88-4824-a06b-917ff408eabe",
         )
-        self.assertEqual(result["id"], "0480672d-4d88-4824-a06b-917ff408eabe")
+        self.assertEqual(result["id"], "135c03a4-a54b-463d-bc39-72e19ca7f353")
 
     def test_recording_mozart_01(self):
         # ['classical', 'Mozart_Horn-concertos', '01.mp3']

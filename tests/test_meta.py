@@ -134,15 +134,17 @@ class TestEnrichMetadata(unittest.TestCase):
         self.assertEqual(meta.work, None)
 
         meta.enrich_metadata()
-        self.assertEqual(meta.mb_workid, None)
-        self.assertEqual(meta.work, None)
+        self.assertEqual(meta.mb_workid, "309d2e3a-670e-48e0-a741-22fbfa0f9665")
+        self.assertEqual(meta.work, "Pumpkin and Honey Bunny")
         meta.save()
 
         finished = Meta(tmp)
-        self.assertEqual(finished.mb_workid, None)
-        self.assertEqual(finished.work, None)
-        self.assertEqual(finished.mb_workhierarchy_ids, None)
-        self.assertEqual(finished.work_hierarchy, None)
+        self.assertEqual(finished.mb_workid, "309d2e3a-670e-48e0-a741-22fbfa0f9665")
+        self.assertEqual(finished.work, "Pumpkin and Honey Bunny")
+        self.assertEqual(
+            finished.mb_workhierarchy_ids, "309d2e3a-670e-48e0-a741-22fbfa0f9665"
+        )
+        self.assertEqual(finished.work_hierarchy, "Pumpkin and Honey Bunny")
         self.assertEqual(finished.releasegroup_types, "soundtrack/album")
 
 
