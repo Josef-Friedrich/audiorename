@@ -8,7 +8,7 @@ from subprocess import Popen
 
 class TestExectutable:
     @staticmethod
-    def call(shell_string: str):
+    def call(shell_string: str) -> Popen[bytes]:
         ar = Popen(
             shell_string, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
         )

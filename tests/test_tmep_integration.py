@@ -4,7 +4,7 @@ import helper
 
 
 class TestFunctions:
-    def test_ifdefempty_empty_existent_field(self):
+    def test_ifdefempty_empty_existent_field(self) -> None:
         out = helper.call_bin(
             "--dry-run",
             "--format",
@@ -13,7 +13,7 @@ class TestFunctions:
         )
         assert "_empty_" in str(out)
 
-    def test_ifdefempty_empty_nonexistent_field(self):
+    def test_ifdefempty_empty_nonexistent_field(self) -> None:
         out = helper.call_bin(
             "--dry-run",
             "--format",
@@ -22,7 +22,7 @@ class TestFunctions:
         )
         assert "_empty_" in str(out)
 
-    def test_ifdefempty_notempty(self):
+    def test_ifdefempty_notempty(self) -> None:
         out = helper.call_bin(
             "--dry-run",
             "--format",

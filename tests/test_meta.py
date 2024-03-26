@@ -3,7 +3,6 @@
 import shutil
 import tempfile
 import typing
-import unittest
 
 import helper
 import pytest
@@ -14,12 +13,12 @@ from audiorename.meta import Meta
 
 
 class TestDictDiff:
-    def test_identical(self):
+    def test_identical(self) -> None:
         tmp = helper.get_meta("files", "album.mp3")
         result = meta.compare_dicts(tmp.export_dict(), tmp.export_dict())
         assert result == []
 
-    def test_one_diff(self):
+    def test_one_diff(self) -> None:
         tmp = helper.get_meta("files", "album.mp3")
         dict1 = tmp.export_dict()
         tmp.title = "diff"
@@ -30,7 +29,7 @@ class TestDictDiff:
             ("title", "full", "diff"),
         ]
 
-    def test_multiple_diffs(self):
+    def test_multiple_diffs(self) -> None:
         tmp = helper.get_meta("files", "album.mp3")
         dict1 = tmp.export_dict()
         tmp.artist = "diff"
@@ -44,7 +43,7 @@ class TestDictDiff:
             ("track", "2", "99"),
         ]
 
-    def test_del_attr(self):
+    def test_del_attr(self) -> None:
         tmp = helper.get_meta("files", "album.mp3")
         dict1 = tmp.export_dict()
         delattr(tmp, "title")
@@ -62,7 +61,7 @@ class TestDictDiff:
 
 
 class TestExportDict:
-    def test_export_dict(self):
+    def test_export_dict(self) -> None:
         meta = get_meta("files", "album.mp3")
 
         result = meta.export_dict()
@@ -483,66 +482,66 @@ class TestPropertyWork:
 
 # ar_combined_work_top
 class TestPropertyWorkTop:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = get_meta("files", "album.mp3")
 
-    def test_none(self):
+    def test_none(self) -> None:
         assert self.meta.ar_combined_work_top is None
 
-    def test_mutliple(self):
+    def test_mutliple(self) -> None:
         self.meta.work_hierarchy = "top -> work"
         assert self.meta.ar_combined_work_top == "top"
 
-    def test_single(self):
+    def test_single(self) -> None:
         self.meta.work_hierarchy = "top"
         assert self.meta.ar_combined_work_top == "top"
 
-    def test_work_colon(self):
+    def test_work_colon(self) -> None:
         self.meta.work = "work: test"
         assert self.meta.ar_combined_work_top == "work"
 
-    def test_work(self):
+    def test_work(self) -> None:
         self.meta.work = "work"
         assert self.meta.ar_combined_work_top == "work"
 
 
 # ar_classical_title
 class TestPropertyTitleClassical:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = get_meta("files", "album.mp3")
 
-    def test_work_title(self):
+    def test_work_title(self) -> None:
         self.meta.title = "work: title"
         assert self.meta.ar_classical_title == "title"
 
-    def test_work_work_title(self):
+    def test_work_work_title(self) -> None:
         self.meta.title = "work: work: title"
         assert self.meta.ar_classical_title == "work: title"
 
-    def test_title(self):
+    def test_title(self) -> None:
         self.meta.title = "title"
         assert self.meta.ar_classical_title == "title"
 
 
 # ar_combined_year
 class TestPropertyYearSafe:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = get_meta("files", "album.mp3")
         self.meta.year = None
         self.meta.original_year = None
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         assert self.meta.ar_combined_year is None
 
-    def test_year(self):
+    def test_year(self) -> None:
         self.meta.year = 1978
         assert self.meta.ar_combined_year == 1978
 
-    def test_original_year(self):
+    def test_original_year(self) -> None:
         self.meta.original_year = 1978
         assert self.meta.ar_combined_year == 1978
 
-    def test_year__original_year(self):
+    def test_year__original_year(self) -> None:
         self.meta.year = 2016
         self.meta.original_year = 1978
         assert self.meta.ar_combined_year == 1978
@@ -554,22 +553,22 @@ class TestPropertyYearSafe:
 
 
 class TestStaticMethodInitials:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = get_meta("files", "album.mp3")
 
-    def test_lowercase(self):
-        assert self.meta._find_initials("beethoven") == "b"
+    def test_lowercase(self) -> None:
+        assert self.meta._find_initials("beethoven") == "b"  # type: ignore
 
-    def test_uppercase(self):
-        assert self.meta._find_initials("Beethoven") == "b"
+    def test_uppercase(self) -> None:
+        assert self.meta._find_initials("Beethoven") == "b"  # type: ignore
 
 
 class TestStaticMethodNormalizePerformer:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = get_meta("files", "album.mp3")
 
-    def test_unit_normalize_performer(self):
-        out = self.meta._normalize_performer(
+    def test_unit_normalize_performer(self) -> None:
+        out = self.meta._normalize_performer(  # type: ignore
             ["John Lennon (vocals)", "Ringo Starr (drums)"]
         )
         assert out[0][0] == "vocals"
@@ -577,58 +576,58 @@ class TestStaticMethodNormalizePerformer:
         assert out[1][0] == "drums"
         assert out[1][1] == "Ringo Starr"
 
-    def test_unit_normalize_performer_string(self):
-        out = self.meta._normalize_performer("Ludwig van Beethoven")
+    def test_unit_normalize_performer_string(self) -> None:
+        out = self.meta._normalize_performer("Ludwig van Beethoven")  # type: ignore
         assert out == []
 
 
 class TestStaticMethodSanitize:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = get_meta("files", "album.mp3")
 
-    def test_slash(self):
-        assert self.meta._sanitize("lol/lol") == "lollol"
+    def test_slash(self) -> None:
+        assert self.meta._sanitize("lol/lol") == "lollol"  # type: ignore
 
-    def test_whitespaces(self):
-        assert self.meta._sanitize("lol  lol") == "lol lol"
+    def test_whitespaces(self) -> None:
+        assert self.meta._sanitize("lol  lol") == "lol lol"  # type: ignore
 
-    def test_list(self):
-        assert self.meta._sanitize([]) == ""
+    def test_list(self) -> None:
+        assert self.meta._sanitize([]) == ""  # type: ignore
 
 
 class TestStaticMethodShortenPerformer:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = get_meta("files", "album.mp3")
 
-    def test_ar_performer_shorten(self):
-        s = self.meta._shorten_performer("Ludwig van Beethoven")
+    def test_ar_performer_shorten(self) -> None:
+        s = self.meta._shorten_performer("Ludwig van Beethoven")  # type: ignore
         assert s == "Lud. van Bee."
 
-    def test_ar_performer_shorten_option_separator(self):
-        s = self.meta._shorten_performer("Ludwig van Beethoven", separator="--")
+    def test_ar_performer_shorten_option_separator(self) -> None:
+        s = self.meta._shorten_performer("Ludwig van Beethoven", separator="--")  # type: ignore
         assert s == "Lud.--van--Bee."
 
-    def test_ar_performer_shorten_option_abbreviation(self):
-        s = self.meta._shorten_performer("Ludwig van Beethoven", abbreviation="_")
+    def test_ar_performer_shorten_option_abbreviation(self) -> None:
+        s = self.meta._shorten_performer("Ludwig van Beethoven", abbreviation="_")  # type: ignore
         assert s == "Lud_ van Bee_"
 
-    def test_ar_performer_shorten_option_all(self):
-        s = self.meta._shorten_performer(
+    def test_ar_performer_shorten_option_all(self) -> None:
+        s = self.meta._shorten_performer(  # type: ignore
             "Ludwig van Beethoven", separator="", abbreviation=""
         )
         assert s == "LudvanBee"
 
 
 class TestStaticMethodUnifyList:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = get_meta("files", "album.mp3")
 
-    def test_unify_numbers(self):
-        seq = self.meta._uniquify_list([1, 1, 2, 2, 1, 1, 3])
+    def test_unify_numbers(self) -> None:
+        seq = self.meta._uniquify_list([1, 1, 2, 2, 1, 1, 3])  # type: ignore
         assert seq == [1, 2, 3]
 
-    def test_unify_list(self):
-        seq = self.meta._uniquify_list(
+    def test_unify_list(self) -> None:
+        seq = self.meta._uniquify_list(  # type: ignore
             [
                 ["conductor", "Herbert von Karajan"],
                 ["orchestra", "Staatskapelle Dresden"],
@@ -834,21 +833,21 @@ all_fields = [
 
 
 class TestFields:
-    def test_fields_phrydy(self):
+    def test_fields_phrydy(self) -> None:
         fields = Meta.fields()
         for field in Meta.fields_phrydy():
             assert field in fields
 
-    def test_fields_audiorename(self):
+    def test_fields_audiorename(self) -> None:
         fields = Meta.fields()
         for field in Meta.fields_audiorename():
             assert field in fields
 
-    def test_fields(self):
+    def test_fields(self) -> None:
         for field in Meta.fields():
             assert field in all_fields
 
-    def test_fields_sorted(self):
+    def test_fields_sorted(self) -> None:
         for field in Meta.fields_sorted():
             assert field in all_fields
 
@@ -859,77 +858,77 @@ class TestFields:
 
 
 class TestAllPropertiesHines:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = get_meta(
             "real-world", "h", "Hines_Earl", "Just-Friends_1989", "06_Indian-Summer.mp3"
         )
 
-    def test_ar_classical_album(self):
+    def test_ar_classical_album(self) -> None:
         assert self.meta.ar_classical_album is None
 
-    def test_ar_combined_album(self):
+    def test_ar_combined_album(self) -> None:
         assert self.meta.ar_combined_album == "Just Friends"
 
-    def test_ar_initial_album(self):
+    def test_ar_initial_album(self) -> None:
         assert self.meta.ar_initial_album == "j"
 
-    def test_ar_initial_artist(self):
+    def test_ar_initial_artist(self) -> None:
         assert self.meta.ar_initial_artist == "h"
 
-    def test_ar_combined_artist(self):
+    def test_ar_combined_artist(self) -> None:
         assert self.meta.ar_combined_artist == "Earl Hines"
 
-    def test_ar_combined_artist_sort(self):
+    def test_ar_combined_artist_sort(self) -> None:
         assert self.meta.ar_combined_artist_sort == "Hines, Earl"
 
-    def test_ar_initial_composer(self):
+    def test_ar_initial_composer(self) -> None:
         assert self.meta.ar_initial_composer == "e"
 
-    def test_ar_combined_composer(self):
+    def test_ar_combined_composer(self) -> None:
         assert self.meta.ar_combined_composer == "Earl Hines"
 
-    def test_ar_combined_disctrack(self):
+    def test_ar_combined_disctrack(self) -> None:
         assert self.meta.ar_combined_disctrack == "06"
 
-    def test_ar_performer(self):
+    def test_ar_performer(self) -> None:
         assert self.meta.ar_performer == ""
 
-    def test_ar_classical_performer(self):
+    def test_ar_classical_performer(self) -> None:
         assert self.meta.ar_classical_performer == "Earl Hines"
 
-    def test_ar_performer_raw(self):
+    def test_ar_performer_raw(self) -> None:
         assert self.meta.ar_performer_raw == []
 
-    def test_ar_performer_short(self):
+    def test_ar_performer_short(self) -> None:
         assert self.meta.ar_performer_short == ""
 
-    def test_ar_classical_title(self):
+    def test_ar_classical_title(self) -> None:
         assert self.meta.ar_classical_title == "Indian Summer"
 
-    def test_ar_classical_track(self):
+    def test_ar_classical_track(self) -> None:
         assert self.meta.ar_classical_track == "06"
 
-    def test_ar_combined_year(self):
+    def test_ar_combined_year(self) -> None:
         assert self.meta.ar_combined_year == 1989
 
 
 class TestAllPropertiesWagner:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = get_meta("classical", "Wagner_Meistersinger", "01.mp3")
 
-    def test_ar_classical_album(self):
+    def test_ar_classical_album(self) -> None:
         assert self.meta.ar_classical_album == "Die Meistersinger von Nürnberg"
 
-    def test_ar_combined_album(self):
+    def test_ar_combined_album(self) -> None:
         assert self.meta.ar_combined_album == "Die Meistersinger von Nürnberg"
 
-    def test_ar_initial_album(self):
+    def test_ar_initial_album(self) -> None:
         assert self.meta.ar_initial_album == "d"
 
-    def test_ar_initial_artist(self):
+    def test_ar_initial_artist(self) -> None:
         assert self.meta.ar_initial_artist == "w"
 
-    def test_ar_combined_artist(self):
+    def test_ar_combined_artist(self) -> None:
         assert (
             self.meta.ar_combined_artist
             == "Richard Wagner; René Kollo, Helen Donath, Theo Adam, Geraint "
@@ -938,7 +937,7 @@ class TestAllPropertiesWagner:
             "Dresden, Herbert von Karajan"
         )
 
-    def test_ar_combined_artist_sort(self):
+    def test_ar_combined_artist_sort(self) -> None:
         assert (
             self.meta.ar_combined_artist_sort
             == "Wagner, Richard; Kollo, René, Donath, Helen, Adam, Theo, Evans, "
@@ -947,42 +946,42 @@ class TestAllPropertiesWagner:
             "Dresden, Karajan, Herbert von"
         )
 
-    def test_ar_initial_composer(self):
+    def test_ar_initial_composer(self) -> None:
         assert self.meta.ar_initial_composer == "w"
 
-    def test_ar_combined_composer(self):
+    def test_ar_combined_composer(self) -> None:
         assert self.meta.ar_combined_composer == "Wagner, Richard"
 
-    def test_ar_combined_disctrack(self):
+    def test_ar_combined_disctrack(self) -> None:
         assert self.meta.ar_combined_disctrack == "1-01"
 
-    def test_ar_performer(self):
+    def test_ar_performer(self) -> None:
         assert self.meta.ar_performer == "Herbert von Karajan, Staatskapelle Dresden"
 
-    def test_ar_classical_performer(self):
+    def test_ar_classical_performer(self) -> None:
         assert self.meta.ar_classical_performer == "Karajan, StaDre"
 
-    def test_ar_performer_raw(self):
+    def test_ar_performer_raw(self) -> None:
         assert self.meta.ar_performer_raw == [
             ["conductor", "Herbert von Karajan"],
             ["orchestra", "Staatskapelle Dresden"],
         ]
 
-    def test_ar_performer_short(self):
+    def test_ar_performer_short(self) -> None:
         assert self.meta.ar_performer_short == "Karajan, StaDre"
 
-    def test_ar_classical_title(self):
+    def test_ar_classical_title(self) -> None:
         assert self.meta.ar_classical_title == "Vorspiel"
 
-    def test_ar_classical_track(self):
+    def test_ar_classical_track(self) -> None:
         assert self.meta.ar_classical_track == "1-01"
 
-    def test_ar_combined_year(self):
+    def test_ar_combined_year(self) -> None:
         assert self.meta.ar_combined_year == 1971
 
 
 class TestClassical:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.mozart = get_meta("classical", "Mozart_Horn-concertos", "01.mp3")
         self.mozart2 = get_meta("classical", "Mozart_Horn-concertos", "02.mp3")
         self.schubert = get_meta("classical", "Schubert_Winterreise", "01.mp3")
@@ -990,103 +989,103 @@ class TestClassical:
         self.wagner = get_meta("classical", "Wagner_Meistersinger", "01.mp3")
 
     # ar_classical_album
-    def test_ar_classical_album_mozart(self):
+    def test_ar_classical_album_mozart(self) -> None:
         assert (
             self.mozart.ar_classical_album
             == "Concerto for French Horn no. 1 in D major, K. 386b / KV 412"
         )
 
-    def test_ar_classical_album_schubert(self):
+    def test_ar_classical_album_schubert(self) -> None:
         assert self.schubert.ar_classical_album == "Die Winterreise, op. 89, D. 911"
 
-    def test_ar_classical_album_tschaikowski(self):
+    def test_ar_classical_album_tschaikowski(self) -> None:
         assert self.tschaikowski.ar_classical_album == "Swan Lake, op. 20"
 
-    def test_ar_classical_album_wagner(self):
+    def test_ar_classical_album_wagner(self) -> None:
         assert self.wagner.ar_classical_album == "Die Meistersinger von N\xfcrnberg"
 
     # ar_initial_composer
-    def test_ar_initial_composer_mozart(self):
+    def test_ar_initial_composer_mozart(self) -> None:
         assert self.mozart.ar_initial_composer == "m"
 
-    def test_ar_initial_composer_schubert(self):
+    def test_ar_initial_composer_schubert(self) -> None:
         assert self.schubert.ar_initial_composer == "s"
 
-    def test_ar_initial_composer_tschaikowski(self):
+    def test_ar_initial_composer_tschaikowski(self) -> None:
         assert self.tschaikowski.ar_initial_composer == "t"
 
-    def test_ar_initial_composer_wagner(self):
+    def test_ar_initial_composer_wagner(self) -> None:
         assert self.wagner.ar_initial_composer == "w"
 
     # ar_combined_composer
-    def test_ar_combined_composer_mozart(self):
+    def test_ar_combined_composer_mozart(self) -> None:
         assert self.mozart.ar_combined_composer == "Mozart, Wolfgang Amadeus"
 
-    def test_ar_combined_composer_mozart2(self):
+    def test_ar_combined_composer_mozart2(self) -> None:
         assert self.mozart2.ar_combined_composer == "Mozart, Wolfgang Amadeus"
 
-    def test_ar_combined_composer_schubert(self):
+    def test_ar_combined_composer_schubert(self) -> None:
         assert self.schubert.ar_combined_composer == "Schubert, Franz"
 
-    def test_ar_combined_composer_tschaikowski(self):
+    def test_ar_combined_composer_tschaikowski(self) -> None:
         assert self.tschaikowski.ar_combined_composer == "Tchaikovsky, Pyotr Ilyich"
 
-    def test_ar_combined_composer_wagner(self):
+    def test_ar_combined_composer_wagner(self) -> None:
         assert self.wagner.ar_combined_composer == "Wagner, Richard"
 
     # composer_sort
-    def test_composer_sort_mozart(self):
+    def test_composer_sort_mozart(self) -> None:
         assert self.mozart.composer_sort == "Mozart, Wolfgang Amadeus"
 
-    def test_composer_sort_schubert(self):
+    def test_composer_sort_schubert(self) -> None:
         assert self.schubert.composer_sort == "Schubert, Franz"
 
-    def test_composer_sort_tschaikowski(self):
+    def test_composer_sort_tschaikowski(self) -> None:
         assert self.tschaikowski.composer_sort == "Tchaikovsky, Pyotr Ilyich"
 
-    def test_composer_sort_wagner(self):
+    def test_composer_sort_wagner(self) -> None:
         assert self.wagner.composer_sort == "Wagner, Richard"
 
     # ar_classical_performer
-    def test_ar_classical_performer_mozart(self):
+    def test_ar_classical_performer_mozart(self) -> None:
         assert self.mozart.ar_classical_performer == "OrpChaOrc"
 
-    def test_ar_classical_performer_schubert(self):
+    def test_ar_classical_performer_schubert(self) -> None:
         assert self.schubert.ar_classical_performer == "Fischer-Dieskau, Moore"
 
-    def test_ar_classical_performer_tschaikowski(self):
+    def test_ar_classical_performer_tschaikowski(self) -> None:
         assert self.tschaikowski.ar_classical_performer == "Svetlanov, StaAcaSym"
 
-    def test_ar_classical_performer_wagner(self):
+    def test_ar_classical_performer_wagner(self) -> None:
         assert self.wagner.ar_classical_performer == "Karajan, StaDre"
 
     # ar_classical_title
-    def test_ar_classical_title_mozart(self):
+    def test_ar_classical_title_mozart(self) -> None:
         assert self.mozart.ar_classical_title == "I. Allegro"
 
-    def test_ar_classical_title_schubert(self):
+    def test_ar_classical_title_schubert(self) -> None:
         assert self.schubert.ar_classical_title == "Gute Nacht"
 
-    def test_ar_classical_title_tschaikowski(self):
+    def test_ar_classical_title_tschaikowski(self) -> None:
         assert (
             self.tschaikowski.ar_classical_title
             == "Introduction. Moderato assai - Allegro, ma non troppo - Tempo I"
         )
 
-    def test_ar_classical_title_wagner(self):
+    def test_ar_classical_title_wagner(self) -> None:
         assert self.wagner.ar_classical_title == "Vorspiel"
 
     # ar_classical_track
-    def test_ar_classical_track_mozart(self):
+    def test_ar_classical_track_mozart(self) -> None:
         assert self.mozart.ar_classical_track == "01"
 
-    def test_ar_classical_track_schubert(self):
+    def test_ar_classical_track_schubert(self) -> None:
         assert self.schubert.ar_classical_track == "01"
 
-    def test_ar_classical_track_tschaikowski(self):
+    def test_ar_classical_track_tschaikowski(self) -> None:
         assert self.tschaikowski.ar_classical_track == "1-01"
 
-    def test_ar_classical_track_wagner(self):
+    def test_ar_classical_track_wagner(self) -> None:
         assert self.wagner.ar_classical_track == "1-01"
 
 
