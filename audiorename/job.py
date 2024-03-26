@@ -14,10 +14,10 @@ class Timer:
 
     end: float = 0
 
-    def start(self):
+    def start(self) -> None:
         self.begin = time.time()
 
-    def stop(self):
+    def stop(self) -> None:
         self.end = time.time()
 
     def result(self) -> str:
@@ -25,13 +25,13 @@ class Timer:
 
 
 class Counter:
-    def __init__(self):
+    def __init__(self) -> None:
         self._counters: typing.Dict[str, int] = {}
 
-    def reset(self):
+    def reset(self) -> None:
         self._counters = {}
 
-    def count(self, counter: str):
+    def count(self, counter: str) -> None:
         """Add one to number identified by a string.
 
         :param counter: A string to identify the counter
@@ -122,6 +122,7 @@ class Config:
                 return config.get(section, key)
         except (configparser.NoOptionError, configparser.NoSectionError):
             pass
+        return None
 
 
 class SelectionConfig(Config):
@@ -235,6 +236,7 @@ class FiltersConfig(Config):
     def album_min(self) -> typing.Optional[int]:
         if hasattr(self, "_album_min") and isinstance(self._album_min, int):
             return self._album_min
+        return None
 
     @property
     def extension(self) -> typing.List[str]:
@@ -258,6 +260,7 @@ class FiltersConfig(Config):
     def field_skip(self) -> typing.Optional[str]:
         if hasattr(self, "_field_skip") and isinstance(self._field_skip, str):
             return self._field_skip
+        return None
 
 
 class TemplateSettingsConfig(Config):

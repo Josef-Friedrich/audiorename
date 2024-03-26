@@ -13,7 +13,7 @@ fields
 __version__: str = metadata.version("audiorename")
 
 
-def execute(*argv: str):
+def execute(*argv: str) -> None:
     """Main function
 
     :param list argv: The command line arguments specified as a list: e. g
