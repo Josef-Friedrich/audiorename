@@ -24,13 +24,17 @@ class TestClassAction:
         assert not os.path.exists(tmp.abspath)
         assert "Delete" in helper.join(output)
 
-    @pytest.mark.skipif(helper.SKIP_QUICK, "Ignored, as it has to be done quickly.")
-    @pytest.mark.skipif(helper.SKIP_API_CALLS, "Ignored if the API is not available.")
+    @pytest.mark.skipif(
+        helper.SKIP_QUICK, reason="Ignored, as it has to be done quickly."
+    )
+    @pytest.mark.skipif(
+        helper.SKIP_API_CALLS, reason="Ignored if the API is not available."
+    )
     def test_method_metadata_enrich(self):
         tmp = helper.get_tmp_file_object("classical", "without_work.mp3")
         if not tmp.meta:
             pytest.fail("The audio file needs a meta property.")
-        assert tmp.meta.mb_workid == None
+        assert tmp.meta.mb_workid is None
         with helper.Capturing():
             self.action.metadata(tmp, enrich=True)
 
@@ -57,7 +61,7 @@ class TestClassAudioFile:
         result = audiofile.AudioFile(abspath, job=helper.get_job(), prefix=prefix)
         assert result.abspath == abspath
         assert result.type == "source"
-        assert result.exists == True
+        assert result.exists is True
         assert result.extension == "mp3"
         assert result.meta.path == abspath
         assert result.short == "[…]tests/files/files/album.mp3"
@@ -65,26 +69,26 @@ class TestClassAudioFile:
 
 
 class TestClassMbTrackListing:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.mb = audiofile.MBTrackListing()
 
-    def listing(self, album, title, length=123):
+    def listing(self, album: str, title: str, length: int = 123) -> str:
         return self.mb.format_audiofile(album, title, length)
 
-    def test_one_call(self):
+    def test_one_call(self) -> None:
         result = self.listing("album", "title")
         assert result == "1. album: title (2:03)"
 
-    def test_two_calls(self):
+    def test_two_calls(self) -> None:
         self.listing("album", "title")
         result = self.listing("album", "title")
         assert result == "2. album: title (2:03)"
 
-    def test_opus(self):
+    def test_opus(self) -> None:
         result = self.listing("album Op.", "title")
         assert result == "1. album op.: title (2:03)"
 
-    def test_dash(self):
+    def test_dash(self) -> None:
         result = self.listing("album - act", "title")
         assert result == "1. album act: title (2:03)"
 
@@ -117,14 +121,14 @@ class TestFunctionBestFormat:
     """
 
     @staticmethod
-    def source_target(source, target):
+    def source_target(source: str, target: str):
         return audiofile.detect_best_format(
             helper.get_meta("quality", source),
             helper.get_meta("quality", target),
             helper.get_job(),
         )
 
-    def test_same_quality(self):
+    def test_same_quality(self) -> None:
         with helper.Capturing() as output:
             result = self.source_target("flac.flac", "flac.flac")
         assert result == "target"
@@ -133,7 +137,7 @@ class TestFunctionBestFormat:
             "formats, use target."
         )
 
-    def test_type_target_better(self):
+    def test_type_target_better(self) -> None:
         with helper.Capturing() as output:
             result = self.source_target("mp3_128.mp3", "flac.flac")
         assert result == "target"

@@ -107,7 +107,7 @@ def dry_run(options: typing.List[str]):
     :return: The renamed file path
     :rtype string:
     """
-    with Capturing() as output:
+    with Capturing(clean_ansi=True) as output:
         audiorename.execute(
             "--target",
             "/",

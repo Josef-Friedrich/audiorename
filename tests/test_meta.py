@@ -84,15 +84,17 @@ class TestExportDict:
 #
 # work:
 #  Die Meistersinger von Nürnberg, WWV 96: Akt I. Vorspiel
-@pytest.mark.skipif(helper.SKIP_QUICK, "Ignored, as it has to be done quickly.")
-@pytest.mark.skipif(helper.SKIP_API_CALLS, "Ignored if the API is not available.")
+@pytest.mark.skipif(helper.SKIP_QUICK, reason="Ignored, as it has to be done quickly.")
+@pytest.mark.skipif(
+    helper.SKIP_API_CALLS, reason="Ignored if the API is not available."
+)
 class TestEnrichMetadata:
     def test_enrich_metadata_meistersinger(self):
         tmp = helper.copy_to_tmp("classical", "without_work.mp3")
         meta = Meta(tmp)
         assert meta.mb_trackid == "00ba1660-4e35-4985-86b2-8b7a3e99b1e5"
-        assert meta.mb_workid == None
-        assert meta.work == None
+        assert meta.mb_workid is None
+        assert meta.work is None
 
         meta.enrich_metadata()
         assert meta.mb_workid == "6b198406-4fbf-3d61-82db-0b7ef195a7fe"
@@ -116,8 +118,8 @@ class TestEnrichMetadata:
         tmp = helper.copy_to_tmp("soundtrack", "Pulp-Fiction", "01.mp3")
         meta = Meta(tmp)
         assert meta.mb_trackid == "0480672d-4d88-4824-a06b-917ff408eabe"
-        assert meta.mb_workid == None
-        assert meta.work == None
+        assert meta.mb_workid is None
+        assert meta.work is None
 
         meta.enrich_metadata()
         assert meta.mb_workid == "309d2e3a-670e-48e0-a741-22fbfa0f9665"
@@ -333,13 +335,13 @@ class TestPropertyDiskTrackUnit:
         self.meta.disctotal = None
 
     def test_empty(self):
-        assert self.meta.ar_combined_disctrack == None
+        assert self.meta.ar_combined_disctrack is None
 
     def test_no_track(self):
         self.meta.disc = 2
         self.meta.disctotal = 3
         self.meta.tracktotal = 36
-        assert self.meta.ar_combined_disctrack == None
+        assert self.meta.ar_combined_disctrack is None
 
     def test_disc_track(self):
         self.meta.disc = 2
@@ -426,7 +428,7 @@ class TestPropertySoundtrack:
         # albumtype -> bootleg
         # meta = get_meta(['soundtrack', 'Pulp-Fiction', '01.mp3'])
         meta = get_meta("show-case", "Beatles_Yesterday.mp3")
-        assert meta.ar_combined_soundtrack == True
+        assert meta.ar_combined_soundtrack is True
 
     def test_no_soundtrack(self):
         meta = get_meta("classical", "Schubert_Winterreise", "01.mp3")
@@ -485,7 +487,7 @@ class TestPropertyWorkTop:
         self.meta = get_meta("files", "album.mp3")
 
     def test_none(self):
-        assert self.meta.ar_combined_work_top == None
+        assert self.meta.ar_combined_work_top is None
 
     def test_mutliple(self):
         self.meta.work_hierarchy = "top -> work"
@@ -530,7 +532,7 @@ class TestPropertyYearSafe:
         self.meta.original_year = None
 
     def test_empty(self):
-        assert self.meta.ar_combined_year == None
+        assert self.meta.ar_combined_year is None
 
     def test_year(self):
         self.meta.year = 1978
@@ -863,7 +865,7 @@ class TestAllPropertiesHines:
         )
 
     def test_ar_classical_album(self):
-        assert self.meta.ar_classical_album == None
+        assert self.meta.ar_classical_album is None
 
     def test_ar_combined_album(self):
         assert self.meta.ar_combined_album == "Just Friends"

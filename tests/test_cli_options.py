@@ -49,7 +49,7 @@ class TestBestFormat:
         return helper.copy_to_tmp("quality", filename)
 
     def test_delete_source(self):
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             self.move(self.high_quality, "--delete")
             self.move(self.low_quality, "--delete")
         assert "Delete […]" + self.low_quality in helper.join(output)
@@ -57,7 +57,7 @@ class TestBestFormat:
         assert not os.path.exists(self.low_quality)
 
     def test_delete_target(self):
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             self.move(self.low_quality, "--delete")
             self.move(self.high_quality, "--delete")
         assert "Delete […]test-file.mp3" in helper.join(output)
@@ -65,7 +65,7 @@ class TestBestFormat:
         assert not os.path.exists(self.low_quality)
 
     def test_backup_source(self):
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             self.move(self.high_quality, "--backup")
             self.move(self.low_quality, "--backup")
         assert "Backup […]" + self.low_quality in helper.join(output)
@@ -76,7 +76,7 @@ class TestBestFormat:
         os.remove(backup_path)
 
     def test_backup_target(self):
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             self.move(self.low_quality, "--backup")
             self.move(self.high_quality, "--backup")
         assert "Backup […]test-file.mp3" in helper.join(output)
@@ -87,7 +87,7 @@ class TestBestFormat:
         os.remove(backup_path)
 
     def test_backup_folder_source(self):
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             self.move(self.high_quality, *self.backup_args)
             self.move(self.low_quality, *self.backup_args)
         assert "Backup […]" + self.low_quality in helper.join(output)
@@ -100,7 +100,7 @@ class TestBestFormat:
         os.remove(backup_file)
 
     def test_backup_folder_target(self):
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             self.move(self.low_quality, *self.backup_args)
             self.move(self.high_quality, *self.backup_args)
         assert "Backup […]test-file.mp3" in helper.join(output)
@@ -332,7 +332,7 @@ class TestDebug:
     def test_debug(self):
         tmp = helper.get_testfile("files", "album.mp3")
 
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute("--debug", tmp)
 
         assert "ar_combined_year       : 2001" in str(output)
@@ -366,7 +366,7 @@ class TestDeleteExisting:
 
 # --dry-run
 class TestDryRun:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.tmp_album = helper.copy_to_tmp("files", "album.mp3")
         with helper.Capturing() as self.output_album:
             audiorename.execute("--dry-run", self.tmp_album)
@@ -375,28 +375,32 @@ class TestDryRun:
         with helper.Capturing() as self.output_compilation:
             audiorename.execute("--dry-run", self.tmp_compilation)
 
-    def test_output_album(self):
+    def test_output_album(self) -> None:
         assert helper.has(self.output_album, "Dry run")
         assert helper.has(self.output_album, self.tmp_album)
 
-    def test_output_compilation(self):
+    def test_output_compilation(self) -> None:
         assert helper.has(self.output_compilation, "Dry run")
         assert helper.has(self.output_compilation, self.tmp_compilation)
 
-    def test_album(self):
+    def test_album(self) -> None:
         assert helper.is_file(self.tmp_album)
         assert not os.path.isfile(helper.dir_cwd + helper.path_album)
 
-    def test_compilation(self):
+    def test_compilation(self) -> None:
         assert helper.is_file(self.tmp_compilation)
         assert not os.path.isfile(helper.dir_cwd + helper.path_compilation)
 
 
 # --enrich-metadata
 class TestEnrichMetadata:
-    @pytest.mark.skipif(helper.SKIP_QUICK, "Ignored, as it has to be done quickly.")
-    @pytest.mark.skipif(helper.SKIP_API_CALLS, "Ignored if the API is not available.")
-    def test_pass(self):
+    @pytest.mark.skipif(
+        helper.SKIP_QUICK, reason="Ignored, as it has to be done quickly."
+    )
+    @pytest.mark.skipif(
+        helper.SKIP_API_CALLS, reason="Ignored if the API is not available."
+    )
+    def test_pass(self) -> None:
         tmp = helper.copy_to_tmp("classical", "without_work.mp3")
         from audiorename.meta import Meta
 
@@ -405,12 +409,12 @@ class TestEnrichMetadata:
         orig.composer_sort = None
         orig.save()
         orig = Meta(tmp)
-        assert orig.composer_sort == None
-        assert orig.composer == None
-        assert orig.mb_workhierarchy_ids == None
-        assert orig.mb_workid == None
-        assert orig.work_hierarchy == None
-        assert orig.work == None
+        assert orig.composer_sort is None
+        assert orig.composer is None
+        assert orig.mb_workhierarchy_ids is None
+        assert orig.mb_workid is None
+        assert orig.work_hierarchy is None
+        assert orig.work is None
 
         with helper.Capturing() as output:
             audiorename.execute("--enrich-metadata", "--no-rename", tmp)
@@ -435,7 +439,7 @@ class TestEnrichMetadata:
 
 # --field-skip
 class TestSkipIfEmpty:
-    def setup_method(self):
+    def setup_method(self) -> None:
         with helper.Capturing() as self.album:
             audiorename.execute(
                 "--field-skip", "lol", helper.copy_to_tmp("files", "album.mp3")
@@ -450,16 +454,16 @@ class TestSkipIfEmpty:
                 helper.copy_to_tmp("files", "compilation.mp3"),
             )
 
-    def test_album(self):
+    def test_album(self) -> None:
         assert helper.has(self.album, "No field")
 
-    def test_compilation(self):
+    def test_compilation(self) -> None:
         assert helper.has(self.compilation, "Dry run")
 
 
 # --classical_path template
 class TestClassicalFormat:
-    def assertDryRun(self, folder: str, track: str, test: str):
+    def assertDryRun(self, folder: str, track: str, test: str) -> None:
         assert (
             helper.dry_run(
                 [
@@ -473,7 +477,7 @@ class TestClassicalFormat:
             == test
         )
 
-    def test_debussy_01(self):
+    def test_debussy_01(self) -> None:
         self.assertDryRun(
             "Debussy_Estampes-etc", "01.mp3", "/Debussy_Claude/01_Pagodes.mp3"
         )
@@ -481,7 +485,7 @@ class TestClassicalFormat:
 
 # --classical_path template
 class TestGenreClassical:
-    def assertDryRun(self, folder: str, track: str, test: str):
+    def assertDryRun(self, folder: str, track: str, test: str) -> None:
         assert (
             helper.dry_run(
                 [
@@ -496,7 +500,7 @@ class TestGenreClassical:
             == test
         )
 
-    def test_debussy_01(self):
+    def test_debussy_01(self) -> None:
         self.assertDryRun(
             "Debussy_Estampes-etc", "01.mp3", "/Debussy_Claude/01_Pagodes.mp3"
         )
@@ -504,7 +508,7 @@ class TestGenreClassical:
 
 # --format
 class TestCustomFormats:
-    def setup_method(self):
+    def setup_method(self) -> None:
         with helper.Capturing():
             audiorename.execute(
                 "--format",
@@ -530,14 +534,14 @@ class TestCustomFormats:
 
 # --job-info
 class TestJobInfo:
-    def get_job_info(self, *args: str):
-        with helper.Capturing() as output:
+    def get_job_info(self, *args: str) -> str:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute(
                 "--dry-run", "--job-info", helper.get_testfile("mixed_formats"), *args
             )
         return "\n".join(output)
 
-    def test_dry_run(self):
+    def test_dry_run(self) -> None:
         output = self.get_job_info()
         assert "Versions: " in output
         assert "audiorename=" in output
@@ -545,19 +549,19 @@ class TestJobInfo:
         assert "tmep=" in output
         assert "Source: " in output
         assert "Target: " in output
-        assert not "Backup folder: " in output
+        assert "Backup folder: " not in output
 
-    def test_verbose(self):
+    def test_verbose(self) -> None:
         output = self.get_job_info("--verbose")
         assert "Default: " in output
         assert "Compilation: " in output
         assert "Soundtrack: " in output
 
-    def test_backup(self):
+    def test_backup(self) -> None:
         output = self.get_job_info("--backup")
         assert "_audiorename_backups" in output
 
-    def test_backup_folder(self):
+    def test_backup_folder(self) -> None:
         output = self.get_job_info("--backup", "--backup-folder", "/tmp")
         assert "Backup folder: /tmp" in output
 
@@ -571,19 +575,19 @@ class TestMbTrackListing:
             )
         return output[0]
 
-    def test_debussy(self):
+    def test_debussy(self) -> None:
         audiorename.audiofile.counter = 0
         result = self.mb_track_listing("Debussy_Estampes-etc", "01.mp3")
         assert result == "1. Estampes/Images/Pour le Piano: Estampes: " "Pagodes (0:00)"
 
-    def test_schubert(self):
+    def test_schubert(self) -> None:
         assert (
             self.mb_track_listing("Schubert_Winterreise", "01.mp3")
             == "1. Winterreise: Winterreise, D. 911: Gute Nacht "
             "(0:00)"
         )
 
-    def test_folder(self):
+    def test_folder(self) -> None:
         with helper.Capturing() as output:
             audiorename.execute(
                 "--mb-track-listing",
@@ -615,7 +619,7 @@ class TestSoundtrack:
             == test
         )
 
-    def test_default(self):
+    def test_default(self) -> None:
         assert (
             helper.dry_run(
                 [helper.get_testfile("soundtrack", "Pulp-Fiction", "01.mp3")]
@@ -624,7 +628,7 @@ class TestSoundtrack:
             "Pumpkin-and-Honey-Bunny.mp3"
         )
 
-    def test_no_soundtrack(self):
+    def test_no_soundtrack(self) -> None:
         assert (
             helper.dry_run(
                 [
@@ -636,70 +640,70 @@ class TestSoundtrack:
             "01_Pumpkin-and-Honey-Bunny.mp3"
         )
 
-    def test_pulp_01(self):
+    def test_pulp_01(self) -> None:
         self.assertDryRun(
             "Pulp-Fiction",
             "01.mp3",
             "/p/Pulp-Fiction_1994/01_[dialogue]_Pumpkin-and-Honey-Bunny.mp3",
         )
 
-    def test_pulp_02(self):
+    def test_pulp_02(self) -> None:
         self.assertDryRun(
             "Pulp-Fiction",
             "02.mp3",
             "/p/Pulp-Fiction_1994/02_Dick-Dale-and-His-Del-Tones_Misirlou.mp3",
         )
 
-    def test_pulp_03(self):
+    def test_pulp_03(self) -> None:
         self.assertDryRun(
             "Pulp-Fiction",
             "03.mp3",
             "/p/Pulp-Fiction_1994/03_Kool-The-Gang_Jungle-Boogie.mp3",
         )
 
-    def test_pulp_04(self):
+    def test_pulp_04(self) -> None:
         self.assertDryRun(
             "Pulp-Fiction",
             "04.mp3",
             "/p/Pulp-Fiction_1994/" "04_[dialogue]_Royale-With-Cheese-dialogue.mp3",
         )
 
-    def test_pulp_05(self):
+    def test_pulp_05(self) -> None:
         self.assertDryRun(
             "Pulp-Fiction",
             "05.mp3",
             "/p/Pulp-Fiction_1994/" "05_The-Brothers-Johnson_Strawberry-Letter-23.mp3",
         )
 
-    def test_pulp_06(self):
+    def test_pulp_06(self) -> None:
         self.assertDryRun(
             "Pulp-Fiction",
             "06.mp3",
             "/p/Pulp-Fiction_1994/" "06_[dialogue]_Ezekiel-2517-dialogue-Samuel-L.mp3",
         )
 
-    def test_pulp_07(self):
+    def test_pulp_07(self) -> None:
         self.assertDryRun(
             "Pulp-Fiction",
             "07.mp3",
             "/p/Pulp-Fiction_1994/07_Al-Green_Lets-Stay-Together.mp3",
         )
 
-    def test_pulp_08(self):
+    def test_pulp_08(self) -> None:
         self.assertDryRun(
             "Pulp-Fiction",
             "08.mp3",
             "/p/Pulp-Fiction_1994/08_The-Tornadoes_Bustin-Surfboards.mp3",
         )
 
-    def test_pulp_09(self):
+    def test_pulp_09(self) -> None:
         self.assertDryRun(
             "Pulp-Fiction",
             "09.mp3",
             "/p/Pulp-Fiction_1994/09_The-Centurions_Bullwinkle-Part-II.mp3",
         )
 
-    def test_pulp_10(self):
+    def test_pulp_10(self) -> None:
         self.assertDryRun(
             "Pulp-Fiction",
             "10.mp3",
@@ -709,7 +713,7 @@ class TestSoundtrack:
 
 # --source-as-target
 class TestSourceAsTarget:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.tmp_album = helper.copy_to_tmp("files", "album.mp3")
         self.dir_album = os.path.dirname(self.tmp_album)
         with helper.Capturing():
@@ -725,8 +729,8 @@ class TestSourceAsTarget:
 
 # --stats
 class TestStats:
-    def test_dry_run(self):
-        with helper.Capturing() as output:
+    def test_dry_run(self) -> None:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute(
                 "--dry-run", "--stats", helper.get_testfile("mixed_formats")
             )
@@ -734,9 +738,9 @@ class TestStats:
         assert "Execution time:" in helper.join(output)
         assert "Counter: move=3" in helper.join(output)
 
-    def test_no_counts(self):
+    def test_no_counts(self) -> None:
         tmp = tempfile.mkdtemp()
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute("--dry-run", "--stats", tmp)
         assert "Counter: Nothing to count!" in helper.join(output)
         shutil.rmtree(tmp)
@@ -744,7 +748,7 @@ class TestStats:
 
 # --target
 class TestTarget:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.tmp_dir = tempfile.mkdtemp()
         self.tmp_album = helper.copy_to_tmp("files", "album.mp3")
         with helper.Capturing():
@@ -756,19 +760,19 @@ class TestTarget:
                 "--target", self.tmp_dir, "-c", "compilation", self.tmp_compilation
             )
 
-    def test_album(self):
+    def test_album(self) -> None:
         assert helper.is_file(self.tmp_dir + "/album.mp3")
 
-    def test_compilation(self):
+    def test_compilation(self) -> None:
         assert helper.is_file(self.tmp_dir + "/compilation.mp3")
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         shutil.rmtree(self.tmp_dir)
 
 
 # --verbose
 class TestVerbose:
-    def test_verbose(self):
+    def test_verbose(self) -> None:
         tmp = helper.copy_to_tmp("files", "album.mp3")
 
         target = tempfile.mkdtemp()
@@ -782,7 +786,7 @@ class TestVerbose:
 
         assert target in helper.join(output)
 
-    def test_non_verbose(self):
+    def test_non_verbose(self) -> None:
         tmp = helper.copy_to_tmp("files", "album.mp3")
 
         target = tempfile.mkdtemp()
@@ -792,4 +796,4 @@ class TestVerbose:
         # '[Copy:       ] /tmp/tmpycwB06/album.mp3'
         # '            -> /t/the album artist/the album_2001/4-02_full.mp3'
 
-        assert not target in output[1]
+        assert target not in output[1]

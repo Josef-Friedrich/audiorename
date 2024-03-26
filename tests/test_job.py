@@ -39,10 +39,10 @@ class TestJobWithArgParser:
         assert job(backup_folder="/tmp").rename.backup_folder == "/tmp"
 
     def test_best_format(self):
-        assert job(best_format=True).rename.best_format == True
+        assert job(best_format=True).rename.best_format is True
 
     def test_dry_run(self):
-        assert job(dry_run=True).rename.dry_run == True
+        assert job(dry_run=True).rename.dry_run is True
 
     def test_move_action(self):
         assert job(move_action="copy").rename.move_action == "copy"
@@ -55,8 +55,8 @@ class TestJobWithArgParser:
     ##
 
     def test_album_complete(self):
-        assert job(album_complete=True).filters.album_min == None
-        assert job(album_complete=True).filters.album_complete == True
+        assert job(album_complete=True).filters.album_min is None
+        assert job(album_complete=True).filters.album_complete is True
 
     def test_album_min(self):
         assert job(album_min=19).filters.album_min == 19
@@ -73,42 +73,42 @@ class TestJobWithArgParser:
     ##
 
     def test_shell_friendly(self):
-        assert job(shell_friendly=True).template_settings.shell_friendly == True
+        assert job(shell_friendly=True).template_settings.shell_friendly is True
 
     ##
     # [cli_output]
     ##
 
     def test_color(self):
-        assert job(color=True).cli_output.color == True
+        assert job(color=True).cli_output.color is True
 
     def test_debug(self):
-        assert job(debug=True).cli_output.debug == True
+        assert job(debug=True).cli_output.debug is True
 
     def test_job_info(self):
-        assert job(job_info=True).cli_output.job_info == True
+        assert job(job_info=True).cli_output.job_info is True
 
     def test_mb_track_listing(self):
-        assert job(mb_track_listing=True).cli_output.mb_track_listing == True
+        assert job(mb_track_listing=True).cli_output.mb_track_listing is True
 
     def test_one_line(self):
-        assert job(one_line=True).cli_output.one_line == True
+        assert job(one_line=True).cli_output.one_line is True
 
     def test_stats(self):
-        assert job(stats=True).cli_output.stats == True
+        assert job(stats=True).cli_output.stats is True
 
     def test_verbose(self):
-        assert job(verbose=True).cli_output.verbose == True
+        assert job(verbose=True).cli_output.verbose is True
 
     ##
     # [metadata_actions]
     ##
 
     def test_enrich_metadata(self):
-        assert job(enrich_metadata=True).metadata_actions.enrich_metadata == True
+        assert job(enrich_metadata=True).metadata_actions.enrich_metadata is True
 
     def test_remap_classical(self):
-        assert job(remap_classical=True).metadata_actions.remap_classical == True
+        assert job(remap_classical=True).metadata_actions.remap_classical is True
 
 
 def get_config_path(config_file: str) -> str:
@@ -151,26 +151,26 @@ class TestJobWithConfigParser:
     def test_section_selection(self):
         assert self.job.selection.source == "/tmp"
         assert self.job.selection.target == "/tmp"
-        assert self.job.selection.source_as_target == True
+        assert self.job.selection.source_as_target is True
 
     def test_section_rename(self):
         assert self.job.rename.backup_folder == "/tmp/backup"
-        assert self.job.rename.best_format == True
-        assert self.job.rename.dry_run == True
+        assert self.job.rename.best_format is True
+        assert self.job.rename.dry_run is True
         assert self.job.rename.move_action == "copy"
         assert self.job.rename.cleaning_action == "delete"
 
     def test_section_filters(self):
-        assert self.job.filters.album_complete == True
+        assert self.job.filters.album_complete is True
         assert self.job.filters.album_min == 42
         assert self.job.filters.extension == ["wave", "aiff"]
         assert self.job.filters.genre_classical == ["sonata", "opera"]
         assert self.job.filters.field_skip == "comment"
 
     def test_section_template_settings(self):
-        assert self.job.template_settings.classical == True
-        assert self.job.template_settings.shell_friendly == True
-        assert self.job.template_settings.no_soundtrack == True
+        assert self.job.template_settings.classical is True
+        assert self.job.template_settings.shell_friendly is True
+        assert self.job.template_settings.no_soundtrack is True
 
     def test_section_path_templates(self):
         assert self.job.path_templates.default == "classical"
@@ -179,17 +179,17 @@ class TestJobWithConfigParser:
         assert self.job.path_templates.classical == "classical"
 
     def test_section_cli_output(self):
-        assert self.job.cli_output.color == True
-        assert self.job.cli_output.debug == True
-        assert self.job.cli_output.job_info == True
-        assert self.job.cli_output.mb_track_listing == True
-        assert self.job.cli_output.one_line == True
-        assert self.job.cli_output.stats == True
-        assert self.job.cli_output.verbose == True
+        assert self.job.cli_output.color is True
+        assert self.job.cli_output.debug is True
+        assert self.job.cli_output.job_info is True
+        assert self.job.cli_output.mb_track_listing is True
+        assert self.job.cli_output.one_line is True
+        assert self.job.cli_output.stats is True
+        assert self.job.cli_output.verbose is True
 
     def test_section_metadata_actions(self):
-        assert self.job.metadata_actions.enrich_metadata == True
-        assert self.job.metadata_actions.remap_classical == True
+        assert self.job.metadata_actions.enrich_metadata is True
+        assert self.job.metadata_actions.remap_classical is True
 
 
 class TestTimer:

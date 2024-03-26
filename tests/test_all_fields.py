@@ -99,22 +99,22 @@ class TestAllFields:
     def test_yesterday(self):
         meta = helper.get_meta("show-case", "Beatles_Yesterday.mp3")
 
-        assert meta.acoustid_fingerprint == None
-        assert meta.acoustid_id == None
+        assert meta.acoustid_fingerprint is None
+        assert meta.acoustid_id is None
         assert meta.album == "Help!"
-        assert meta.ar_classical_album == None
+        assert meta.ar_classical_album is None
         assert meta.ar_combined_album == "Help!"
         assert meta.ar_initial_album == "h"
         assert meta.albumartist == "The Beatles"
-        assert meta.albumartist_credit == None
+        assert meta.albumartist_credit is None
         assert meta.albumartist_sort == "Beatles, The"
-        assert meta.albumdisambig == None
+        assert meta.albumdisambig is None
         assert meta.albumstatus == "official"
         assert meta.albumtype == "album/soundtrack"
-        assert meta.arranger == None
+        assert meta.arranger is None
         # self.assertEqual(meta.art, '')
         assert meta.artist == "The Beatles"
-        assert meta.artist_credit == None
+        assert meta.artist_credit is None
         assert meta.ar_initial_artist == "b"
         assert meta.artist_sort == "Beatles, The"
         assert meta.ar_combined_artist == "The Beatles"
@@ -122,58 +122,58 @@ class TestAllFields:
         assert meta.asin == "B000002UAL"
         assert meta.bitdepth == 0
         assert meta.bitrate == 8000
-        assert meta.bpm == None
+        assert meta.bpm is None
         assert meta.catalognum == "CDP 7 46439 2"
         assert meta.channels == 1
-        assert meta.comments == None
-        assert meta.comp == None
-        assert meta.composer == None
+        assert meta.comments is None
+        assert meta.comp is None
+        assert meta.composer is None
         # should b
         assert meta.ar_initial_composer == "t"
         assert meta.ar_combined_composer == "The Beatles"
-        assert meta.composer_sort == None
+        assert meta.composer_sort is None
         assert meta.country == "GB"
         assert meta.date == datetime.date(1987, 4, 30)
         assert meta.day == 30
         assert meta.disc == 1
-        assert meta.disctitle == None
+        assert meta.disctitle is None
         assert meta.disctotal == 1
         # int
         assert meta.ar_combined_disctrack == "13"
-        assert meta.encoder == None
+        assert meta.encoder is None
         assert meta.format == "MP3"
-        assert meta.genre == None
+        assert meta.genre is None
         assert meta.genres == []
-        assert meta.grouping == None
+        assert meta.grouping is None
         # self.assertTrue(isinstance(meta.images[0],
         # phrydy.mediafile_extended.Image))
-        assert meta.initial_key == None
+        assert meta.initial_key is None
         assert meta.label == "Parlophone"
-        assert meta.language == None
+        assert meta.language is None
         assert meta.length == 0.296
-        assert meta.lyricist == None
-        assert meta.lyrics == None
+        assert meta.lyricist is None
+        assert meta.lyrics is None
         assert meta.mb_albumartistid == "b10bbbfc-cf9e-42e0-be17-e2c3e1d2600d"
         assert meta.mb_albumid == "95e9dc60-a6d9-315f-be99-bd5b69a6582f"
         assert meta.mb_artistid == "b10bbbfc-cf9e-42e0-be17-e2c3e1d2600d"
         assert meta.mb_releasegroupid == "0d44e1cb-c6e0-3453-8b68-4d2082f05421"
         assert meta.mb_trackid == "c05194a3-f6f0-4f52-b78a-13fb5580bc0f"
-        assert meta.mb_workid == None
+        assert meta.mb_workid is None
         assert meta.media == "CD"
         assert meta.month == 4
         assert meta.original_date == datetime.date(1965, 1, 1)
-        assert meta.original_day == None
-        assert meta.original_month == None
+        assert meta.original_day is None
+        assert meta.original_month is None
         assert meta.original_year == 1965
         assert meta.ar_classical_performer == "The Beatles"
-        assert meta.r128_album_gain == None
-        assert meta.r128_track_gain == None
-        assert meta.rg_album_gain == None
-        assert meta.rg_album_peak == None
-        assert meta.rg_track_gain == None
-        assert meta.rg_track_peak == None
+        assert meta.r128_album_gain is None
+        assert meta.r128_track_gain is None
+        assert meta.rg_album_gain is None
+        assert meta.rg_album_peak is None
+        assert meta.rg_track_gain is None
+        assert meta.rg_track_peak is None
         assert meta.samplerate == 24000
-        assert meta.ar_combined_soundtrack == True
+        assert meta.ar_combined_soundtrack is True
         assert meta.script == "Latn"
         assert meta.title == "Yesterday"
         assert meta.ar_classical_title == "Yesterday"
@@ -181,7 +181,7 @@ class TestAllFields:
         #  int
         assert meta.ar_classical_track == "13"
         assert meta.tracktotal == 14
-        assert meta.work == None
+        assert meta.work is None
         assert meta.year == 1987
         # int
         assert meta.ar_combined_year == 1965
@@ -190,28 +190,28 @@ class TestAllFields:
     def test_nachtmusik(self):
         meta = helper.get_meta("show-case", "Mozart_Nachtmusik.mp3")
 
-        assert meta.acoustid_fingerprint == None
-        assert meta.acoustid_id == None
+        assert meta.acoustid_fingerprint is None
+        assert meta.acoustid_id is None
         assert meta.album == "Divertimenti"
-        assert meta.ar_classical_album == None
+        assert meta.ar_classical_album is None
         assert meta.ar_combined_album == "Divertimenti"
         assert meta.ar_initial_album == "d"
         assert (
             meta.albumartist == "Wolfgang Amadeus Mozart; Berliner "
             "Philharmoniker, Herbert von Karajan"
         )
-        assert meta.albumartist_credit == None
+        assert meta.albumartist_credit is None
         assert (
             meta.albumartist_sort == "Mozart, Wolfgang Amadeus; "
             "Berliner Philharmoniker, Karajan, Herbert von"
         )
-        assert meta.albumdisambig == None
+        assert meta.albumdisambig is None
         assert meta.albumstatus == "official"
         assert meta.albumtype == "album"
-        assert meta.arranger == None
+        assert meta.arranger is None
         # self.assertEqual(meta.art, '')
         assert meta.artist == "Wolfgang Amadeus Mozart"
-        assert meta.artist_credit == None
+        assert meta.artist_credit is None
         assert meta.ar_initial_artist == "m"
         assert meta.artist_sort == "Mozart, Wolfgang Amadeus"
         assert (
@@ -225,37 +225,37 @@ class TestAllFields:
         assert meta.asin == "B0007DHPQ2"
         assert meta.bitdepth == 0
         assert meta.bitrate == 8000
-        assert meta.bpm == None
+        assert meta.bpm is None
         assert meta.catalognum == "477 5436"
         assert meta.channels == 1
-        assert meta.comments == None
-        assert meta.comp == None
-        assert meta.composer == None
+        assert meta.comments is None
+        assert meta.comp is None
+        assert meta.composer is None
         assert meta.ar_initial_composer == "w"
         assert (
             meta.ar_combined_composer == "Wolfgang Amadeus Mozart; Berliner "
             "Philharmoniker, Herbert von Karajan"
         )
-        assert meta.composer_sort == None
+        assert meta.composer_sort is None
         assert meta.country == "DE"
         assert meta.date == datetime.date(2005, 3, 10)
         assert meta.day == 10
         assert meta.disc == 1
-        assert meta.disctitle == None
+        assert meta.disctitle is None
         assert meta.disctotal == 2
         assert meta.ar_combined_disctrack == "1-01"
-        assert meta.encoder == None
+        assert meta.encoder is None
         assert meta.format == "MP3"
-        assert meta.genre == None
+        assert meta.genre is None
         assert meta.genres == []
-        assert meta.grouping == None
+        assert meta.grouping is None
         # self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
-        assert meta.initial_key == None
+        assert meta.initial_key is None
         assert meta.label == "Deutsche Grammophon"
-        assert meta.language == None
+        assert meta.language is None
         assert meta.length == 0.296
-        assert meta.lyricist == None
-        assert meta.lyrics == None
+        assert meta.lyricist is None
+        assert meta.lyrics is None
         assert meta.mb_albumartistid == "b972f589-fb0e-474e-b64a-803b0364fa75"
         assert meta.mb_albumartistids == [
             "b972f589-fb0e-474e-b64a-803b0364fa75",
@@ -266,23 +266,23 @@ class TestAllFields:
         assert meta.mb_artistid == "b972f589-fb0e-474e-b64a-803b0364fa75"
         assert meta.mb_releasegroupid == "17267766-771b-45fe-969f-14b9c4b15e4a"
         assert meta.mb_trackid == "0db2cdc3-8272-44ef-9810-c75c3939ece8"
-        assert meta.mb_workid == None
+        assert meta.mb_workid is None
         assert meta.media == "CD"
         assert meta.month == 3
         assert meta.original_date == datetime.date(2005, 1, 1)
-        assert meta.original_day == None
-        assert meta.original_month == None
+        assert meta.original_day is None
+        assert meta.original_month is None
         assert meta.original_year == 2005
         assert (
             meta.ar_classical_performer
             == "Berliner Philharmoniker, Herbert von Karajan"
         )
-        assert meta.r128_album_gain == None
-        assert meta.r128_track_gain == None
-        assert meta.rg_album_gain == None
-        assert meta.rg_album_peak == None
-        assert meta.rg_track_gain == None
-        assert meta.rg_track_peak == None
+        assert meta.r128_album_gain is None
+        assert meta.r128_track_gain is None
+        assert meta.rg_album_gain is None
+        assert meta.rg_album_peak is None
+        assert meta.rg_track_gain is None
+        assert meta.rg_track_peak is None
         assert meta.samplerate == 24000
         assert meta.script == "Latn"
         assert meta.ar_combined_soundtrack == False
@@ -294,29 +294,29 @@ class TestAllFields:
         assert meta.track == 1
         assert meta.ar_classical_track == "01"
         assert meta.tracktotal == 16
-        assert meta.work == None
+        assert meta.work is None
         assert meta.year == 2005
         assert meta.ar_combined_year == 2005
 
     # Jazz
     def test_wonderful(self):
         meta = helper.get_meta("show-case", "Armstrong_Wonderful-World.mp3")
-        assert meta.acoustid_fingerprint == None
-        assert meta.acoustid_id == None
+        assert meta.acoustid_fingerprint is None
+        assert meta.acoustid_id is None
         assert meta.album == "Greatest Hits"
-        assert meta.ar_classical_album == None
+        assert meta.ar_classical_album is None
         assert meta.ar_combined_album == "Greatest Hits"
         assert meta.ar_initial_album == "g"
         assert meta.albumartist == "Louis Armstrong"
-        assert meta.albumartist_credit == None
+        assert meta.albumartist_credit is None
         assert meta.albumartist_sort == "Armstrong, Louis"
-        assert meta.albumdisambig == None
+        assert meta.albumdisambig is None
         assert meta.albumstatus == "official"
         assert meta.albumtype == "album/compilation"
-        assert meta.arranger == None
+        assert meta.arranger is None
         # self.assertEqual(meta.art, '')
         assert meta.artist == "Louis Armstrong"
-        assert meta.artist_credit == None
+        assert meta.artist_credit is None
         assert meta.ar_initial_artist == "a"
         assert meta.artist_sort == "Armstrong, Louis"
         assert meta.ar_combined_artist == "Louis Armstrong"
@@ -324,34 +324,34 @@ class TestAllFields:
         assert meta.asin == "B000003G2C"
         assert meta.bitdepth == 0
         assert meta.bitrate == 8000
-        assert meta.bpm == None
+        assert meta.bpm is None
         assert meta.catalognum == "09026-68486-2"
         assert meta.channels == 1
-        assert meta.comments == None
-        assert meta.comp == None
-        assert meta.composer == None
+        assert meta.comments is None
+        assert meta.comp is None
+        assert meta.composer is None
         assert meta.ar_initial_composer == "l"
         assert meta.ar_combined_composer == "Louis Armstrong"
-        assert meta.composer_sort == None
+        assert meta.composer_sort is None
         assert meta.country == "US"
         assert meta.date == datetime.date(1996, 1, 1)
-        assert meta.day == None
+        assert meta.day is None
         assert meta.disc == 1
-        assert meta.disctitle == None
+        assert meta.disctitle is None
         assert meta.disctotal == 1
         assert meta.ar_combined_disctrack == "13"
-        assert meta.encoder == None
+        assert meta.encoder is None
         assert meta.format == "MP3"
-        assert meta.genre == None
+        assert meta.genre is None
         assert meta.genres == []
-        assert meta.grouping == None
+        assert meta.grouping is None
         # self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
-        assert meta.initial_key == None
+        assert meta.initial_key is None
         # self.assertEqual(meta.label, '')
         # self.assertEqual(meta.language, '')
         # self.assertEqual(meta.length, '')
-        assert meta.lyricist == None
-        assert meta.lyrics == None
+        assert meta.lyricist is None
+        assert meta.lyrics is None
         # self.assertEqual(meta.mb_albumartistid, '')
         # self.assertEqual(meta.mb_albumid, '')
         # self.assertEqual(meta.mb_artistid, '')
@@ -359,18 +359,18 @@ class TestAllFields:
         # self.assertEqual(meta.mb_trackid, '')
         # self.assertEqual(meta.mb_workid, '')
         # self.assertEqual(meta.media, '')
-        assert meta.month == None
+        assert meta.month is None
         assert meta.original_date == datetime.date(1996, 1, 1)
-        assert meta.original_day == None
-        assert meta.original_month == None
+        assert meta.original_day is None
+        assert meta.original_month is None
         assert meta.original_year == 1996
         assert meta.ar_classical_performer == "Louis Armstrong"
-        assert meta.r128_album_gain == None
-        assert meta.r128_track_gain == None
-        assert meta.rg_album_gain == None
-        assert meta.rg_album_peak == None
-        assert meta.rg_track_gain == None
-        assert meta.rg_track_peak == None
+        assert meta.r128_album_gain is None
+        assert meta.r128_track_gain is None
+        assert meta.rg_album_gain is None
+        assert meta.rg_album_peak is None
+        assert meta.rg_track_gain is None
+        assert meta.rg_track_peak is None
         assert meta.samplerate == 24000
         assert meta.script == "Latn"
         assert meta.ar_combined_soundtrack == False
@@ -379,6 +379,6 @@ class TestAllFields:
         assert meta.track == 13
         assert meta.ar_classical_track == "13"
         assert meta.tracktotal == 13
-        assert meta.work == None
+        assert meta.work is None
         assert meta.year == 1996
         assert meta.ar_combined_year == 1996
