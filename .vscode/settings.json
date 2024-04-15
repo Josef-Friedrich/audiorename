@@ -13,22 +13,6 @@
     "**/docs/_build/": true,
     "**/MANIFEST": true
   },
-  "python.testing.pytestEnabled": true,
-  "python.testing.pytestArgs": [
-    "--capture=tee-sys",
-    "-vv",
-    "--rootdir",
-    "${workspaceFolder}/tests",
-    "-m",
-    "not (slow or gui)"
-  ],
-  "python.analysis.typeCheckingMode": "strict",
-  "python.analysis.diagnosticSeverityOverrides": {
-    "reportPrivateImportUsage": "none",
-    "reportUnusedImport": "information",
-    "reportUnusedExpression": "information",
-    "reportImportCycles": "information"
-  },
   "[python]": {
     "editor.rulers": [
       79,
@@ -37,4 +21,20 @@
     ],
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportPrivateImportUsage": "none",
+    "reportUnusedImport": "information",
+    "reportUnusedExpression": "information",
+    "reportImportCycles": "information"
+  },
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [
+    "--capture=tee-sys",
+    "-vv",
+    "--rootdir",
+    "${workspaceFolder}/tests",
+    "-m",
+    "not (slow or gui)"
+  ]
 }
