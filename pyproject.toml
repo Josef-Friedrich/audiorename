@@ -19,15 +19,15 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-phrydy = "3.2.0"
-tmep = "2.3.0"
-ansicolor = "0.3.2"
-musicbrainzngs = "0.7.1"
+phrydy = "^3"
+tmep = "^2"
+ansicolor = "^0"
+musicbrainzngs = "^0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8"
 readme-patcher = "^0"
-stdout-stderr-capturing = "^0.2.0"
+stdout-stderr-capturing = "^0"
 tox = "^4"
 ruff = "^0"
 

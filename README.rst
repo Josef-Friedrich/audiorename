@@ -65,14 +65,10 @@ Usage
 
 :: 
 
-    usage: audiorenamer [-h] [--config CONFIG] [-v] [-t TARGET] [-a]
-                        [-p BACKUP_FOLDER] [-B] [-d] [-C | -M | -n] [-A | -D] [-F]
-                        [-m ALBUM_MIN] [-e EXTENSION]
-                        [--genre-classical GENRE_CLASSICAL] [-s FIELD_SKIP] [-k]
-                        [-S] [--no-soundtrack] [-f PATH_TEMPLATE]
-                        [-c PATH_TEMPLATE] [--soundtrack PATH_TEMPLATE]
-                        [--format-classical PATH_TEMPLATE] [-K | --no-color] [-b]
-                        [-j] [-l] [-o] [-T] [-V] [-E] [-r]
+    usage: audiorenamer [-h] [--config CONFIG] [-v] [-t TARGET] [-a] [-p BACKUP_FOLDER] [-B] [-d] [-C | -M | -n] [-A | -D] [-F]
+                        [-m ALBUM_MIN] [-e EXTENSION] [--genre-classical GENRE_CLASSICAL] [-s FIELD_SKIP] [-k] [-S] [--no-soundtrack]
+                        [-f PATH_TEMPLATE] [-c PATH_TEMPLATE] [--soundtrack PATH_TEMPLATE] [--format-classical PATH_TEMPLATE]
+                        [-K | --no-color] [-b] [-j] [-l] [-o] [-T] [-V] [-E] [-r]
                         source
 
         Rename audio files from metadata tags.
@@ -689,11 +685,9 @@ Usage
     [selection]:
       The following arguments are intended to select the audio files.
 
-      source                A folder containing audio files or a single audio
-                            file. If you specify a folder, the program will search
-                            for audio files in all subfolders. If you want to
-                            rename the audio files in the current working
-                            directory, then specify a dot (“.”).
+      source                A folder containing audio files or a single audio file. If you specify a folder, the program will search
+                            for audio files in all subfolders. If you want to rename the audio files in the current working directory,
+                            then specify a dot (“.”).
       -t TARGET, --target TARGET
                             Target directory
       -a, --source-as-target
@@ -704,26 +698,20 @@ Usage
 
       -p BACKUP_FOLDER, --backup-folder BACKUP_FOLDER
                             Folder to store the backup files in.
-      -B, --best-format     Use the best format. This option only takes effect if
-                            the target file already exists. `audiorename` now
-                            checks the qualtity of the two audio files (source and
-                            target). The tool first examines the format. For
-                            example a FLAC file wins over a MP3 file. Then
-                            `audiorename` checks the bitrate.
+      -B, --best-format     Use the best format. This option only takes effect if the target file already exists. `audiorename` now
+                            checks the qualtity of the two audio files (source and target). The tool first examines the format. For
+                            example a FLAC file wins over a MP3 file. Then `audiorename` checks the bitrate.
       -d, --dry-run         Don’t rename or copy the audio files.
 
     move action:
       -C, --copy            Copy files instead of rename / move.
-      -M, --move            Move / rename a file. This is the default action. The
-                            option can be omitted.
-      -n, --no-rename       Don’t rename, move, copy or perform a dry run. Do
-                            nothing.
+      -M, --move            Move / rename a file. This is the default action. The option can be omitted.
+      -n, --no-rename       Don’t rename, move, copy or perform a dry run. Do nothing.
 
     cleaning action:
       The cleaning actions are only executed if the target file already exists.
 
-      -A, --backup          Backup the audio files instead of deleting them. The
-                            backup directory can be specified with the --backup-
+      -A, --backup          Backup the audio files instead of deleting them. The backup directory can be specified with the --backup-
                             folder option.
       -D, --delete          Delete the audio files instead of creating a backup.
 
@@ -741,67 +729,47 @@ Usage
                             Skip renaming if field is empty.
 
     [template_settings]:
-      -k, --classical       Use the default format for classical music. If you use
-                            this option, both parameters (--default and
-                            --compilation) have no effect. Classical music is
-                            sorted by the lastname of the composer.
-      -S, --shell-friendly  Rename audio files “shell friendly”, this means
-                            without whitespaces, parentheses etc.
-      --no-soundtrack       Do not use the path template for soundtracks. Use
-                            instead the default path template.
+      -k, --classical       Use the default format for classical music. If you use this option, both parameters (--default and
+                            --compilation) have no effect. Classical music is sorted by the lastname of the composer.
+      -S, --shell-friendly  Rename audio files “shell friendly”, this means without whitespaces, parentheses etc.
+      --no-soundtrack       Do not use the path template for soundtracks. Use instead the default path template.
 
     [path_templates]:
       audiorename provides default path templates. You can specify your own path templates using the following options.
 
       -f PATH_TEMPLATE, --default PATH_TEMPLATE, --format PATH_TEMPLATE
-                            The default path template for audio files that are not
-                            compilations or compilations. Use metadata fields and
-                            functions to build the path template.
-      -c PATH_TEMPLATE, --compilation PATH_TEMPLATE
-                            Path template for compilations. Use metadata fields
+                            The default path template for audio files that are not compilations or compilations. Use metadata fields
                             and functions to build the path template.
+      -c PATH_TEMPLATE, --compilation PATH_TEMPLATE
+                            Path template for compilations. Use metadata fields and functions to build the path template.
       --soundtrack PATH_TEMPLATE
-                            Path template for a soundtrack audio file. Use
-                            metadata fields and functions to build the path
-                            template.
+                            Path template for a soundtrack audio file. Use metadata fields and functions to build the path template.
       --format-classical PATH_TEMPLATE
-                            Path template for classical audio file. Use metadata
-                            fields and functions to build the path template.
+                            Path template for classical audio file. Use metadata fields and functions to build the path template.
 
     [cli_output]:
       This group contains all options that affect the output on the command line interface (cli).
 
-      -K, --color           Colorize the standard output of the program with ANSI
-                            colors.
-      --no-color            Don’t colorize the standard output of the program with
-                            ANSI colors.
-      -b, --debug           Print debug informations about the single metadata
-                            fields.
-      -j, --job-info        Display informations about the current job. This
-                            informations are printted out before any actions on
-                            the audio files are executed.
+      -K, --color           Colorize the standard output of the program with ANSI colors.
+      --no-color            Don’t colorize the standard output of the program with ANSI colors.
+      -b, --debug           Print debug informations about the single metadata fields.
+      -j, --job-info        Display informations about the current job. This informations are printted out before any actions on the
+                            audio files are executed.
       -l, --mb-track-listing
-                            Print track listing for Musicbrainz website: Format:
-                            track. title (duration), e. g.: 1. He, Zigeuner (1:31)
-                            2. Hochgetürmte Rimaflut (1:21)
-      -o, --one-line        Display the rename / copy action status on one line
-                            instead of two.
+                            Print track listing for Musicbrainz website: Format: track. title (duration), e. g.: 1. He, Zigeuner
+                            (1:31) 2. Hochgetürmte Rimaflut (1:21)
+      -o, --one-line        Display the rename / copy action status on one line instead of two.
       -T, --stats           Show statistics at the end of the execution.
       -V, --verbose         Make the command line output more verbose.
 
     [metadata_actions]:
       -E, --enrich-metadata
-                            Fetch the tag fields “work” and “mb_workid” from
-                            Musicbrainz and save this fields into the audio file.
-                            The audio file must have the tag field “mb_trackid”.
-                            The give audio file is not renamed.
+                            Fetch the tag fields “work” and “mb_workid” from Musicbrainz and save this fields into the audio file. The
+                            audio file must have the tag field “mb_trackid”. The give audio file is not renamed.
       -r, --remap-classical
-                            Remap some fields to fit better for classical music:
-                            “composer” becomes “artist”, “work” becomes “album”,
-                            from the “title” the work prefix is removed
-                            (“Symphonie No. 9: I. Allegro” -> “I. Allegro”) and
-                            “track” becomes the movement number. All overwritten
-                            fields are safed in the “comments” field.
+                            Remap some fields to fit better for classical music: “composer” becomes “artist”, “work” becomes “album”,
+                            from the “title” the work prefix is removed (“Symphonie No. 9: I. Allegro” -> “I. Allegro”) and “track”
+                            becomes the movement number. All overwritten fields are safed in the “comments” field.
 
 Configuration files
 ===================

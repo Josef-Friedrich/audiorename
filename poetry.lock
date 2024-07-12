@@ -727,17 +727,17 @@ files = [
 
 [[package]]
 name = "tmep"
-version = "2.3.0"
+version = "2.4.0"
 description = "Template and Macros Expansion for Path names."
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.8,<4.0"
 files = [
-    {file = "tmep-2.3.0.tar.gz", hash = "sha256:a3fbc793a3a9c80d6e32f7f6aecabed3938edd253e6c8f762cf89c62eebfff4f"},
+    {file = "tmep-2.4.0-py3-none-any.whl", hash = "sha256:4342c3f95ccedc6aa8c81b0ba3c9f0d49b49aaf53d221bc8c82a71054418e8df"},
+    {file = "tmep-2.4.0.tar.gz", hash = "sha256:e15a407b93ea4a017e715a486bf69f334bdb0bb9cf126a5bbfd7629eb2c5cb0d"},
 ]
 
 [package.dependencies]
-six = ">=1.9"
-unidecode = "*"
+Unidecode = ">=1.3.7,<2.0.0"
 
 [[package]]
 name = "tomli"
@@ -868,4 +868,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "893c15dafcc6c6e79bdaec1e167ca6b0415de076b2b0c1737d557b278ee208e7"
+content-hash = "bee16ea7e706b5ff4876bb9e4527486891e4710ed9929a693cd2db9a79b5e9fa"

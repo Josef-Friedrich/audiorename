@@ -98,7 +98,7 @@ def join(output_list: typing.List[str]) -> str:
     return " ".join(output_list)
 
 
-def dry_run(options: typing.List[str]):
+def dry_run(options: typing.List[str]) -> str:
     """Exectue the audiorename command in the ”dry” mode and capture the
     output to get the renamed file path.
 
@@ -107,7 +107,7 @@ def dry_run(options: typing.List[str]):
     :return: The renamed file path
     :rtype string:
     """
-    with Capturing() as output:
+    with Capturing(clean_ansi=True) as output:
         audiorename.execute(
             "--target",
             "/",

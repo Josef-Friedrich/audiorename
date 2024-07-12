@@ -4,5 +4,5 @@ import audiorename
 
 
 class TestInit:
-    def test_version(self):
+    def test_version(self) -> None:
         assert audiorename.__version__

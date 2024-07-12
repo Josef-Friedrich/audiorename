@@ -245,9 +245,9 @@ class Meta(MediaFileExtended):
         out: PerformerRaw = []
         for value in ar_performer:
             value = value[:-1]
-            value = value.split(" (")
-            if len(value) == 2:
-                out.append([value[1], value[0]])
+            performers: List[str] = value.split(" (")
+            if len(performers) == 2:
+                out.append([performers[1], performers[0]])
         return out
 
     @staticmethod
@@ -322,6 +322,7 @@ class Meta(MediaFileExtended):
         """
         if self.work:
             return re.sub(r":.*$", "", (str(self.work)))
+        return None
 
     @property
     def ar_combined_album(self) -> Optional[str]:
@@ -335,6 +336,7 @@ class Meta(MediaFileExtended):
         """
         if self.album:
             return re.sub(r" ?\([dD]is[ck].*\)$", "", str(self.album))
+        return None
 
     @property
     def ar_initial_album(self) -> Optional[str]:
@@ -349,6 +351,7 @@ class Meta(MediaFileExtended):
         """
         if self.ar_combined_album:
             return self._find_initials(self.ar_combined_album)
+        return None
 
     @property
     def ar_initial_artist(self) -> str:
@@ -483,7 +486,7 @@ class Meta(MediaFileExtended):
         """
 
         if not self.track:
-            return
+            return None
 
         if self.disctotal and int(self.disctotal) > 99:
             disk = str(self.disc).zfill(3)
@@ -642,6 +645,7 @@ class Meta(MediaFileExtended):
         """
         if self.title:
             return re.sub(r"^[^:]*: ?", "", self.title)
+        return None
 
     @property
     def ar_classical_track(self) -> Optional[str]:
@@ -657,6 +661,7 @@ class Meta(MediaFileExtended):
             return str(self._roman_to_int(roman[0])).zfill(2)
         elif self.ar_combined_disctrack:
             return self.ar_combined_disctrack
+        return None
 
     @property
     def ar_combined_work_top(self) -> Optional[str]:
@@ -670,6 +675,7 @@ class Meta(MediaFileExtended):
             return self.work_hierarchy.split(" -> ")[0]
         elif self.ar_classical_album:
             return self.ar_classical_album
+        return None
 
     @property
     def ar_combined_year(self):

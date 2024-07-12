@@ -324,6 +324,7 @@ def query(
             )
         else:
             print("Received bad response from the MusicBrainz server.")
+    return None
 
 
 def query_works_recursively(work_id: str, works: List[Work] = []) -> List[Work]:

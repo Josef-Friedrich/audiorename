@@ -8,7 +8,7 @@ from subprocess import Popen
 
 class TestExectutable:
     @staticmethod
-    def call(shell_string: str):
+    def call(shell_string: str) -> Popen[bytes]:
         ar = Popen(
             shell_string, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
         )
@@ -22,22 +22,22 @@ class TestExectutable:
         else:
             raise Exception("Could not find first line")
 
-    def test_without_arguments(self):
+    def test_without_arguments(self) -> None:
         ar = self.call("audiorenamer")
         assert "usage: audiorenamer" in self.first_line(ar)
         assert ar.returncode == 2
 
-    def test_version(self):
+    def test_version(self) -> None:
         ar = self.call("audiorenamer --version")
         assert "audiorenamer" in self.first_line(ar)
         assert ar.returncode == 0
 
-    def test_help(self):
+    def test_help(self) -> None:
         ar = self.call("audiorenamer --help")
         assert "usage: audiorenamer" in self.first_line(ar)
         assert ar.returncode == 0
 
-    def test_unkown(self):
+    def test_unkown(self) -> None:
         ar = self.call("audioreamer --help")
-        assert not "usage: audiorenamer" in self.first_line(ar)
+        assert "usage: audiorenamer" not in self.first_line(ar)
         assert ar.returncode == 127

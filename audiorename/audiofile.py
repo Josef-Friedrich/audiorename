@@ -61,6 +61,7 @@ class AudioFile:
             except Exception as e:
                 tb = traceback.TracebackException.from_exception(e)
                 print("".join(tb.stack.format()))
+        return None
 
     @property
     def abspath(self) -> str:
@@ -131,6 +132,7 @@ def find_target_path(target: str, extensions: List[str]) -> Optional[str]:
         audio_file = target + "." + extension
         if os.path.exists(audio_file):
             return audio_file
+    return None
 
 
 def detect_best_format(source: Meta, target: Meta, job: Job) -> DestinationType:
