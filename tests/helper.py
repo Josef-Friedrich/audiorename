@@ -5,7 +5,7 @@ import re
 import shutil
 import subprocess
 import tempfile
-import typing
+from typing import Optional
 
 import musicbrainzngs
 import musicbrainzngs.musicbrainz
@@ -18,12 +18,12 @@ from audiorename import Job
 from audiorename.args import ArgsDefault
 from audiorename.musicbrainz import query, set_useragent
 
-SKIP_API_CALLS = False
+skip_api_calls = False
 try:
     set_useragent()
     query("recording", "0480672d-4d88-4824-a06b-917ff408eabe")
 except musicbrainzngs.musicbrainz.NetworkError:
-    SKIP_API_CALLS = True
+    skip_api_calls = True
 
 SKIP_QUICK = "QUICK" in os.environ
 
@@ -60,9 +60,9 @@ def get_tmp_file_object(*path_list: str):
 
 
 def gen_file_list(
-    files: typing.List[str], path: str, extension: str = "mp3"
-) -> typing.List[str]:
-    output: typing.List[str] = []
+    files: list[str], path: str, extension: Optional[str] = "mp3"
+) -> list[str]:
+    output: list[str] = []
     for f in files:
         if extension:
             f = f + "." + extension
@@ -77,7 +77,7 @@ def get_job(**arguments: str) -> Job:
     return Job(args)
 
 
-def has(list: typing.List[str], search: str) -> bool:
+def has(list: list[str], search: str) -> bool:
     """Check of a string is in list
 
     :param list list: A list to search in.
@@ -94,11 +94,11 @@ def is_file(path: str) -> bool:
     return os.path.isfile(path)
 
 
-def join(output_list: typing.List[str]) -> str:
+def join(output_list: list[str]) -> str:
     return " ".join(output_list)
 
 
-def dry_run(options: typing.List[str]) -> str:
+def dry_run(options: list[str]) -> str:
     """Exectue the audiorename command in the ”dry” mode and capture the
     output to get the renamed file path.
 
@@ -121,22 +121,22 @@ def dry_run(options: typing.List[str]) -> str:
     return re.sub(r".* to: ", "", join(output)).strip()
 
 
-def filter_source(output: typing.List[str]) -> typing.List[str]:
-    filtered: typing.List[str] = []
+def filter_source(output: list[str]) -> list[str]:
+    filtered: list[str] = []
     for line in output:
         if line and line[0] == os.path.sep:
             filtered.append(line)
     return filtered
 
 
-def call_bin(*args: str) -> typing.List[str]:
+def call_bin(*args: str) -> list[str]:
     args = ("audiorenamer",) + args
     command = " ".join(args)
     audiorename = subprocess.Popen(
         command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
     audiorename.wait()
-    out: typing.List[str] = []
+    out: list[str] = []
     if audiorename.stdout:
         for line in audiorename.stdout.readlines():
             out.append(line.decode("utf-8"))

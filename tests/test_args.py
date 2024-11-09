@@ -2,10 +2,10 @@
 
 import re
 
-import helper
 import pytest
 
 import audiorename
+from tests import helper
 
 with pytest.raises(ValueError) as exc_info:
     raise ValueError("value must be 42")

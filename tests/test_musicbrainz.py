@@ -1,12 +1,12 @@
-import helper
 import pytest
 
 from audiorename.musicbrainz import query, query_works_recursively, set_useragent
+from tests import helper
 
 
 @pytest.mark.skipif(helper.SKIP_QUICK, reason="Ignored, as it has to be done quickly.")
 @pytest.mark.skipif(
-    helper.SKIP_API_CALLS, reason="Ignored if the API is not available."
+    helper.skip_api_calls, reason="Ignored if the API is not available."
 )
 class TestEnrich:
     def setup_method(self) -> None:

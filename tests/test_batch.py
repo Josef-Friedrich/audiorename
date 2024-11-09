@@ -1,8 +1,7 @@
 """Test the submodule “batchelper.py”."""
 
-import helper
-
 import audiorename
+from tests import helper
 
 
 class TestBatch:
@@ -47,24 +46,25 @@ class TestBatch:
 
     def test_single(self) -> None:
         single = helper.get_testfile("files", "album.mp3")
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute("--dry-run", "--verbose", single)
+
         assert [single] == helper.filter_source(output)
 
     def test_folder_complete(self) -> None:
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute("--dry-run", "--verbose", helper.get_testfile("files"))
         assert self.all == helper.filter_source(output)
 
     def test_folder_sub(self) -> None:
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute(
                 "--dry-run", "--verbose", helper.get_testfile("files", "album_complete")
             )
         assert self.album_complete == helper.filter_source(output)
 
     def test_album_min(self) -> None:
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute(
                 "--dry-run",
                 "--verbose",
@@ -77,7 +77,7 @@ class TestBatch:
         )
 
     def test_album_min_no_match(self) -> None:
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute(
                 "--dry-run",
                 "--verbose",
@@ -88,7 +88,7 @@ class TestBatch:
         assert [] == helper.filter_source(output)
 
     def test_album_complete(self) -> None:
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute(
                 "--dry-run",
                 "--verbose",
@@ -101,7 +101,7 @@ class TestBatch:
         )
 
     def test_filter_all(self) -> None:
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute(
                 "--dry-run",
                 "--verbose",
@@ -118,32 +118,32 @@ class TestExtension:
         self.test_files = helper.get_testfile("mixed_formats")
 
     def test_default(self) -> None:
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute(
                 "--dry-run",
                 "--verbose",
                 self.test_files,
             )
         assert helper.filter_source(output) == helper.gen_file_list(
-            ["01.flac", "02.m4a", "03.mp3"], self.test_files, extension=False
+            ["01.flac", "02.m4a", "03.mp3"], self.test_files, extension=None
         )
 
     def test_one(self) -> None:
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute(
                 "--dry-run", "--verbose", "--extension", "mp3,flac", self.test_files
             )
         assert helper.filter_source(output) == helper.gen_file_list(
-            ["01.flac", "03.mp3"], self.test_files, extension=False
+            ["01.flac", "03.mp3"], self.test_files, extension=None
         )
 
     def test_two(self) -> None:
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute(
                 "--dry-run", "--verbose", "--extension", "mp3", self.test_files
             )
         assert helper.filter_source(output) == helper.gen_file_list(
-            ["03.mp3"], self.test_files, extension=False
+            ["03.mp3"], self.test_files, extension=None
         )
 
 
@@ -163,7 +163,7 @@ class TestSkip:
 
     def test_continuation(self) -> None:
         path = helper.get_testfile("broken")
-        with helper.Capturing() as output:
+        with helper.Capturing(clean_ansi=True) as output:
             audiorename.execute("--dry-run", "--verbose", path)
         output = helper.filter_source(output)
         assert output[1]

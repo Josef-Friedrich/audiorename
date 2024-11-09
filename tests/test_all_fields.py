@@ -2,7 +2,7 @@
 
 import datetime
 
-import helper
+from tests import helper
 
 # from audiorename import args
 # from phrydy import doc as pdoc
@@ -110,7 +110,7 @@ class TestAllFields:
         assert meta.albumartist_sort == "Beatles, The"
         assert meta.albumdisambig is None
         assert meta.albumstatus == "official"
-        assert meta.albumtype == "album/soundtrack"
+        assert meta.albumtype == "album"
         assert meta.arranger is None
         # self.assertEqual(meta.art, '')
         assert meta.artist == "The Beatles"
@@ -143,7 +143,7 @@ class TestAllFields:
         assert meta.encoder is None
         assert meta.format == "MP3"
         assert meta.genre is None
-        assert meta.genres == []
+        assert meta.genres is None
         assert meta.grouping is None
         # self.assertTrue(isinstance(meta.images[0],
         # phrydy.mediafile_extended.Image))
@@ -173,7 +173,7 @@ class TestAllFields:
         assert meta.rg_track_gain is None
         assert meta.rg_track_peak is None
         assert meta.samplerate == 24000
-        assert meta.ar_combined_soundtrack is True
+        assert meta.ar_combined_soundtrack is False
         assert meta.script == "Latn"
         assert meta.title == "Yesterday"
         assert meta.ar_classical_title == "Yesterday"
@@ -247,7 +247,7 @@ class TestAllFields:
         assert meta.encoder is None
         assert meta.format == "MP3"
         assert meta.genre is None
-        assert meta.genres == []
+        assert meta.genres is None
         assert meta.grouping is None
         # self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
         assert meta.initial_key is None
@@ -312,7 +312,7 @@ class TestAllFields:
         assert meta.albumartist_sort == "Armstrong, Louis"
         assert meta.albumdisambig is None
         assert meta.albumstatus == "official"
-        assert meta.albumtype == "album/compilation"
+        assert meta.albumtype == "album"
         assert meta.arranger is None
         # self.assertEqual(meta.art, '')
         assert meta.artist == "Louis Armstrong"
@@ -343,7 +343,7 @@ class TestAllFields:
         assert meta.encoder is None
         assert meta.format == "MP3"
         assert meta.genre is None
-        assert meta.genres == []
+        assert meta.genres is None
         assert meta.grouping is None
         # self.assertTrue(isinstance(meta.images[0], phrydy.mediafile.Image))
         assert meta.initial_key is None

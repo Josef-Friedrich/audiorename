@@ -4,10 +4,10 @@ import os
 import shutil
 import tempfile
 
-import helper
 import pytest
 
 import audiorename
+from tests import helper
 
 
 # --best-format
@@ -397,7 +397,7 @@ class TestEnrichMetadata:
         helper.SKIP_QUICK, reason="Ignored, as it has to be done quickly."
     )
     @pytest.mark.skipif(
-        helper.SKIP_API_CALLS, reason="Ignored if the API is not available."
+        helper.skip_api_calls, reason="Ignored if the API is not available."
     )
     def test_pass(self) -> None:
         tmp = helper.copy_to_tmp("classical", "without_work.mp3")

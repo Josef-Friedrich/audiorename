@@ -4,12 +4,12 @@ import os
 import shutil
 import tempfile
 
-import helper
 import pytest
 
 import audiorename
 from audiorename import audiofile
 from audiorename.meta import Meta
+from tests import helper
 
 
 class TestClassAction:
@@ -28,7 +28,7 @@ class TestClassAction:
         helper.SKIP_QUICK, reason="Ignored, as it has to be done quickly."
     )
     @pytest.mark.skipif(
-        helper.SKIP_API_CALLS, reason="Ignored if the API is not available."
+        helper.skip_api_calls, reason="Ignored if the API is not available."
     )
     def test_method_metadata_enrich(self) -> None:
         tmp = helper.get_tmp_file_object("classical", "without_work.mp3")

@@ -4,12 +4,11 @@ import shutil
 import tempfile
 import typing
 
-import helper
 import pytest
-from helper import get_meta
 
 import audiorename.meta as meta
 from audiorename.meta import Meta
+from tests import helper
 
 
 class TestDictDiff:
@@ -62,7 +61,7 @@ class TestDictDiff:
 
 class TestExportDict:
     def test_export_dict(self) -> None:
-        meta = get_meta("files", "album.mp3")
+        meta = helper.get_meta("files", "album.mp3")
 
         result = meta.export_dict()
         print(result)
@@ -85,7 +84,7 @@ class TestExportDict:
 #  Die Meistersinger von Nürnberg, WWV 96: Akt I. Vorspiel
 @pytest.mark.skipif(helper.SKIP_QUICK, reason="Ignored, as it has to be done quickly.")
 @pytest.mark.skipif(
-    helper.SKIP_API_CALLS, reason="Ignored if the API is not available."
+    helper.skip_api_calls, reason="Ignored if the API is not available."
 )
 class TestEnrichMetadata:
     def test_enrich_metadata_meistersinger(self):
@@ -181,7 +180,7 @@ class TestRemapClassical:
 # ar_combined_album
 class TestPropertyAlbumClean:
     def setup_method(self):
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
 
     def assertAlbumClean(
         self, album: str, compare: typing.Optional[str] = "Lorem ipsum"
@@ -200,7 +199,7 @@ class TestPropertyAlbumClean:
         self.assertAlbumClean("", None)
 
     def test_real_world(self):
-        meta = get_meta(
+        meta = helper.get_meta(
             "real-world",
             "_compilations",
             "t",
@@ -213,19 +212,19 @@ class TestPropertyAlbumClean:
 # ar_combined_artist (integration)
 class TestPropertyArCombinedArtist:
     def test_artist(self):
-        meta = get_meta("meta", "artist.mp3")
+        meta = helper.get_meta("meta", "artist.mp3")
         assert meta.ar_combined_artist == "artist"
 
     def test_artist_sort(self):
-        meta = get_meta("meta", "artist_sort.mp3")
+        meta = helper.get_meta("meta", "artist_sort.mp3")
         assert meta.ar_combined_artist_sort == "artist_sort"
 
     def test_albumartist(self):
-        meta = get_meta("meta", "albumartist.mp3")
+        meta = helper.get_meta("meta", "albumartist.mp3")
         assert meta.ar_combined_artist == "albumartist"
 
     def test_removal_feat_vs(self):
-        meta = get_meta(
+        meta = helper.get_meta(
             "real-world",
             "f",
             "Fatboy-Slim",
@@ -239,7 +238,7 @@ class TestPropertyArCombinedArtist:
 # ar_combined_artist (unit)
 class TestPropertyArtistSafeUnit:
     def setup_method(self):
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
         self.meta.albumartist_credit = ""
         self.meta.albumartist_sort = ""
         self.meta.albumartist = ""
@@ -308,13 +307,13 @@ class TestPropertyArtistSafeUnit:
 # ar_combined_disctrack (integration)
 class TestPropertyDiskTrack:
     def test_single_disc(self):
-        meta = get_meta(
+        meta = helper.get_meta(
             "real-world", "e", "Everlast", "Eat-At-Whiteys_2000", "02_Black-Jesus.mp3"
         )
         assert meta.ar_combined_disctrack == "02"
 
     def test_double_disk(self):
-        meta = get_meta(
+        meta = helper.get_meta(
             "real-world",
             "_compilations",
             "t",
@@ -327,7 +326,7 @@ class TestPropertyDiskTrack:
 # ar_combined_disctrack (unit)
 class TestPropertyDiskTrackUnit:
     def setup_method(self):
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
         self.meta.track = None
         self.meta.tracktotal = None
         self.meta.disc = None
@@ -385,8 +384,8 @@ class TestPropertyDiskTrackUnit:
 
 # ar_performer*
 class TestPropertyPerformerDifferentFormats:
-    def getMeta(self, extension: str):
-        return get_meta("performers", "blank." + extension)
+    def get_meta(self, extension: str):
+        return helper.get_meta("performers", "blank." + extension)
 
     def assertPerformer(self, meta: Meta):
         raw = meta.ar_performer_raw
@@ -409,15 +408,15 @@ class TestPropertyPerformerDifferentFormats:
         assert meta.ar_classical_performer == "Luisi, WieSym"
 
     def test_flac(self):
-        meta = self.getMeta("flac")
+        meta = self.get_meta("flac")
         self.assertPerformer(meta)
 
     def test_mp3(self):
-        meta = self.getMeta("mp3")
+        meta = self.get_meta("mp3")
         self.assertPerformer(meta)
 
     def test_ogg(self):
-        meta = self.getMeta("ogg")
+        meta = self.get_meta("ogg")
         self.assertPerformer(meta)
 
 
@@ -425,19 +424,19 @@ class TestPropertyPerformerDifferentFormats:
 class TestPropertySoundtrack:
     def test_soundtrack(self):
         # albumtype -> bootleg
-        # meta = get_meta(['soundtrack', 'Pulp-Fiction', '01.mp3'])
-        meta = get_meta("show-case", "Beatles_Yesterday.mp3")
+        # meta = helper.get_meta(['soundtrack', 'Pulp-Fiction', '01.mp3'])
+        meta = helper.get_meta("show-case", "Beatles_Yesterday.mp3")
         assert meta.ar_combined_soundtrack is True
 
     def test_no_soundtrack(self):
-        meta = get_meta("classical", "Schubert_Winterreise", "01.mp3")
-        assert meta.ar_combined_soundtrack == False
+        meta = helper.get_meta("classical", "Schubert_Winterreise", "01.mp3")
+        assert meta.ar_combined_soundtrack is False
 
 
 # ar_classical_track
 class TestPropertyTrackClassical:
     def setup_method(self):
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
 
     def assertRoman(self, roman: str, arabic: int):
         assert self.meta._roman_to_int(roman) == arabic
@@ -471,7 +470,7 @@ class TestPropertyTrackClassical:
 # work (integration)
 class TestPropertyWork:
     def test_work(self):
-        meta = get_meta("classical", "Mozart_Horn-concertos", "01.mp3")
+        meta = helper.get_meta("classical", "Mozart_Horn-concertos", "01.mp3")
         assert (
             meta.work == "Concerto for French Horn no. 1 in D major, "
             "K. 386b / KV 412: I. Allegro"
@@ -483,7 +482,7 @@ class TestPropertyWork:
 # ar_combined_work_top
 class TestPropertyWorkTop:
     def setup_method(self) -> None:
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
 
     def test_none(self) -> None:
         assert self.meta.ar_combined_work_top is None
@@ -508,7 +507,7 @@ class TestPropertyWorkTop:
 # ar_classical_title
 class TestPropertyTitleClassical:
     def setup_method(self) -> None:
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
 
     def test_work_title(self) -> None:
         self.meta.title = "work: title"
@@ -526,7 +525,7 @@ class TestPropertyTitleClassical:
 # ar_combined_year
 class TestPropertyYearSafe:
     def setup_method(self) -> None:
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
         self.meta.year = None
         self.meta.original_year = None
 
@@ -554,7 +553,7 @@ class TestPropertyYearSafe:
 
 class TestStaticMethodInitials:
     def setup_method(self) -> None:
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
 
     def test_lowercase(self) -> None:
         assert self.meta._find_initials("beethoven") == "b"  # type: ignore
@@ -565,7 +564,7 @@ class TestStaticMethodInitials:
 
 class TestStaticMethodNormalizePerformer:
     def setup_method(self) -> None:
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
 
     def test_unit_normalize_performer(self) -> None:
         out = self.meta._normalize_performer(  # type: ignore
@@ -583,7 +582,7 @@ class TestStaticMethodNormalizePerformer:
 
 class TestStaticMethodSanitize:
     def setup_method(self) -> None:
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
 
     def test_slash(self) -> None:
         assert self.meta._sanitize("lol/lol") == "lollol"  # type: ignore
@@ -597,7 +596,7 @@ class TestStaticMethodSanitize:
 
 class TestStaticMethodShortenPerformer:
     def setup_method(self) -> None:
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
 
     def test_ar_performer_shorten(self) -> None:
         s = self.meta._shorten_performer("Ludwig van Beethoven")  # type: ignore
@@ -620,7 +619,7 @@ class TestStaticMethodShortenPerformer:
 
 class TestStaticMethodUnifyList:
     def setup_method(self) -> None:
-        self.meta = get_meta("files", "album.mp3")
+        self.meta = helper.get_meta("files", "album.mp3")
 
     def test_unify_numbers(self) -> None:
         seq = self.meta._uniquify_list([1, 1, 2, 2, 1, 1, 3])  # type: ignore
@@ -859,7 +858,7 @@ class TestFields:
 
 class TestAllPropertiesHines:
     def setup_method(self) -> None:
-        self.meta = get_meta(
+        self.meta = helper.get_meta(
             "real-world", "h", "Hines_Earl", "Just-Friends_1989", "06_Indian-Summer.mp3"
         )
 
@@ -914,7 +913,7 @@ class TestAllPropertiesHines:
 
 class TestAllPropertiesWagner:
     def setup_method(self) -> None:
-        self.meta = get_meta("classical", "Wagner_Meistersinger", "01.mp3")
+        self.meta = helper.get_meta("classical", "Wagner_Meistersinger", "01.mp3")
 
     def test_ar_classical_album(self) -> None:
         assert self.meta.ar_classical_album == "Die Meistersinger von Nürnberg"
@@ -982,11 +981,13 @@ class TestAllPropertiesWagner:
 
 class TestClassical:
     def setup_method(self) -> None:
-        self.mozart = get_meta("classical", "Mozart_Horn-concertos", "01.mp3")
-        self.mozart2 = get_meta("classical", "Mozart_Horn-concertos", "02.mp3")
-        self.schubert = get_meta("classical", "Schubert_Winterreise", "01.mp3")
-        self.tschaikowski = get_meta("classical", "Tschaikowski_Swan-Lake", "1-01.mp3")
-        self.wagner = get_meta("classical", "Wagner_Meistersinger", "01.mp3")
+        self.mozart = helper.get_meta("classical", "Mozart_Horn-concertos", "01.mp3")
+        self.mozart2 = helper.get_meta("classical", "Mozart_Horn-concertos", "02.mp3")
+        self.schubert = helper.get_meta("classical", "Schubert_Winterreise", "01.mp3")
+        self.tschaikowski = helper.get_meta(
+            "classical", "Tschaikowski_Swan-Lake", "1-01.mp3"
+        )
+        self.wagner = helper.get_meta("classical", "Wagner_Meistersinger", "01.mp3")
 
     # ar_classical_album
     def test_ar_classical_album_mozart(self) -> None:

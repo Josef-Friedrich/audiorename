@@ -1,6 +1,6 @@
 """Test the integration of the python package “tmep”."""
 
-import helper
+from tests import helper
 
 
 class TestFunctions:

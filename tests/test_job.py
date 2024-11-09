@@ -3,10 +3,9 @@
 import os
 import typing
 
-import helper
-
 from audiorename.args import ArgsDefault
 from audiorename.job import Counter, Job, Timer
+from tests import helper
 
 
 def job(**kwargs: typing.Any) -> Job:

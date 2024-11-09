@@ -2,10 +2,9 @@
 
 from typing import Any
 
-import helper
-
 from audiorename import audiofile
 from audiorename.message import Message
+from tests import helper
 
 
 class TestClassMessage:
