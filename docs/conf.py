@@ -1,9 +1,6 @@
-import sphinx_rtd_theme
-
 import audiorename
 
 html_theme = "sphinx_rtd_theme"
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 extensions = [
     "sphinx.ext.autodoc",
@@ -26,7 +23,6 @@ pygments_style = "sphinx"
 
 autodoc_default_options = {"members": True, "show-inheritance": True}
 
-html_static_path = []
 htmlhelp_basename = "audiorenamedoc"
 
 [extensions]

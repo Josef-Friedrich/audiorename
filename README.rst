@@ -105,6 +105,10 @@ Usage
 
         $albumartists:               albumartists
 
+        $albumartists_credit:        albumartists_credit
+
+        $albumartists_sort:          albumartists_sort
+
         $albumdisambig:              The disambiguation album field helps to
                                      distinguish between identically named albums.
                                      The album “Weezer” for example has the
@@ -118,6 +122,8 @@ Usage
         $albumtype:                  The MusicBrainz album type; the MusicBrainz
                                      wiki has a list of type names
                                      Examples: ['album/soundtrack']
+
+        $albumtypes:                 albumtypes
 
         $ar_classical_album:         The field “work” without the movement suffix.
                                      For example: “Horn Concerto: I. Allegro” ->
@@ -227,6 +233,10 @@ Usage
         $artists:                    artists
                                      Examples: [['a-ha'], ['Anouk', 'Remon Stotijn']]
 
+        $artists_credit:             artists_credit
+
+        $artists_sort:               artists_sort
+
         $asin:                       Amazon Standard Identification Number
                                      Examples: ['B000002UAL']
 
@@ -256,6 +266,8 @@ Usage
                                      involved. This is not the ASIN — there is a
                                      relationship for that — nor the label code.
                                      Examples: ['CDP 7 46439 2']
+
+        $catalognums:                catalognums
 
         $channels:                   channels
                                      Examples: [1, 2]
@@ -339,6 +351,8 @@ Usage
                                      written in. The possible values are taken
                                      from the ISO 639-3 standard.
                                      Examples: ['zxx', 'eng']
+
+        $languages:                  languages
 
         $length:                     The length of a recording in seconds.
                                      Examples: [674.4666666666667]
@@ -685,9 +699,9 @@ Usage
     [selection]:
       The following arguments are intended to select the audio files.
 
-      source                A folder containing audio files or a single audio file. If you specify a folder, the program will search
-                            for audio files in all subfolders. If you want to rename the audio files in the current working directory,
-                            then specify a dot (“.”).
+      source                A folder containing audio files or a single audio file. If you specify a folder, the program will search for
+                            audio files in all subfolders. If you want to rename the audio files in the current working directory, then
+                            specify a dot (“.”).
       -t TARGET, --target TARGET
                             Target directory
       -a, --source-as-target
@@ -698,9 +712,9 @@ Usage
 
       -p BACKUP_FOLDER, --backup-folder BACKUP_FOLDER
                             Folder to store the backup files in.
-      -B, --best-format     Use the best format. This option only takes effect if the target file already exists. `audiorename` now
-                            checks the qualtity of the two audio files (source and target). The tool first examines the format. For
-                            example a FLAC file wins over a MP3 file. Then `audiorename` checks the bitrate.
+      -B, --best-format     Use the best format. This option only takes effect if the target file already exists. `audiorename` now checks
+                            the qualtity of the two audio files (source and target). The tool first examines the format. For example a FLAC
+                            file wins over a MP3 file. Then `audiorename` checks the bitrate.
       -d, --dry-run         Don’t rename or copy the audio files.
 
     move action:
@@ -711,8 +725,8 @@ Usage
     cleaning action:
       The cleaning actions are only executed if the target file already exists.
 
-      -A, --backup          Backup the audio files instead of deleting them. The backup directory can be specified with the --backup-
-                            folder option.
+      -A, --backup          Backup the audio files instead of deleting them. The backup directory can be specified with the --backup-folder
+                            option.
       -D, --delete          Delete the audio files instead of creating a backup.
 
     [filters]:
@@ -729,8 +743,8 @@ Usage
                             Skip renaming if field is empty.
 
     [template_settings]:
-      -k, --classical       Use the default format for classical music. If you use this option, both parameters (--default and
-                            --compilation) have no effect. Classical music is sorted by the lastname of the composer.
+      -k, --classical       Use the default format for classical music. If you use this option, both parameters (--default and --compilation)
+                            have no effect. Classical music is sorted by the lastname of the composer.
       -S, --shell-friendly  Rename audio files “shell friendly”, this means without whitespaces, parentheses etc.
       --no-soundtrack       Do not use the path template for soundtracks. Use instead the default path template.
 
@@ -738,8 +752,8 @@ Usage
       audiorename provides default path templates. You can specify your own path templates using the following options.
 
       -f PATH_TEMPLATE, --default PATH_TEMPLATE, --format PATH_TEMPLATE
-                            The default path template for audio files that are not compilations or compilations. Use metadata fields
-                            and functions to build the path template.
+                            The default path template for audio files that are not compilations or compilations. Use metadata fields and
+                            functions to build the path template.
       -c PATH_TEMPLATE, --compilation PATH_TEMPLATE
                             Path template for compilations. Use metadata fields and functions to build the path template.
       --soundtrack PATH_TEMPLATE
@@ -753,23 +767,23 @@ Usage
       -K, --color           Colorize the standard output of the program with ANSI colors.
       --no-color            Don’t colorize the standard output of the program with ANSI colors.
       -b, --debug           Print debug informations about the single metadata fields.
-      -j, --job-info        Display informations about the current job. This informations are printted out before any actions on the
-                            audio files are executed.
+      -j, --job-info        Display informations about the current job. This informations are printted out before any actions on the audio
+                            files are executed.
       -l, --mb-track-listing
-                            Print track listing for Musicbrainz website: Format: track. title (duration), e. g.: 1. He, Zigeuner
-                            (1:31) 2. Hochgetürmte Rimaflut (1:21)
+                            Print track listing for Musicbrainz website: Format: track. title (duration), e. g.: 1. He, Zigeuner (1:31) 2.
+                            Hochgetürmte Rimaflut (1:21)
       -o, --one-line        Display the rename / copy action status on one line instead of two.
       -T, --stats           Show statistics at the end of the execution.
       -V, --verbose         Make the command line output more verbose.
 
     [metadata_actions]:
       -E, --enrich-metadata
-                            Fetch the tag fields “work” and “mb_workid” from Musicbrainz and save this fields into the audio file. The
-                            audio file must have the tag field “mb_trackid”. The give audio file is not renamed.
+                            Fetch the tag fields “work” and “mb_workid” from Musicbrainz and save this fields into the audio file. The audio
+                            file must have the tag field “mb_trackid”. The give audio file is not renamed.
       -r, --remap-classical
-                            Remap some fields to fit better for classical music: “composer” becomes “artist”, “work” becomes “album”,
-                            from the “title” the work prefix is removed (“Symphonie No. 9: I. Allegro” -> “I. Allegro”) and “track”
-                            becomes the movement number. All overwritten fields are safed in the “comments” field.
+                            Remap some fields to fit better for classical music: “composer” becomes “artist”, “work” becomes “album”, from
+                            the “title” the work prefix is removed (“Symphonie No. 9: I. Allegro” -> “I. Allegro”) and “track” becomes the
+                            movement number. All overwritten fields are safed in the “comments” field.
 
 Configuration files
 ===================
@@ -888,6 +902,14 @@ Metadata fields
      - common
      - albumartists
      - 
+   * - albumartists_credit
+     - common
+     - albumartists_credit
+     - 
+   * - albumartists_sort
+     - common
+     - albumartists_sort
+     - 
    * - albumdisambig
      - common
      - The disambiguation album field helps to distinguish between identically named albums. The album “Weezer” for example has the disambiguation comments “Red Album” and “Green Album”.
@@ -900,6 +922,10 @@ Metadata fields
      - common
      - The MusicBrainz album type; the MusicBrainz wiki has a list of type names
      - ``album/soundtrack``
+   * - albumtypes
+     - common
+     - albumtypes
+     - 
    * - ar_classical_album
      - common
      - The field “work” without the movement suffix. For example: “Horn Concerto: I. Allegro” -> “Horn Concerto”
@@ -996,6 +1022,14 @@ Metadata fields
      - common
      - artists
      - ``['a-ha']``, ``['Anouk', 'Remon Stotijn']``
+   * - artists_credit
+     - common
+     - artists_credit
+     - 
+   * - artists_sort
+     - common
+     - artists_sort
+     - 
    * - asin
      - common
      - Amazon Standard Identification Number
@@ -1024,6 +1058,10 @@ Metadata fields
      - common
      - This is a number assigned to the release by the label which can often be found on the spine or near the barcode. There may be more than one, especially when multiple labels are involved. This is not the ASIN — there is a relationship for that — nor the label code.
      - ``CDP 7 46439 2``
+   * - catalognums
+     - common
+     - catalognums
+     - 
    * - channels
      - audio
      - channels
@@ -1120,6 +1158,10 @@ Metadata fields
      - common
      - The language a release’s track list is written in. The possible values are taken from the ISO 639-3 standard.
      - ``zxx``, ``eng``
+   * - languages
+     - common
+     - languages
+     - 
    * - length
      - audio
      - The length of a recording in seconds.
