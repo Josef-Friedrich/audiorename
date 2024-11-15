@@ -646,26 +646,19 @@ class TestStaticMethodUnifyList:
 
 
 all_fields = [
-    # acoustid_fingerprint: None
-    # acoustid_id         : None
-    # album               : the album
-    # albumartist         : the album artist
-    # albumartist_credit  : None
-    # albumartist_sort    : None
-    # albumartists        : []
-    # albumdisambig       : None
-    # albumstatus         : None
-    # albumtype           : None
     "acoustid_fingerprint",
     "acoustid_id",
     "album",
     "albumartist_credit",
     "albumartist_sort",
     "albumartist",
+    "albumartists_credit",
+    "albumartists_sort",
     "albumartists",
     "albumdisambig",
     "albumstatus",
     "albumtype",
+    "albumtypes",
     "ar_classical_album",
     "ar_classical_performer",
     "ar_classical_title",
@@ -684,39 +677,22 @@ all_fields = [
     "ar_performer_raw",
     "ar_performer_short",
     "ar_performer",
-    # arranger            : None
-    # art                 : None
-    # artist              : the artist
-    # artist_credit       : None
-    # artist_sort         : None
-    # artists             : []
-    # asin                : None
     "arranger",
     "art",
     "artist_credit",
     "artist_sort",
     "artist",
+    "artists_credit",
+    "artists_sort",
     "artists",
     "asin",
-    # barcode             : None
-    # bitdepth            : 0
-    # bitrate             : 80000
-    # bitrate_mode        :
-    # bpm                 : 6
     "barcode",
     "bitdepth",
     "bitrate_mode",
     "bitrate",
     "bpm",
-    # catalognum          : None
-    # channels            : 1
-    # comments            : the comments
-    # comp                : True
-    # composer            : the composer
-    # composer_sort       : None
-    # copyright           : None
-    # country             : None
     "catalognum",
+    "catalognums",
     "channels",
     "comments",
     "comp",
@@ -724,58 +700,27 @@ all_fields = [
     "composer",
     "copyright",
     "country",
-    # date                : 2001-01-01
-    # day                 : None
-    # disc                : 4
-    # disctitle           : None
-    # disctotal           : 5
     "date",
     "day",
     "disc",
     "disctitle",
     "disctotal",
-    # encoder             : iTunes v7.6.2
-    # encoder_info        :
-    # encoder_settings    :
-    "encoder",
     "encoder_info",
     "encoder_settings",
-    # format              : MP3
+    "encoder",
     "format",
-    # genre               : the genre
-    # genres              : ['the genre']
-    # grouping            : the grouping
     "genre",
     "genres",
     "grouping",
-    # images              : []
-    # initial_key         : None
-    # isrc                : None
     "images",
     "initial_key",
     "isrc",
-    # label               : the label
-    # language            : None
-    # length              : 1.071
-    # lyricist            : None
-    # lyrics              : the lyrics
     "label",
     "language",
+    "languages",
     "length",
     "lyricist",
     "lyrics",
-    # mb_albumartistid    : None
-    # mb_albumartistids   : []
-    # mb_albumid          : 9e873859-8aa4-4790-b985-5a953e8ef628
-    # mb_artistid         : 7cf0ea9d-86b9-4dad-ba9e-2355a64899ea
-    # mb_artistids        : ['7cf0ea9d-86b9-4dad-ba9e-2355a64899ea']
-    # mb_releasegroupid   : None
-    # mb_releasetrackid   : c29f3a57-b439-46fd-a2e2-93776b1371e0
-    # mb_trackid          : 8b882575-08a5-4452-a7a7-cbb8a1531f9e
-    # mb_workhierarchy_ids: None
-    # mb_workid           : None
-    # media               : None
-    # month               : None
     "mb_albumartistid",
     "mb_albumartistids",
     "mb_albumid",
@@ -788,21 +733,10 @@ all_fields = [
     "mb_workid",
     "media",
     "month",
-    # original_date       : None
-    # original_day        : None
-    # original_month      : None
-    # original_year       : None
     "original_date",
     "original_day",
     "original_month",
     "original_year",
-    # r128_album_gain     : None
-    # r128_track_gain     : None
-    # releasegroup_types  : None
-    # rg_album_gain       : None
-    # rg_album_peak       : None
-    # rg_track_gain       : 0.0
-    # rg_track_peak       : 0.000244
     "r128_album_gain",
     "r128_track_gain",
     "releasegroup_types",
@@ -810,23 +744,14 @@ all_fields = [
     "rg_album_peak",
     "rg_track_gain",
     "rg_track_peak",
-    # samplerate          : 44100
-    # script              : None
     "samplerate",
     "script",
-    # title               : full
-    # track               : 2
-    # tracktotal          : 3
     "title",
     "track",
     "tracktotal",
-    # url                 : None
     "url",
-    # work                : None
-    # work_hierarchy      : None
     "work_hierarchy",
     "work",
-    # year                : 2001
     "year",
 ]
 

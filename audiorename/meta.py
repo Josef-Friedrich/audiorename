@@ -625,13 +625,19 @@ class Meta(MediaFileExtended):
         return ", ".join(out)
 
     @property
-    def ar_combined_soundtrack(self):
-        if (
-            self.releasegroup_types and "soundtrack" in self.releasegroup_types.lower()
-        ) or (self.albumtype and "soundtrack" in self.albumtype.lower()):
+    def ar_combined_soundtrack(self) -> bool:
+        if self.releasegroup_types and "soundtrack" in self.releasegroup_types.lower():
             return True
-        else:
-            return False
+
+        if self.albumtype and "soundtrack" in self.albumtype.lower():
+            return True
+
+        if self.albumtypes:
+            for type in self.albumtypes:
+                if "soundtrack" in type.lower():
+                    return True
+
+        return False
 
     @property
     def ar_classical_title(self) -> Optional[str]:

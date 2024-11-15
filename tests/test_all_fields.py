@@ -173,7 +173,7 @@ class TestAllFields:
         assert meta.rg_track_gain is None
         assert meta.rg_track_peak is None
         assert meta.samplerate == 24000
-        assert meta.ar_combined_soundtrack is False
+        assert meta.ar_combined_soundtrack is True
         assert meta.script == "Latn"
         assert meta.title == "Yesterday"
         assert meta.ar_classical_title == "Yesterday"
