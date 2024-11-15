@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "audiorename"
-version = "3.3.0"
+version = "4.0.0"
 description = "Rename audio files from metadata tags."
 authors = ["Josef Friedrich <josef@friedrich.rocks>"]
 readme = "README.rst"
@@ -14,11 +14,13 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "License :: OSI Approved :: MIT License",
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<=3.13"
 phrydy = "^4"
 tmep = "^2"
 ansicolor = "^0"
