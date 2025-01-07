@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<=3.13"
+python = ">=3.9"
 phrydy = "^4"
 tmep = "^2"
 ansicolor = "^0"
