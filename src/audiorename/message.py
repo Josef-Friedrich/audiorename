@@ -127,7 +127,7 @@ class Message:
 
         if source_attr == target_attr and best == "target":
             self.output(
-                "Best format: Source and target have the same formats," " use target."
+                "Best format: Source and target have the same formats, use target."
             )
         else:
             self.output(

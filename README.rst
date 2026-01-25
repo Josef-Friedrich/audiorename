@@ -883,9 +883,9 @@ Usage
                             (“Symphonie No. 9: I. Allegro” -> “I. Allegro”) and
                             “track” becomes the movement number. All overwritten
                             fields are safed in the “comments” field.
-    /home/jf/.cache/uv/builds-v0/.tmpWHvE9g/lib/python3.12/site-packages/tmep/functions.py:334: SyntaxWarning: invalid escape sequence '\/'
+    /home/jf/.cache/uv/builds-v0/.tmptYo0zm/lib/python3.12/site-packages/tmep/functions.py:334: SyntaxWarning: invalid escape sequence '\/'
       for char in ':*?"<>|\/~&{}':  # noqa: W605
-    /home/jf/.cache/uv/builds-v0/.tmpWHvE9g/lib/python3.12/site-packages/ansicolor/ansicolor.py:507: SyntaxWarning: invalid escape sequence '\['
+    /home/jf/.cache/uv/builds-v0/.tmptYo0zm/lib/python3.12/site-packages/ansicolor/ansicolor.py:507: SyntaxWarning: invalid escape sequence '\['
       return re.sub("\033\[(?:(?:[0-9]*;)*)(?:[0-9]*m)", "", s)
 
 Configuration files

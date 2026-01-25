@@ -230,22 +230,21 @@ class TestClassical:
         self.assert_dry_run(
             "Tschaikowski_Swan-Lake",
             "1-02.mp3",
-            self.t + self.lake + "1-02_Act-I-no-1-Scene-Allegro-giusto_" "29413f6c.mp3",
+            self.t + self.lake + "1-02_Act-I-no-1-Scene-Allegro-giusto_29413f6c.mp3",
         )
 
     def test_tschaikowski_03(self) -> None:
         self.assert_dry_run(
             "Tschaikowski_Swan-Lake",
             "1-03.mp3",
-            self.t + self.lake + "1-03_Act-I-no-2-Valse-Tempo-di-valse_" "5303b318.mp3",
+            self.t + self.lake + "1-03_Act-I-no-2-Valse-Tempo-di-valse_5303b318.mp3",
         )
 
     def test_tschaikowski_04(self) -> None:
         self.assert_dry_run(
             "Tschaikowski_Swan-Lake",
             "1-04.mp3",
-            self.t + self.lake + "1-04_Act-I-no-3-Scene-Allegro-moderato_"
-            "4d5781a4.mp3",
+            self.t + self.lake + "1-04_Act-I-no-3-Scene-Allegro-moderato_4d5781a4.mp3",
         )
 
     wr = "/w/Wagner_Richard/"
@@ -433,7 +432,7 @@ class TestEnrichMetadata:
             "Die Meistersinger von Nürnberg, WWV 96: "
             "Vorspiel"
         )
-        assert enriched.work == "Die Meistersinger von Nürnberg, WWV 96: " "Vorspiel"
+        assert enriched.work == "Die Meistersinger von Nürnberg, WWV 96: Vorspiel"
 
 
 # --field-skip
@@ -577,7 +576,7 @@ class TestMbTrackListing:
     def test_debussy(self) -> None:
         audiorename.audiofile.counter = 0
         result = self.mb_track_listing("Debussy_Estampes-etc", "01.mp3")
-        assert result == "1. Estampes/Images/Pour le Piano: Estampes: " "Pagodes (0:00)"
+        assert result == "1. Estampes/Images/Pour le Piano: Estampes: Pagodes (0:00)"
 
     def test_schubert(self) -> None:
         assert (
@@ -664,21 +663,21 @@ class TestSoundtrack:
         self.assert_dry_run(
             "Pulp-Fiction",
             "04.mp3",
-            "/p/Pulp-Fiction_1994/" "04_[dialogue]_Royale-With-Cheese-dialogue.mp3",
+            "/p/Pulp-Fiction_1994/04_[dialogue]_Royale-With-Cheese-dialogue.mp3",
         )
 
     def test_pulp_05(self) -> None:
         self.assert_dry_run(
             "Pulp-Fiction",
             "05.mp3",
-            "/p/Pulp-Fiction_1994/" "05_The-Brothers-Johnson_Strawberry-Letter-23.mp3",
+            "/p/Pulp-Fiction_1994/05_The-Brothers-Johnson_Strawberry-Letter-23.mp3",
         )
 
     def test_pulp_06(self) -> None:
         self.assert_dry_run(
             "Pulp-Fiction",
             "06.mp3",
-            "/p/Pulp-Fiction_1994/" "06_[dialogue]_Ezekiel-2517-dialogue-Samuel-L.mp3",
+            "/p/Pulp-Fiction_1994/06_[dialogue]_Ezekiel-2517-dialogue-Samuel-L.mp3",
         )
 
     def test_pulp_07(self) -> None:
@@ -706,7 +705,7 @@ class TestSoundtrack:
         self.assert_dry_run(
             "Pulp-Fiction",
             "10.mp3",
-            "/p/Pulp-Fiction_1994/" "10_Dusty-Springfield_Son-of-a-Preacher-Man.mp3",
+            "/p/Pulp-Fiction_1994/10_Dusty-Springfield_Son-of-a-Preacher-Man.mp3",
         )
 
 

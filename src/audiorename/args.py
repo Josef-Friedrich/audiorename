@@ -91,14 +91,13 @@ fields: phrydy.field_docs.FieldDocCollection = {
         "data_type": "str",
     },
     "ar_combined_disctrack": {
-        "description": "Combination of disc and track in the format: " "disk-track",
+        "description": "Combination of disc and track in the format: disk-track",
         "category": "common",
         "examples": ["1-01", "3-099"],
         "data_type": "str",
     },
     "ar_combined_soundtrack": {
-        "description": "Boolean flag which indicates if the audio file is "
-        "a soundtrack",
+        "description": "Boolean flag which indicates if the audio file is a soundtrack",
         "category": "common",
         "examples": [True, False],
         "data_type": "bool",
@@ -314,8 +313,7 @@ def parse_args(argv: Optional[Tuple[str]]) -> ArgsDefault:
 
     selection = parser.add_argument_group(
         title="[selection]",
-        description="The following arguments are intended to select the audio "
-        "files.",
+        description="The following arguments are intended to select the audio files.",
     )
 
     # source
@@ -609,7 +607,7 @@ def parse_args(argv: Optional[Tuple[str]]) -> ArgsDefault:
 
     output_color.add_argument(
         "--no-color",
-        help="Don’t colorize the standard output of the program with ANSI " "colors.",
+        help="Don’t colorize the standard output of the program with ANSI colors.",
         action="store_false",
         dest="color",
         default=None,

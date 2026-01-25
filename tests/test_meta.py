@@ -96,12 +96,12 @@ class TestEnrichMetadata:
 
         meta.enrich_metadata()
         assert meta.mb_workid == "6b198406-4fbf-3d61-82db-0b7ef195a7fe"
-        assert meta.work == "Die Meistersinger von Nürnberg, " "WWV 96: Vorspiel"
+        assert meta.work == "Die Meistersinger von Nürnberg, WWV 96: Vorspiel"
         meta.save()
 
         finished = Meta(tmp)
         assert finished.mb_workid == "6b198406-4fbf-3d61-82db-0b7ef195a7fe"
-        assert finished.work == "Die Meistersinger von Nürnberg, " "WWV 96: Vorspiel"
+        assert finished.work == "Die Meistersinger von Nürnberg, WWV 96: Vorspiel"
         assert (
             finished.mb_workhierarchy_ids == "4d644732-9876-4b0d-9c2c-b6a738d6530e/"
             "6b198406-4fbf-3d61-82db-0b7ef195a7fe"
@@ -141,12 +141,11 @@ class TestRemapClassical:
 
     def test_remap_classical(self):
         assert (
-            self.meta.title == "Horn Concerto No. 3 in E-flat "
-            "major, K. 447: I. Allegro"
+            self.meta.title == "Horn Concerto No. 3 in E-flat major, K. 447: I. Allegro"
         )
         assert self.meta.track == 6
         assert self.meta.artist == "Wolfgang Amadeus Mozart"
-        assert self.meta.album == "4 Hornkonzerte (Concertos for Horn " "and Orchestra)"
+        assert self.meta.album == "4 Hornkonzerte (Concertos for Horn and Orchestra)"
         assert (
             self.meta.comments == "Orpheus Chamber Orchestra, "
             "David Jolley, William Purvis"

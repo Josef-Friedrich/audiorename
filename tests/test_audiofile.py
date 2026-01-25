@@ -49,9 +49,7 @@ class TestClassAction:
             self.action.metadata(tmp, remap=True)
 
         meta = Meta(tmp.abspath)
-        assert (
-            meta.album == "Die Winterreise, op. 89, D. 911 " "(Fischer-Dieskau, Moore)"
-        )
+        assert meta.album == "Die Winterreise, op. 89, D. 911 (Fischer-Dieskau, Moore)"
 
 
 class TestClassAudioFile:
@@ -270,7 +268,7 @@ class TestUnicodeUnittest:
             "/_",
             "►",
             "$ar_combined_album",
-            "$ar_combined_disctrack" "_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3",
+            "$ar_combined_disctrack_ÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž.mp3",
         )
 
     def test_dry_run(self) -> None:

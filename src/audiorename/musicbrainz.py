@@ -319,8 +319,7 @@ def query(
     except musicbrainz.ResponseError as err:
         if err.cause and err.cause.code == 404:
             print(
-                "Item of type “" + mb_type + "” with the ID "
-                "“" + mb_id + "” not found."
+                "Item of type “" + mb_type + "” with the ID “" + mb_id + "” not found."
             )
         else:
             print("Received bad response from the MusicBrainz server.")
