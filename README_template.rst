@@ -85,7 +85,7 @@ Windows `INI
 <https://docs.python.org/3/library/configparser.html#supported-ini-file-structure>`_
 files:
 
-{{ read('audiorename/example-config.ini') | code('ini') }}
+{{ read('src/audiorename/example-config.ini') | code('ini') }}
 
 Metadata fields
 ===============

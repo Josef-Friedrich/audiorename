@@ -89,29 +89,48 @@ Usage
     Metadata fields
     ===============
 
-        $acoustid_fingerprint:       Acoustic ID fingerprint
+        $acoustid_fingerprint:       The Acoustic Fingerprint for the track. The
+                                     fingerprint is based on the audio information
+                                     found in a file, and is calculated using the
+                                     Chromaprint software.
 
-        $acoustid_id:                Acoustic ID
+        $acoustid_id:                The AcoustID associated with the track. The
+                                     AcoustID is the identifier assigned to an
+                                     audio file based on its acoustic fingerprint.
+                                     Multiple fingerprints may be assigned the
+                                     same AcoustID if the fingerprints are similar
+                                     enough.
                                      Examples: ['86e217b7-d3ad-4493-a9f2-cf71256ace07']
 
-        $album:                      album
+        $album:                      The title of the release.
                                      Examples: ['Help!']
 
         $albumartist:                The artist for the entire album, which may be
                                      different from the artists for the individual
-                                     tracks
+                                     tracks. The artists primarily credited on the
+                                     release, separated by the specified join
+                                     phrases.
                                      Examples: ['The Beatles']
 
-        $albumartist_credit:         albumartist_credit
+        $albumartist_credit:         The release-specific artist credit name,
+                                     which may be a variation of the artist’s
+                                     “canonical” name.
 
-        $albumartist_sort:           albumartist_sort
+        $albumartist_sort:           The release artists sort names, separated by
+                                     the specified join phrases. (e.g.: “Beatles,
+                                     The”).
                                      Examples: ['Beatles, The']
 
-        $albumartists:               albumartists
+        $albumartists:               The album artists specifed as a list.
+                                     Examples: [['The Beatles']]
 
-        $albumartists_credit:        albumartists_credit
+        $albumartists_credit:        The release-specific artists credit names,
+                                     which may be a variation of the artist’s
+                                     “canonical” names.
 
-        $albumartists_sort:          albumartists_sort
+        $albumartists_sort:          The “sort name” of the artist for the entire
+                                     album.
+                                     Examples: ['Beatles, The', 'White, Jack']
 
         $albumdisambig:              The disambiguation album field helps to
                                      distinguish between identically named albums.
@@ -123,11 +142,14 @@ Usage
                                      is.
                                      Examples: ['official', 'promotional', 'bootleg', 'pseudo-release']
 
-        $albumtype:                  The MusicBrainz album type; the MusicBrainz
-                                     wiki has a list of type names
+        $albumtype:                  The primary MusicBrainz release group type;
+                                     the MusicBrainz wiki has a list of type
+                                     names.
                                      Examples: ['album/soundtrack']
 
-        $albumtypes:                 albumtypes
+        $albumtypes:                 The MusicBrainz release group types; the
+                                     MusicBrainz wiki has a list of type names.
+                                     Examples: [['album', 'soundtrack']]
 
         $ar_classical_album:         The field “work” without the movement suffix.
                                      For example: “Horn Concerto: I. Allegro” ->
@@ -224,61 +246,84 @@ Usage
         $art:                        Legacy album art field.
                                      Examples: [b'\xff\xd8\xff\xe0\x00']
 
-        $artist:                     artist
+        $artist:                     The track artist names, separated by the
+                                     specified join phrases.
                                      Examples: ['The Beatles']
 
         $artist_credit:              The track-specific artist credit name, which
                                      may be a variation of the artist’s
-                                     “canonical” name
+                                     “canonical” name.
 
         $artist_sort:                The “sort name” of the track artist.
                                      Examples: ['Beatles, The', 'White, Jack']
 
-        $artists:                    artists
+        $artists:                    A multi-value field containing the track
+                                     artist names.
                                      Examples: [['a-ha'], ['Anouk', 'Remon Stotijn']]
 
-        $artists_credit:             artists_credit
+        $artists_credit:             The track-specific artists credit names,
+                                     which may be a variation of the artist’s
+                                     “canonical” names.
 
-        $artists_sort:               artists_sort
+        $artists_sort:               The “sort name” of the track artists.
+                                     Examples: [['Beatles, The', 'White, Jack']]
 
-        $asin:                       Amazon Standard Identification Number
+        $asin:                       The Amazon Standard Identification Number -
+                                     the number identifying the item on Amazon.
                                      Examples: ['B000002UAL']
 
-        $barcode:                    There are many different types of barcode,
-                                     but the ones usually found on music releases
-                                     are two: 1. Universal Product Code (UPC),
-                                     which is the original barcode used in North
-                                     America. 2. European Article Number (EAN)
+        $barcode:                    The barcode assigned to the release. There
+                                     are many different types of barcode, but the
+                                     ones usually found on music releases are two:
+                                     1. Universal Product Code (UPC), which is the
+                                     original barcode used in North America. 2.
+                                     European Article Number (EAN).
                                      Examples: ['5028421931838', '036000291452']
 
-        $bitdepth:                   only available for some formats
+        $bitdepth:                   The number of bits per sample in the audio
+                                     encoding (an int). Only available for certain
+                                     file formats (zero where unavailable).
                                      Examples: [16]
 
-        $bitrate:                    in kilobits per second, with units: e.g.,
-                                     “192kbps”
+        $bitrate:                    The number of bits per seconds used in the
+                                     audio coding (an int). If this is provided
+                                     explicitly by the compressed file format,
+                                     this is a precise reflection of the encoding.
+                                     Otherwise, it is estimated from the on-disk
+                                     file size. In this case, some imprecision is
+                                     possible because the file header is
+                                     incorporated in the file size.
                                      Examples: [436523, 256000]
 
-        $bitrate_mode:               bitrate_mode
+        $bitrate_mode:               The mode of the bitrate used in the audio
+                                     coding (a string, eg. "CBR", "VBR" or "ABR").
+                                     Only available for the MP3 file format (empty
+                                     where unavailable).
                                      Examples: ['CBR']
 
-        $bpm:                        Beats per Minute
+        $bpm:                        The number of beats per minute of the track.
 
-        $catalognum:                 This is a number assigned to the release by
+        $catalognum:                 A number assigned to the release by the label
+                                     which can often be found on the spine or near
+                                     the barcode. There may be more than one,
+                                     especially when multiple labels are involved.
+                                     Examples: ['CDP 7 46439 2']
+
+        $catalognums:                Multiple numbers assigned to the release by
                                      the label which can often be found on the
                                      spine or near the barcode. There may be more
                                      than one, especially when multiple labels are
-                                     involved. This is not the ASIN — there is a
-                                     relationship for that — nor the label code.
-                                     Examples: ['CDP 7 46439 2']
+                                     involved.
+                                     Examples: [['CDP 7 46439 2', 'Do 247282']]
 
-        $catalognums:                catalognums
-
-        $channels:                   channels
+        $channels:                   The number of channels in the audio (an int).
                                      Examples: [1, 2]
 
-        $comments:                   comments
+        $comments:                   The disambiguation comment entered to help
+                                     distinguish one release from another (e.g.:
+                                     Deluxe version with 2 bonus tracks).
 
-        $comp:                       Compilation flag
+        $comp:                       Compilation flag.
                                      Examples: [True, False]
 
         $composer:                   The name of the composer.
@@ -287,49 +332,67 @@ Usage
         $composer_sort:              The composer name for sorting.
                                      Examples: ['Beethoven, Ludwig van']
 
-        $copyright:                  copyright
+        $copyright:                  The copyright message for the copyright
+                                     holder of the original sound, beginning with
+                                     a year and a space character.
 
         $country:                    The country the release was issued in.
-                                     Examples: ['NL']
+                                     Examples: ['NL', 'EN', 'GB']
 
-        $date:                       The release data of the specific release.
+        $date:                       The release date of the specific release.
                                      Examples: ['1996-01-01']
 
         $day:                        The release day of the specific release.
+                                     Examples: [31]
 
-        $disc:                       disc
+        $disc:                       The number of the disc.
                                      Examples: [1]
 
-        $disctitle:                  disctitle
+        $disctitle:                  Mediums are always included in a release, and
+                                     have a position in said release (e.g. disc 1
+                                     or disc 2). They have a format, like CD, 12"
+                                     vinyl or cassette (in some cases this will be
+                                     unknown), and can have an optional title
+                                     (e.g. disc 2: The Early Years).
+                                     Examples: ['disc 2: The Early Years']
 
-        $disctotal:                  disctotal
+        $disctotal:                  The total number of discs.
                                      Examples: [1]
 
-        $encoder:                    the name of the person or organisation that
+        $encoder:                    The name of the person or organisation that
                                      encoded the audio file. This field may
                                      contain a copyright message, if the audio
                                      file also is copyrighted by the encoder.
                                      Examples: ['iTunes v7.6.2']
 
-        $encoder_info:               encoder_info
+        $encoder_info:               The name and/or version of the encoder used
+                                     (a string, eg. "LAME 3.97.0"). Only available
+                                     for some formats (empty where unavailable)
                                      Examples: ['LAME 3.92.0+']
 
-        $encoder_settings:           encoder_settings
+        $encoder_settings:           A guess of the settings used for the encoder
+                                     (a string, eg. "-V2"). Only available for the
+                                     MP3 file format (empty where unavailable).
                                      Examples: ['-b 255+']
 
-        $format:                     e.g., “MP3” or “FLAC”
+        $format:                     A string describing the file format/codec.
+                                     e.g., “MP3” or “FLAC”
                                      Examples: ['MP3', 'FLAC']
 
-        $genre:                      genre
+        $genre:                      Genres are currently supported in MusicBrainz
+                                     as part of the tag system.
                                      Examples: ['Rock']
 
-        $genres:                     genres
+        $genres:                     Genres are currently supported in MusicBrainz
+                                     as part of the tag system.
                                      Examples: [['Rock']]
 
         $grouping:                   A content group, which is a collection of
                                      media items such as a CD boxed set.
 
-        $images:                     images
+        $images:                     Cover art, also known as "album art" or
+                                     "album artwork", is artwork that provides a
+                                     visual representation of a release.
                                      Examples: [['<mediafile.Image object at 0x7f51fce26b20>']]
 
         $initial_key:                The Initial key frame contains the musical
@@ -356,9 +419,13 @@ Usage
                                      from the ISO 639-3 standard.
                                      Examples: ['zxx', 'eng']
 
-        $languages:                  languages
+        $languages:                  The language a release’s track list is
+                                     written in. The possible values are taken
+                                     from the ISO 639-3 standard.
+                                     Examples: [['zxx', 'eng']]
 
-        $length:                     The length of a recording in seconds.
+        $length:                     The duration of the audio in seconds (a
+                                     float).
                                      Examples: [674.4666666666667]
 
         $lyricist:                   The writer of the text or lyrics in the
@@ -373,7 +440,7 @@ Usage
         $mb_albumartistids:          MusicBrainz album artist IDs as a list.
                                      Examples: [['b972f589-fb0e-474e-b64a-803b0364fa75', 'dea28aa9-1086-4ffa-8739-0ccc759de1ce', 'd2ced2f1-6b58-47cf-ae87-5943e2ab6d99']]
 
-        $mb_albumid:                 MusicBrainz album ID.
+        $mb_albumid:                 MusicBrainz work ID.
                                      Examples: ['fd6adc77-1489-4a13-9aa0-32951061d92b']
 
         $mb_artistid:                MusicBrainz artist ID.
@@ -406,7 +473,7 @@ Usage
                                      Examples: ['CD']
 
         $month:                      The release month of the specific release.
-                                     Examples: [11]
+                                     Examples: [12]
 
         $original_date:              The release date of the original version of
                                      the album.
@@ -462,13 +529,13 @@ Usage
                                      ISO 15924 standard.
                                      Examples: ['Latn']
 
-        $title:                      The title of a audio file.
+        $title:                      The title of the track.
                                      Examples: ['32 Variations for Piano in C minor on an Original Theme, WoO 80']
 
-        $track:                      The track number.
+        $track:                      The number of the track on the disc.
                                      Examples: [1]
 
-        $tracktotal:                 The total track number.
+        $tracktotal:                 The total number of tracks on this disc.
                                      Examples: [12]
 
         $url:                        Uniform Resource Locator.
@@ -816,6 +883,10 @@ Usage
                             (“Symphonie No. 9: I. Allegro” -> “I. Allegro”) and
                             “track” becomes the movement number. All overwritten
                             fields are safed in the “comments” field.
+    /home/jf/.cache/uv/builds-v0/.tmpWHvE9g/lib/python3.12/site-packages/tmep/functions.py:334: SyntaxWarning: invalid escape sequence '\/'
+      for char in ':*?"<>|\/~&{}':  # noqa: W605
+    /home/jf/.cache/uv/builds-v0/.tmpWHvE9g/lib/python3.12/site-packages/ansicolor/ansicolor.py:507: SyntaxWarning: invalid escape sequence '\['
+      return re.sub("\033\[(?:(?:[0-9]*;)*)(?:[0-9]*m)", "", s)
 
 Configuration files
 ===================
@@ -908,40 +979,40 @@ Metadata fields
      - Examples
    * - acoustid_fingerprint
      - music_brainz
-     - Acoustic ID fingerprint
+     - The Acoustic Fingerprint for the track. The fingerprint is based on the audio information found in a file, and is calculated using the Chromaprint software.
      - 
    * - acoustid_id
      - music_brainz
-     - Acoustic ID
+     - The AcoustID associated with the track. The AcoustID is the identifier assigned to an audio file based on its acoustic fingerprint. Multiple fingerprints may be assigned the same AcoustID if the fingerprints are similar enough.
      - ``86e217b7-d3ad-4493-a9f2-cf71256ace07``
    * - album
      - common
-     - album
+     - The title of the release.
      - ``Help!``
    * - albumartist
      - common
-     - The artist for the entire album, which may be different from the artists for the individual tracks
+     - The artist for the entire album, which may be different from the artists for the individual tracks. The artists primarily credited on the release, separated by the specified join phrases.
      - ``The Beatles``
    * - albumartist_credit
      - common
-     - albumartist_credit
+     - The release-specific artist credit name, which may be a variation of the artist’s “canonical” name.
      - 
    * - albumartist_sort
      - common
-     - albumartist_sort
+     - The release artists sort names, separated by the specified join phrases. (e.g.: “Beatles, The”).
      - ``Beatles, The``
    * - albumartists
      - common
-     - albumartists
-     - 
+     - The album artists specifed as a list.
+     - ``['The Beatles']``
    * - albumartists_credit
      - common
-     - albumartists_credit
+     - The release-specific artists credit names, which may be a variation of the artist’s “canonical” names.
      - 
    * - albumartists_sort
      - common
-     - albumartists_sort
-     - 
+     - The “sort name” of the artist for the entire album.
+     - ``Beatles, The``, ``White, Jack``
    * - albumdisambig
      - common
      - The disambiguation album field helps to distinguish between identically named albums. The album “Weezer” for example has the disambiguation comments “Red Album” and “Green Album”.
@@ -952,12 +1023,12 @@ Metadata fields
      - ``official``, ``promotional``, ``bootleg``, ``pseudo-release``
    * - albumtype
      - common
-     - The MusicBrainz album type; the MusicBrainz wiki has a list of type names
+     - The primary MusicBrainz release group type; the MusicBrainz wiki has a list of type names.
      - ``album/soundtrack``
    * - albumtypes
      - common
-     - albumtypes
-     - 
+     - The MusicBrainz release group types; the MusicBrainz wiki has a list of type names.
+     - ``['album', 'soundtrack']``
    * - ar_classical_album
      - common
      - The field “work” without the movement suffix. For example: “Horn Concerto: I. Allegro” -> “Horn Concerto”
@@ -1040,11 +1111,11 @@ Metadata fields
      - ``b'\xff\xd8\xff\xe0\x00'``
    * - artist
      - common
-     - artist
+     - The track artist names, separated by the specified join phrases.
      - ``The Beatles``
    * - artist_credit
      - common
-     - The track-specific artist credit name, which may be a variation of the artist’s “canonical” name
+     - The track-specific artist credit name, which may be a variation of the artist’s “canonical” name.
      - 
    * - artist_sort
      - common
@@ -1052,59 +1123,59 @@ Metadata fields
      - ``Beatles, The``, ``White, Jack``
    * - artists
      - common
-     - artists
+     - A multi-value field containing the track artist names.
      - ``['a-ha']``, ``['Anouk', 'Remon Stotijn']``
    * - artists_credit
      - common
-     - artists_credit
+     - The track-specific artists credit names, which may be a variation of the artist’s “canonical” names.
      - 
    * - artists_sort
      - common
-     - artists_sort
-     - 
+     - The “sort name” of the track artists.
+     - ``['Beatles, The', 'White, Jack']``
    * - asin
      - common
-     - Amazon Standard Identification Number
+     - The Amazon Standard Identification Number - the number identifying the item on Amazon.
      - ``B000002UAL``
    * - barcode
      - common
-     - There are many different types of barcode, but the ones usually found on music releases are two: 1. Universal Product Code (UPC), which is the original barcode used in North America. 2. European Article Number (EAN)
+     - The barcode assigned to the release. There are many different types of barcode, but the ones usually found on music releases are two: 1. Universal Product Code (UPC), which is the original barcode used in North America. 2. European Article Number (EAN).
      - ``5028421931838``, ``036000291452``
    * - bitdepth
      - audio
-     - only available for some formats
+     - The number of bits per sample in the audio encoding (an int). Only available for certain file formats (zero where unavailable).
      - ``16``
    * - bitrate
      - audio
-     - in kilobits per second, with units: e.g., “192kbps”
+     - The number of bits per seconds used in the audio coding (an int). If this is provided explicitly by the compressed file format, this is a precise reflection of the encoding. Otherwise, it is estimated from the on-disk file size. In this case, some imprecision is possible because the file header is incorporated in the file size.
      - ``436523``, ``256000``
    * - bitrate_mode
      - common
-     - bitrate_mode
+     - The mode of the bitrate used in the audio coding (a string, eg. "CBR", "VBR" or "ABR"). Only available for the MP3 file format (empty where unavailable).
      - ``CBR``
    * - bpm
      - common
-     - Beats per Minute
+     - The number of beats per minute of the track.
      - 
    * - catalognum
      - common
-     - This is a number assigned to the release by the label which can often be found on the spine or near the barcode. There may be more than one, especially when multiple labels are involved. This is not the ASIN — there is a relationship for that — nor the label code.
+     - A number assigned to the release by the label which can often be found on the spine or near the barcode. There may be more than one, especially when multiple labels are involved.
      - ``CDP 7 46439 2``
    * - catalognums
      - common
-     - catalognums
-     - 
+     - Multiple numbers assigned to the release by the label which can often be found on the spine or near the barcode. There may be more than one, especially when multiple labels are involved.
+     - ``['CDP 7 46439 2', 'Do 247282']``
    * - channels
      - audio
-     - channels
+     - The number of channels in the audio (an int).
      - ``1``, ``2``
    * - comments
      - common
-     - comments
+     - The disambiguation comment entered to help distinguish one release from another (e.g.: Deluxe version with 2 bonus tracks).
      - 
    * - comp
      - common
-     - Compilation flag
+     - Compilation flag.
      - ``True``, ``False``
    * - composer
      - common
@@ -1116,55 +1187,55 @@ Metadata fields
      - ``Beethoven, Ludwig van``
    * - copyright
      - common
-     - copyright
+     - The copyright message for the copyright holder of the original sound, beginning with a year and a space character.
      - 
    * - country
      - common
      - The country the release was issued in.
-     - ``NL``
+     - ``NL``, ``EN``, ``GB``
    * - date
      - date
-     - The release data of the specific release.
+     - The release date of the specific release.
      - ``1996-01-01``
    * - day
      - date
      - The release day of the specific release.
-     - 
+     - ``31``
    * - disc
      - common
-     - disc
+     - The number of the disc.
      - ``1``
    * - disctitle
      - common
-     - disctitle
-     - 
+     - Mediums are always included in a release, and have a position in said release (e.g. disc 1 or disc 2). They have a format, like CD, 12" vinyl or cassette (in some cases this will be unknown), and can have an optional title (e.g. disc 2: The Early Years).
+     - ``disc 2: The Early Years``
    * - disctotal
      - common
-     - disctotal
+     - The total number of discs.
      - ``1``
    * - encoder
      - common
-     - the name of the person or organisation that encoded the audio file. This field may contain a copyright message, if the audio file also is copyrighted by the encoder.
+     - The name of the person or organisation that encoded the audio file. This field may contain a copyright message, if the audio file also is copyrighted by the encoder.
      - ``iTunes v7.6.2``
    * - encoder_info
      - common
-     - encoder_info
+     - The name and/or version of the encoder used (a string, eg. "LAME 3.97.0"). Only available for some formats (empty where unavailable)
      - ``LAME 3.92.0+``
    * - encoder_settings
      - common
-     - encoder_settings
+     - A guess of the settings used for the encoder (a string, eg. "-V2"). Only available for the MP3 file format (empty where unavailable).
      - ``-b 255+``
    * - format
      - audio
-     - e.g., “MP3” or “FLAC”
+     - A string describing the file format/codec. e.g., “MP3” or “FLAC”
      - ``MP3``, ``FLAC``
    * - genre
      - common
-     - genre
+     - Genres are currently supported in MusicBrainz as part of the tag system.
      - ``Rock``
    * - genres
      - common
-     - genres
+     - Genres are currently supported in MusicBrainz as part of the tag system.
      - ``['Rock']``
    * - grouping
      - common
@@ -1172,7 +1243,7 @@ Metadata fields
      - 
    * - images
      - common
-     - images
+     - Cover art, also known as "album art" or "album artwork", is artwork that provides a visual representation of a release.
      - ``['<mediafile.Image object at 0x7f51fce26b20>']``
    * - initial_key
      - common
@@ -1192,11 +1263,11 @@ Metadata fields
      - ``zxx``, ``eng``
    * - languages
      - common
-     - languages
-     - 
+     - The language a release’s track list is written in. The possible values are taken from the ISO 639-3 standard.
+     - ``['zxx', 'eng']``
    * - length
      - audio
-     - The length of a recording in seconds.
+     - The duration of the audio in seconds (a float).
      - ``674.4666666666667``
    * - lyricist
      - common
@@ -1216,7 +1287,7 @@ Metadata fields
      - ``['b972f589-fb0e-474e-b64a-803b0364fa75', 'dea28aa9-1086-4ffa-8739-0ccc759de1ce', 'd2ced2f1-6b58-47cf-ae87-5943e2ab6d99']``
    * - mb_albumid
      - music_brainz
-     - MusicBrainz album ID.
+     - MusicBrainz work ID.
      - ``fd6adc77-1489-4a13-9aa0-32951061d92b``
    * - mb_artistid
      - music_brainz
@@ -1253,7 +1324,7 @@ Metadata fields
    * - month
      - date
      - The release month of the specific release.
-     - ``11``
+     - ``12``
    * - original_date
      - date
      - The release date of the original version of the album.
@@ -1308,15 +1379,15 @@ Metadata fields
      - ``Latn``
    * - title
      - common
-     - The title of a audio file.
+     - The title of the track.
      - ``32 Variations for Piano in C minor on an Original Theme, WoO 80``
    * - track
      - common
-     - The track number.
+     - The number of the track on the disc.
      - ``1``
    * - tracktotal
      - common
-     - The total track number.
+     - The total number of tracks on this disc.
      - ``12``
    * - url
      - common

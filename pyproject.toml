@@ -1,11 +1,11 @@
-[tool.poetry]
+[project]
 name = "audiorename"
 version = "4.0.0"
 description = "Rename audio files from metadata tags."
-authors = ["Josef Friedrich <josef@friedrich.rocks>"]
+authors = [{ name = "Josef Friedrich", email = "josef@friedrich.rocks" }]
+requires-python = ">=3.9"
 readme = "README.rst"
-license = "MIT"
-repository = "https://github.com/Josef-Friedrich/audiorename"
+license = { text = "MIT" }
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python",
@@ -17,25 +17,28 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "License :: OSI Approved :: MIT License",
 ]
+dependencies = [
+    "phrydy>=4,<5",
+    "tmep>=2,<3",
+    "ansicolor>=0,<1",
+    "musicbrainzngs>=0,<1",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.9"
-phrydy = "^4"
-tmep = "^2"
-ansicolor = "^0"
-musicbrainzngs = "^0"
+[project.urls]
+Repository = "https://github.com/Josef-Friedrich/audiorename"
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8"
-readme-patcher = "^0"
-stdout-stderr-capturing = "^0"
-tox = "^4"
-ruff = "^0"
-mypy = "^1"
+[project.scripts]
+audiorenamer = "audiorename:execute"
+
+[dependency-groups]
+dev = [
+    "pytest>=8,<9",
+    "readme-patcher>=0,<1",
+    "stdout-stderr-capturing>=0,<1",
+    "ruff>=0,<1",
+    "mypy>=1,<2",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-audiorenamer = "audiorename:execute"
+requires = ["uv_build>=0.8.10,<0.9.0"]
+build-backend = "uv_build"
