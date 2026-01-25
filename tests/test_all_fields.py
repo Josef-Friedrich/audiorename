@@ -285,7 +285,7 @@ class TestAllFields:
         assert meta.rg_track_peak is None
         assert meta.samplerate == 24000
         assert meta.script == "Latn"
-        assert meta.ar_combined_soundtrack == False
+        assert not meta.ar_combined_soundtrack
         assert (
             meta.title == "Serenade no. 13 for Strings in G major, K. 525 "
             '"Eine kleine Nachtmusik": I. Allegro'
@@ -373,7 +373,7 @@ class TestAllFields:
         assert meta.rg_track_peak is None
         assert meta.samplerate == 24000
         assert meta.script == "Latn"
-        assert meta.ar_combined_soundtrack == False
+        assert not meta.ar_combined_soundtrack
         assert meta.title == "What a Wonderful World"
         assert meta.ar_classical_title == "What a Wonderful World"
         assert meta.track == 13

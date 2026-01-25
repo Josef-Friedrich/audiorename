@@ -383,10 +383,10 @@ class TestPropertyDiskTrackUnit:
 
 # ar_performer*
 class TestPropertyPerformerDifferentFormats:
-    def get_meta(self, extension: str):
+    def get_meta(self, extension: str) -> Meta:
         return helper.get_meta("performers", "blank." + extension)
 
-    def assertPerformer(self, meta: Meta):
+    def assertPerformer(self, meta: Meta) -> None:
         raw = meta.ar_performer_raw
         assert raw[0][0] == "conductor"
         assert raw[0][1] == "Fabio Luisi"
@@ -421,26 +421,26 @@ class TestPropertyPerformerDifferentFormats:
 
 # soundtrack
 class TestPropertySoundtrack:
-    def test_soundtrack(self):
+    def test_soundtrack(self) -> None:
         # albumtype -> bootleg
         # meta = helper.get_meta(['soundtrack', 'Pulp-Fiction', '01.mp3'])
         meta = helper.get_meta("show-case", "Beatles_Yesterday.mp3")
         assert meta.ar_combined_soundtrack is True
 
-    def test_no_soundtrack(self):
+    def test_no_soundtrack(self) -> None:
         meta = helper.get_meta("classical", "Schubert_Winterreise", "01.mp3")
         assert meta.ar_combined_soundtrack is False
 
 
 # ar_classical_track
 class TestPropertyTrackClassical:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.meta = helper.get_meta("files", "album.mp3")
 
-    def assertRoman(self, roman: str, arabic: int):
+    def assertRoman(self, roman: str, arabic: int) -> None:
         assert self.meta._roman_to_int(roman) == arabic
 
-    def test_roman_to_int(self):
+    def test_roman_to_int(self) -> None:
         self.assertRoman("I", 1)
         self.assertRoman("II", 2)
         self.assertRoman("III", 3)
@@ -454,11 +454,11 @@ class TestPropertyTrackClassical:
         self.assertRoman("XI", 11)
         self.assertRoman("XII", 12)
 
-    def assertTrack(self, title: str, compare: str):
+    def assertTrack(self, title: str, compare: str) -> None:
         self.meta.title = title
         assert self.meta.ar_classical_track == compare
 
-    def test_function(self):
+    def test_function(self) -> None:
         self.assertTrack("III. Credo", "03")
         self.assertTrack("III Credo", "4-02")
         self.assertTrack("Credo", "4-02")

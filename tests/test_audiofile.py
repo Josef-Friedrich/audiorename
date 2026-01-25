@@ -44,6 +44,7 @@ class TestClassAction:
     def test_method_metadata_remap_classical(self) -> None:
         tmp = helper.get_tmp_file_object("classical", "Schubert_Winterreise", "01.mp3")
 
+        assert tmp.meta
         assert tmp.meta.album == "Winterreise"
         with helper.Capturing():
             self.action.metadata(tmp, remap=True)
@@ -61,6 +62,7 @@ class TestClassAudioFile:
         assert result.type == "source"
         assert result.exists is True
         assert result.extension == "mp3"
+        assert result.meta
         assert result.meta.path == abspath
         assert result.short == "[…]tests/files/files/album.mp3"
         assert result.prefix == prefix + os.path.sep
@@ -314,7 +316,7 @@ class TestProcessTargetPath:
 
     def assert_target_path(
         self, expected: str, format_string: str = "$title", **fields
-    ):
+    ) -> None:
         if fields:
             meta = self.get_meta(**fields)
         else:
