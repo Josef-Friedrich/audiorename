@@ -211,7 +211,7 @@ class Meta(MediaFileExtended):
             ``0`` and the underscore character (``_``).
         """
         # To avoid ae -> a
-        value = Functions.tmpl_asciify(value)
+        value = Functions.fn_asciify(value)
         # To avoid “!K7-Compilations” -> “!”
         value = re.sub(r"^\W*", "", value)
         initial = value[0:1].lower()
@@ -268,7 +268,7 @@ class Meta(MediaFileExtended):
     @staticmethod
     def _sanitize(value: Any) -> str:
         if isinstance(value, str) or isinstance(value, bytes):
-            value = Functions.tmpl_sanitize(str(value))
+            value = Functions.fn_sanitize(str(value))
             value = re.sub(r"\s{2,}", " ", str(value))
         else:
             value = ""

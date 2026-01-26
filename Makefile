@@ -1,11 +1,11 @@
 all: test format docs lint type_check
 
 test:
-	uv run --isolated --python=3.9 pytest -m "not (slow or gui)"
 	uv run --isolated --python=3.10 pytest -m "not (slow or gui)"
 	uv run --isolated --python=3.11 pytest -m "not (slow or gui)"
 	uv run --isolated --python=3.12 pytest -m "not (slow or gui)"
 	uv run --isolated --python=3.13 pytest -m "not (slow or gui)"
+	uv run --isolated --python=3.14 pytest -m "not (slow or gui)"
 
 test_quick:
 	uv run --isolated --python=3.12 pytest

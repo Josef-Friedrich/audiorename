@@ -200,7 +200,7 @@ def process_target_path(meta: Meta, format_string: str, shell_friendly: bool = T
     """
     template = Template(format_string)
     functions = Functions(meta)
-    target = template.substitute(meta, functions.functions())
+    target = template.substitute(meta, functions.get())
 
     if isinstance(target, str):
         if shell_friendly:

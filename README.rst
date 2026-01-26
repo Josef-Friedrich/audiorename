@@ -557,156 +557,177 @@ Usage
         alpha
         -----
 
-        %alpha{text}
+        ``%alpha{text}``
             This function first ASCIIfies the given text, then all non alphabet
             characters are replaced with whitespaces.
+            ``%alpha{a1b23c}`` → ``a b c``
 
         alphanum
         --------
 
-        %alphanum{text}
+        ``%alphanum{text}``
             This function first ASCIIfies the given text, then all non alpanumeric
             characters are replaced with whitespaces.
+            ``%alphanum{après-évêque1}`` → ``apres eveque1``
 
         asciify
         -------
 
-        %asciify{text}
+        ``%asciify{text}``
             Translate non-ASCII characters to their ASCII equivalents. For
             example, “café” becomes “cafe”. Uses the mapping provided by the
             unidecode module.
+            ``%asciify{äÄöÖüÜ}`` → ``aeAeoeOeueUe``
 
         delchars
         --------
 
-        %delchars{text,chars}
+        ``%delchars{text,chars}``
             Delete every single character of “chars“ in “text”.
+            ``%delchars{Schubert, ue}`` → ``Schbrt``
 
         deldupchars
         -----------
 
-        %deldupchars{text,chars}
+        ``%deldupchars{text,chars}``
             Search for duplicate characters and replace with only one occurrance
             of this characters.
+            ``%deldupchars{a---b___c...d}`` → ``a-b_c.d``; ``%deldupchars{a---
+            b___c, -}`` → ``a-b___c``
 
         first
         -----
 
-        %first{text} or %first{text,count,skip} or
-        %first{text,count,skip,sep,join}
-            Returns the first item, separated by ; . You can use
-            %first{text,count,skip}, where count is the number of items (default
-            1) and skip is number to skip (default 0). You can also use
-            %first{text,count,skip,sep,join} where sep is the separator, like ; or
-            / and join is the text to concatenate the items.
+        ``%first{text}`` or ``%first{text,count,skip}`` or
+        ``%first{text,count,skip,sep,join}``
+            Returns the first item, separated by ``;``. You can use
+            ``%first{text,count,skip}``, where count is the number of items
+            (default 1) and skip is number to skip (default 0). You can also use
+            ``%first{text,count,skip,sep,join}`` where ``sep`` is the separator,
+            like ``;`` or ``/`` and join is the text to concatenate the items.
+            ``%first{Alice / Bob / Eve,2,0, / , & }`` → ``Alice & Bob``
 
         if
         --
 
-        %if{condition,truetext} or %if{condition,truetext,falsetext}
+        ``%if{condition,trueval}`` or ``%if{condition,trueval,falseval}``
             If condition is nonempty (or nonzero, if it’s a number), then returns
             the second argument. Otherwise, returns the third argument if
-            specified (or nothing if falsetext is left off).
+            specified (or nothing if ``falseval`` is left off).
+            ``x%if{false,foo}`` → ``x``
 
         ifdef
         -----
 
-        %ifdef{field}, %ifdef{field,text} or %ifdef{field,text,falsetext}
-            If field exists, then return truetext or field (default). Otherwise,
-            returns falsetext. The field should be entered without $.
+        ``%ifdef{field}``, ``%ifdef{field,trueval}`` or
+        ``%ifdef{field,trueval,falseval}``
+            If field exists, then return ``trueval`` or field (default).
+            Otherwise, returns ``falseval``. The field should be entered without
+            ``$``.
+            ``%ifdef{compilation,Compilation}``
 
         ifdefempty
         ----------
 
-        %ifdefempty{field,text} or %ifdefempty{field,text,falsetext}
-            If field exists and is empty, then return truetext. Otherwise, returns
-            falsetext. The field should be entered without $.
+        ``%ifdefempty{field,text}`` or ``%ifdefempty{field,text,falsetext}``
+            If field exists and is empty, then return ``truetext``. Otherwise,
+            returns ``falsetext``. The field should be entered without ``$``.
+            ``%ifdefempty{compilation,Album,Compilation}``
 
         ifdefnotempty
         -------------
 
-        %ifdefnotempty{field,text} or %ifdefnotempty{field,text,falsetext}
-            If field is not empty, then return truetext. Otherwise, returns
-            falsetext. The field should be entered without $.
+        ``%ifdefnotempty{field,text}`` or ``%ifdefnotempty{field,text,falsetext}``
+            If field is not empty, then return ``truetext``. Otherwise, returns
+            ``falsetext``. The field should be entered without ``$``.
+            ``%ifdefnotempty{compilation,Compilation,Album}``
 
         initial
         -------
 
-        %initial{text}
+        ``%initial{text}``
             Get the first character of a text in lowercase. The text is converted
             to ASCII. All non word characters are erased.
+            ``%initial{Schubert}`` → ``s``
 
         left
         ----
 
-        %left{text,n}
+        ``%left{text,n}``
             Return the first “n” characters of “text”.
+            ``%left{Schubert, 3}`` → ``Sch``
 
         lower
         -----
 
-        %lower{text}
+        ``%lower{text}``
             Convert “text” to lowercase.
+            ``%lower{SCHUBERT}`` → ``schubert``
 
         nowhitespace
         ------------
 
-        %nowhitespace{text,replace}
-            Replace all whitespace characters with replace. By default: a dash (-)
-            %nowhitespace{$track,_}
+        ``%nowhitespace{text,replace}``
+            Replace all whitespace characters with ``replace``. By default: a dash
+            (``-``)
+            ``%nowhitespace{a b}`` → ``a-b``; ``%nowhitespace{a b, _}`` → ``a_b``
 
         num
         ---
 
-        %num{number,count}
+        ``%num{number,count}``
             Pad decimal number with leading zeros.
-            %num{$track,3}
+            ``%num{7,3}`` → ``007``
 
         replchars
         ---------
 
-        %replchars{text,chars,replace}
+        ``%replchars{text,chars,replace}``
             Replace the characters “chars” in “text” with “replace”.
-            %replchars{text,ex,-} > t--t
+            ``%replchars{Schubert,-,ue}`` → ``Sch-b-rt``
 
         right
         -----
 
-        %right{text,n}
+        ``%right{text,n}``
             Return the last “n” characters of “text”.
+            ``%right{Schubert,3}`` → ``ert``
 
         sanitize
         --------
 
-        %sanitize{text}
-            Delete in most file systems not allowed characters.
+        ``%sanitize{text}``
+            Delete characters that are not allowed in most file systems.
+            ``%sanitize{x:*?<>|/~&x}`` → ``xx``
 
         shorten
         -------
 
-        %shorten{text} or %shorten{text,max_size}
+        ``%shorten{text}`` or ``%shorten{text,max_size}``
             Shorten “text” on word boundarys.
-            %shorten{$title,32}
+            ``%shorten{Lorem ipsum dolor sit, 10}`` → ``Lorem``
 
         time
         ----
 
-        %time{date_time,format,curformat}
-            Return the date and time in any format accepted by strftime. For
-            example, to get the year some music was added to your library, use
-            %time{$added,%Y}.
+        ``%time{date_time,format,curformat}``
+            Return the date and time in any format accepted by ``strftime``. For
+            example, to get the year, use ``%time{$added,%Y}``.
+            ``%time{30 Nov 2024,%Y,%d %b %Y}`` → ``2024``
 
         title
         -----
 
-        %title{text}
+        ``%title{text}``
             Convert “text” to Title Case.
+            ``%title{franz schubert}`` → ``Franz Schubert``
 
         upper
         -----
 
-        %upper{text}
+        ``%upper{text}``
             Convert “text” to UPPERCASE.
+            ``%upper{foo}`` → ``FOO``
 
     Configuration file
     ==================
@@ -775,15 +796,14 @@ Usage
                             for audio files in all subfolders. If you want to
                             rename the audio files in the current working
                             directory, then specify a dot (“.”).
-      -t TARGET, --target TARGET
-                            Target directory
+      -t, --target TARGET   Target directory
       -a, --source-as-target
                             Use specified source folder as target directory
 
     [rename]:
       These options configure the actual renaming process.
 
-      -p BACKUP_FOLDER, --backup-folder BACKUP_FOLDER
+      -p, --backup-folder BACKUP_FOLDER
                             Folder to store the backup files in.
       -B, --best-format     Use the best format. This option only takes effect if
                             the target file already exists. `audiorename` now
@@ -812,13 +832,13 @@ Usage
       The following options filter the music files that are renamed according to certain rules.
 
       -F, --album-complete  Rename only complete albums.
-      -m ALBUM_MIN, --album-min ALBUM_MIN
+      -m, --album-min ALBUM_MIN
                             Rename only albums containing at least X files.
-      -e EXTENSION, --extension EXTENSION
+      -e, --extension EXTENSION
                             Extensions to rename.
       --genre-classical GENRE_CLASSICAL
                             List of genres to be classical.
-      -s FIELD_SKIP, --field-skip FIELD_SKIP
+      -s, --field-skip FIELD_SKIP
                             Skip renaming if field is empty.
 
     [template_settings]:
@@ -834,11 +854,11 @@ Usage
     [path_templates]:
       audiorename provides default path templates. You can specify your own path templates using the following options.
 
-      -f PATH_TEMPLATE, --default PATH_TEMPLATE, --format PATH_TEMPLATE
+      -f, --default, --format PATH_TEMPLATE
                             The default path template for audio files that are not
                             compilations or compilations. Use metadata fields and
                             functions to build the path template.
-      -c PATH_TEMPLATE, --compilation PATH_TEMPLATE
+      -c, --compilation PATH_TEMPLATE
                             Path template for compilations. Use metadata fields
                             and functions to build the path template.
       --soundtrack PATH_TEMPLATE
@@ -883,9 +903,7 @@ Usage
                             (“Symphonie No. 9: I. Allegro” -> “I. Allegro”) and
                             “track” becomes the movement number. All overwritten
                             fields are safed in the “comments” field.
-    /home/jf/.cache/uv/builds-v0/.tmpMWvcGS/lib/python3.12/site-packages/tmep/functions.py:334: SyntaxWarning: invalid escape sequence '\/'
-      for char in ':*?"<>|\/~&{}':  # noqa: W605
-    /home/jf/.cache/uv/builds-v0/.tmpMWvcGS/lib/python3.12/site-packages/ansicolor/ansicolor.py:507: SyntaxWarning: invalid escape sequence '\['
+    /home/jf/.cache/uv/builds-v0/.tmpc9CQj2/lib/python3.13/site-packages/ansicolor/ansicolor.py:507: SyntaxWarning: invalid escape sequence '\['
       return re.sub("\033\[(?:(?:[0-9]*;)*)(?:[0-9]*m)", "", s)
 
 Configuration files

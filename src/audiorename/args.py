@@ -259,7 +259,7 @@ Functions
 =========
 
 """
-        + tmep.doc.Doc().get()
+        + tmep.get_doc()
         + """
 
 Configuration file
