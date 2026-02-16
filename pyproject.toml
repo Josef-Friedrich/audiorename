@@ -5,7 +5,7 @@ description = "Rename audio files from metadata tags."
 authors = [{ name = "Josef Friedrich", email = "josef@friedrich.rocks" }]
 requires-python = ">=3.10"
 readme = "README.rst"
-license = { text = "MIT" }
+license = "MIT"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python",
